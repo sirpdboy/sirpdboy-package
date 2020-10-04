@@ -1,0 +1,11 @@
+{
+	"luci-app-mia": {
+		"description": "Grant UCI access for luci-app-mia",
+		"read": {
+			"uci": [ "mia" ]
+		},
+		"write": {
+			"uci": [ "mia" ]
+		}
+	}
+}
