@@ -37,8 +37,6 @@ luci-app-koolproxyR ------------------经典去广告
 
 luci-theme-opentomcat ------------------仿LEDE主题（适配18.06）
 
-luci-theme-argon ------------------argon（适配18.06）
-
 luci-theme-btmod ------------------btmod（适配18.06）
 
 luci-theme-opentopd ------------------opentopd（适配18.06）
