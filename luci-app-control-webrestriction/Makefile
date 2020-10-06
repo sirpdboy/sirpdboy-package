@@ -5,10 +5,10 @@
 
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=LuCI support for Webrestriction From Koolshare
+LUCI_TITLE:=LuCI support for Webrestriction
 LUCI_PKGARCH:=all
 PKG_VERSION:=1.0
-PKG_RELEASE:=6-20200921
+PKG_RELEASE:=3-20190309
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
