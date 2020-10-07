@@ -159,23 +159,8 @@ li {
         opacity: 0;
     }
 }
-.cbi-button-up, .cbi-button-down, .cbi-value-helpicon, .showSide, .main>.loading>span {
-	font-family: 'advancedtomato' !important;
-	speak: none;
-	font-style: normal !important;
-	font-weight: normal !important;
-	font-variant: normal !important;
-	text-transform: none !important;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
 
 
-
-select[multiple="multiple"] {
-    height: auto;
-}
 
 code {
     color: #0099CC;
@@ -728,7 +713,7 @@ select {
 	color: black
 }
 .uci-change-list {
-	font-family: "Microsoft Yahei"
+	font-family: "advancedtomato"
 }
 .uci-change-list ins, .uci-change-legend-label ins {
 	text-decoration: none;
@@ -2258,7 +2243,7 @@ td>.ifacebadge {
 	min-height: 14rem;
 	padding: .8rem;
 	font-size: .8rem;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "advancedtomato", Helvetica, Arial, sans-serif;
 	color: black
 }
 #syslog {
@@ -2575,6 +2560,71 @@ input[name="ping"], input[name="traceroute"], input[name="nslookup"] {
 #detail-bubble.in {
 	z-index: 500
 }
+#detail-bubble {
+		position: absolute;
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	#detail-bubble.in {
+		opacity: 1;
+		visibility: visible;
+		transition: opacity 0.5s;
+	}
+
+	#detail-bubble > div {
+		border: 1px solid #ccc;
+		border-radius: 2px;
+		padding: 5px;
+		background: #fcfcfc;
+	}
+
+	#detail-bubble .head {
+		text-align: center;
+		white-space: nowrap;
+		position: relative;
+	}
+
+	#detail-bubble .head .dismiss {
+		top: 0;
+		right: 0;
+		width: 20px;
+		line-height: 20px;
+		text-align: center;
+		text-decoration: none;
+		font-weight: bold;
+		color: #000;
+		position: absolute;
+		font-size: 20px;
+	}
+
+	#detail-bubble .pie {
+		width: 100px;
+		margin: 5px;
+	}
+
+	#detail-bubble .kpi {
+		margin: 40px 5px 5px;
+		font-size: smaller;
+		text-align: left;
+	}
+
+	#detail-bubble .kpi ul {
+		margin: 0;
+	}
+
+	#bubble-arrow {
+		border: 1px solid #ccc;
+		border-width: 1px 0 0 1px;
+		background: #fcfcfc;
+		width: 15px;
+		height: 15px;
+		position: absolute;
+		left: 0;
+		top: -8px;
+		transform: rotate(45deg);
+		margin: 0 0 0 -8px;
+	}
 .node-nlbw-display .cbi-section ul {
 	padding: .875rem 1.5rem
 }
