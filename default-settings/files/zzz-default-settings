@@ -39,8 +39,6 @@ ln -sf /sbin/ip /usr/bin/ip
 sed -i 's/downloads.openwrt.org/openwrt.proxy.ustclug.org/g' /etc/opkg/distfeeds.conf
 sed -i 's/http:/https:/g' /etc/opkg/distfeeds.conf
 sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
-#sed -i 's/eth0/eth0 eth2 eth3 eth4 eth5/g' /etc/config/network
-sed -i '/wan/a\ option mtu 1460'  /etc/config/network
 sed -i 's/\"bootstrap\"/\"opentopd\"/g'  /etc/config/luci
 sed -i "s/# //g" /etc/opkg/distfeeds.conf
 
@@ -58,33 +56,28 @@ cat /etc/openwrt_release1 >> /etc/openwrt_release
 sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
 echo "DISTRIB_DESCRIPTION='OpenWrt'" >> /etc/openwrt_release
 
-#uci set vsftpd.@listen[0].enable4=0
-#uci commit vsftpd
-#/etc/init.d/vsftpd stop
-
 sed -i '/log-facility/d' /etc/dnsmasq.conf
 echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 
 sed -i 's/cbi.submit\"] = true/cbi.submit\"] = \"1\"/g' /usr/lib/lua/luci/dispatcher.lua
 echo 'hsts=0' > /root/.wgetrc
-
 uci set dhcp.lan.ra='server'
 uci set dhcp.lan.dhcpv6='server'
 uci set dhcp.lan.ra_management='1'
 uci set dhcp.lan.ra_default='1'
 uci commit dhcp
-
 uci set sfe.config.enabled=0
 uci set sfe.config.bbr=1
 uci commit sfe
-
+/etc/init.d/sfe restart
 uci set flowoffload.@flow[0].flow_offloading=0
 uci set flowoffload.@flow[0].bbr=1
 uci commit flowoffload
-
+/etc/init.d/flowoffload restart
 uci set network.wan.proto=pppoe
 uci set network.wan.mtu=1460
 uci commit network
+/etc/init.d/network restart
 rm -rf /tmp/luci-modulecache/
 rm -f /tmp/luci-indexcache
 exit 0
