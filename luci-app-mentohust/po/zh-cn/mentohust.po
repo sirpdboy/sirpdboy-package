@@ -4,6 +4,9 @@ msgstr "Content-Type: text/plain; charset=UTF-8\n"
 msgid "MentoHUST Settings"
 msgstr "MentoHUST 设置"
 
+msgid "MentoHUST"
+msgstr "锐捷验证"
+
 msgid "MentoHUST LOG"
 msgstr "MentoHUST 日志"
 
