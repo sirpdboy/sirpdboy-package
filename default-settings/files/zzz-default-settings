@@ -65,6 +65,7 @@ uci set dhcp.lan.ra='server'
 uci set dhcp.lan.dhcpv6='server'
 uci set dhcp.lan.ra_management='1'
 uci set dhcp.lan.ra_default='1'
+uci set dhcp.lan.force='1'
 uci commit dhcp
 uci set sfe.config.enabled=0
 uci set sfe.config.bbr=1
