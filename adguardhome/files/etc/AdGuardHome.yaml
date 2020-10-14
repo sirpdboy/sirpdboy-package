@@ -106,99 +106,99 @@ filters:
   url: https://raw.githubusercontent.com/Goooler/1024_hosts/master/hosts
   name: 1024host
   id: 1565484167
-- enabled: true
+- enabled: false
   url: https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext
   name: Peter Lowe’s Ad and tracking server list​
   id: 1565484168
-- enabled: true
+- enabled: false
   url: https://easylist.to/easylist/fanboy-social.txt
   name: Fanboy's Social Blocking List
   id: 1565484169
-- enabled: true
+- enabled: false
   url: https://easylist.to/easylist/fanboy-annoyance.txt
   name: Fanboy's Annoyance List
   id: 1565484170
-- enabled: true
+- enabled: false
   url: https://secure.fanboy.co.nz/fanboy-cookiemonster.txt
   name: EasyList Cookie List
   id: 1565484171
-- enabled: true
+- enabled: false
   url: https://fanboy.co.nz/fanboy-antifacebook.txt
   name: Anti-Facebook List
   id: 1565484172
-- enabled: true
+- enabled: false
   url: https://filters.adtidy.org/extension/ublock/filters/14.txt
   name: AdGuard Annoyances filter
   id: 1565484173
-- enabled: true
+- enabled: false
   url: https://gitcdn.xyz/repo/NanoMeow/MDLMirror/master/hosts.txt
   name: Malware Domain List
   id: 1565484176
-- enabled: true
+- enabled: false
   url: https://www.fanboy.co.nz/enhancedstats.txt
   name: Fanboy's Enhanced Tracking List
   id: 1565484178
-- enabled: true
+- enabled: false
   url: https://easylist.to/easylist/easyprivacy.txt
   name: EasyPrivacy
   id: 1565484179
-- enabled: true
+- enabled: false
   url: https://filters.adtidy.org/extension/ublock/filters/3.txt
   name: AdGuard Tracking Protection filter
   id: 1565484180
-- enabled: true
+- enabled: false
   url: https://easylist.to/easylist/easylist.txt
   name: EasyList
   id: 1565484181
-- enabled: true
+- enabled: false
   url: https://filters.adtidy.org/extension/ublock/filters/11.txt
   name: AdGuard Mobile Ads filter
   id: 1565484182
-- enabled: true
+- enabled: false
   url: https://filters.adtidy.org/extension/ublock/filters/2_without_easylist.txt
   name: AdGuard Base filter
   id: 1565484183
-- enabled: true
+- enabled: false
   url: https://easylist-downloads.adblockplus.org/antiadblockfilters.txt
   name: Adblock Warning Removal List
   id: 1565484184
-- enabled: true
+- enabled: false
   url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
   name: AdGuard DNS filter
   id: 1565484185
-- enabled: true
+- enabled: false
   url: https://fanboy.co.nz/fanboy-problematic-sites.txt
   name: Fanboy's problematic-sites
   id: 1565484187
-- enabled: true
+- enabled: false
   url: http://sub.adtchrome.com/adt-chinalist-easylist.txt
   name: ChinaList+EasyList(修正)
   id: 1565484188
-- enabled: true
+- enabled: false
   url: https://hosts.nfz.moe/127.0.0.1/full/hosts
   name: NeoFelhz Hosts
   id: 1565484189
-- enabled: true
+- enabled: false
   url: https://raw.githubusercontent.com/adbyby/xwhyc-rules/master/lazy.txt
   name: Adbyby Lazy Rule
   id: 1565484190
-- enabled: true
+- enabled: false
   url: https://raw.githubusercontent.com/reek/anti-adblock-killer/master/anti-adblock-killer-filters.txt
   name: AakList (Anti-Adblock Killer)
   id: 1565486407
-- enabled: true
+- enabled: false
   url: https://raw.githubusercontent.com/VeleSila/yhosts/master/hosts.txt
   name: hosts
   id: 1565486408
-- enabled: true
+- enabled: false
   url: https://gitlab.com/xuhaiyang1234/AAK-Cont/raw/master/FINAL_BUILD/aak-cont-list-notubo.txt
   name: aak-cont-list-notubo
   id: 1596855790
-- enabled: true
+- enabled: false
   url: https://adaway.org/hosts.txt
   name: Adaway
   id: 1597894588
-- enabled: true
+- enabled: false
   url: https://gitee.com/xinggsf/Adblock-Rule/raw/master/rule.txt
   name: 乘风规则
   id: 1597894589
