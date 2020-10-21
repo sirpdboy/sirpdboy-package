@@ -48,8 +48,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-expand_more:before {
-    content: "\e20b";
+
+
+.icon-expand_more:before{
+content: "\e20b";
 }
 
 .icon-menu:before {

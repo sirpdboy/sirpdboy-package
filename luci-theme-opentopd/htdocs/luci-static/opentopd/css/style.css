@@ -177,6 +177,7 @@ hr {
     border-color: #EEE;
     opacity: 0.1;
 }
+
 .main {
     top: 4rem;
     bottom: 0rem;
@@ -184,33 +185,36 @@ hr {
     height: 100%;
     height: calc(100% - 4rem);
 }
-
-.main>.loading {
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	z-index: 1000;
-	display: block;
-	background-color: rgba(239,195,145,1.00);
-	top: 0;
+.main > .loading {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-color: #rgba(239,195,145,1.00);
 }
-
-.main>.loading>span {
-    display: block;
-    text-align: center;
-    margin-top: 2rem;
-    color: #888;
-    font-size: 1.2rem;
+.main > .loading > span {
+  font-family: monospace;
+  font-size: 2rem;
+  font-size-adjust: 0.35;
+  position: relative;
+  top: 12.5%;
+  display: block;
+  text-align: center;
+  color: #888;
 }
-
-.main>.loading>span>.loading-img:before {
-    content: "\e603";
-}
-
-.main>.loading>span>.loading-img {
-    animation: anim-rotate 2s infinite linear;
-    margin-right: 0.2rem;
-    display: inline-block;
+.main > .loading > span > .loading-img {
+  position: relative;
+  top: 0.1rem;
+  left: 0.05rem;
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 1rem;
+  animation: anim-rotate 2s infinite linear;
+  background: url(../icons/spinner.svg) no-repeat center;
 }
 
 @keyframes anim-rotate {
@@ -243,6 +247,7 @@ header {
 header .container {
 	margin-top: .5rem;
 	padding: .5rem 1rem 0 1rem
+	
 }
 header .container .pull-right>* {
 	position: relative;
@@ -265,16 +270,19 @@ header .fill {
 }
 header .fill .container {
 	height: 3rem;
-	padding: 0 1.25rem;
+    padding: 0 1rem;
 	background: #333;
 	background-color:#333;
+	vertical-align:middle;
 }
+
 header>.container>.brand, header > .fill > .container > .brand {
 	font-size: 1.3rem;
 	color: #fff;
 	text-decoration: none;
 	font-weight: 600;
 	padding-left: 1rem;
+	
 	cursor: default;
 	vertical-align: text-bottom;
 	display: none
@@ -283,6 +291,9 @@ header>.container>.brand, header > .fill > .container > .brand {
 footer {
 	text-align: right;
 	padding: 1rem;
+	overflow: hidden;
+	white-space: nowrap;
+	text-shadow: 0 0 2px #bbb;
 	color: #aaa;
 	font-size: .8rem
 }
@@ -534,6 +545,8 @@ background-color:#fff;
 li {
 	list-style-type: none
 }
+
+
 .main .main-right { 
 	width: calc(100% - 15rem);
 	float: right;
@@ -579,37 +592,14 @@ li {
 	margin-top: 2rem;
 	text-decoration: inherit
 }
-.main .loading {
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	z-index: 2000;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: #F4BF8B;
-	top: 0
-}
-.main .loading span {
-	display: block;
-	text-align: center;
-	margin-top: 2rem;
-	color: #fe7a00;
-	font-size: 2rem
-}
-.main .loading span .loading-img {
-	animation: anim-rotate 2s infinite linear;
-	margin-right: .4rem;
-	display: inline-block
-}
-.main .loading span .loading-img::before {
-	content: "\e903"
-}
+
+/* button style */
+.btn,
 .cbi-button {
 	-webkit-appearance: none;
 	text-transform: uppercase;
 	height: auto;
-	color: rgba(0,0,0,0.87);
+	color: #fe7a00;
 	background-color: #F0F0F0;
 	transition: all .2s ease-in-out;
 	display: inline-block;
@@ -630,10 +620,50 @@ li {
 	font-size: .875rem;
 	width: auto !important;
 	line-height: 1em
+
 }
-.cbi-button:hover, .cbi-button:focus, .cbi-button:active {
-	outline: 0;
-	text-decoration: none
+
+.cbi-button-up, .cbi-button-down {
+	display: inline-block;
+	min-width: 0;
+	padding: .2rem .6rem;
+	font-size: 1.2rem;
+	color: #fe7a00 !important;
+  /*background: url(../icons/arrow.svg) no-repeat center;
+  background-size: 12px 20px;*/
+  content:"\e20b";
+}
+.cbi-button-up {
+  transform: scaleY(-1);
+}
+
+.cbi-button:not(select) {
+  -webkit-appearance: none !important;
+}
+.btn:hover,
+.btn:focus,
+.btn:active,
+.cbi-button:hover,
+.cbi-button:focus,
+.cbi-button:active,
+.item:hover::after,
+.item:focus::after,
+.item:active::after,
+.cbi-page-actions .cbi-button-apply + .cbi-button-save:hover,
+.cbi-page-actions .cbi-button-apply + .cbi-button-save:focus,
+.cbi-page-actions .cbi-button-apply + .cbi-button-save:active {
+  text-decoration: none;
+  outline: 0;
+}
+button:hover,
+.btn:hover,
+.btn:focus,
+.cbi-button:hover,
+.cbi-button:focus,
+.item:hover::after,
+.item:focus::after {
+      opacity: 0.7;
+	top:0.15rem;
 }
 .cbi-button:hover, .cbi-button:focus {
 	box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.2)
@@ -641,11 +671,12 @@ li {
 .cbi-button:active {
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
 }
+.btn:disabled,
 .cbi-button:disabled {
-	cursor: not-allowed;
-	pointer-events: none;
-	opacity: .6;
-	box-shadow: none
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.6;
+  box-shadow: none;
 }
 .cbi-button-check {
 	margin-top: .25rem !important
@@ -692,7 +723,7 @@ form.inline+form.inline, .cbi-button+.cbi-button {
 	min-width: 15rem
 }
 select {
-	min-width: 20rem;
+	min-width: 15rem;
 	appearance: none;
 	-webkit-appearance: none;
 	background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNTY1MzQ4MDM3OTIyIiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjI1ODMiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4qIHsgdGV4dC1zaGFkb3c6IHRyYW5zcGFyZW50IDBweCAwcHggMHB4LCByZ2JhKDAsIDAsIDAsIDAuNSkgMHB4IDBweCAwcHggIWltcG9ydGFudDsgfQo8L3N0eWxlPjwvZGVmcz48cGF0aCBkPSJNMjAuNDggMjQ1Ljc2aDk4My4wNEw1MTIgNzc4LjI0eiIgcC1pZD0iMjU4NCIgZmlsbD0iIzcwNzA3MCI+PC9wYXRoPjwvc3ZnPg==') !important;
@@ -918,13 +949,7 @@ small {
 	white-space: normal;
 	line-height: 1.42857143
 }
-.cbi-button-up, .cbi-button-down {
-	display: inline-block;
-	min-width: 0;
-	padding: .2rem .6rem;
-	font-size: 1.2rem;
-	color: #fe7a00 !important;
-}
+
 .cbi-optionals {
 	padding: 1rem 1rem 0 1rem;
 	border-top: 1px solid #CCC
@@ -1072,14 +1097,16 @@ td>table>tbody>tr>td, .td>.table>.tbody>.tr>.td {
 
 .cbi-section-table .cbi-section-table-titles .cbi-section-table-cell {
 	width: auto !important;
-	background-color: #e9ecef;
+	 /* background-color: #e9ecef; */
 }
+
 .td.cbi-section-actions {
-	text-align: right;
-	vertical-align: middle
+    /* text-align: right; */
+    vertical-align: middle;
 }
+
 .td.cbi-section-actions>* {
-	display: flex
+    /* display: flex; */
 }
 .td.cbi-section-actions>*>*, .td.cbi-section-actions>*>form>* {
 	flex: 1 1 4em;
@@ -1161,6 +1188,7 @@ td>table>tbody>tr>td, .td>.table>.tbody>.tr>.td {
 	display: none;
 	color: #fff;
 	font-size: 1.4rem
+	
 }
 .darkMask {
 	width: 100%;
@@ -1189,19 +1217,22 @@ body.lang_pl.node-main-login .cbi-value-title {
 	width: 12rem
 }
 
-/* fix Main Login*/
-.node-main-login>.main>.main-right>header {
-    background: none !important;
-    box-shadow: none !important;
-    display: none;
-}
 
+/* fix Main Login */
+
+.node-main-login .main .main-right header {
+  background: none !important;
+  box-shadow: none !important;
+  display: none !important;
+}
 .node-main-login>.main>.main-right>header>.fill>.container {
     margin: 2rem auto;
     max-width: 1140px;
 }
 
 .node-main-login>.main>.main-right>header>.fill>.container>.brand {
+    font-size: 2rem;
+    color: #fe7a00;
     display: none;
 
 }
@@ -1210,16 +1241,13 @@ body.lang_pl.node-main-login .cbi-value-title {
     top: 0;
     height: 100% !important;
 }
-
 .node-main-login>.main>.main-left {
     display: none;
 }
-
 .node-main-login > .main > .main-right {
 	width: 100%;
 }
-
-.node-main-login>.main>.main-right>.login-bg {
+.node-main-login .main .main-right .login-bg {
     display: block;
     position: fixed;
     width: 100%;
@@ -1268,7 +1296,10 @@ body.lang_pl.node-main-login .cbi-value-title {
 	margin-top: 2rem !important;
 	background-color: #D5CAB6 !important;
 	border-radius: .375rem;
-	box-shadow: rgba(0,0,0,0.75) 0 0 35px -5px;
+/*	text-align: left;
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    transition: box-shadow .25s, -webkit-box-shadow .25s;*/
+	box-shadow: rgba(0,0,0,0.75) 0 0 35px -5px; 
 	background: transparent;
 }
 
@@ -1415,7 +1446,7 @@ body.lang_pl.node-main-login .cbi-value-title {
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    content: "\e901";
+    content: "\e910";
     color: #adb5bd;
     font-size: 1.5rem;
     position: absolute;
@@ -1563,19 +1594,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 .cbi-rowstyle-2 .cbi-button-up, .cbi-rowstyle-2 .cbi-button-down {
 	background-color: #FFF !important
 }
-.cbi-button-up, .cbi-button-down, .cbi-value-helpicon, .showSide, .main>.loading>span {
-	font-family: 'advancedtomato' !important;
-	font-style: normal !important;
-	font-weight: normal !important;
-	font-variant: normal !important;
-	text-transform: none !important;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale
-}
-.cbi-button-up {
-	transform: rotate(180deg)
-}
+
 select {
 	padding: .36rem .8rem;
 	color: #555;
@@ -1587,7 +1606,7 @@ select, input {
 	font-size: .875rem;
 	transition: all .15s ease-in-out;
 	line-height: 1.5;
-	padding: .625rem .75rem;
+	padding: .75rem;
 	color: #8898aa;
 	border: 1px solid #dee2e6;
 	border-radius: .25rem;
@@ -1596,7 +1615,7 @@ select, input {
 	box-shadow: 0 3px 2px rgba(233,236,239,0.05);
 	outline: none;
 	transition: box-shadow .15s ease;
-	margin: .25rem
+	margin: 0;
 }
 select:not([multiple="multiple"]):focus, input:focus {
 	border-color: #fe7a00;
@@ -2399,15 +2418,8 @@ div.cbi-value var, td.cbi-value-field var {
 	font-style: italic;
 	color: #0069D6
 }
-small {
-	font-size: 90%;
-	white-space: normal;
-	line-height: 1.42857143
-}
-.cbi-optionals {
-	padding: 1rem 1rem 0 1rem;
-	border-top: 1px solid #CCC
-}
+
+
 input[name="ping"], input[name="traceroute"], input[name="nslookup"] {
 	width: 80%
 }
@@ -2636,19 +2648,14 @@ input[name="ping"], input[name="traceroute"], input[name="nslookup"] {
 }
 
 @media screen and (max-width:1600px) {
-.cbi-value input[type="password"],
-.cbi-value input[type="text"] {
-        min-width: 25rem;
+
+    .main-left {
+        width: calc(0% + 13rem);
     }
-    .cbi-value-field .cbi-input-select {
-        min-width: 25rem;
+
+    .main-right {
+        width: calc(100% - 13rem);
     }
-.main .main-left {
-	width: calc(0% + 13rem)
-}
-.main .main-right {
-	width: calc(100% - 13rem)
-}
 .cbi-button {
 	font-size: .8rem
 }
@@ -2677,22 +2684,18 @@ select {
 }
 
 @media screen and (max-width:1280px) {
-.cbi-value input[type="password"],
-.cbi-value input[type="text"] {
-        min-width: 22rem;
-    }
-.cbi-value-field .cbi-input-select {
-        min-width: 22rem;
-    }
+
 header>.container {
 	margin-top: .25rem
 }
-.main .main-left {
-	width: calc(0% + 13rem)
-}
-.main .main-right {
-	width: calc(100% - 13rem)
-}
+    .main-left {
+        width: calc(0% + 13rem);
+    }
+
+    .main-right {
+        width: calc(100% - 13rem);
+    }
+
 .cbi-tabmenu li a, .tabs li a {
 	padding: .2rem .5rem
 }
@@ -2700,7 +2703,8 @@ header>.container {
 	font-size: 1.1rem;
 	padding-bottom: 1rem
 }
-table {
+.table,
+    table {
 	font-size: .7rem !important;
 	width: 100% !important
 }
@@ -2712,33 +2716,7 @@ table {
 }
 }
 
-@media screen and (min-width:600px) {
-::-webkit-scrollbar {
-width:10px;
-height:10px
-}
-::-webkit-scrollbar, ::-webkit-scrollbar-corner {
-background:transparent
-}
-::-webkit-scrollbar-thumb {
-background:#9e9e9e
-}
-::-webkit-scrollbar-thumb:hover {
-background:#757575
-}
-::-webkit-scrollbar-thumb:active {
-background:#424242
-}
-}
-
 @media screen and (max-width:992px) {
-.cbi-value input[type="password"],
-.cbi-value input[type="text"] {
-        min-width: 20rem;
-    }
-.cbi-value-field .cbi-input-select {
-        min-width: 20rem;
-    }
 .main .main-left {
 	width: 0;
 	position: fixed;
@@ -2747,10 +2725,12 @@ background:#424242
 .main .main-right {
 	width: 100%
 }
+
 .showSide {
-	padding: .1rem;
+	padding: .5rem;
 	position: relative;
 	display: inline-block
+	
 }
 .showSide:hover {
 	text-decoration: none
@@ -2759,14 +2739,17 @@ background:#424242
 	content: "\e90d";
 	font-size: 1.8rem
 }
+    .node-main-login .showSide {
+        display: none !important;
+    }
 header>.fill>.container>.brand {
 	display: inline-block
 }
 
 
 .cbi-value-title {
-	width: 9rem;
-	padding-right: 1rem
+	 width: 9rem;
+	padding-right: 1rem 
 }
 .node-network-diagnostics>.main .cbi-map fieldset>div * {
 	width: 100% !important
@@ -2783,31 +2766,31 @@ header>.fill>.container>.brand {
 .node-network-diagnostics>.main .cbi-map fieldset>div {
 	width: 100% !important
 }
+    .node-main-login>.main .cbi-value-title {
+        text-align: left;
+    }
 #diag-rc-output>pre {
 	font-size: 1rem
 }
 }
-
+ 
 @media screen and (max-width:480px) {
 body {
 	font-size: .8rem
 }
+
+div.cbi-section,
+fieldset {
+        padding: 0;
+        margin: 1rem 0 0 0;
+        overflow-x: auto;
+    }
 .pull-right {
 	float: right;
 	margin-top: 0rem !important
 }
-.cbi-value input[type="password"],
-.cbi-value input[type="text"] {
-        min-width: 18rem;
-    }
-.cbi-value-field .cbi-input-select {
-        min-width: 18rem;
-    }
 
-fieldset {
-	padding: 0;
-	margin: 1rem 0 0 0
-}
+
 .tabs {
 	margin: .5rem 0
 }
@@ -2830,6 +2813,10 @@ h2 {
 .main>.main-left>.nav>.slide>.slide-menu>li>a {
 	font-size: .9rem
 }
+/*  .main>.main-left>.nav>.slide>.menu:before {
+        padding-top: 5px;
+    }
+	*/
 .main>.main-left>.nav>.slide>.menu:after {
 	top: .9rem
 }
@@ -2848,30 +2835,97 @@ h2 {
 	text-align: left;
 	padding: 0 .25rem
 }
-.cbi-value input[type="password"], .cbi-value input[type="text"] {
-	min-width: 15rem
-}
-select {
-	width: 15rem;
-	min-width: auto
-}
-.cbi-value>.cbi-value-field {
-	display: inline-block
-}
-.cbi-value-field,
-.cbi-value-description {
-        width: 95%;
+
+    .cbi-value input[type="password"],
+    .cbi-value input[type="text"] {
+        min-width: 15rem;
     }
+
+    .cbi-value-field .cbi-input-select {
+        min-width: 15rem;
+    }
+/*
 	    .cbi-value-field .cbi-input-select {
         width: 95%;
         min-width: unset;
     }
+	*/
+.cbi-value-field,
+.cbi-value-description {
+        width: 95%;
+    }
+    select,
+    input {
+        width: 95%;
+        min-width: unset;
+		
+    }
+
+.cbi-value>.cbi-value-field {
+	        display: inline-block;
+}
 
     .cbi-value-field .cbi-input-textarea {
         width: 95% !important;
         min-width: unset;
     }
+    .node-main-login  {
+        width: 18rem;
+        padding-left: 0rem;
+    }
 
+    .cbi-tabmenu>li,
+    .tabs>li {
+        padding: 0.6rem 0rem;
+    }
+
+    .cbi-tabmenu>li>a,
+    .tabs>li>a {
+        padding: 0.2rem 0.3rem;
+        font-size: 0.9rem;
+    }
+
+    .cbi-page-actions>div>input {
+        display: none;
+    }
+
+    .node-main-login>.main .container {
+        padding: 0.5rem 1rem 2rem 1rem;
+        margin: 0 auto !important;
+    }
+
+    .node-main-login>.main form>div:nth-last-child(1) {
+        margin-top: 0rem;
+    }
+
+    .node-main-login>.main .cbi-value-title {
+        width: 100% !important;
+        margin-top: 0rem;
+        font-size: 1rem;
+        margin-bottom: 0;
+        padding: 0 0.5rem;
+    }
+
+    .node-main-login>.main fieldset {
+        margin: 0;
+        padding: 0.5rem;
+    }
+
+    .node-main-login .alert-message.warning {
+        width: calc(100% - 2rem);
+        padding: 1rem 1rem;
+        font-size: 12px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+
+    }
+	    .node-main-login>.main .container h2 {
+
+        margin: -70px auto 15px auto;
+
+    }
 .cbi-value-field .cbi-input-checkbox, .cbi-value-field .cbi-input-radio {
 	margin: 0 .25rem 0 .25rem;
 	height: 1rem;
@@ -2887,12 +2941,19 @@ height:0px
 .tabs>li>a {
 	font-size: .9rem
 }
-select, input {
-	font-size: .9rem
-}
+    select,
+    input {
+        font-size: 0.9rem;
+    }
+
 .mobile-hide {
 	display: none
 }
+
+    .panel-title {
+        font-size: 1.4rem;
+        padding-bottom: 1rem;
+    }
 .node-status-realtime table>tbody>tr>td, .node-status-realtime table>tfoot>tr>td, .node-status-realtime table>thead>tr>td {
 	font-size: .8125rem;
 	color: #525f7f;
@@ -2952,4 +3013,62 @@ width:10rem !important
 	width: 2.3rem !important;
 	height: auto
 }
+}
+
+
+@media screen and (min-width:600px) {
+::-webkit-scrollbar {
+width:10px;
+height:10px
+}
+::-webkit-scrollbar, ::-webkit-scrollbar-corner {
+background:transparent
+}
+::-webkit-scrollbar-thumb {
+background:#9e9e9e
+}
+::-webkit-scrollbar-thumb:hover {
+background:#757575
+}
+::-webkit-scrollbar-thumb:active {
+background:#424242
+}
+}
+
+
+@media screen and (min-width: 992px) {
+
+    .cbi-value input[type="password"],
+    .cbi-value input[type="text"] {
+        min-width: 18rem;
+    }
+
+    .cbi-value-field .cbi-input-select {
+        min-width: 18rem;
+    }
+}
+
+
+@media screen and (min-width: 1280px) {
+
+    .cbi-value input[type="password"],
+    .cbi-value input[type="text"] {
+        min-width: 22rem;
+    }
+
+    .cbi-value-field .cbi-input-select {
+        min-width: 22rem;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+
+    .cbi-value input[type="password"],
+    .cbi-value input[type="text"] {
+        min-width: 25rem;
+    }
+
+    .cbi-value-field .cbi-input-select {
+        min-width: 25rem;
+    }
 }
