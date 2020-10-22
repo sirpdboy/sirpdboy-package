@@ -6,7 +6,7 @@ html, body {
 	padding: 0px;
 	height: 100%;
 	font-size: 16px;
-	font-family: advancedtomato,  "Microsoft Yahei",  "Helvetica Neue", "Helvetica", "Hiragino Sans GB";
+	font-family: "argon", "icomoon", "Microsoft Yahei",  "Helvetica Neue", "Helvetica", "Hiragino Sans GB";
 
 }
 html {
@@ -177,7 +177,6 @@ hr {
     border-color: #EEE;
     opacity: 0.1;
 }
-
 .main {
     top: 4rem;
     bottom: 0rem;
@@ -185,36 +184,35 @@ hr {
     height: 100%;
     height: calc(100% - 4rem);
 }
-.main > .loading {
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background-color: #rgba(239,195,145,1.00);
+
+.main .loading {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #F4BF8B;
+	top: 0
 }
-.main > .loading > span {
-  font-family: monospace;
-  font-size: 2rem;
-  font-size-adjust: 0.35;
-  position: relative;
-  top: 12.5%;
-  display: block;
-  text-align: center;
-  color: #888;
+
+
+.main .loading span {
+	display: block;
+	text-align: center;
+	margin-top: 2rem;
+	color: #fe7a00;
+	font-size: 2rem
 }
-.main > .loading > span > .loading-img {
-  position: relative;
-  top: 0.1rem;
-  left: 0.05rem;
-  display: inline-block;
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-right: 1rem;
-  animation: anim-rotate 2s infinite linear;
-  background: url(../icons/spinner.svg) no-repeat center;
+.main>.loading>span>.loading-img:before {
+    content: "\e603";
+}
+
+.main .loading span .loading-img {
+	animation: anim-rotate 2s infinite linear;
+	margin-right: .4rem;
+	display: inline-block
 }
 
 @keyframes anim-rotate {
@@ -247,7 +245,6 @@ header {
 header .container {
 	margin-top: .5rem;
 	padding: .5rem 1rem 0 1rem
-	
 }
 header .container .pull-right>* {
 	position: relative;
@@ -270,19 +267,16 @@ header .fill {
 }
 header .fill .container {
 	height: 3rem;
-    padding: 0 1rem;
+	padding: 0 1.25rem;
 	background: #333;
 	background-color:#333;
-	vertical-align:middle;
 }
-
 header>.container>.brand, header > .fill > .container > .brand {
 	font-size: 1.3rem;
 	color: #fff;
 	text-decoration: none;
 	font-weight: 600;
 	padding-left: 1rem;
-	
 	cursor: default;
 	vertical-align: text-bottom;
 	display: none
@@ -291,9 +285,6 @@ header>.container>.brand, header > .fill > .container > .brand {
 footer {
 	text-align: right;
 	padding: 1rem;
-	overflow: hidden;
-	white-space: nowrap;
-	text-shadow: 0 0 2px #bbb;
 	color: #aaa;
 	font-size: .8rem
 }
@@ -410,7 +401,7 @@ background-color:#fff;
 	position: relative
 }
 .main .main-left .nav li.slide .menu::before {
-	font-family: 'advancedtomato' !important;
+	font-family: 'argon' !important;
 	font-style: normal;
 	font-weight: normal;
 	font-variant: normal;
@@ -427,7 +418,7 @@ background-color:#fff;
 	position: absolute;
 	right: .5rem;
 	top: .8rem;
-	font-family: 'advancedtomato' !important;
+	font-family: 'argon' !important;
 	font-style: normal;
 	font-weight: normal;
 	font-variant: normal;
@@ -452,6 +443,8 @@ background-color:#fff;
 	color: #fe7a00!important
 }
 .main .main-left .nav li.slide .menu.active::after {
+	-ms-transform:rotate(90deg); /* IE 9 */
+	-webkit-transform:rotate(90deg); /* Safari and Chrome */
 	transform: rotate(90deg)
 }
 .main .main-left .nav li.slide .menu:hover, .main .main-left .nav li.slide .menu.active {
@@ -545,8 +538,6 @@ background-color:#fff;
 li {
 	list-style-type: none
 }
-
-
 .main .main-right { 
 	width: calc(100% - 15rem);
 	float: right;
@@ -592,7 +583,6 @@ li {
 	margin-top: 2rem;
 	text-decoration: inherit
 }
-
 /* button style */
 .btn,
 .cbi-button {
@@ -620,50 +610,11 @@ li {
 	font-size: .875rem;
 	width: auto !important;
 	line-height: 1em
-
 }
 
-.cbi-button-up, .cbi-button-down {
-	display: inline-block;
-	min-width: 0;
-	padding: .2rem .6rem;
-	font-size: 1.2rem;
-	color: #fe7a00 !important;
-  /*background: url(../icons/arrow.svg) no-repeat center;
-  background-size: 12px 20px;*/
-  content:"\e20b";
-}
-.cbi-button-up {
-  transform: scaleY(-1);
-}
-
-.cbi-button:not(select) {
-  -webkit-appearance: none !important;
-}
-.btn:hover,
-.btn:focus,
-.btn:active,
-.cbi-button:hover,
-.cbi-button:focus,
-.cbi-button:active,
-.item:hover::after,
-.item:focus::after,
-.item:active::after,
-.cbi-page-actions .cbi-button-apply + .cbi-button-save:hover,
-.cbi-page-actions .cbi-button-apply + .cbi-button-save:focus,
-.cbi-page-actions .cbi-button-apply + .cbi-button-save:active {
-  text-decoration: none;
-  outline: 0;
-}
-button:hover,
-.btn:hover,
-.btn:focus,
-.cbi-button:hover,
-.cbi-button:focus,
-.item:hover::after,
-.item:focus::after {
-      opacity: 0.7;
-	top:0.15rem;
+.cbi-button:hover, .cbi-button:focus, .cbi-button:active {
+	outline: 0;
+	text-decoration: none
 }
 .cbi-button:hover, .cbi-button:focus {
 	box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.2)
@@ -671,12 +622,11 @@ button:hover,
 .cbi-button:active {
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
 }
-.btn:disabled,
 .cbi-button:disabled {
-  cursor: not-allowed;
-  pointer-events: none;
-  opacity: 0.6;
-  box-shadow: none;
+	cursor: not-allowed;
+	pointer-events: none;
+	opacity: .6;
+	box-shadow: none
 }
 .cbi-button-check {
 	margin-top: .25rem !important
@@ -735,6 +685,30 @@ select {
 	flex: 1 1 2em;
 	text-align: center
 }
+.td[data-title]::before {
+  font-weight: bold;
+  display: none;
+  padding: 0.25rem 0;
+  content: attr(data-title) ":\20";
+  text-align: left;
+  white-space: nowrap;
+}
+.tr.placeholder .td[data-title]::before {
+  display: none;
+}
+.tr[data-title]::before,
+.tr.cbi-section-table-titles.named::before {
+  font-weight: bold;
+  display: table-cell;
+  align-self: center;
+  flex: 1 1 5%;
+  padding: 0.25rem;
+  content: attr(data-title) "\20";
+  text-align: center;
+  vertical-align: middle;
+  white-space: normal;
+  word-wrap: break-word;
+}
 .cbi-input-textarea {
 	width: 100%;
 	min-height: 14rem;
@@ -744,7 +718,7 @@ select {
 	color: black
 }
 .uci-change-list {
-	font-family: "advancedtomato"
+	font-family: "argon"
 }
 .uci-change-list ins, .uci-change-legend-label ins {
 	text-decoration: none;
@@ -1097,16 +1071,14 @@ td>table>tbody>tr>td, .td>.table>.tbody>.tr>.td {
 
 .cbi-section-table .cbi-section-table-titles .cbi-section-table-cell {
 	width: auto !important;
-	 /* background-color: #e9ecef; */
+	background-color: #e9ecef;
 }
-
 .td.cbi-section-actions {
-    /* text-align: right; */
-    vertical-align: middle;
+	text-align: right;
+	vertical-align: middle
 }
-
 .td.cbi-section-actions>* {
-    /* display: flex; */
+	display: flex
 }
 .td.cbi-section-actions>*>*, .td.cbi-section-actions>*>form>* {
 	flex: 1 1 4em;
@@ -1188,7 +1160,6 @@ td>table>tbody>tr>td, .td>.table>.tbody>.tr>.td {
 	display: none;
 	color: #fff;
 	font-size: 1.4rem
-	
 }
 .darkMask {
 	width: 100%;
@@ -1225,14 +1196,13 @@ body.lang_pl.node-main-login .cbi-value-title {
   box-shadow: none !important;
   display: none !important;
 }
+
 .node-main-login>.main>.main-right>header>.fill>.container {
     margin: 2rem auto;
     max-width: 1140px;
 }
 
 .node-main-login>.main>.main-right>header>.fill>.container>.brand {
-    font-size: 2rem;
-    color: #fe7a00;
     display: none;
 
 }
@@ -1241,9 +1211,11 @@ body.lang_pl.node-main-login .cbi-value-title {
     top: 0;
     height: 100% !important;
 }
+
 .node-main-login>.main>.main-left {
     display: none;
 }
+
 .node-main-login > .main > .main-right {
 	width: 100%;
 }
@@ -1296,10 +1268,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 	margin-top: 2rem !important;
 	background-color: #D5CAB6 !important;
 	border-radius: .375rem;
-/*	text-align: left;
-	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
-    transition: box-shadow .25s, -webkit-box-shadow .25s;*/
-	box-shadow: rgba(0,0,0,0.75) 0 0 35px -5px; 
+	box-shadow: rgba(0,0,0,0.75) 0 0 35px -5px;
 	background: transparent;
 }
 
@@ -1418,7 +1387,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 }
 
 .node-main-login>.main .cbi-value.cbi-value .cbi-value-field:before {
-    font-family: 'advancedtomato' !important;
+    font-family: 'argon' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -1437,7 +1406,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 }
 
 .node-main-login>.main .cbi-value.cbi-value-last .cbi-value-field:before {
-    font-family: 'advancedtomato' !important;
+    font-family: 'argon' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -1592,12 +1561,43 @@ body.lang_pl.node-main-login .cbi-value-title {
 	white-space: inherit
 }
 .cbi-rowstyle-2 .cbi-button-up, .cbi-rowstyle-2 .cbi-button-down {
-	background-color: #FFF !important
+	background-color: #fe7a00 !important;
+}
+.cbi-rowstyle-1 .cbi-button-up, .cbi-rowstyle-1 .cbi-button-down {
+	background-color: #fe7a00 !important;
+}
+.cbi-button-up, .cbi-button-down {
+	display: inline-block;
+	min-width: 0;
+	padding: .2rem .6rem;
+	font-size: 1.2rem;
+	background: url(../icons/arrow.svg) no-repeat center! important;
+    background-size: 10px 14px;
+	color: #fe7a00 !important;
+	
+}
+.cbi-button-up, .cbi-button-down, .cbi-value-helpicon, .showSide, .main>.loading>span {
+	font-family: 'icomoon' !important;
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-variant: normal !important;
+	text-transform: none !important;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale
+}
+.cbi-button-up {
+	-ms-transform:rotate(180deg); /* IE 9 */
+	-webkit-transform:rotate(180deg); /* Safari and Chrome */
+	transform: rotate(180deg);
+}
+.cbi-button:not(select) {
+  -webkit-appearance: none !important;
 }
 
 select {
 	padding: .36rem .8rem;
-	color: #555;
+	color: #a55830;
 	background-color: #fff;
 	background-image: none;
 	border: 1px solid #ccc
@@ -1606,16 +1606,16 @@ select, input {
 	font-size: .875rem;
 	transition: all .15s ease-in-out;
 	line-height: 1.5;
-	padding: .75rem;
-	color: #8898aa;
+	padding: .625rem .75rem;
+	color: #a55830;
 	border: 1px solid #dee2e6;
 	border-radius: .25rem;
-	background-color: #fff;
+	background-color: #eee;
 	background-clip: padding-box;
-	box-shadow: 0 3px 2px rgba(233,236,239,0.05);
+	box-shadow: 0 3px 2px #eee;
 	outline: none;
 	transition: box-shadow .15s ease;
-	margin: 0;
+	margin: .25rem
 }
 select:not([multiple="multiple"]):focus, input:focus {
 	border-color: #fe7a00;
@@ -2217,7 +2217,7 @@ select[multiple="multiple"] {
 	background-color: #fff
 }
 .cbi-rowstyle-2 {
-	background-color: #fefefe
+	background-color: #eee
 }
 .cbi-section-table .cbi-section-table-titles .cbi-section-table-cell {
 	width: auto !important
@@ -2262,7 +2262,7 @@ td>.ifacebadge {
 	min-height: 14rem;
 	padding: .8rem;
 	font-size: .8rem;
-	font-family: "advancedtomato", Helvetica, Arial, sans-serif;
+	font-family: "argon", Helvetica, Arial, sans-serif;
 	color: black
 }
 #syslog {
@@ -2419,7 +2419,6 @@ div.cbi-value var, td.cbi-value-field var {
 	color: #0069D6
 }
 
-
 input[name="ping"], input[name="traceroute"], input[name="nslookup"] {
 	width: 80%
 }
@@ -2569,74 +2568,7 @@ input[name="ping"], input[name="traceroute"], input[name="nslookup"] {
 .node-network-diagnostics input {
 	margin: .25rem !important
 }
-#detail-bubble.in {
-	z-index: 500
-}
-#detail-bubble {
-		position: absolute;
-		opacity: 0;
-		visibility: hidden;
-	}
 
-	#detail-bubble.in {
-		opacity: 1;
-		visibility: visible;
-		transition: opacity 0.5s;
-	}
-
-	#detail-bubble > div {
-		border: 1px solid #ccc;
-		border-radius: 2px;
-		padding: 5px;
-		background: #fcfcfc;
-	}
-
-	#detail-bubble .head {
-		text-align: center;
-		white-space: nowrap;
-		position: relative;
-	}
-
-	#detail-bubble .head .dismiss {
-		top: 0;
-		right: 0;
-		width: 20px;
-		line-height: 20px;
-		text-align: center;
-		text-decoration: none;
-		font-weight: bold;
-		color: #000;
-		position: absolute;
-		font-size: 20px;
-	}
-
-	#detail-bubble .pie {
-		width: 100px;
-		margin: 5px;
-	}
-
-	#detail-bubble .kpi {
-		margin: 40px 5px 5px;
-		font-size: smaller;
-		text-align: left;
-	}
-
-	#detail-bubble .kpi ul {
-		margin: 0;
-	}
-
-	#bubble-arrow {
-		border: 1px solid #ccc;
-		border-width: 1px 0 0 1px;
-		background: #fcfcfc;
-		width: 15px;
-		height: 15px;
-		position: absolute;
-		left: 0;
-		top: -8px;
-		transform: rotate(45deg);
-		margin: 0 0 0 -8px;
-	}
 .node-nlbw-display .cbi-section ul {
 	padding: .875rem 1.5rem
 }
@@ -2703,8 +2635,7 @@ header>.container {
 	font-size: 1.1rem;
 	padding-bottom: 1rem
 }
-.table,
-    table {
+table {
 	font-size: .7rem !important;
 	width: 100% !important
 }
@@ -2725,17 +2656,23 @@ header>.container {
 .main .main-right {
 	width: 100%
 }
-
 .showSide {
 	padding: .5rem;
 	position: relative;
 	display: inline-block
-	
 }
 .showSide:hover {
 	text-decoration: none
 }
 .showSide:before {
+	font-family: 'argon' !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 	content: "\e90d";
 	font-size: 1.8rem
 }
@@ -2748,8 +2685,8 @@ header>.fill>.container>.brand {
 
 
 .cbi-value-title {
-	 width: 9rem;
-	padding-right: 1rem 
+	width: 9rem;
+	padding-right: 1rem
 }
 .node-network-diagnostics>.main .cbi-map fieldset>div * {
 	width: 100% !important
@@ -2773,7 +2710,7 @@ header>.fill>.container>.brand {
 	font-size: 1rem
 }
 }
- 
+
 @media screen and (max-width:480px) {
 body {
 	font-size: .8rem
@@ -2813,10 +2750,6 @@ h2 {
 .main>.main-left>.nav>.slide>.slide-menu>li>a {
 	font-size: .9rem
 }
-/*  .main>.main-left>.nav>.slide>.menu:before {
-        padding-top: 5px;
-    }
-	*/
 .main>.main-left>.nav>.slide>.menu:after {
 	top: .9rem
 }
@@ -2858,7 +2791,6 @@ h2 {
     input {
         width: 95%;
         min-width: unset;
-		
     }
 
 .cbi-value>.cbi-value-field {
