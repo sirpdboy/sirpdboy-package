@@ -23,17 +23,17 @@
 
 @font-face {
   font-family: 'sirpdboy';
-  src:  url('fonts/sirpdboy.eot?uaho9q');
-  src:  url('fonts/sirpdboy.eot?uaho9q#iefix') format('embedded-opentype'),
-    url('fonts/sirpdboy.ttf?uaho9q') format('truetype'),
-    url('fonts/sirpdboy.woff?uaho9q') format('woff'),
-    url('fonts/sirpdboy.svg?uaho9q#sirpdboy') format('svg');
+  src:  url('../fonts/sirpdboy.eot?uaho9q');
+  src:  url('../fonts/sirpdboy.eot?uaho9q#iefix') format('embedded-opentype'),
+    url('../fonts/sirpdboy.ttf?uaho9q') format('truetype'),
+    url('../fonts/sirpdboy.woff?uaho9q') format('woff'),
+    url('../fonts/sirpdboy.svg?uaho9q#sirpdboy') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-i {
+[class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'sirpdboy' !important;
   speak: never;

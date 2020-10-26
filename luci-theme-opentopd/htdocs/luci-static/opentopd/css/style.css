@@ -1564,10 +1564,10 @@ body.lang_pl.node-main-login .cbi-value-title {
 	min-width: 0;
 	padding: .2rem .6rem;
 	font-size: 1.2rem;
-	background: url(../icons/arrow.svg) no-repeat center! important;
-    background-size: 10px 14px;
-	/*content: "\e20b";*/
-	color: #e5a00d;!important;
+	background: url(../icons/arrow.svg) no-repeat center ;
+    background-size: 30px;
+	/*content: "\e20b" !important;
+	color: #e5a00d  !important;*/
 }
 .cbi-rowstyle-2 .cbi-button-up, .cbi-rowstyle-2 .cbi-button-down {
 	background-color: #fff !important;
@@ -1627,14 +1627,7 @@ select:not([multiple="multiple"]):focus, input:focus {
 select[multiple="multiple"] {
 	height: auto
 }
-code {
-	color: #0099CC
-}
-abbr {
-	color: #005470;
-	text-decoration: underline;
-	cursor: help
-}
+
 hr {
 	margin: 1rem 0;
 	border-color: #EEE;
@@ -2973,11 +2966,11 @@ background:#424242
 
     .cbi-value input[type="password"],
     .cbi-value input[type="text"] {
-        min-width: 18rem;
+        min-width: 15rem;
     }
 
     .cbi-value-field .cbi-input-select {
-        min-width: 18rem;
+        min-width: 15rem;
     }
 }
 
