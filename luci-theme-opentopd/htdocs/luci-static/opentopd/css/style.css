@@ -6,7 +6,7 @@ html, body {
 	padding: 0px;
 	height: 100%;
 	font-size: 16px;
-	font-family: "argon", "icomoon", "Microsoft Yahei",  "Helvetica Neue", "Helvetica", "Hiragino Sans GB";
+	font-family:  "Microsoft Yahei",  "Helvetica Neue", "Helvetica", "Hiragino Sans GB",sans-serif;
 
 }
 html {
@@ -401,7 +401,7 @@ background-color:#fff;
 	position: relative
 }
 .main .main-left .nav li.slide .menu::before {
-	font-family: 'argon' !important;
+	font-family: 'sirpdboy' !important;
 	font-style: normal;
 	font-weight: normal;
 	font-variant: normal;
@@ -418,14 +418,14 @@ background-color:#fff;
 	position: absolute;
 	right: .5rem;
 	top: .8rem;
-	font-family: 'argon' !important;
+	font-family: 'sirpdboy' !important;
 	font-style: normal;
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
 	-moz-osx-font-smoothing: grayscale;
-	content: '\e90f';
+	content: '\e90a';
 	transition: all .15s ease;
 	color: #ae6642;
 	text-rendering: auto;
@@ -458,23 +458,23 @@ background-color:#fff;
 
 
 .main .main-left .nav li.slide .menu[data-title=Status]:before {
-	content: "\e913";
-	color: #5AA9EB;
+	content: "\e906";
+	color: #41bdf5;
 }
 .main .main-left .nav li.slide .menu[data-title=System]:before {
-	content: "\e90a";
+	content: "\e90b";
 	color: #801800
 }
 .main .main-left .nav li.slide .menu[data-title=Services]:before {
-	content: "\e909";
+	content: "\e904";
 	color: #8965e0
 }
 .main .main-left .nav li.slide .menu[data-title=NAS]:before {
-	content: "\e90c";
+	content: "\e905";
 	color: #6F046E;
 }
 .main .main-left .nav li.slide .menu[data-title=VPN]:before {
-	content: "\e90b";
+	content: "\e900";
 	color: #6F5704;
 }
 .main .main-left .nav li.slide .menu[data-title=Network]:before {
@@ -482,23 +482,23 @@ background-color:#fff;
 	color: #2C3FD5;
 }
 .main .main-left .nav li.slide .menu[data-title=Bandwidth_Monitor]:before {
-	content: "\e901";
+	content: "\e910";
 	color: #289408;
 }
 .main .main-left .nav li.slide .menu[data-title=Docker]:before {
-	content: "\e911";
+	content: "\e902";
 	color: #974A07;
 }
 .main .main-left .nav li.slide .menu[data-title=Statistics]:before {
-	content: "\e914";
+	content: "\e901";
 	color: #61049F;
 }
 .main .main-left .nav li.slide .menu[data-title=Control]:before {
-	content: "\e910";
+	content: "\e90d";
 	color: #04596F;
 }
 .main .main-left .nav li.slide .menu[data-title=Asterisk]:before {
-	content: "\e90e";
+	content: "\e90c";
 	color: #8B7014;
 }
 .main .main-left .nav li.slide .menu[data-title=Logout]:before {
@@ -584,12 +584,11 @@ li {
 	text-decoration: inherit
 }
 /* button style */
-.btn,
 .cbi-button {
 	-webkit-appearance: none;
 	text-transform: uppercase;
 	height: auto;
-	color: #fe7a00;
+	color: #e5a00d;
 	background-color: #F0F0F0;
 	transition: all .2s ease-in-out;
 	display: inline-block;
@@ -718,7 +717,7 @@ select {
 	color: black
 }
 .uci-change-list {
-	font-family: "argon"
+	font-family: sans-serif;
 }
 .uci-change-list ins, .uci-change-legend-label ins {
 	text-decoration: none;
@@ -1387,7 +1386,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 }
 
 .node-main-login>.main .cbi-value.cbi-value .cbi-value-field:before {
-    font-family: 'argon' !important;
+    font-family: 'sirpdboy' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -1396,7 +1395,7 @@ body.lang_pl.node-main-login .cbi-value-title {
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    content: "\e971";
+    content: "\e909";
     color: #adb5bd;
     font-size: 1.5rem;
     position: absolute;
@@ -1406,7 +1405,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 }
 
 .node-main-login>.main .cbi-value.cbi-value-last .cbi-value-field:before {
-    font-family: 'argon' !important;
+    font-family: 'sirpdboy' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -1415,7 +1414,7 @@ body.lang_pl.node-main-login .cbi-value-title {
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    content: "\e910";
+    content: "\e90c";
     color: #adb5bd;
     font-size: 1.5rem;
     position: absolute;
@@ -1560,12 +1559,6 @@ body.lang_pl.node-main-login .cbi-value-title {
 	-webkit-flex: 10 10 300px !important;
 	white-space: inherit
 }
-.cbi-rowstyle-2 .cbi-button-up, .cbi-rowstyle-2 .cbi-button-down {
-	background-color: #fe7a00 !important;
-}
-.cbi-rowstyle-1 .cbi-button-up, .cbi-rowstyle-1 .cbi-button-down {
-	background-color: #fe7a00 !important;
-}
 .cbi-button-up, .cbi-button-down {
 	display: inline-block;
 	min-width: 0;
@@ -1573,11 +1566,19 @@ body.lang_pl.node-main-login .cbi-value-title {
 	font-size: 1.2rem;
 	background: url(../icons/arrow.svg) no-repeat center! important;
     background-size: 10px 14px;
-	color: #fe7a00 !important;
-	
+	/*content: "\e20b";*/
+	color: #e5a00d;!important;
 }
+.cbi-rowstyle-2 .cbi-button-up, .cbi-rowstyle-2 .cbi-button-down {
+	background-color: #fff !important;
+}
+/*
+.cbi-rowstyle-1 .cbi-button-up, .cbi-rowstyle-1 .cbi-button-down {
+	background-color: #fff !important;
+}
+*/
 .cbi-button-up, .cbi-button-down, .cbi-value-helpicon, .showSide, .main>.loading>span {
-	font-family: 'icomoon' !important;
+	font-family: 'sirpdboy' !important;
 	font-style: normal !important;
 	font-weight: normal !important;
 	font-variant: normal !important;
@@ -1597,7 +1598,7 @@ body.lang_pl.node-main-login .cbi-value-title {
 
 select {
 	padding: .36rem .8rem;
-	color: #a55830;
+	color: #e5a00d;
 	background-color: #fff;
 	background-image: none;
 	border: 1px solid #ccc
@@ -1607,7 +1608,7 @@ select, input {
 	transition: all .15s ease-in-out;
 	line-height: 1.5;
 	padding: .625rem .75rem;
-	color: #a55830;
+	color: #e5a00d;
 	border: 1px solid #dee2e6;
 	border-radius: .25rem;
 	background-color: #eee;
@@ -2262,7 +2263,7 @@ td>.ifacebadge {
 	min-height: 14rem;
 	padding: .8rem;
 	font-size: .8rem;
-	font-family: "argon", Helvetica, Arial, sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
 	color: black
 }
 #syslog {
@@ -2665,7 +2666,7 @@ table {
 	text-decoration: none
 }
 .showSide:before {
-	font-family: 'argon' !important;
+	font-family: 'sirpdboy' !important;
     font-style: normal !important;
     font-weight: normal !important;
     font-variant: normal !important;
@@ -2673,7 +2674,7 @@ table {
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-	content: "\e90d";
+	content: "\e20e";
 	font-size: 1.8rem
 }
     .node-main-login .showSide {
