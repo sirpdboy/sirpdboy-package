@@ -479,7 +479,7 @@ background-color:#fff;
 }
 .main .main-left .nav li.slide .menu[data-title=Network]:before {
 	content: "\e908";
-	color: #2C3FD5;
+	color: #2560e0;
 }
 .main .main-left .nav li.slide .menu[data-title=Bandwidth_Monitor]:before {
 	content: "\e910";
@@ -507,13 +507,13 @@ background-color:#fff;
 }
 .main .main-left .nav li.slide .slide-menu li a {
 	position: relative;
-	margin: .1rem .8rem .1rem 3rem;
-	padding: .5rem 0 .5rem 0;
+	margin: .1rem .5rem .1rem 3rem;
+	padding: .3rem 0 .3rem 0;
 	text-decoration: none;
 	white-space: nowrap;
 	color: #a55830;
 	transition: all .2s;
-	font-size: .875rem
+	font-size: .7rem
 }
 .main .main-left .nav .slide .slide-menu .active {
 	background-color: #683802
@@ -584,6 +584,7 @@ li {
 	text-decoration: inherit
 }
 /* button style */
+.btn,
 .cbi-button {
 	-webkit-appearance: none;
 	text-transform: uppercase;
@@ -651,6 +652,7 @@ form.inline+form.inline, .cbi-button+.cbi-button {
 	background-color: #fe7a00!important;
 	border-color: #fe7800 !important;
 }
+
 .cbi-button-add {
 	margin-left: 1.5rem
 }
@@ -717,7 +719,7 @@ select {
 	color: black
 }
 .uci-change-list {
-	font-family: sans-serif;
+	font-family: "sirpdboy";
 }
 .uci-change-list ins, .uci-change-legend-label ins {
 	text-decoration: none;
@@ -1010,12 +1012,14 @@ input[name="ping"], input[name="traceroute"], input[name="nslookup"] {
 	line-height: 1.6rem;
 	border-radius: .25rem
 }
+
 #swaptotal>div>div, #swapfree>div>div, #memfree>div>div, #membuff>div>div, #conns>div>div, #memtotal>div>div {
 	height: 100% !important;
-	background-color: #fc8e2d !important;
+	background-color: #CCCCCC !important;
 }
 
-/* fix multiple table */
+
+fix multiple table */
 
 table table, .table .table {
 	border: none
@@ -1564,19 +1568,11 @@ body.lang_pl.node-main-login .cbi-value-title {
 	min-width: 0;
 	padding: .2rem .6rem;
 	font-size: 1.2rem;
-	background: url(../icons/arrow.svg) no-repeat center ;
-    background-size: 30px;
-	/*content: "\e20b" !important;
-	color: #e5a00d  !important;*/
 }
 .cbi-rowstyle-2 .cbi-button-up, .cbi-rowstyle-2 .cbi-button-down {
 	background-color: #fff !important;
 }
-/*
-.cbi-rowstyle-1 .cbi-button-up, .cbi-rowstyle-1 .cbi-button-down {
-	background-color: #fff !important;
-}
-*/
+
 .cbi-button-up, .cbi-button-down, .cbi-value-helpicon, .showSide, .main>.loading>span {
 	font-family: 'sirpdboy' !important;
 	font-style: normal !important;
@@ -1587,18 +1583,14 @@ body.lang_pl.node-main-login .cbi-value-title {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale
 }
-.cbi-button-up {
-	-ms-transform:rotate(180deg); /* IE 9 */
-	-webkit-transform:rotate(180deg); /* Safari and Chrome */
-	transform: rotate(180deg);
-}
+
 .cbi-button:not(select) {
   -webkit-appearance: none !important;
 }
 
 select {
 	padding: .36rem .8rem;
-	color: #e5a00d;
+	color: #a55830;
 	background-color: #fff;
 	background-image: none;
 	border: 1px solid #ccc
@@ -1608,7 +1600,7 @@ select, input {
 	transition: all .15s ease-in-out;
 	line-height: 1.5;
 	padding: .625rem .75rem;
-	color: #e5a00d;
+	color: #a55830;
 	border: 1px solid #dee2e6;
 	border-radius: .25rem;
 	background-color: #eee;
@@ -1627,7 +1619,14 @@ select:not([multiple="multiple"]):focus, input:focus {
 select[multiple="multiple"] {
 	height: auto
 }
-
+code {
+	color: #0099CC
+}
+abbr {
+	color: #005470;
+	text-decoration: underline;
+	cursor: help
+}
 hr {
 	margin: 1rem 0;
 	border-color: #EEE;
@@ -2668,7 +2667,7 @@ table {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 	content: "\e20e";
-	font-size: 1.8rem
+	font-size: 1.6rem
 }
     .node-main-login .showSide {
         display: none !important;
