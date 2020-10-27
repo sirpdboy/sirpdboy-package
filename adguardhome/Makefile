@@ -69,7 +69,6 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(PKG_NAME) $(1)/usr/bin/AdGuardHome/$(PKG_NAME)
 	$(INSTALL_DIR) $(1)/etc
 	$(CP) -r ./files/etc $(1)/etc
-	$(CP) -r ./files/etc/config $(1)/etc/config
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
