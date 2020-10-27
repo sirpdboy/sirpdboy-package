@@ -34,10 +34,12 @@ dns:
   - https://1.0.0.1/dns-query
   - https://dns.adgk.net:4433/dns-query
   - https://esdns.kbsml.com/dns-query
+  - tcp://8.8.8.8
   - tcp://8.8.4.4
   - 117.50.11.11
   - 117.50.22.22
   - 223.5.5.5
+  - 223.6.6.6
   - 208.67.222.222
   - 114.114.114.114
   - 180.76.76.76
@@ -45,8 +47,7 @@ dns:
   - 119.29.29.29
   - 223.5.5.5
   - 114.114.114.114
-  - 8.8.4.4:53
-  - 1.0.0.1:53
+  - 8.8.8.8
   - 2620:fe::10
   - 2620:fe::fe:10
   all_servers: false
@@ -207,8 +208,18 @@ user_rules:
 - '@@||flyme.cn^$important'
 - '@@||meizu.com^$important'
 - '@@||wl.jd.com^$important'
-- '@@||flydigi.com^'
+- '@@||taobao.com^'
 - '@@||pv.sohu.com^$important'
+- /googleads.$~script,domain=~googleads.github.io
+- /pagead/lvz?
+- '||google.com/pagead/'
+- '||static.doubleclick.net^$domain=youtube.com'
+- '||youtube.com/get_midroll_'
+- '||youtube.com/api/stats/ads'
+- '||youtube.com/pagead/adview'
+- '||yt3.ggpht.com^'
+- '||youtube.com/pcs/activeview'
+- '||youtube.com/get_video_info'
 - /googleads.$~script,domain=~googleads.github.io
 - /pagead/lvz?
 - '||google.com/pagead/'

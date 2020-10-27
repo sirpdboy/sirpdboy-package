@@ -19,4 +19,11 @@ include $(INCLUDE_DIR)/package.mk
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
+
+define Package/luci-theme-argon/postinst
+#!/bin/sh
+rm -Rf /var/luci-modulecache
+rm -Rf /var/luci-indexcache
+exit 0
+endef
 # call BuildPackage - OpenWrt buildroot signature
