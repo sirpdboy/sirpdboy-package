@@ -1,4 +1,4 @@
-luci-theme-opentopd
+#luci-theme-opentopd
 原作者 https://github.com/sirpdboy/luci-theme-opentopd
 
 
