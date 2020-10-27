@@ -1006,16 +1006,29 @@ input[name="ping"], input[name="traceroute"], input[name="nslookup"] {
 	width: 80%
 }
 /* fix progress bar */
-#swaptotal>div, #swapfree>div, #memfree>div, #membuff>div, #conns>div, #memtotal>div {
+#memfree>div, #memtotal>div {
 	width: 100% !important;
-	height: 1.6rem !important;
+	height: 1.6rem !important; 
 	line-height: 1.6rem;
-	border-radius: .25rem
+	border-radius: .25rem;
+	background-color:#fc8e2d !important; 
+}
+#memfree>div>div, #memtotal>div>div {
+	height: 100% !important;
+	background-color: #fff !important;
+}
+#swaptotal>div, #swapfree>div, #membuff>div, #conns>div {
+	width: 100% !important;
+	height: 1.6rem !important; 
+	line-height: 1.6rem;
+	border-radius: .25rem;
+	background-color: #fff !important;
 }
 
-#swaptotal>div>div, #swapfree>div>div, #memfree>div>div, #membuff>div>div, #conns>div>div, #memtotal>div>div {
+#swaptotal>div>div, #swapfree>div>div, #conns>div>div ,#membuff>div>div
+{
 	height: 100% !important;
-	background-color: #CCCCCC !important;
+	background-color: #fc8e2d  !important;
 }
 
 
