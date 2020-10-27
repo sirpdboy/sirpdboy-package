@@ -31,7 +31,7 @@ config_get_bool enabled $INTERFACE 'enabled' '0'
 	exit 0
 }
 
-if [ "$ACTION" = "ifup" ]; then
+if [ "$ACTION" == "ifup" ]; then
 	config_get family $INTERFACE family ipv4
 	if [ "$family" = "ipv4" ]; then
 		ubus call network.interface.${INTERFACE}_4 status &>/dev/null
