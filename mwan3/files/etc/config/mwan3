@@ -27,7 +27,7 @@ config member 'wan_m1_w1'
 	option weight '1'
 
 config policy 'balanced'
-	option last_resort 'unreachable'
+	option last_resort 'default'
 	list use_member 'wan_m1_w1'
 
 config rule 'https'

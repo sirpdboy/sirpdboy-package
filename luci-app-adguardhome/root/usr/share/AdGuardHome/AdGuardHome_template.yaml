@@ -35,8 +35,6 @@ dns:
   - https://dns.adgk.net:4433/dns-query
   - https://esdns.kbsml.com/dns-query
   - tcp://8.8.4.4
-  - 117.50.11.11
-  - 117.50.22.22
   - 223.5.5.5
   - 208.67.222.222
   - 114.114.114.114
@@ -207,6 +205,7 @@ user_rules:
 - '@@||flyme.cn^$important'
 - '@@||meizu.com^$important'
 - '@@||wl.jd.com^$important'
+- '@@||taobao.com^$important'
 - '@@||flydigi.com^'
 - '@@||pv.sohu.com^$important'
 - /googleads.$~script,domain=~googleads.github.io

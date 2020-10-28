@@ -36,11 +36,9 @@ dns:
   - https://esdns.kbsml.com/dns-query
   - tcp://8.8.8.8
   - tcp://8.8.4.4
-  - 117.50.11.11
-  - 117.50.22.22
   - 223.5.5.5
   - 223.6.6.6
-  - 208.67.222.222
+  - 119.29.29.29
   - 114.114.114.114
   - 180.76.76.76
   bootstrap_dns:
@@ -204,30 +202,18 @@ filters:
   id: 139789184
 whitelist_filters: []
 user_rules:
+- '@@||taobao.com^$important'
 - '@@||jd.com^important'
 - '@@||flyme.cn^$important'
 - '@@||meizu.com^$important'
 - '@@||wl.jd.com^$important'
-- '@@||taobao.com^'
+- '@@||flydigi.com^'
 - '@@||pv.sohu.com^$important'
 - /googleads.$~script,domain=~googleads.github.io
 - /pagead/lvz?
 - '||google.com/pagead/'
 - '||static.doubleclick.net^$domain=youtube.com'
 - '||youtube.com/get_midroll_'
-- '||youtube.com/api/stats/ads'
-- '||youtube.com/pagead/adview'
-- '||yt3.ggpht.com^'
-- '||youtube.com/pcs/activeview'
-- '||youtube.com/get_video_info'
-- /googleads.$~script,domain=~googleads.github.io
-- /pagead/lvz?
-- '||google.com/pagead/'
-- '||static.doubleclick.net^$domain=youtube.com'
-- '||youtube.com/get_midroll_'
-- '@@||g.live.com^$important'
-- '@@||s.click.taobao.com^$important'
-- '@@||ipassport.ele.me^$important'
 dhcp:
   enabled: false
   interface_name: ""
