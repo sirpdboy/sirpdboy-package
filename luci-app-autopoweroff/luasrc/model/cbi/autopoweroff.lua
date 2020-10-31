@@ -32,7 +32,7 @@ pass.rmempty = false
 
 local e=luci.http.formvalue("cbi.apply")
 if e then
-  io.popen("/etc/init.d/autopoweroff restart")
+  luci.sys.call("/etc/init.d/autopoweroff restart >/dev/null")
 end
 
 return m
