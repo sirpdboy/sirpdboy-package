@@ -85,7 +85,7 @@ update(){
 	config_foreach run_poweroff login
 }
 
-reload(){
+restart(){
 	stop
 	update
 	start
