@@ -10,10 +10,10 @@ enable=s:option(Flag,"enable",translate("enable"))
 enable.rmempty = false
 enable.default=0
 
-DsType=s:option(ListValue,"DsType",translate("Scheduled Type"))
-DsType:value(1,translate("Scheduled Poweroff"))
-DsType:value(0,translate("Scheduled Reboot"))
-DsType.default=1
+dstype=s:option(ListValue,"dstype",translate("Scheduled Type"))
+dstype:value(1,translate("Scheduled Poweroff"))
+dstype:value(0,translate("Scheduled Reboot"))
+dstype.default=1
 
 week=s:option(ListValue,"week",translate("Week Day"))
 week:value(7,translate("Everyday"))
