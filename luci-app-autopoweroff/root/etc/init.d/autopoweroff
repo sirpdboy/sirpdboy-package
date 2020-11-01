@@ -3,6 +3,9 @@ START=50
 
 run_poweroff()
 {
+	local enable
+	config_get_bool enable $1 enable
+
 	local minute
 	local hour
 	config_get week $1 week
@@ -14,7 +17,7 @@ run_poweroff()
     if [ $week = 7 ] ; then
            week="*"
 	fi
-		
+
 	local cmd="$minute $hour * * $week sleep 5 && touch /etc/banner && poweroff" 
 	if [ ! -f "/etc/crontabs/root" ] || [ $(cat /etc/crontabs/root | grep "$cmd" | wc -l) -eq 0 ]; then
 			sed -i '/poweroff/d' /etc/crontabs/root >/dev/null 2>&1
@@ -24,7 +27,7 @@ run_poweroff()
 
 start()
 {
-	local enabled=$(uci get autopoweroff.@global[0].enabled)
+	local enabled=$(uci get autopoweroff.@login[0].enabled)
 	[ "$enabled" -eq 0 ] && exit
 	config_load autopoweroff
 	config_foreach run_poweroff autopoweroff
@@ -41,7 +44,7 @@ stop() {
 	del_cru
 }
 
-reload(){
+restart(){
 	stop
 	start
 }
