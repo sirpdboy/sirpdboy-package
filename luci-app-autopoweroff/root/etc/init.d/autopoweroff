@@ -8,21 +8,32 @@ run_poweroff()
 
 	local minute
 	local hour
+	config_get dstype $1 dstype
 	config_get week $1 week
 	config_get minute $1 minute
 	config_get hour $1 hour
+	
     if [ $minute = 0 ] ; then
            minute="00"
 	fi
     if [ $week = 7 ] ; then
            week="*"
 	fi
-
-	local cmd="$minute $hour * * $week sleep 5 && touch /etc/banner && poweroff" 
-	if [ ! -f "/etc/crontabs/root" ] || [ $(cat /etc/crontabs/root | grep "$cmd" | wc -l) -eq 0 ]; then
+    if [ $dstype = 0 ] ; then
+		local cmd="$minute $hour * * $week sleep 5 && touch /etc/banner && reboot" 
+		if [ ! -f "/etc/crontabs/root" ] || [ $(cat /etc/crontabs/root | grep "$cmd" | wc -l) -eq 0 ]; then
+			sed -i '/reboot/d' /etc/crontabs/root >/dev/null 2>&1
+			echo "$cmd" >> /etc/crontabs/root
+		fi
+	fi
+	if [ $dstype = 1 ] ; then
+		local cmd="$minute $hour * * $week sleep 5 && touch /etc/banner && poweroff" 
+		if [ ! -f "/etc/crontabs/root" ] || [ $(cat /etc/crontabs/root | grep "$cmd" | wc -l) -eq 0 ]; then
 			sed -i '/poweroff/d' /etc/crontabs/root >/dev/null 2>&1
 			echo "$cmd" >> /etc/crontabs/root
+		fi
 	fi
+		
 }
 
 start()
@@ -35,6 +46,9 @@ start()
 
 del_cru()
 {
+	if [ -f "/etc/crontabs/root" ] && [ $(cat /etc/crontabs/root | grep reboot | wc -l) -ne 0 ]; then
+		sed -i '/reboot/d' /etc/crontabs/root >/dev/null 2>&1
+	fi
 	if [ -f "/etc/crontabs/root" ] && [ $(cat /etc/crontabs/root | grep poweroff | wc -l) -ne 0 ]; then
 		sed -i '/poweroff/d' /etc/crontabs/root >/dev/null 2>&1
 	fi

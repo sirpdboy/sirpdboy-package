@@ -1,10 +1,29 @@
-msgid "Scheduled poweroff"
+msgid "Scheduled Setting"
+msgstr "定时设置"
+
+msgid "Scheduled reboot poweroff Setting"
+msgstr "定时重启关机二合一设置"
+
+msgid "Scheduled Type"
+msgstr "定时类型"
+
+msgid "Scheduled Reboot"
+msgstr "定时重启"
+
+msgid "Scheduled Poweroff"
 msgstr "定时关机"
 
-msgid "Scheduled poweroff Setting"
-msgstr "定时关机设置"
+msgid "Week Day"
+msgstr "星期"
 
+msgid "Everyday"
+msgstr "每天"
 
+msgid "Day"
+msgstr "天"
 
+msgid "Hour"
+msgstr "小时"
 
-
+msgid "Minute"
+msgstr "分钟"
