@@ -3,50 +3,11 @@
 
 START=95
 STOP=10
-EXTRA_COMMANDS="update"
-
-add_cru()
-{
-	local enabled=$(uci get autopoweroff.@login[0].enabled)
- 	[ "$enabled" -eq 0 ] && exit
-	local stype=$(uci get autopoweroff.@login[0].stype)
-	local week=$(uci get autopoweroff.@login[0].week)
-	local minute=$(uci get autopoweroff.@login[0].minute)
-	local hour=$(uci get autopoweroff.@login[0].hour)
-		if [ $stype = 1 ] ; then
-			local cmd="$minute $hour * * $week sleep 5 && touch /etc/banner && reboot" 
-			if [ ! -f "/etc/crontabs/root" ] || [ $(cat /etc/crontabs/root | grep "$cmd" | wc -l) -eq 0 ]; then
-				sed -i '/reboot/d' /etc/crontabs/root >/dev/null 2>&1
-				echo "$cmd" >> /etc/crontabs/root
-				echo "Auto REBOOT has started."
-			fi
-		else
-			if [ -f "/etc/crontabs/root" ] && [ $(cat /etc/crontabs/root | grep reboot | wc -l) -ne 0 ]; then
-				sed -i '/reboot/d' /etc/crontabs/root >/dev/null 2>&1
-			fi
-		fi
-		if [ $stype = 2 ] ; then
-			local cmd="$minute $hour * * $week sleep 5 && touch /etc/banner && poweroff" 
-			if [ ! -f "/etc/crontabs/root" ] || [ $(cat /etc/crontabs/root | grep "$cmd" | wc -l) -eq 0 ]; then
-				sed -i '/poweroff/d' /etc/crontabs/root >/dev/null 2>&1
-				echo "$cmd" >> /etc/crontabs/root
-				echo "Auto poweroff has started."
-			fi
-		else
-			if [ -f "/etc/crontabs/root" ] && [ $(cat /etc/crontabs/root | grep poweroff | wc -l) -ne 0 ]; then
-				sed -i '/poweroff/d' /etc/crontabs/root >/dev/null 2>&1
-			fi
-		fi
-}
-
 
 run_poweroff()
 {
-	local enable
 	config_get_bool enable $1 enable
-		local minute
-		local hour
-		local stype
+    if [ $enable = 1 ] ; then
 		config_get stype $1 stype
 		config_get week $1 week
 		config_get minute $1 minute
@@ -59,42 +20,68 @@ run_poweroff()
 			if [ ! -f "/etc/crontabs/root" ] || [ $(cat /etc/crontabs/root | grep "$cmd" | wc -l) -eq 0 ]; then
 				sed -i '/reboot/d' /etc/crontabs/root >/dev/null 2>&1
 				echo "$cmd" >> /etc/crontabs/root
-				echo "Auto REBOOT has started."
+				
 			fi
-		else
-			if [ -f "/etc/crontabs/root" ] && [ $(cat /etc/crontabs/root | grep reboot | wc -l) -ne 0 ]; then
-				sed -i '/reboot/d' /etc/crontabs/root >/dev/null 2>&1
-			fi
+			echo "Auto REBOOT has started.."
+
 		fi
 		if [ $stype = 2 ] ; then
 			local cmd="$minute $hour * * $week sleep 5 && touch /etc/banner && poweroff" 
 			if [ ! -f "/etc/crontabs/root" ] || [ $(cat /etc/crontabs/root | grep "$cmd" | wc -l) -eq 0 ]; then
 				sed -i '/poweroff/d' /etc/crontabs/root >/dev/null 2>&1
 				echo "$cmd" >> /etc/crontabs/root
-				echo "Auto poweroff has started."
+				
 			fi
-		else
-			if [ -f "/etc/crontabs/root" ] && [ $(cat /etc/crontabs/root | grep poweroff | wc -l) -ne 0 ]; then
-				sed -i '/poweroff/d' /etc/crontabs/root >/dev/null 2>&1
-			fi
+			echo "Auto poweroff has started.."	
 		fi
+     else
+			del_cru
+    fi
 }
 
-update(){
+
+add_cru()
+{
+	local enable=$(uci get autopoweroff.@login[0].enable)
+    if [ $enable = 1 ] ; then
+	local stype=$(uci get autopoweroff.@login[0].stype)
+	local week=$(uci get autopoweroff.@login[0].week)
+	local minute=$(uci get autopoweroff.@login[0].minute)
+	local hour=$(uci get autopoweroff.@login[0].hour)
+		if [ $stype = 1 ] ; then
+			local cmd="$minute $hour * * $week sleep 5 && touch /etc/banner && reboot" 
+			if [ ! -f "/etc/crontabs/root" ] || [ $(cat /etc/crontabs/root | grep "$cmd" | wc -l) -eq 0 ]; then
+				sed -i '/reboot/d' /etc/crontabs/root >/dev/null 2>&1
+				echo "$cmd" >> /etc/crontabs/root
+				
+			fi
+			echo "Auto REBOOT has started."
+		fi
+		if [ $stype = 2 ] ; then
+			local cmd="$minute $hour * * $week sleep 5 && touch /etc/banner && poweroff" 
+			if [ ! -f "/etc/crontabs/root" ] || [ $(cat /etc/crontabs/root | grep "$cmd" | wc -l) -eq 0 ]; then
+				sed -i '/poweroff/d' /etc/crontabs/root >/dev/null 2>&1
+				echo "$cmd" >> /etc/crontabs/root
+				
+			fi
+			echo "Auto poweroff has started."
+		fi
+    else
+       	del_cru
+	fi
+}
+
+start()
+{       
 	config_load autopoweroff
 	config_foreach run_poweroff login
-}
-
-restart(){
-	stop
-	update
-	start
-}
-
-start() {
-	local enabled=$(uci get koolddns.@global[0].enabled)
-	[ "$enabled" -eq 0 ] && exit
 	add_cru
+}
+
+stop()
+{
+    del_cru
+	echo "Auto poweroff has stop."
 }
 
 del_cru()
@@ -107,7 +94,3 @@ del_cru()
 	fi
 }
 
-stop() {
-    del_cru
-	echo "Auto poweroff has stoped."
-}
