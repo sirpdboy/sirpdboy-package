@@ -7,11 +7,38 @@
 
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=LuCI Support for advanced
-LUCI_DEPENDS:=
 PKG_NAME:=luci-app-advanced
-PKG_VERSION:=1.6
+PKG_VERSION:=1.7
 
-include $(TOPDIR)/feeds/luci/luci.mk
+include $(INCLUDE_DIR)/package.mk
 
-# call BuildPackage - OpenWrt buildroot signature
+define Package/$(PKG_NAME)
+  SECTION:=luci
+  CATEGORY:=LuCI
+  SUBMENU:=3. Applications
+  DEPENDS:=
+   LUCI_TITLE:=LuCI Support for advanced and filebrowser
+   PKGARCH:=all
+endef
+
+define Build/Compile
+endef
+
+define Package/$(PKG_NAME)/install
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
+	$(CP) ./luasrc/* $(1)/usr/lib/lua/luci
+	
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_CONF) ./root/etc/config/advanced $(1)/etc/config/
+	
+	$(INSTALL_DIR) $(1)/www
+	cp -pR ./htdocs/* $(1)/www/
+	
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(INSTALL_BIN) ./root/etc/uci-defaults/* $(1)/etc/uci-defaults/
+	
+	$(INSTALL_DIR) $(1)/bin
+	$(INSTALL_BIN) ./root/bin/* $(1)/bin/
+endef
+
+$(eval $(call BuildPackage,$(PKG_NAME)))

@@ -90,6 +90,9 @@ endif
 ifeq ($(ARCH),arm)
 	$(INSTALL_BIN) ./files/bin/arm $(1)/usr/share/koolproxy/koolproxy
 endif
+ifeq ($(ARCH),aarch64)
+	$(INSTALL_BIN) ./files/bin/aarch64 $(1)/usr/share/koolproxy/koolproxy
+endif
 endef
 
 $(eval $(call BuildPackage,luci-app-koolproxyR))

@@ -16,12 +16,13 @@ local a=luci.sys.exec("head -3 /usr/share/koolproxy/data/rules/koolproxy.txt | g
 local b=luci.sys.exec("head -4 /usr/share/koolproxy/data/rules/koolproxy.txt | grep video | awk -F' ' '{print $3,$4}'")
 local c=luci.sys.exec("head -3 /usr/share/koolproxy/data/rules/daily.txt | grep rules | awk -F' ' '{print $3,$4}'")
 local s=luci.sys.exec("grep -v !x /usr/share/koolproxy/data/rules/easylistchina.txt | wc -l")
+local m=luci.sys.exec("grep -v !x /usr/share/koolproxy/data/rules/mv.txt | wc -l")
 local u=luci.sys.exec("grep -v !x /usr/share/koolproxy/data/rules/fanboy.txt | wc -l")
 local p=luci.sys.exec("grep -v !x /usr/share/koolproxy/data/rules/yhosts.txt | wc -l")
 local h=luci.sys.exec("grep -v '^!' /usr/share/koolproxy/data/rules/user.txt | wc -l")
 local l=luci.sys.exec("grep -v !x /usr/share/koolproxy/data/rules/koolproxy.txt | wc -l")
 local q=luci.sys.exec("grep -v !x /usr/share/koolproxy/data/rules/daily.txt | wc -l")
-local f=luci.sys.exec("cat /usr/share/koolproxy/data/rules/AdGuardHome.txt | wc -l")
+local f=luci.sys.exec("grep -v !x /usr/share/koolproxy/data/rules/anti-ad.txt | wc -l")
 local i=luci.sys.exec("cat /usr/share/koolproxy/dnsmasq.adblock | wc -l")
 
 
@@ -47,9 +48,9 @@ e = t:taboption("base", DummyValue, "koolproxy_status", translate("程序版本"
 e.value = string.format("[ %s ]", v)
 
 e = t:taboption("base", Value, "startup_delay", translate("启动延迟"))
-e:value(0, translate("Not enabled"))
-for _, v in ipairs({5, 10, 15, 25, 40}) do
-	e:value(v, translate("%u seconds") %{v})
+e:value(0, translate("不启用"))
+for _, v in ipairs({5, 10, 15, 25, 40, 60}) do
+	e:value(v, translate("%u 秒") %{v})
 end
 e.datatype = "uinteger"
 e.default = 0
@@ -66,12 +67,13 @@ e = t:taboption("base", MultiValue, "koolproxy_rules", translate("内置规则")
 e.optional = false
 e.rmempty = false
 e:value("easylistchina.txt", translate("ABP规则"))
-e:value("fanboy.txt", translate("fanboy规则"))
-e:value("yhosts.txt", translate("yhosts规则"))
-e:value("AdGuardHome.txt", translate("AdGuardHome规则"))
+e:value("fanboy.txt", translate("Fanboy规则"))
+e:value("yhosts.txt", translate("Yhosts规则"))
+e:value("anti-ad.txt", translate("Anti-AD规则"))
 e:value("koolproxy.txt", translate("静态规则"))
 e:value("daily.txt", translate("每日规则"))
 e:value("kp.dat", translate("视频规则"))
+e:value("mv.txt", translate("乘风视频"))
 e:value("user.txt", translate("自定义规则"))
 
 e = t:taboption("base", ListValue, "koolproxy_port", translate("端口控制"))
@@ -123,7 +125,7 @@ e.write = function()
 	luci.sys.call("/usr/share/koolproxy/kpupdate 2>&1 >/dev/null")
 	luci.http.redirect(luci.dispatcher.build_url("admin","services","koolproxy"))
 end
-e.description = translate(string.format("<font color=\"red\"><strong>更新订阅规则与Adblock Plus Hosts</strong></font><br /><font color=\"green\">ABP规则: %s条<br />fanboy规则: %s条<br />yhosts规则: %s条<br />AdGuardHome规则: %s条<br />静态规则: %s条<br /> 视频规则: %s<br />每日规则: %s条<br />自定义规则: %s条<br />Host: %s条</font><br />", s, u, p,f,l,b,q,h, i))
+e.description = translate(string.format("<font color=\"red\"><strong>更新订阅规则与Adblock Plus Hosts</strong></font><br /><font color=\"green\">ABP规则: %s条<br />Fanboy规则: %s条<br />Yhosts规则: %s条<br />Anti-AD规则: %s条<br />静态规则: %s条<br />视频规则: %s<br />乘风视频: %s条<br />每日规则: %s条<br />自定义规则: %s条<br />Host: %s条</font><br />", s, u, p, f, l, b, m, q, h, i))
 t:tab("cert",translate("Certificate Management"))
 
 e=t:taboption("cert",DummyValue,"c1status",translate("<div align=\"left\">Certificate Restore</div>"))
@@ -321,9 +323,9 @@ e.width="20%"
 e.default=1
 e.rmempty=false
 e:value(0,translate("不过滤"))
-e:value(1,translate("http only"))
-e:value(2,translate("http + https"))
-e:value(3,translate("full port"))
+e:value(1,translate("过滤 HTTP"))
+e:value(2,translate("过滤HTTP + HTTPS"))
+e:value(3,translate("过滤全端口"))
 
 t=o:section(TypedSection,"rss_rule",translate("广告过滤规则订阅"), translate("请确保订阅规则的兼容性"))
 t.anonymous=true

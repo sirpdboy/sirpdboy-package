@@ -4,10 +4,20 @@ m=Map("advanced",translate("高级设置"),translate("各类服务配置文档�
 s=m:section(TypedSection,"advanced")
 s.anonymous=true
 if nixio.fs.access("/etc/dnsmasq.conf")then
+
 s:tab("dnsmasqconf",translate("配置dnsmasq"),translate("本页是配置/etc/dnsmasq.conf的文档内容。应用保存后自动重启生效"))
-conf=s:taboption("dnsmasqconf",Value,"dnsmasqeditconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+
+	o=s:taboption("dnsmasqconf",Button,"_drestart")
+	o.inputtitle=translate("重启dnsmasq")
+	o.inputstyle="apply"
+	
+	function o.write(e,e)
+	luci.sys.exec("/etc/init.d/dnsmasq restart >/dev/null")
+	end
+
+conf=s:taboption("dnsmasqconf",Value,"dnsmasqconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
-conf.rows=20
+conf.rows=30
 conf.wrap="off"
 conf.cfgvalue=function(t,t)
 return e.readfile("/etc/dnsmasq.conf")or""
@@ -26,9 +36,16 @@ end
 end
 if nixio.fs.access("/etc/config/network")then
 s:tab("netwrokconf",translate("配置网络"),translate("本页是配置/etc/config/network的文档内容。应用保存后自动重启生效"))
+	o=s:taboption("netwrokconf",Button,"_nrestart")
+	o.inputtitle=translate("重启网络")
+	o.inputstyle="apply"
+	
+	function o.write(e,e)
+	luci.sys.exec("/etc/init.d/network restart >/dev/null")
+	end
 conf=s:taboption("netwrokconf",Value,"netwrokconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
-conf.rows=20
+conf.rows=30
 conf.wrap="off"
 conf.cfgvalue=function(t,t)
 return e.readfile("/etc/config/network")or""
@@ -47,9 +64,17 @@ end
 end
 if nixio.fs.access("/etc/hosts")then
 s:tab("hostsconf",translate("配置hosts"),translate("本页是配置/etc/hosts的文档内容。应用保存后自动重启生效"))
+	o=s:taboption("hostsconf",Button,"_hrestart")
+	o.inputtitle=translate("重启dnsmasq")
+	o.inputstyle="apply"
+	
+	function o.write(e,e)
+	luci.sys.exec("/etc/init.d/dnsmasq restart >/dev/null")
+	end
+	
 conf=s:taboption("hostsconf",Value,"hostsconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
-conf.rows=20
+conf.rows=30
 conf.wrap="off"
 conf.cfgvalue=function(t,t)
 return e.readfile("/etc/hosts")or""
@@ -68,6 +93,15 @@ end
 end
 if nixio.fs.access("/etc/config/dhcp")then
 s:tab("dhcpconf",translate("配置DHCP"),translate("本页是配置/etc/config/DHCP的文档内容。应用保存后自动重启生效"))
+
+	o=s:taboption("dhcpconf",Button,"_drestart")
+	o.inputtitle=translate("重启dhcp")
+	o.inputstyle="apply"
+	
+	function o.write(e,e)
+	luci.sys.call("/etc/init.d/network restart >/dev/null")
+	end
+
 conf=s:taboption("dhcpconf",Value,"dhcpconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=30
@@ -89,6 +123,13 @@ end
 end
 if nixio.fs.access("/etc/config/firewall")then
 s:tab("firewallconf",translate("配置防火墙"),translate("本页是配置/etc/config/firewall的文档内容。应用保存后自动重启生效"))
+	o=s:taboption("firewallconf",Button,"_frestart")
+	o.inputtitle=translate("重启防火墙")
+	o.inputstyle="apply"
+	
+	function o.write(e,e)
+	luci.sys.exec("/etc/init.d/firewall restart >/dev/null")
+	end
 conf=s:taboption("firewallconf",Value,"firewallconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=30
@@ -109,8 +150,16 @@ end
 end
 end
 if nixio.fs.access("/etc/config/smartdns")then
-s:tab("smartdns",translate("配置smartdns"),translate("本页是配置/etc/config/smartdns的文档内容。应用保存后自动重启生效"))
-conf=s:taboption("smartdns",Value,"smartdns",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+s:tab("smartdnsconf",translate("配置smartdns"),translate("本页是配置/etc/config/smartdns的文档内容。应用保存后自动重启生效"))
+	o=s:taboption("smartdnsconf",Button,"_drestart")
+	o.inputtitle=translate("重启smartdns")
+	o.inputstyle="apply"
+	
+	function o.write(e,e)
+	luci.sys.call("/etc/init.d/smartdns restart >/dev/null")
+	end
+
+conf=s:taboption("smartdnsconf",Value,"smartdnsconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=30
 conf.wrap="off"
@@ -130,8 +179,17 @@ end
 end
 end
 if nixio.fs.access("/etc/config/openclash")then
-s:tab("openclash",translate("配置openclash"),translate("本页是配置/etc/config/openclash的文档内容。应用保存后自动重启生效"))
-conf=s:taboption("openclash",Value,"openclash",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+s:tab("openclashconf",translate("配置openclash"),translate("本页是配置/etc/config/openclash的文档内容。应用保存后自动重启生效"))
+	o=s:taboption("openclashconf",Button,"_drestart")
+	o.inputtitle=translate("重启openclash")
+	o.inputstyle="apply"
+	
+	function o.write(e,e)
+	luci.sys.call("/etc/init.d/openclash restart >/dev/null")
+	end
+
+
+conf=s:taboption("openclashconf",Value,"openclashconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=30
 conf.wrap="off"
@@ -151,8 +209,17 @@ end
 end
 end
 if nixio.fs.access("/etc/config/AdGuardHome")then
-s:tab("AdGuardHome",translate("配置AdGuardHome"),translate("本页是配置/etc/config/AdGuardHome的文档内容。应用保存后自动重启生效"))
-conf=s:taboption("AdGuardHome",Value,"AdGuardHome",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+s:tab("AdGuardHomeconf",translate("配置AdGuardHome"),translate("本页是配置/etc/config/AdGuardHome的文档内容。应用保存后自动重启生效"))
+	o=s:taboption("AdGuardHomeconf",Button,"_drestart")
+	o.inputtitle=translate("重启AdGuardHome")
+	o.inputstyle="apply"
+	
+	function o.write(e,e)
+	luci.sys.call("/etc/init.d/AdGuardHome restart >/dev/null")
+	end
+
+
+conf=s:taboption("AdGuardHomeconf",Value,"AdGuardHomeconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=30
 conf.wrap="off"
@@ -173,6 +240,14 @@ end
 end
 if nixio.fs.access("/etc/pcap-dnsproxy/Config.conf")then
 s:tab("pcapconf",translate("配置pcap-dnsproxy"),translate("本页是配置/etc/pcap-dnsproxy/Config.conf的文档内容。应用保存后自动重启生效"))
+	o=s:taboption("pcapconf",Button,"_drestart")
+	o.inputtitle=translate("重启pcap-dnsproxy")
+	o.inputstyle="apply"
+	
+	function o.write(e,e)
+	luci.sys.call("/etc/init.d/pcap-dnsproxy restart >/dev/null")
+	end
+
 conf=s:taboption("pcapconf",Value,"pcapconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=30
@@ -210,21 +285,6 @@ e.writefile("/etc/wifidog.conf",t)
 end
 e.remove("/tmp/wifidog.conf")
 end
-end
-end
-if nixio.fs.access("/bin/nuc")then
-s:tab("mode",translate("模式切换"),translate("<br />可以在这里切换NUC和正常模式，重置你的网络设置。<br /><font color=\"Red\"><strong>点击后会立即重启设备，没有确认过程，请谨慎操作！</strong></font><br/>"))
-o=s:taboption("mode",Button,"nucmode",translate("切换为NUC模式"),"<strong><font color=\"green\">本模式适合于单网口主机，如NUC、单网口电脑，需要配合VLAN交换机使用！<br />设置教程：</font><a style=\"color: #ff0000;\" href=\"https://koolshare.cn/thread-166161-1-1.html\">跳转链接到Koolshare论坛教程贴</a></strong>")
-o.inputtitle=translate("NUC模式")
-o.inputstyle="reload"
-o.write=function()
-luci.sys.call("/bin/nuc")
-end
-o=s:taboption("mode",Button,"normalmode",translate("切换成正常模式"),"<strong><font color=\"green\">本模式适合于有两个网口或以上的设备使用，如多网口软路由或者虚拟了两个以上网口的虚拟机使用！</font></strong>")
-o.inputtitle=translate("正常模式")
-o.inputstyle="reload"
-o.write=function()
-luci.sys.call("/bin/normalmode")
 end
 end
 return m

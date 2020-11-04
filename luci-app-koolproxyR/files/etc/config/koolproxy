@@ -6,8 +6,8 @@ config global
 	option enabled '0'
 	option koolproxy_ipv6 '0'
 	option koolproxy_mode '1'
-	option koolproxy_rules 'easylistchina.txt fanboy.txt yhosts.txt koolproxy.txt daily.txt kp.dat user.txt'
 	option koolproxy_acl_default '3'
+	option koolproxy_rules 'easylistchina.txt fanboy.txt yhosts.txt anti-ad.txt koolproxy.txt daily.txt kp.dat mv.txt user.txt'
 
 config rss_rules
 	option load '0'
