@@ -6,18 +6,17 @@
 # 
 
 include $(TOPDIR)/rules.mk
+include $(INCLUDE_DIR)/package.mk
 
 PKG_NAME:=luci-app-advanced
 PKG_VERSION:=1.7
-
-include $(INCLUDE_DIR)/package.mk
-
+PKG_RELEASE:=1
 define Package/$(PKG_NAME)
   SECTION:=luci
   CATEGORY:=LuCI
   SUBMENU:=3. Applications
   DEPENDS:=
-   LUCI_TITLE:=LuCI Support for advanced and filebrowser
+   TITLE:=LuCI Support for advanced and filebrowser
    PKGARCH:=all
 endef
 

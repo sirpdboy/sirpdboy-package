@@ -21,7 +21,7 @@ dns:
   blocking_mode: default
   blocking_ipv4: ""
   blocking_ipv6: ""
-  blocked_response_ttl: 60
+  blocked_response_ttl: 10
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
   ratelimit: 0
@@ -48,12 +48,12 @@ dns:
   - 8.8.8.8
   - 2620:fe::10
   - 2620:fe::fe:10
-  all_servers: false
+  all_servers: true
   fastest_addr: false
   allowed_clients: []
   disallowed_clients: []
   blocked_hosts: []
-  cache_size: 1194304
+  cache_size: 4194304
   cache_ttl_min: 60
   cache_ttl_max: 86400
   bogus_nxdomain: []
@@ -209,6 +209,11 @@ user_rules:
 - '@@||wl.jd.com^$important'
 - '@@||flydigi.com^'
 - '@@||pv.sohu.com^$important'
+- /googleads.$~script,domain=~googleads.github.io
+- /pagead/lvz?
+- '||google.com/pagead/'
+- '||static.doubleclick.net^$domain=youtube.com'
+- '||youtube.com/get_midroll_'
 dhcp:
   enabled: false
   interface_name: ""

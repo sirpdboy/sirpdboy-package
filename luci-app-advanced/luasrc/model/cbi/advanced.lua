@@ -1,6 +1,7 @@
 local e=require"nixio.fs"
 local t=require"luci.sys"
-m=Map("advanced",translate("高级设置"),translate("各类服务配置文档的直接编辑,除非你知道自己在干什么,否则请不要轻易修改这些配置文档，配置不正确可能会导致不能开机等严重错误。"))
+m=Map("advanced",translate("网络设置"),translate("<br /><font color=\"Red\"><strong>配置文档是直接编辑的！除非你知道自己在干什么，否则请不要轻易修改这些配置文档。配置不正确可能会导致不能开机等错误。</strong></font><br/>"))
+m.apply_on_parse=true
 s=m:section(TypedSection,"advanced")
 s.anonymous=true
 if nixio.fs.access("/etc/dnsmasq.conf")then
