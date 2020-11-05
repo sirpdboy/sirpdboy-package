@@ -1,0 +1,45 @@
+#!/bin/sh /etc/rc.common
+#
+# Copyright (C) 2015 OpenWrt-dist
+# Copyright (C) 2016 fw867 <ffkykzs@gmail.com>
+#
+# This is free software, licensed under the GNU General Public License v3.
+# See /LICENSE for more information.
+#
+
+START=99
+STOP=13
+SERVICE_USE_PID=1
+SERVICE_WRITE_PID=1
+SERVICE_DAEMONIZE=1
+
+CONFIG=ddnsto
+LOGFILE=/var/log/$CONFIG.log
+
+get_config()
+{
+	config_get enable $1 enable 0
+	config_get token $1 token
+}
+
+
+start() {
+	config_load $CONFIG
+	config_foreach get_config global
+	[ "$enable" -ne 1 ] && exit 0
+	[ -z "$token" ] && exit 0
+	service_start /usr/bin/ddnsto -u $token -d >/dev/null 2>&1 &
+	logger -t ddnsto 'Start ddnsto service'
+}
+
+stop() {
+	pids=`pgrep /usr/bin/ddnsto`
+	[ -n "$pids" ] && {
+		for pid in $pids
+		do
+			kill -9 $pid >/dev/null 2>&1 &
+		done
+	}
+	logger -t ddnsto 'Stop ddnsto service'
+}
+
