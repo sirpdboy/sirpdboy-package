@@ -7,8 +7,7 @@ t.anonymous=true
 e=t:option(DummyValue,"mia_status",translate("当前状态"))
 e.template="mia/mia"
 e.value=translate("Collecting data...")
-t=a:section(TypedSection,"basic",translate("基本设置"))
-t.anonymous=true
+
 e=t:option(Flag,"enable",translate("开启"))
 e.rmempty=false
 t=a:section(TypedSection,"macbind",translate("客户端设置"))
