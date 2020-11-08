@@ -36,8 +36,6 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_BIN) ./root/etc/uci-defaults/* $(1)/etc/uci-defaults/
 	
-	$(INSTALL_DIR) $(1)/bin
-	$(INSTALL_BIN) ./root/bin/* $(1)/bin/
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
