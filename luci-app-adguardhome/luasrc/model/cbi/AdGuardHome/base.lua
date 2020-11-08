@@ -1,12 +1,13 @@
 require("luci.sys")
 require("luci.util")
 require("io")
-local m,s,o,o1
-local fs=require"nixio.fs"
-local uci=require"luci.model.uci".cursor()
-local configpath=uci:get("AdGuardHome","AdGuardHome","configpath") or "/etc/AdGuardHome.yaml"
-local binpath=uci:get("AdGuardHome","AdGuardHome","binpath") or "/usr/bin/AdGuardHome/AdGuardHome"
-httpport=uci:get("AdGuardHome","AdGuardHome","httpport") or "3000"
+local m, s, o, o1
+local fs = require "nixio.fs"
+local uci = require"luci.model.uci".cursor()
+local configpath = uci:get("AdGuardHome", "AdGuardHome", "configpath") or "/etc/config/AdGuardHome.yaml"
+local binpath = uci:get("AdGuardHome", "AdGuardHome", "binpath") or "/usr/bin/AdGuardHome/AdGuardHome"
+httpport = uci:get("AdGuardHome", "AdGuardHome", "httpport") or "3000"
+
 m = Map("AdGuardHome", "AdGuard Home")
 m.description = translate("Free and open source, powerful network-wide ads & trackers blocking DNS server.")
 m:section(SimpleSection).template = "AdGuardHome/AdGuardHome_status"
@@ -102,8 +103,8 @@ o.rmempty = true
 
 ---- config path
 o = s:option(Value, "configpath", translate("Config Path"), translate("AdGuardHome config path"))
-o.default     = "/etc/AdGuardHome.yaml"
-o.datatype    = "string"
+o.default = "/etc/config/AdGuardHome.yaml"
+o.datatype = "string"
 o.optional = false
 o.rmempty = false
 o.validate = function(self, value)
