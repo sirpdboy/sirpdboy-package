@@ -114,6 +114,49 @@ e.remove("/tmp/firewall")
 end
 end
 end
+if nixio.fs.access("/etc/config/mwan3")then
+s:tab("mwan3conf",translate("配置负载均衡"),translate("本页是配置/etc/config/mwan3的文档内容。应用保存后自动重启生效"))
+
+conf=s:taboption("mwan3conf",Value,"mwan3conf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+conf.template="cbi/tvalue"
+conf.rows=20
+conf.wrap="off"
+conf.cfgvalue=function(t,t)
+return e.readfile("/etc/config/mwan3")or""
+end
+conf.write=function(a,a,t)
+if t then
+t=t:gsub("\r\n?","\n")
+e.writefile("/tmp/mwan3",t)
+if(luci.sys.call("cmp -s /tmp/mwan3 /etc/config/mwan3")==1)then
+e.writefile("/etc/config/mwan3",t)
+luci.sys.call("/etc/init.d/mwan3 restart >/dev/null")
+end
+e.remove("/tmp/mwan3")
+end
+end
+end
+if nixio.fs.access("/etc/config/ddns")then
+s:tab("ddnsconf",translate("配置ddns"),translate("本页是配置/etc/config/ddns"))
+conf=s:taboption("ddnsconf",Value,"ddnsconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+conf.template="cbi/tvalue"
+conf.rows=20
+conf.wrap="off"
+conf.cfgvalue=function(t,t)
+return e.readfile("/etc/config/ddns")or""
+end
+conf.write=function(a,a,t)
+if t then
+t=t:gsub("\r\n?","\n")
+e.writefile("/tmp/ddns",t)
+if(luci.sys.call("cmp -s /tmp/ddns /etc/config/ddns")==1)then
+e.writefile("/etc/config/ddns",t)
+luci.sys.call("/etc/init.d/ddns restart >/dev/null")
+end
+e.remove("/tmp/ddns")
+end
+end
+end
 if nixio.fs.access("/etc/config/smartdns")then
 s:tab("smartdnsconf",translate("配置smartdns"),translate("本页是配置/etc/config/smartdns的文档内容。应用保存后自动重启生效"))
 conf=s:taboption("smartdnsconf",Value,"smartdnsconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
