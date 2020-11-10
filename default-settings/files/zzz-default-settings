@@ -1,14 +1,14 @@
 #!/bin/sh
 
 uci set luci.main.lang=zh_cn
-#uci set luci.main.mediaurlbase=/luci-static/opentopd
+uci set luci.main.mediaurlbase=/luci-static/opentopd
 uci commit luci
 
 uci set system.@system[0].timezone=CST-8
 uci set system.@system[0].zonename=Asia/Shanghai
 uci commit system
 
-uci set fstab.@global[0].anon_mount=1
+uci set fstab.@global[0].auto_mount=1
 uci commit fstab
 
 uci set dhcp.lan.ra='server'
@@ -16,12 +16,15 @@ uci set dhcp.lan.dhcpv6='server'
 uci set dhcp.lan.ra_management='1'
 uci set dhcp.lan.ra_default='1'
 uci set dhcp.lan.force='1'
+uci set dhcp.dnsmasq[0].filter_aaaa='0'
+uci set dhcp.dnsmasq[0].cachesize='10000'
+uci set dhcp.dnsmasq[0].filter_aaaa='0'
 uci commit dhcp
 # uci set sfe.config.enabled=0
 # uci set sfe.config.bbr=0
 # uci commit sfe
 uci set flowoffload.@flow[0].flow_offloading=0
-uci set flowoffload.@flow[0].bbr=0
+#uci set flowoffload.@flow[0].bbr=0
 uci commit flowoffload
 #uci set network.wan.proto=pppoe
 #uci set network.wan.mtu=1460
@@ -30,7 +33,8 @@ uci commit network
 #rm -f /usr/lib/lua/luci/view/admin_status/index/upnp.htm
 rm -f /usr/lib/lua/luci/view/admin_status/index/ddns.htm
 rm -f /usr/lib/lua/luci/view/admin_status/index/minidlna.htm
-
+#sed -i '/S99opkg/d' /etc/crontabs/root
+sed -i '/coremark/d' /etc/crontabs/root
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/aria2.lua
 sed -i 's/services/nas/g' /usr/lib/lua/luci/view/aria2/overview_status.htm
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/hd_idle.lua
@@ -62,7 +66,7 @@ ln -sf /sbin/ip /usr/bin/ip
 sed -i 's#http://downloads.openwrt.org#https://mirrors.cloud.tencent.com/lede#g' /etc/opkg/distfeeds.conf
 sed -i '/openwrt_diy/d'   /etc/opkg/distfeeds.conf
 sed -i '/openwrt_helloworld/d'   /etc/opkg/distfeeds.conf
-sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
+#sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
 sed -i 's/\"bootstrap\"/\"opentopd\"/g'  /etc/config/luci
 sed -i "s/# //g" /etc/opkg/distfeeds.conf
 
@@ -70,6 +74,8 @@ sed -i '/openwrt_luci/ { s/snapshots/releases\/18.06.8/g; }'  /etc/opkg/distfeed
 sed -i '/REDIRECT --to-ports 53/d' /etc/firewall.user
 echo "iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 53" >> /etc/firewall.user
 echo "iptables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53" >> /etc/firewall.user
+#echo "ip6tables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 53" >> /etc/firewall.user
+#echo "ip6tables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53" >> /etc/firewall.user
 
 sed -i '/option disabled/d' /etc/config/wireless
 sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
@@ -87,6 +93,5 @@ sed -i 's/cbi.submit\"] = true/cbi.submit\"] = \"1\"/g' /usr/lib/lua/luci/dispat
 #/etc/modules-boot.d && ln -s ../modules.d/18-phy-broadcom
 echo 'hsts=0' > /root/.wgetrc
 
-rm -rf /tmp/luci-modulecache/
-rm -f /tmp/luci-indexcache
+rm -rf /tmp/luci-*
 exit 0
