@@ -157,27 +157,7 @@ e.remove("/tmp/ddns")
 end
 end
 end
-if nixio.fs.access("/etc/config/fstab")then
-s:tab("fstab",translate("配置fstab"),translate("本页是配置/etc/config/fstab磁盘挂载配置文档内容。应用保存后自动重启生效！"))
-conf=s:taboption("fstabconf",Value,"fstabconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
-conf.template="cbi/tvalue"
-conf.rows=20
-conf.wrap="off"
-conf.cfgvalue=function(t,t)
-return e.readfile("/etc/config/fstab")or""
-end
-conf.write=function(a,a,t)
-if t then
-t=t:gsub("\r\n?","\n")
-e.writefile("/tmp/fstab",t)
-if(luci.sys.call("cmp -s /tmp/fstab /etc/config/fstab")==1)then
-e.writefile("/etc/config/fstab",t)
-luci.sys.call("/etc/init.d/fstab restart >/dev/null")
-end
-e.remove("/tmp/fstab")
-end
-end
-end
+
 if nixio.fs.access("/etc/config/smartdns")then
 s:tab("smartdnsconf",translate("配置smartdns"),translate("本页是配置/etc/config/smartdns的文档内容。应用保存后自动重启生效！"))
 conf=s:taboption("smartdnsconf",Value,"smartdnsconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
