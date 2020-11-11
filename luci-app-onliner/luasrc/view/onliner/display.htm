@@ -394,7 +394,7 @@ function fetchData(period)
 		renderLayer7Data();
 		renderIPv6Data();
 	});
-	XHR.poll(5,'<%=url([[admin]], [[status]], [[onliner]], [[setnlbw]])%>', null, function(xhr, res) {
+	XHR.poll(5,'<%=url([[admin]], [[nlbw]], [[onliner]], [[setnlbw]])%>', null, function(xhr, res) {
 	});
 }
 
