@@ -8,25 +8,32 @@ uci set system.@system[0].timezone=CST-8
 uci set system.@system[0].zonename=Asia/Shanghai
 uci commit system
 
-uci set fstab.@global[0].auto_mount=1
-uci commit fstab
-
-uci set dhcp.lan.ra='server'
-uci set dhcp.lan.dhcpv6='server'
-uci set dhcp.lan.ra_management='1'
-uci set dhcp.lan.ra_default='1'
-uci set dhcp.lan.force='1'
-uci set dhcp.dnsmasq[0].filter_aaaa='0'
+#uci set fstab.@global[0].auto_mount=0
+#uci commit fstab
+if [ $(uci get network.wan.ipv6) == 0 ]; then
+			uci set dhcp.@dnsmasq[0].filter_aaaa='1'
+else
+    uci set dhcp.lan.ra='server'
+    uci set dhcp.lan.dhcpv6='server'
+    uci set dhcp.lan.ra_management='1'
+    uci set dhcp.lan.ra_default='1'
+    uci set dhcp.lan.force='1'
+    uci set dhcp.dnsmasq[0].filter_aaaa='0'
+fi
 uci set dhcp.dnsmasq[0].cachesize='10000'
 uci commit dhcp
-# uci set sfe.config.enabled=0
-# uci set sfe.config.bbr=0
-# uci commit sfe
-uci set flowoffload.@flow[0].flow_offloading=0
-#uci set flowoffload.@flow[0].bbr=0
-uci commit flowoffload
+if [ ! -f /etc/config/sfe ]; then
+  uci set sfe.config.enabled=0
+  uci set sfe.config.bbr=0
+  uci commit sfe
+fi
+if [ ! -f /etc/config/flowoffload ]; then
+  uci set flowoffload.@flow[0].flow_offloading=0
+  uci set flowoffload.@flow[0].bbr=1
+  uci commit flowoffload
+fi
 #uci set network.wan.proto=pppoe
-#uci set network.wan.mtu=1460
+uci set network.wan.mtu=1460
 uci commit network
 #rm -f /usr/lib/lua/luci/view/admin_status/index/mwan.htm
 #rm -f /usr/lib/lua/luci/view/admin_status/index/upnp.htm
@@ -89,7 +96,6 @@ sed -i '/log-facility/d' /etc/dnsmasq.conf
 echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 
 sed -i 's/cbi.submit\"] = true/cbi.submit\"] = \"1\"/g' /usr/lib/lua/luci/dispatcher.lua
-#/etc/modules-boot.d && ln -s ../modules.d/18-phy-broadcom
 echo 'hsts=0' > /root/.wgetrc
 
 rm -rf /tmp/luci-*
