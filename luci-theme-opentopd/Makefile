@@ -11,8 +11,8 @@ THEME_NAME:=opentopd
 THEME_TITLE:=opentopd Theme
 
 PKG_NAME:=luci-theme-$(THEME_NAME)
-PKG_VERSION:=1.2.2
-PKG_RELEASE:=20201027
+PKG_VERSION:=1.2.3
+PKG_RELEASE:=20201112
 
 
 include $(INCLUDE_DIR)/package.mk
@@ -20,7 +20,7 @@ include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/luci/luci.mk
 
 
-define Package/luci-theme-argon/postinst
+define Package/luci-theme-opentopd/postinst
 #!/bin/sh
 rm -Rf /var/luci-modulecache
 rm -Rf /var/luci-indexcache

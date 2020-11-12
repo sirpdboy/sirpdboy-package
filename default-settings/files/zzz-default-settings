@@ -8,8 +8,8 @@ uci set system.@system[0].timezone=CST-8
 uci set system.@system[0].zonename=Asia/Shanghai
 uci commit system
 
-#uci set fstab.@global[0].auto_mount=0
-#uci commit fstab
+uci set fstab.@global[0].auto_mount=1
+uci commit fstab
 if [ $(uci get network.wan.ipv6) == 0 ]; then
 			uci set dhcp.@dnsmasq[0].filter_aaaa='1'
 else
