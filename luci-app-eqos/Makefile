@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 	PKG_NAME:=luci-app-eqos
 	PKG_VERSION:=1
-	PKG_RELEASE:=3-20201105
+	PKG_RELEASE:=4-20201113
 
 	PKG_MAINTAINER:=Jianhui Zhao <jianhuizhao329@gmail.com>
 
