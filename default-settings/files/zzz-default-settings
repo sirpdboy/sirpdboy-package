@@ -3,35 +3,37 @@
 uci set luci.main.lang=zh_cn
 uci set luci.main.mediaurlbase=/luci-static/opentopd
 uci commit luci
-
 uci set system.@system[0].timezone=CST-8
 uci set system.@system[0].zonename=Asia/Shanghai
 uci commit system
-
-uci set fstab.@global[0].anon_mount=1
+uci set fstab.@global[0].anon_mount='1'
 uci commit fstab
-
+/etc/init.d/fstab restart
 uci set dhcp.lan.ra='server'
 uci set dhcp.lan.dhcpv6='server'
 uci set dhcp.lan.ra_management='1'
 uci set dhcp.lan.ra_default='1'
 uci set dhcp.lan.force='1'
-uci set dhcp.dnsmasq[0].filter_aaaa='0'
-uci set dhcp.dnsmasq[0].cachesize='10000'
+uci set dhcp.@dnsmasq[0].filter_aaaa='0'
+uci set dhcp.@dnsmasq[0].cachesize='10000'
 uci commit dhcp
+/etc/init.d/dhcp restart
 if [ ! -f /etc/config/sfe ]; then
-  uci set sfe.config.enabled=0
-  uci set sfe.config.bbr=1
+  uci set sfe.config.enabled='0'
+  uci set sfe.config.bbr='1'
   uci commit sfe
+  /etc/init.d/sfe restart
 fi
 if [ ! -f /etc/config/flowoffload ]; then
-  uci set flowoffload.@flow[0].flow_offloading=0
-  uci set flowoffload.@flow[0].bbr=1
+  uci set flowoffload.@flow[0].flow_offloading='1'
+  uci set flowoffload.@flow[0].bbr='1'
   uci commit flowoffload
+  /etc/init.d/flowoffload restart
 fi
 #uci set network.wan.proto=pppoe
 uci set network.wan.mtu=1460
 uci commit network
+/etc/init.d/network restart
 #rm -f /usr/lib/lua/luci/view/admin_status/index/mwan.htm
 #rm -f /usr/lib/lua/luci/view/admin_status/index/upnp.htm
 rm -f /usr/lib/lua/luci/view/admin_status/index/ddns.htm
@@ -54,12 +56,12 @@ sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autoreboot.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autopoweroff.lua
 sed -i 's/\"network\"/\"control\"/g' /usr/lib/lua/luci/controller/eqos.lua
 
-uci set minidlna.config.enabled=0
+uci set minidlna.config.enabled='0'
 uci commit minidlna
 /etc/init.d/minidlna enable
 /etc/init.d/minidlna stop
 
-uci set vsftpd.@listen[0].enable4=0
+uci set vsftpd.@listen[0].enable4='0'
 uci commit vsftpd
 /etc/init.d/vsftpd stop
 
