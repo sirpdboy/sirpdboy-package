@@ -42,7 +42,6 @@ define Package/smartdns/conffiles
 /etc/config/smartdns
 /etc/smartdns/address.conf
 /etc/smartdns/blacklist-ip.conf
-/etc/smartdns/anti-ad-smartdns.conf
 /etc/smartdns/custom.conf
 endef
 
@@ -53,7 +52,6 @@ define Package/smartdns/install
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/address.conf $(1)/etc/smartdns/address.conf
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/blacklist-ip.conf $(1)/etc/smartdns/blacklist-ip.conf
 	$(INSTALL_CONF) $(CURDIR)/conf/custom.conf $(1)/etc/smartdns/custom.conf
-	$(INSTALL_CONF) $(CURDIR)/conf/anti-ad-smartdns.conf $(1)/etc/smartdns/anti-ad-smartdns.conf
 	$(INSTALL_CONF) $(CURDIR)/conf/smartdns.conf $(1)/etc/config/smartdns
 endef
 
