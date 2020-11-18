@@ -5,84 +5,61 @@
 #
 # This is free software, licensed under the GNU General Public License v3.
 # See /LICENSE for more information.
-#
+# wulishui mod. at 20200923 , <wulishui@gmail.com>
 
-START=99
+START=98
 
-CONFIG=weburl
-
-uci_get_by_type() {
-	local index=0
-	if [ -n $4 ]; then
-		index=$4
-	fi
-	local ret=$(uci get $CONFIG.@$1[$index].$2 2>/dev/null)
-	echo ${ret:=$3}
-}
-
-is_true() {
-	case $1 in
-		1|on|true|yes|enabled) echo 0;;
-		*) echo 1;;
-	esac
-}
-
-load_config() {
-	ENABLED=$(uci_get_by_type basic enable)
-	return $(is_true $ENABLED)
-}
-
-get_algo_mode(){
-	case "$1" in
-		0)
-			echo "bm"
-		;;
-		1)
-			echo "kmp"
-		;;
-	esac
-}
-
-add_rule(){
-	algos=$(uci_get_by_type basic algos)
-	for i in $(seq 0 100)
-	do
-		enable=$(uci_get_by_type macbind enable '' $i)
-		macaddr=$(uci_get_by_type macbind macaddr '' $i)
-		timeon=$(uci_get_by_type macbind timeon '' $i)
-		timeoff=$(uci_get_by_type macbind timeoff '' $i)
-		keyword=$(uci_get_by_type macbind keyword '' $i)
-		if [ -z $enable ] || [ -z $keyword ]; then
-			break
-		fi
-		
-		if [ -z $timeon ] || [ -z $timeoff ]; then
-			settime=""
-		else
-			settime="-m time --kerneltz --timestart $timeon --timestop $timeoff"
-		fi
-		
-		if [ "$enable" == "1" ]; then
-			if [ -z $macaddr ]; then
-				iptables -t filter -I WEBURL $settime -m string --string "$keyword" --algo $(get_algo_mode $algos) -j DROP
-			else
-				iptables -t filter -I WEBURL $settime -m mac --mac-source $macaddr -m string --string "$keyword" --algo $(get_algo_mode $algos) -j DROP
-				unset "$macaddr"
-			fi
-		fi
-	done
+add_rules() {
+rulessum=$(grep -c 'macbind' /etc/config/weburl)
+for i in $(seq 0 $((rulessum-1)))
+do
+enable=$(uci get weburl.@macbind[$i].enable 2>/dev/null)
+if [ "$enable" == 1 ]; then
+ macaddr=$(uci get weburl.@macbind[$i].macaddr 2>/dev/null) && MAC="-m mac --mac-source $macaddr" || MAC=""
+ keyword=$(uci get weburl.@macbind[$i].keyword 2>/dev/null) && STG="-m string --string ${keyword} --algo ${algos}" || STG=""
+ proto=$(uci get weburl.@macbind[$i].proto 2>/dev/null) || proto="tcp"
+ sport=$(uci get weburl.@macbind[$i].sport 2>/dev/null) && SPT="--sport ${sport}" || SPT=""
+ dport=$(uci get weburl.@macbind[$i].dport 2>/dev/null) && DPT="--dport ${dport}" || DPT=""
+ havesMPT=`echo "$sport"|grep ","` && sMPT="-m multiport" || sMPT=""
+ havedMPT=`echo "$dport"|grep ","` && dMPT="-m multiport" || dMPT=""
+ [ -z "$sport" -a -z "$dport" ] && PTS="" || PTS="-p ${proto} ${sMPT} ${SPT} ${dMPT} ${DPT}"
+ timestart=$(uci get weburl.@macbind[$i].timeon 2>/dev/null) || timestart="00:00"
+ timestop=$(uci get weburl.@macbind[$i].timeoff 2>/dev/null) ||  timestop="00:00"
+ week_days=$(uci get weburl.@macbind[$i].daysofweek |sed 's/ /,/g' 2>/dev/null)
+ [ "$timestart" = "$timestop" ] && TIME="" || TIME="--timestart ${timestart} --timestop ${timestop}"
+ [ -z "$week_days" -o "$week_days" = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday" ] && WEEK="" || WEEK="--weekdays ${week_days}"
+ [ -n "$TIME" -o -n "$WEEK" ] && TME="-m time --kerneltz ${TIME} ${WEEK}" || TME=""
+ if [ -n "$keyword" -o -n "$MAC" -o -n "$sport" -o -n "$dport" ]; then
+  iptables  -A WEBURL ${MAC} ${PTS} ${TME} ${STG} -j REJECT 2>/dev/null
+  ip6tables -A WEBURL ${MAC} ${PTS} ${TME} ${STG} -j REJECT 2>/dev/null
+ fi
+fi
+done
 }
 
 start(){
-	! load_config && exit 0
-	iptables -L FORWARD | grep -c WEBURL 2>/dev/null && [ $? -eq 0 ] && exit 0;
-	iptables -t filter -N WEBURL
-	iptables -t filter -I FORWARD -m comment --comment "Rule For Control" -j WEBURL
-	add_rule
+enabled=`uci get weburl.@basic[0].enabled 2>/dev/null`
+if [ "$enabled" == 1 ]; then
+	ENsum=`grep -c 'enable .1.' /etc/config/weburl`
+	if [ "$ENsum" -gt 0 ]; then
+	 algos=`uci get weburl.@basic[0].algos 2>/dev/null`
+	 iptables  -N WEBURL 2>/dev/null || iptables  -F WEBURL 2>/dev/null
+	 ip6tables -N WEBURL 2>/dev/null || ip6tables -F WEBURL 2>/dev/null
+	 iptables  -C FORWARD -j WEBURL 2>/dev/null || iptables  -I FORWARD -j WEBURL
+	 ip6tables -C FORWARD -j WEBURL 2>/dev/null || ip6tables -I FORWARD -j WEBURL
+	 add_rules
+	 grep 'weburl' /etc/firewall.user || echo "/etc/init.d/weburl restart" >> /etc/firewall.user
+	fi
+fi
 }
+
 stop(){
-	iptables -t filter -D FORWARD -m comment --comment "Rule For Control" -j WEBURL
-	iptables -t filter -F WEBURL
-	iptables -t filter -X WEBURL
+	sed -i '/weburl/d' /etc/firewall.user 2>/dev/null
+	iptables  -D FORWARD -j WEBURL 2>/dev/null
+	ip6tables -D FORWARD -j WEBURL 2>/dev/null
+	iptables  -F WEBURL 2>/dev/null
+	ip6tables -F WEBURL 2>/dev/null
+	iptables - X WEBURL 2>/dev/null
+	ip6tables -X WEBURL 2>/dev/null
 }
 
