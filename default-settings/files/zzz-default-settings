@@ -81,6 +81,9 @@ cat /etc/openwrt_release1 >> /etc/openwrt_release
 sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
 echo "DISTRIB_DESCRIPTION='OpenWrt'" >> /etc/openwrt_release
 
+sed -i '/invalid= root/#invalid'  /etc/samba/smb.conf
+sed -i '/invalid= root/#invalid'  /etc/samba/smb.conf.template
+
 sed -i '/log-facility/d' /etc/dnsmasq.conf
 echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 
