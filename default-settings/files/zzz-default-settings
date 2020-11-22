@@ -20,41 +20,41 @@ uci commit dhcp
 #  uci set sfe.config.bbr='1'
 #  uci commit sfe
 #  /etc/init.d/sfe restart
-  uci set flowoffload.@flow[0].flow_offloading='0'
-  uci set flowoffload.@flow[0].bbr='1'
-  uci commit flowoffload
+uci set flowoffload.@flow[0].flow_offloading='0'
+uci set flowoffload.@flow[0].bbr='1'
+uci commit flowoffload
 #uci set network.wan.proto=pppoe
 uci set network.wan.mtu=1400
 uci commit network
 #rm -f /usr/lib/lua/luci/view/admin_status/index/mwan.htm
 #rm -f /usr/lib/lua/luci/view/admin_status/index/upnp.htm
 rm -f /usr/lib/lua/luci/view/admin_status/index/ddns.htm
-#rm -f /usr/lib/lua/luci/view/admin_status/index/minidlna.htm
+rm -f /usr/lib/lua/luci/view/admin_status/index/minidlna.htm
 sed -i '/coremark/d' /etc/crontabs/root
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/aria2.lua
 sed -i 's/services/nas/g' /usr/lib/lua/luci/view/aria2/overview_status.htm
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/hd_idle.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/samba.lua
-sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/minidlna.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/transmission.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/mjpg-streamer.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/p910nd.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/usb_printer.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/xunlei.lua
-sed -i 's/services/nas/g'  /usr/lib/lua/luci/view/minidlna_status.htm
+# sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/minidlna.lua
+# sed -i 's/services/nas/g'  /usr/lib/lua/luci/view/minidlna_status.htm
 
 sed -i 's/\"services\"/\"control\"/g' /usr/lib/lua/luci/controller/wol.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autoreboot.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autopoweroff.lua
 sed -i 's/\"network\"/\"control\"/g' /usr/lib/lua/luci/controller/eqos.lua
 
-uci set minidlna.config.enabled='0'
-uci commit minidlna
+# uci set minidlna.config.enabled=0
+# uci commit minidlna
 # /etc/init.d/minidlna stop
 
-uci set vsftpd.@listen[0].enable4='0'
+uci set vsftpd.@listen[0].enable4=0
 uci commit vsftpd
-# /etc/init.d/vsftpd stop
+/etc/init.d/vsftpd stop
 
 ln -sf /sbin/ip /usr/bin/ip
 
@@ -80,9 +80,6 @@ sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
 cat /etc/openwrt_release1 >> /etc/openwrt_release
 sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
 echo "DISTRIB_DESCRIPTION='OpenWrt'" >> /etc/openwrt_release
-
-sed -i '/invalid= root/# invalid= root'  /etc/samba/smb.conf
-sed -i '/invalid= root/# invalid= root'  /etc/samba/smb.conf.template
 
 sed -i '/log-facility/d' /etc/dnsmasq.conf
 echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
