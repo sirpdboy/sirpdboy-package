@@ -8,10 +8,10 @@ s.anonymous = true
 local e = s:option(Flag, "enabled", translate("Enable"))
 e.rmempty = false
 
-local dl = s:option(Value, "download", translate("Download speed (kbit/s)"), translate("Total Down bandwidth"))
+local dl = s:option(Value, "download", translate("Download speed (Mbit/s)"), translate("Total bandwidth"))
 dl.datatype = "and(uinteger,min(1))"
 
-local ul = s:option(Value, "upload", translate("Upload speed (kbit/s)"), translate("Total Up bandwidth"))
+local ul = s:option(Value, "upload", translate("Upload speed (Mbit/s)"), translate("Total bandwidth"))
 ul.datatype = "and(uinteger,min(1))"
 
 s = m:section(TypedSection, "device", translate("Speed limit based on IP address"))
@@ -28,10 +28,10 @@ ipc.neighbors({family = 4, dev = "br-lan"}, function(n)
 	end
 end)
 
-dl = s:option(Value, "download", translate("Download speed (kbit/s)"))
+dl = s:option(Value, "download", translate("Download speed (Mbit/s)"))
 dl.datatype = "and(uinteger,min(1))"
 
-ul = s:option(Value, "upload", translate("Upload speed (kbit/s)"))
+ul = s:option(Value, "upload", translate("Upload speed (Mbit/s)"))
 ul.datatype = "and(uinteger,min(1))"
 
 comment = s:option(Value, "comment", translate("Comment"))
