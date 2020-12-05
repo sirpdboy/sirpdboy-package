@@ -116,9 +116,9 @@ filters:
   url: https://gitee.com/cjx82630/cjxlist/raw/master/cjx-ublock.txt
   name: CJX's uBlock list隐私相关
   id: 139789141
-- enabled: false
-  url: https://gitee.com/xinggsf/Adblock-Rule/raw/master/rule.txt
-  name: 乘风 广告过滤规则
+- enabled: true
+  url: https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Hosts/GoodbyeAds-Ultra.txt
+  name: GoodbyeAds 20W条大全去广告
   id: 139789142
 - enabled: false
   url: https://gitee.com/xinggsf/Adblock-Rule/raw/master/mv.txt

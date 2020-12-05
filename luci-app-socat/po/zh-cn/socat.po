@@ -1,5 +1,5 @@
 msgid "Socat"
-msgstr "Socat"
+msgstr "端口转发"
 
 msgid "Socat is a versatile networking tool named after 'Socket CAT', which can be regarded as an N-fold enhanced version of NetCat"
 msgstr "Socat 是 Linux 下的一个多功能的网络工具，名字来由是「Socket CAT」。其功能与有瑞士军刀之称的 Netcat 类似，可以看做是 Netcat 的加强版。"
