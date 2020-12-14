@@ -30,10 +30,6 @@ dns:
   upstream_dns:
   - tls://1dot1dot1dot1.cloudflare-dns.com
   - tls://dns.google
-  - https://cloudflare-dns.com/dns-query
-  - https://1.0.0.1/dns-query
-  - https://esdns.kbsml.com/dns-query
-  - tcp://8.8.8.8
   - tcp://8.8.4.4
   - 223.5.5.5
   - 223.6.6.6
