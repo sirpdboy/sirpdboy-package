@@ -2,7 +2,7 @@ msgid "Control"
 msgstr "管控"
 
 msgid "Internet Time Control"
-msgstr "上网时间控制"
+msgstr "时间控制"
 
 msgid "Status"
 msgstr "状态"
@@ -20,22 +20,22 @@ msgid "No Internet end time"
 msgstr "取消禁止上网时间"
 
 msgid "Monday"
-msgstr "周一"
+msgstr "一"
 
 msgid "Tuesday"
-msgstr "周二"
+msgstr "二"
 
 msgid "Wednesday"
-msgstr "周三"
+msgstr "三"
 
 msgid "Thursday"
-msgstr "周四"
+msgstr "四"
 
 msgid "Friday"
-msgstr "周五"
+msgstr "五"
 
 msgid "Saturday"
-msgstr "周六"
+msgstr "六"
 
 msgid "Sunday"
-msgstr "周日"
+msgstr "日"
