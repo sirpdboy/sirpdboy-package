@@ -1,9 +1,9 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cpulimit
-PKG_VERSION:=cabeb9947c
+PKG_VERSION:=0.2
 PKG_RELEASE:=1
-PKG_REV:=cabeb9947ccddd9a6e6ba14503e2a33063ac1b21
+#PKG_REV:=cabeb9947ccddd9a6e6ba14503e2a33063ac1b21
 
 #PKG_SOURCE_PROTO:=git
 #PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
@@ -14,6 +14,7 @@ PKG_REV:=cabeb9947ccddd9a6e6ba14503e2a33063ac1b21
 include $(INCLUDE_DIR)/package.mk
 
 define Package/cpulimit
+  SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=cpulimit
   URL:=https://github.com/opsengine/cpulimit.git

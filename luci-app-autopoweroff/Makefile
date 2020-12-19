@@ -5,10 +5,10 @@
 
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=LuCI support for Scheduled poweroff
+LUCI_TITLE:=LuCI support for Scheduled setting
 LUCI_DEPENDS:=+luci
 LUCI_PKGARCH:=all
-PKG_VERSION:=1.0
+PKG_VERSION:=1.3
 PKG_RELEASE:=2
 
 PKG_MAINTAINER:=sirpdboy <https://github.com/sirpdboy/luci-app-autopoweroff/>

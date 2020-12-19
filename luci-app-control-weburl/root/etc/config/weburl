@@ -1,22 +1,27 @@
 
 config basic
-	option enable '0'
-	option algos '0'
+	option algos 'kmp'
+	option enabled '0'
 
 config macbind
+	option timeoff '00:00'
+	option timeon '00:00'
+	option daysofweek 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'
 	option keyword 'qq.com'
 	option enable '0'
-	option macaddr '00:0C:29:C8:99:9E'
 
 config macbind
-	option keyword 'taobao.com'
-	option enable '0'
-
-config macbind
-	option enable '0'
-	option keyword 'youku.com'
-
-config macbind
+	option timeoff '00:00'
+	option timeon '00:00'
+	option daysofweek 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'
 	option enable '0'
 	option keyword 'www'
+
+config macbind
+	option timeoff '00:00'
+	option timeon '00:00'
+	option daysofweek 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday'
+	option enable '0'
+	option keyword 'cmd.exe'
+
 

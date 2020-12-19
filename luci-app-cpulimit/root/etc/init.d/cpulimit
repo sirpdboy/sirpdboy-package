@@ -2,16 +2,23 @@
 # Copyright (C) 2006-2011 OpenWrt.org
 . /lib/functions.sh
 
-START=50
+START=99
 
-DEFAULT=/etc/default/cpulimit
-
+cpulimit_get(){
+	config_get enabled $1 enabled
+	[ $enabled -gt 0 ] || return 1
+	config_get limit $1 limit
+	config_get exename $1 exename
+	cpulimit -l $limit -e $exename &
+}
 
 start() {
- /usr/bin/cpulimit.sh start &
+ 	config_load cpulimit
+	config_foreach cpulimit_get list
 }
 
 stop() {
-  killall -9 cpulimit
+  killall cpulimit
 }
+
 

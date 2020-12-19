@@ -1,6 +1,5 @@
 
-config 'list'
-	option 'exename' '/usr/bin/transmission-daemon'
-	option 'limit' '50'
-	option 'enabled' '0'
-
+config list
+	option enabled '0'
+	option exename 'ssr-redir'
+	option limit '50'
