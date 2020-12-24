@@ -32,7 +32,7 @@ else
 	status = translate("<strong><font color=\"red\">广告过滤大师 Plus+  已停止</font></strong>")
 end
 
-o = Map("koolproxy", "<font color='green'>" .. translate("广告过滤大师 Plus+ ") .."</font>",     "<font color='purple'>" .. translate( "广告过滤大师 Plus+是能识别Adblock规则的广告屏蔽软件，可以过滤网页广告、视频广告、HTTPS广告") .."</font>")
+o = Map("koolproxy", "<font color='green'>" .. translate("广告过滤大师 Plus+ ") .."</font>",     "<font color='purple'>" .. translate( "广告过滤大师 Plus+能识别adblock规则的免费开源软件,追求体验更快、更清洁的网络，屏蔽烦人的广告！") .."</font>")
 
 t = o:section(TypedSection, "global")
 t.anonymous = true
@@ -66,15 +66,20 @@ e:value(3, translate("视频模式"))
 e = t:taboption("base", MultiValue, "koolproxy_rules", translate("内置规则"))
 e.optional = false
 e.rmempty = false
+e:value("koolproxy.txt", translate("静态规则"))
+e:value("daily.txt", translate("每日规则"))
+e:value("kp.dat", translate("视频规则"))
+e:value("user.txt", translate("自定义规则"))
+
+e = t:taboption("base", MultiValue, "thirdparty_rules", translate("第三方规则"))
+e.optional = true
+e.rmempty = false
 e:value("easylistchina.txt", translate("ABP规则"))
 e:value("fanboy.txt", translate("Fanboy规则"))
 e:value("yhosts.txt", translate("Yhosts规则"))
 e:value("anti-ad.txt", translate("Anti-AD规则"))
-e:value("koolproxy.txt", translate("静态规则"))
-e:value("daily.txt", translate("每日规则"))
-e:value("kp.dat", translate("视频规则"))
 e:value("mv.txt", translate("乘风视频"))
-e:value("user.txt", translate("自定义规则"))
+
 
 e = t:taboption("base", ListValue, "koolproxy_port", translate("端口控制"))
 e.default = 0
@@ -397,7 +402,7 @@ function(o,a,i)
 end
 )
 
-t=o:section(TypedSection,"rss_rules",translate("技术支持"))
+t=o:section(TypedSection,"usetips",translate("帮助支持"))
 t.anonymous = true
 t:append(Template("koolproxy/feedback"))
 return o
