@@ -30,7 +30,7 @@ secret = s:option(Value, "secret", translate("Secret Pre-Shared Key"))
 secret.password = true
 
 o=s:option(Flag,"is_nat",translate("is_nat"))
-o.rmempty=false
+o.rmempty=true
 
 o=s:option(ListValue,"export_interface",translate("Interface"),translate("Specify interface forwarding traffic."))
 o:value("default",translate("default"))
