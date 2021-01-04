@@ -1,3 +1,4 @@
+
 config service 'ipsec'
 	option secret 'ipsec'
 	option clientip '192.168.100.1/24'
