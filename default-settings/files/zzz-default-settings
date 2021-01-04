@@ -29,7 +29,7 @@ uci set network.@wan[0].mtu=1400
 uci commit network
 #rm -f /usr/lib/lua/luci/view/admin_status/index/mwan.htm
 #rm -f /usr/lib/lua/luci/view/admin_status/index/upnp.htm
-rm -f /usr/lib/lua/luci/view/admin_status/index/ddns.htm
+#rm -f /usr/lib/lua/luci/view/admin_status/index/ddns.htm
 rm -f /usr/lib/lua/luci/view/admin_status/index/minidlna.htm
 sed -i '/coremark/d' /etc/crontabs/root
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/aria2.lua
@@ -87,6 +87,7 @@ echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 
 sed -i 's/cbi.submit\"] = true/cbi.submit\"] = \"1\"/g' /usr/lib/lua/luci/dispatcher.lua
 echo 'hsts=0' > /root/.wgetrc
+sed -i 's/option enabled.*/option enabled 1/g' /etc/config/upnpd
 
 rm -rf /tmp/luci-modulecache/
 rm -f /tmp/luci-indexcache
