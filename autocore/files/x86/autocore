@@ -50,6 +50,3 @@ start()
 
 	[ -f /etc/index.htm ] && mv /etc/index.htm /usr/lib/lua/luci/view/admin_status/index.htm
 }
-  chmod 755 /sbin/cpuinfo
-  chmod 755 /sbin/ethinfo
-  chmod 755 /sbin/getcpu
