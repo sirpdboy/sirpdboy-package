@@ -20,22 +20,22 @@ msgid "No Internet end time"
 msgstr "取消禁止上网时间"
 
 msgid "Monday"
-msgstr "一"
+msgstr "周一"
 
 msgid "Tuesday"
-msgstr "二"
+msgstr "周二"
 
 msgid "Wednesday"
-msgstr "三"
+msgstr "周三"
 
 msgid "Thursday"
-msgstr "四"
+msgstr "周四"
 
 msgid "Friday"
-msgstr "五"
+msgstr "周五"
 
 msgid "Saturday"
-msgstr "六"
+msgstr "周六"
 
 msgid "Sunday"
-msgstr "日"
+msgstr "周日"
