@@ -30,10 +30,10 @@ msgid "Enable"
 msgstr "启用"
 
 msgid "Browser management port"
-msgstr "登陆账号密码：admin 网页管理端口"
+msgstr "登陆账号和密码:admin 端口"
 
 msgid "Update"
-msgstr "请先手动设置中保存应用后再更新"
+msgstr "更新"
 #button change
 msgid "Update core version"
 msgstr "更新核心版本"
@@ -54,8 +54,10 @@ msgstr "快速配置"
 msgid "core version:"
 msgstr "核心版本:"
 #description change
+
 msgid "no config"
 msgstr "没有配置文件"
+
 msgid "no core"
 msgstr "没有核心"
 #

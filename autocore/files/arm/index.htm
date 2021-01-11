@@ -710,10 +710,18 @@
 		<tr><td width="33%"><%:CPU usage (%)%></td><td id="cpuusage">-</td></tr>
                                    <tr><td width="33%"><%:help%></td>
 			<td id="cpr">
-				<input type="button" class="cbi-button cbi-button-apply" value="更新建议" onclick="window.open('https://github.com/sirpdboy/openwrt18.06/issues')" />
-				<input type="button" class="cbi-button cbi-button-apply" value="TG聊天群" onclick="window.open('https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ')" />
+				<input type="button" class="cbi-button cbi-button-apply" value="<%:更新建议%>" onclick="window.open('https://github.com/sirpdboy/openwrt18.06/issues')" />
+				<input type="button" class="cbi-button cbi-button-apply" value="<%:TG聊天群%>" onclick="window.open('https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ')" />
 				</td>
 			</tr>
+</table>
+</fieldset>
+
+<fieldset class="cbi-section">
+	<legend><%:天气%></legend>
+
+	<table width="100%" cellspacing="10">
+		<tr><td width="33%"><%:城市天气%></td><td > <iframe width="680" scrolling="no" height="120" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=22&icon=1&temp=1&num=5&site=12"></iframe>		
 	</table>
 </fieldset>
 <fieldset class="cbi-section">
@@ -725,7 +733,6 @@
 		<tr><td width="33%"><%:Buffered%></td><td id="membuff">-</td></tr>
 	</table>
 </fieldset>
-
 <% if swapinfo.total > 0 then %>
 <fieldset class="cbi-section">
 	<legend><%:Swap%></legend>
