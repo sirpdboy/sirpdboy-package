@@ -15,7 +15,7 @@ git clone https://github.com/siropboy/sirpdboy-package package/sirpdboy-package
 
 openwrt 固件编译说明
 
-luci-app-autopoweroff ------------------定时自动关机
+luci-app-autopoweroff ------------------定时自动重启和自动关机
 
 luci-app-advanced ------------------系统高级设置
 
@@ -41,4 +41,4 @@ luci-theme-btmod ------------------btmod（适配18.06）
 
 luci-theme-opentopd ------------------opentopd（适配18.06）
 
-感谢LEAN大，感谢LEO大，感谢SIRPDBOY等大神分享源码，你可以随意使用其中的源码，但请注明出处。
+感谢LEAN大，感谢LEO大 等大神分享源码，你可以随意使用其中的源码，但请注明出处。
