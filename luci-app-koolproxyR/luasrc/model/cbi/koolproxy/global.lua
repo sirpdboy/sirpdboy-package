@@ -119,9 +119,9 @@ for t = 0,23 do
 	e:value(t,translate("每天"..t.."点"))
 end
 e:value(nil, translate("关闭"))
-e.default = 0
+e.default = 2
 e.rmempty = false
-e.description = translate(string.format("<font color=\"red\"><strong>定时更新订阅规则与Adblock Plus Hosts</strong></font>"))
+e.description = translate(string.format("<font color=\"red\"><strong>定时更新规则。请把时间修改掉，默认时间使用人数多会更新失败</strong></font>"))
 
 e = t:taboption("base", Button, "restart", translate("规则状态"))
 e.inputtitle = translate("更新规则")
