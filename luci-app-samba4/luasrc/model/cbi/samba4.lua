@@ -68,14 +68,12 @@ br.default = "yes"
 ro = s:option(Flag, "read_only", translate("Read-only"))
 ro.enabled = "yes"
 ro.disabled = "no"
-ro.default = "no"
+ro.default = "yes"
 
 s:option(Flag, "force_root", translate("Force Root"))
 
 au = s:option(Value, "users", translate("Allowed users"))
-dm.rmempty = true
-dm.maxlength = 4
-cm.placeholder = "root"
+au.rmempty = true
 
 go = s:option(Flag, "guest_ok", translate("Allow guests"))
 go.enabled = "yes"
