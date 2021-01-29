@@ -50,6 +50,7 @@ sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autoreboot.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autopoweroff.lua
 sed -i 's/\"network\"/\"control\"/g' /usr/lib/lua/luci/controller/eqos.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/cpulimit.lua
+sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/samba4.lua
 
 
 # uci set minidlna.config.enabled=0
