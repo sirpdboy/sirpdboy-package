@@ -1,15 +1,18 @@
 module("luci.controller.ipsec-server", package.seeall)
 
 function index()
-	if not nixio.fs.access("/etc/config/ipsec") then
-		return
-	end
-	
-	entry({"admin","vpn"}, firstchild(), "VPN", 45).dependent = false
-	entry({"admin","vpn","ipsec-server"}, alias("admin","vpn","ipsec-server","settings"), _("IPSec VPN Server"), 49).dependent=false
-	entry({"admin","vpn","ipsec-server","settings"},cbi("ipsec-server/settings"),_("General Settings"),10).leaf=true
-	entry({"admin","vpn","ipsec-server","users"},cbi("ipsec-server/users"),_("Users Manager"),20).leaf=true
-	entry({"admin","vpn","ipsec-server","status"},call("status")).leaf=true
+    if not nixio.fs.access("/etc/config/luci-app-ipsec-server") then return end
+
+    entry({"admin", "vpn"}, firstchild(), "VPN", 45).dependent = false
+    entry({"admin", "vpn", "ipsec-server"},
+          alias("admin", "vpn", "ipsec-server", "settings"),
+          _("IPSec VPN Server"), 49).dependent = false
+    entry({"admin", "vpn", "ipsec-server", "settings"},
+          cbi("ipsec-server/settings"), _("General Settings"), 10).leaf = true
+    entry({"admin", "vpn", "ipsec-server", "users"}, cbi("ipsec-server/users"),
+          _("Users Manager"), 20).leaf = true
+    entry({"admin", "vpn", "ipsec-server", "status"}, call("status")).leaf =
+        true
 end
 
 function status()
