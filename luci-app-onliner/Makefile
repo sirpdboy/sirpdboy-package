@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=LuCI support arp online
-LUCI_DEPENDS:=+luci-app-nlbwmon
+LUCI_DEPENDS:=+luci-app-wrtbwmon
 LUCI_PKGARCH:=all
 PKG_NAME:=luci-app-onliner
 PKG_VERSION:=1.1
@@ -17,10 +17,6 @@ define Package/luci-app-onliner/install
 	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
 	$(INSTALL_DIR) $(1)/
 	cp -pR ./root/* $(1)/
-	
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	po2lmo ./po/zh-cn/onliner.po $(1)/usr/lib/lua/luci/i18n/onliner.zh-cn.lmo
-	
 endef
 
 define Package/luci-app-onliner/postinst
