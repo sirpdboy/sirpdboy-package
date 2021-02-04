@@ -15,7 +15,7 @@ define Package/$(PKG_NAME)
   SECTION:=luci
   CATEGORY:=LuCI
   SUBMENU:=3. Applications
-  DEPENDS:=+qbittorrent
+  DEPENDS:=+qbittorrent +python3
   TITLE:=LuCI support for qBittorrent
   PKGARCH:=all
 endef

@@ -25,7 +25,7 @@
 	#smb encrypt = default
 
 	## set invalid users
-	invalid users = root
+	#invalid users = root
 
 	## map unknow users to guest
 	map to guest = Bad User
