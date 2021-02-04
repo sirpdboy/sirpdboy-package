@@ -10,12 +10,14 @@ skip=`block info | sed 's/\(.*\): .*/\1/' | grep -q $device ; echo $?`
 path=$DEVPATH
 
 if [ $basename != "block" ] && [ -z "${device##sd*}" ] && [ $skip -eq 1 ]; then
-	mntpnt=$device
+     mntpnt=$device
 	case "$ACTION" in
 		add)
 			mkdir -p /mnt/$mntpnt
 			chmod 777 /mnt/$mntpnt
 			# Try to be gentle on solid state devices
+			/sbin/hdparm -B 127 /dev/$device
+			
 			mount -o rw,noatime,discard /dev/$device /mnt/$mntpnt
 			;;
 		remove)
