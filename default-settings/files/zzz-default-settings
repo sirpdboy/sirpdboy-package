@@ -32,7 +32,7 @@ uci commit network
 #rm -f /usr/lib/lua/luci/view/admin_status/index/upnp.htm
 rm -f /usr/lib/lua/luci/view/admin_status/index/ddns.htm
 rm -f /usr/lib/lua/luci/view/admin_status/index/minidlna.htm
-sed -i '/coremark/d' /etc/crontabs/root
+
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/aria2.lua
 sed -i 's/services/nas/g' /usr/lib/lua/luci/view/aria2/overview_status.htm
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/hd_idle.lua
@@ -59,13 +59,13 @@ sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/samba4.lua
 
 uci set vsftpd.@listen[0].enable4=0
 uci commit vsftpd
-/etc/init.d/vsftpd stop
+#/etc/init.d/vsftpd stop
 
 ln -sf /sbin/ip /usr/bin/ip
 
 sed -i 's#http://downloads.openwrt.org#https://mirrors.cloud.tencent.com/lede#g' /etc/opkg/distfeeds.conf
-#sed -i '/openwrt_diy/d'   /etc/opkg/distfeeds.conf
-#sed -i '/openwrt_helloworld/d'   /etc/opkg/distfeeds.conf
+sed -i '/openwrt_diy/d'   /etc/opkg/distfeeds.conf
+sed -i '/openwrt_helloworld/d'   /etc/opkg/distfeeds.conf
 #sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
 # sed -i 's/\"bootstrap\"/\"opentopd\"/g'  /etc/config/luci
 sed -i "s/# //g" /etc/opkg/distfeeds.conf
