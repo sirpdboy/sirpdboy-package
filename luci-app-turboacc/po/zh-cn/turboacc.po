@@ -1,5 +1,5 @@
 msgid "Turbo ACC Center"
-msgstr "TACC网络加速"
+msgstr "ACC网络加速"
 
 msgid "Turbo ACC Acceleration Settings"
 msgstr "Turbo ACC 网络加速设置"

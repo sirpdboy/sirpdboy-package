@@ -633,7 +633,7 @@
 
 			var e;
 
-                                                  	if (e = document.getElementById('ethinfo'))			{
+			if (e = document.getElementById('ethinfo'))			{
 				var ports = eval('(' + info.ethinfo + ')');
 				var tmp = "";
 				for (var i in ports)
@@ -718,8 +718,8 @@
 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
 		<tr><td width="33%"><%:CPU Info%></td><td id="cpuinfo">-</td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
-			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
-			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>)
+			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> <!--/
+			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>) !-->
 		</td></tr>
 		<tr><td width="33%"><%:Kernel Version%></td><td><%=unameinfo.release or "?"%></td></tr>
 		<tr><td width="33%"><%:Local Time%></td><td id="localtime">-</td></tr>

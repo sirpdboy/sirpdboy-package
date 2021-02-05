@@ -1,6 +1,7 @@
+#qbittorrent
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=qBittorrent
+PKG_NAME:=qbittorrent
 PKG_VERSION:=4.3.3_v1.2.12
 PKG_RELEASE=1
 
