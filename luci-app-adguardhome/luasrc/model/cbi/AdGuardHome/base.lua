@@ -4,7 +4,7 @@ require("io")
 local m, s, o, o1
 local fs = require "nixio.fs"
 local uci = require"luci.model.uci".cursor()
-local configpath = uci:get("AdGuardHome", "AdGuardHome", "configpath") or "/etc/config/AdGuardHome.yaml"
+local configpath=uci:get("AdGuardHome","AdGuardHome","configpath") or "/etc/AdGuardHome.yaml"
 local binpath = uci:get("AdGuardHome", "AdGuardHome", "binpath") or "/usr/bin/AdGuardHome/AdGuardHome"
 httpport = uci:get("AdGuardHome", "AdGuardHome", "httpport") or "3000"
 
@@ -27,34 +27,33 @@ o.placeholder = 3000
 o.default = 3000
 o.datatype = "port"
 o.optional = false
-o.description = translate("<input type='button' style='width:210px; border-color:Teal; text-align:center; font-weight:bold;color:Green;' value='AdGuardHome Web:" .. httpport .. "' onclick=\"window.open('http://'+window.location.hostname+':" .. httpport .. "')\"/>")
-
+o.description = translate("<input type=\"button\" style=\"width:210px;border-color:Teal; text-align:center;font-weight:bold;color:Green;\" value=\"AdGuardHome Web:"..httpport.."\" onclick=\"window.open('http://'+window.location.hostname+':"..httpport.."/')\"/>")
 ---- update warning not safe
-local binmtime = uci:get("AdGuardHome", "AdGuardHome", "binmtime") or "0"
-local e = ""
-if not fs.access(configpath) then e = e .. " " .. translate("no config") end
+local binmtime=uci:get("AdGuardHome","AdGuardHome","binmtime") or "0"
+local e=""
+if not fs.access(configpath) then
+	e=e.." "..translate("no config")
+end
 if not fs.access(binpath) then
-    e = e .. " " .. translate("no core")
+	e=e.." "..translate("no core")
 else
-    local version = uci:get("AdGuardHome", "AdGuardHome", "version")
-    local testtime = fs.stat(binpath, "mtime")
-    if testtime ~= tonumber(binmtime) or version == nil then
-        -- local tmp=luci.sys.exec(binpath.." -c /dev/null --check-config 2>&1| grep -m 1 -E 'v[0-9.]+' -o")
-        -- version=string.sub(tmp, 1, -2)
-        version = luci.sys.exec(string.format("echo -n $(%s --version 2>&1 | awk -F 'version ' '{print $2}' | awk -F ',' '{print $1}')", binpath))
-        if version == "" then version = "core error" end
-        uci:set("AdGuardHome", "AdGuardHome", "version", version)
-        uci:set("AdGuardHome", "AdGuardHome", "binmtime", testtime)
-        uci:commit("AdGuardHome")
-    end
-    e = version .. e
+	local version=uci:get("AdGuardHome","AdGuardHome","version")
+	local testtime=fs.stat(binpath,"mtime")
+	if testtime~=tonumber(binmtime) or version==nil then
+		local tmp=luci.sys.exec(binpath.." --version | grep -m 1 -E ' [0-9.]+' -o ")
+		version=string.sub(tmp, 1)
+		if version=="" then version="core error" end
+		uci:set("AdGuardHome","AdGuardHome","version",version)
+		uci:set("AdGuardHome","AdGuardHome","binmtime",testtime)
+		uci:save("AdGuardHome")
+	end
+	e=version..e
 end
 o = s:option(Button, "restart", translate("Update"))
 o.inputtitle = translate("Update core version")
 o.template = "AdGuardHome/AdGuardHome_check"
-o.showfastconfig = (not fs.access(configpath))
-o.description = string.format(translate("core version:") .. "<strong><font id='updateversion' color='green'>%s </font></strong>", e)
-
+o.showfastconfig=(not fs.access(configpath))
+o.description=string.format(translate("core version:").."<strong><font id=\"updateversion\" color=\"green\">%s </font></strong>",e)
 ---- port warning not safe
 local port = luci.sys.exec("awk '/  port:/{printf($2);exit;}' " .. configpath .. " 2>nul")
 if (port == "") then port = "?" end
@@ -74,19 +73,21 @@ o = s:option(Value, "binpath", translate("Bin Path"), translate("AdGuardHome Bin
 o.default = "/usr/bin/AdGuardHome/AdGuardHome"
 o.datatype = "string"
 o.optional = false
-o.rmempty = false
-o.validate = function(self, value)
-    if value == "" then return nil end
-    if fs.stat(value, "type") == "dir" then fs.rmdir(value) end
-    if fs.stat(value, "type") == "dir" then
-        if (m.message) then
-            m.message = m.message .. "\nerror!bin path is a dir"
-        else
-            m.message = "error!bin path is a dir"
-        end
-        return nil
-    end
-    return value
+o.rmempty=false
+o.validate=function(self, value)
+if value=="" then return nil end
+if fs.stat(value,"type")=="dir" then
+	fs.rmdir(value)
+end
+if fs.stat(value,"type")=="dir" then
+	if (m.message) then
+	m.message =m.message.."\nerror!bin path is a dir"
+	else
+	m.message ="error!bin path is a dir"
+	end
+	return nil
+end 
+return value
 end
 
 --- upx
@@ -103,22 +104,24 @@ o.rmempty = true
 
 ---- config path
 o = s:option(Value, "configpath", translate("Config Path"), translate("AdGuardHome config path"))
-o.default = "/etc/config/AdGuardHome.yaml"
-o.datatype = "string"
+o.default     = "/etc/AdGuardHome.yaml"
+o.datatype    = "string"
 o.optional = false
-o.rmempty = false
-o.validate = function(self, value)
-    if value == nil then return nil end
-    if fs.stat(value, "type") == "dir" then fs.rmdir(value) end
-    if fs.stat(value, "type") == "dir" then
-        if m.message then
-            m.message = m.message .. "\nerror!config path is a dir"
-        else
-            m.message = "error!config path is a dir"
-        end
-        return nil
-    end
-    return value
+o.rmempty=false
+o.validate=function(self, value)
+if value==nil then return nil end
+if fs.stat(value,"type")=="dir" then
+	fs.rmdir(value)
+end
+if fs.stat(value,"type")=="dir" then
+	if m.message then
+	m.message =m.message.."\nerror!config path is a dir"
+	else
+	m.message ="error!config path is a dir"
+	end
+	return nil
+end 
+return value
 end
 
 ---- work dir
@@ -148,17 +151,19 @@ end
 o = s:option(Value, "logfile", translate("Runtime log file"), translate("AdGuardHome runtime Log file if 'syslog': write to system log;if empty no log"))
 o.datatype = "string"
 o.rmempty = true
-o.validate = function(self, value)
-    if fs.stat(value, "type") == "dir" then fs.rmdir(value) end
-    if fs.stat(value, "type") == "dir" then
-        if m.message then
-            m.message = m.message .. "\nerror!log file is a dir"
-        else
-            m.message = "error!log file is a dir"
-        end
-        return nil
-    end
-    return value
+o.validate=function(self, value)
+if fs.stat(value,"type")=="dir" then
+	fs.rmdir(value)
+end
+if fs.stat(value,"type")=="dir" then
+	if m.message then
+	m.message =m.message.."\nerror!log file is a dir"
+	else
+	m.message ="error!log file is a dir"
+	end
+	return nil
+end 
+return value
 end
 
 ---- debug
@@ -225,21 +230,21 @@ local workdir = uci:get("AdGuardHome", "AdGuardHome", "workdir") or "/usr/bin/Ad
 o = s:option(MultiValue, "backupfile", translate("Backup workdir files when shutdown"))
 o1 = s:option(Value, "backupwdpath", translate("Backup workdir path"))
 local name
-o:value("filters", "filters")
-o:value("stats.db", "stats.db")
-o:value("querylog.json", "querylog.json")
-o:value("sessions.db", "sessions.db")
-o1:depends("backupfile", "filters")
-o1:depends("backupfile", "stats.db")
-o1:depends("backupfile", "querylog.json")
-o1:depends("backupfile", "sessions.db")
-for name in fs.glob(workdir .. "/data/*") do
-    name = fs.basename(name)
-    if name ~= "filters" and name ~= "stats.db" and name ~= "querylog.json" and
-        name ~= "sessions.db" then
-        o:value(name, name)
-        o1:depends("backupfile", name)
-    end
+o:value("filters","filters")
+o:value("stats.db","stats.db")
+o:value("querylog.json","querylog.json")
+o:value("sessions.db","sessions.db")
+o1:depends ("backupfile", "filters")
+o1:depends ("backupfile", "stats.db")
+o1:depends ("backupfile", "querylog.json")
+o1:depends ("backupfile", "sessions.db")
+for name in fs.glob(workdir.."/data/*")
+do
+	name=fs.basename (name)
+	if name~="filters" and name~="stats.db" and name~="querylog.json" and name~="sessions.db" then
+		o:value(name,name)
+		o1:depends ("backupfile", name)
+	end
 end
 o.widget = "checkbox"
 o.default = nil
@@ -310,7 +315,7 @@ function m.on_commit(map)
                 uci:set("AdGuardHome", "AdGuardHome", "ucitracktest", "2")
             end
         end
-        uci:commit("AdGuardHome")
+		uci:save("AdGuardHome")
     end
 end
 return m

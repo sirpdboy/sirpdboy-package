@@ -68,7 +68,7 @@ br.default = "yes"
 ro = s:option(Flag, "read_only", translate("Read-only"))
 ro.enabled = "yes"
 ro.disabled = "no"
-ro.default = "yes"
+ro.default = "no"
 
 s:option(Flag, "force_root", translate("Force Root"))
 

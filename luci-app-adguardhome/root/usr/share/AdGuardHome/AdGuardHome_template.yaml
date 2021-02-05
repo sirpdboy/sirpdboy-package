@@ -1,3 +1,5 @@
+#提交就可以直接用的配置模板文件
+#a template config can be use with a apply
 bind_host: 0.0.0.0
 bind_port: 3000
 users:
@@ -209,11 +211,6 @@ user_rules:
 - '@@||wl.jd.com^$important'
 - '@@||flydigi.com^'
 - '@@||pv.sohu.com^$important'
-- /googleads.$~script,domain=~googleads.github.io
-- /pagead/lvz?
-- '||google.com/pagead/'
-- '||static.doubleclick.net^$domain=youtube.com'
-- '||youtube.com/get_midroll_'
 dhcp:
   enabled: false
   interface_name: ""

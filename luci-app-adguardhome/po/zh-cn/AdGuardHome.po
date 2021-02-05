@@ -30,7 +30,7 @@ msgid "Enable"
 msgstr "启用"
 
 msgid "Browser management port"
-msgstr "登陆账号和密码:admin 端口"
+msgstr "网页登陆账号和密码:admin ,端口:"
 
 msgid "Update"
 msgstr "更新"
