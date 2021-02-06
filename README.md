@@ -38,21 +38,21 @@ Welcome to sirpdboy's  git source of packages
 
 luci-app-autopoweroff-----------------定时自动重启和自动关机
 
-luci-app-advanced---------------------系统高级设置
+luci-app-advanced---------------------系统高级设置【自带文件管理功能】
 
 luci-app-NetSpeedTest-----------------网络速度测试
 
 luci-app-poweroffdevice---------------关机功能插件
 
-luci-app-control-mia------------------时间控制
+luci-app-netdata----------------------网络监控中文版
 
-luci-app-timecontrol------------------定时唤醒
+luci-app-timecontrol------------------定时控制
 
-luci-app-control-webrestriction-------访问控制
-
-luci-app-control-weburl---------------管控过滤
+luci-app-control-weburl---------------管控过滤[集成上网时间控制，黑白名单IP过滤，网址过滤几大功能]
 
 luci-app-cpulimit---------------------CPU限制
+
+luci-app-turboacc---------------------新版TURBO ACC加速器
 
 luci-app-eqos-------------------------EQS网速控制
 
