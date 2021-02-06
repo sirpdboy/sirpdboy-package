@@ -33,35 +33,38 @@ Welcome to sirpdboy's  git source of packages
     git clone https://github.com/siropboy/sirpdboy-package package/sirpdboy-package
     make menuconfig
  ``` 
+ 
 ## openwrt 插件功能说明 [![](https://img.shields.io/badge/-插件说明-F5F5F5.svg)](#插件说明-)
 
-luci-app-autopoweroff			------------------定时自动重启和自动关机
+luci-app-autopoweroff-----------------定时自动重启和自动关机
 
-luci-app-advanced				------------------系统高级设置
+luci-app-advanced---------------------系统高级设置
 
-luci-app-control-mia			------------------时间控制
+luci-app-NetSpeedTest-----------------网络速度测试
 
-luci-app-timecontrol			------------------定时唤醒
+luci-app-poweroffdevice---------------关机功能插件
 
-luci-app-control-webrestriction	------------------访问控制
+luci-app-control-mia------------------时间控制
 
-luci-app-control-weburl			------------------管控过滤
+luci-app-timecontrol------------------定时唤醒
 
-luci-app-cpulimit				------------------CPU限制
+luci-app-control-webrestriction-------访问控制
 
-luci-app-eqos					------------------EQS网速控制
+luci-app-control-weburl---------------管控过滤
 
-luci-app-koolddns				------------------KOOL域名DNS解析工具
+luci-app-cpulimit---------------------CPU限制
 
-luci-app-koolproxyR				------------------KP经典去广告
+luci-app-eqos-------------------------EQS网速控制
 
-luci-theme-opentomcat			------------------仿LEDE主题（适配18.06）
+luci-app-koolddns---------------------KOOL域名DNS解析工具
 
-luci-theme-btmod				------------------btmod（适配18.06）
+luci-app-koolproxyR-------------------KP经典去广告
 
-luci-theme-opentopd				------------------opentopd（适配18.06）
+luci-theme-btmod----------------------btmod（适配18.06）
 
-luci-app-NetSpeedTest			------------------网络速度测试
+luci-theme-opentopd-------------------opentopd（适配18.06）
+
+luci-theme-opentoks-------------------仿LEDE主题（适配18.06）
 
 
 ## 说明 [![](https://img.shields.io/badge/-说明-F5F5F5.svg)](#说明-)
@@ -72,14 +75,20 @@ luci-app-NetSpeedTest			------------------网络速度测试
 ![xm2](doc/实时监控.jpg)
 ![xm3](doc/手机画面.jpg)
 
-### 感谢LEAN大，感谢LEO大 等大神分享源码，你可以随意使用其中的源码，但请注明出处。
+感谢LEAN大，感谢LEO大 等大神分享源码，你可以随意使用其中的源码，但请注明出处。
+============================
+
 
 # My other project
 网络速度测试 ：https://github.com/sirpdboy/NetSpeedTest
 
 定时关机重启 : https://github.com/sirpdboy/luci-app-autopoweroff
 
-opentopd主题 : https://github.com/sirpdboy/sirpdboy-package
+关机功能插件 : https://github.com/sirpdboy/luci-app-poweroffdevice
+
+opentopd主题 : https://github.com/sirpdboy/luci-theme-opentopd
+
+opentoks 主题: https://github.com/sirpdboy/luci-theme-opentoks [仿KOOLSAHRE主题]
 
 btmob 主题: https://github.com/sirpdboy/luci-theme-btmob
 
