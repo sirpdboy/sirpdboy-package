@@ -2,18 +2,15 @@
 <a href="#readme">
     <img src="https://img.vim-cn.com/7f/270400123d9c4385c11d0aed32979f35d80578.png" alt="图飞了😂" title="opentopd" align="right" height="180" />
 </a>
-欢迎来到sirpdboy的源码仓库！
-=
-Welcome to sirpdboy's  git source of packages
--
+
 [luci-theme-opentopd  thme openwrt主题](https://github.com/sirpdboy/luci-theme-opentopd)
--
+======================
 
 [![](https://img.shields.io/badge/-目录:-696969.svg)](#readme) [![](https://img.shields.io/badge/-编译说明-F5F5F5.svg)](#编译说明-) [![](https://img.shields.io/badge/-捐助-F5F5F5.svg)](#捐助-) 
 
 请 **认真阅读完毕** 本页面，本页面包含注意事项和如何使用。
 
-opentopd是一款基于luci-theme-material构建,使用HTML5、CSS3编写的Luci主题。
+opentopd 是一款基于luci-theme-material构建的，使用HTML5、CSS3编写的Luci主题。
 -
 
 ## 写在前面：
@@ -61,10 +58,6 @@ opentopd是一款基于luci-theme-material构建,使用HTML5、CSS3编写的Luci
 ![xm2](doc/实时监控.jpg)
 ![xm3](doc/手机画面.jpg)
 
-## 说明 [![](https://img.shields.io/badge/-说明-F5F5F5.svg)](#说明-)
-
-源码来源：https://github.com/sirpdboy/luci-theme-opentopd
-
 ### 你可以随意使用其中的源码，但请注明出处。
 
 # My other project
@@ -77,6 +70,13 @@ opentopd主题 : https://github.com/sirpdboy/luci-theme-opentopd
 btmob 主题: https://github.com/sirpdboy/luci-theme-btmob
 
 系统高级设置 : https://github.com/sirpdboy/luci-app-advanced
+
+
+## 说明 [![](https://img.shields.io/badge/-说明-F5F5F5.svg)](#说明-)
+
+源码来源：https://github.com/sirpdboy/luci-theme-opentopd
+
+
 
 ## 捐助 [![](https://img.shields.io/badge/-捐助-F5F5F5.svg)](#捐助-) 
 
