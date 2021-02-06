@@ -65,14 +65,20 @@ opentopd是一款基于luci-theme-material构建,使用HTML5、CSS3编写的Luci
 
 源码来源：https://github.com/sirpdboy/luci-theme-opentopd
 
-### 你可以随意使用其中的源码，但请注明出处。
+
+你可以随意使用其中的源码，但请注明出处。
+============================
 
 # My other project
 网络速度测试 ：https://github.com/sirpdboy/NetSpeedTest
 
 定时关机重启 : https://github.com/sirpdboy/luci-app-autopoweroff
 
+关机功能插件 : https://github.com/sirpdboy/luci-app-poweroffdevice
+
 opentopd主题 : https://github.com/sirpdboy/luci-theme-opentopd
+
+opentoks 主题: https://github.com/sirpdboy/luci-theme-opentoks [仿KOOLSAHRE主题]
 
 btmob 主题: https://github.com/sirpdboy/luci-theme-btmob
 

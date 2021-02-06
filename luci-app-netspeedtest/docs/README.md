@@ -1,50 +1,81 @@
 [![若部分图片无法正常显示，请挂上机场浏览或点这里到末尾看修复教程](https://visitor-badge.glitch.me/badge?page_id=sirpdboy-visitor-badge)](#解决-github-网页上图片显示失败的问题) [![](https://img.shields.io/badge/TG群-点击加入-FFFFFF.svg)](https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ)
+<a href="#readme">
+    <img src="https://img.vim-cn.com/a1/8713845a4aa922ac96619b0d2fb3d6919d37fc.png" alt="图飞了😂" title="NetSpeedTest" align="right" height="180" />
+</a>
 
-[autopoweroff自动定时重启关机插件](https://github.com/sirpdboy/luci-app-autopoweroff)
+欢迎来到sirpdboy的源码仓库！
+=
+Welcome to sirpdboy's  git source of packages
+-
+[NetSpeedTest — 网络速度测试](https://github.com/sirpdboy/NetSpeedTest)
 ======================
+
+[![](https://img.shields.io/badge/-目录:-696969.svg)](#readme) [![](https://img.shields.io/badge/-写在前面-F5F5F5.svg)](#写在前面-) [![](https://img.shields.io/badge/-编译说明-F5F5F5.svg)](#编译说明-) [![](https://img.shields.io/badge/-说明-F5F5F5.svg)](#说明-) [![](https://img.shields.io/badge/-捐助-F5F5F5.svg)](#捐助-) 
+
 请 **认真阅读完毕** 本页面，本页面包含注意事项和如何使用。
 
-## 功能说明：
+a new NetSpeedTest luci app bese luci-app-NetSpeedTest
+-
 
-定时设置重启和定时设置关机二合一升级版，解决原本需要保存二次才能生效的问题。
+## 写在前面：[![](https://img.shields.io/badge/-写在前面-F5F5F5.svg)](#写在前面-)
 
-## 编译使用方法 [![](https://img.shields.io/badge/-编译使用方法-F5F5F5.svg)](#编译使用方法-)
+ 一直在找OPENWRT上测试速度的插件，苦寻不到，于是有了它!
+此插件目前只能测试内网，后期测试稳定了再加入外网网络速度测试。
 
-将luci-app-autopoweroff添加至 LEDE/OpenWRT 源码的方法。
+1.内网测速基于iperf3 插件，服务端路由器如果没有安装请先安装此ipk插件。
 
-### 下载源码方法一：
+2.测速的终端使用机器必须和测速服务器在同一个局域网络中！
+
+3.客户端使用步骤：
+  启动测速服务器端-->下载测试客户端-->运行测速客户端-->输入服务端IP地址-->查看结果。
+
+5.客户端运行，国内端下载中有“iperf3测速客户端”，运行它输入服务器IP即可。
+  国外原版，需要手动进入 CMD命令模式，再输入命令：iperf3.exe -c 服务器IP 
+
+6.网络测速iperf3客户端下载地址：https://sipdboy.lanzoui.com/b01c3esih 密码:cpd6
+
+7.新插件难免有bug 请不要大惊小怪。欢迎提交bug。
+
+## 编译说明 [![](https://img.shields.io/badge/-编译说明-F5F5F5.svg)](#编译说明-) 
+
+将NetSpeedTest 主题添加至 LEDE/OpenWRT 源码的方法。
+
+## 下载源码方法一：
 编辑源码文件夹根目录feeds.conf.default并加入如下内容:
 
 ```Brach
     # feeds获取源码：
-    src-git autopoweroff  https://github.com/sirpdboy/luci-app-autopoweroff
+    src-git NetSpeedTest  https://github.com/sirpdboy/NetSpeedTest
  ``` 
   ```Brach
    # 更新feeds，并安装主题：
-    scripts/feeds update autopoweroff
-	scripts/feeds install luci-app-autopoweroff
+    scripts/feeds update NetSpeedTest
+	scripts/feeds install luci-app-NetSpeedTest
  ``` 	
 
-### 下载源码方法二：
+## 下载源码方法二：
  ```Brach
     # 下载源码
-    git clone https://github.com/sirpdboy/luci-app-autopoweroff package/luci-app-autopoweroff
+    
+    git clone https://github.com/sirpdboy/NetSpeedTest package/NetSpeedTest
+    
     make menuconfig
  ``` 
-### 配置菜单
+## 配置菜单
  ```Brach
     make menuconfig
-	# 找到 LuCI -> Themes, 选择 luci-app-autopoweroff, 保存后退出。
+	# 找到 LuCI -> Applications, 选择 luci-app-NetSpeedTest, 保存后退出。
  ``` 
-### 编译
+## 编译
  ```Brach 
     # 编译固件
-    make package/luci-app-autopoweroff/compile V=s
- ```
+    make package/NetSpeedTest/luci-app-NetSpeedTest/{clean,compile} V=s
+```   
 
 ## 说明 [![](https://img.shields.io/badge/-说明-F5F5F5.svg)](#说明-)
 
-源码来源：https://github.com/sirpdboy/luci-app-autopoweroff
+源码来源：https://github.com/sirpdboy/NetSpeedTest/luci-app-NetSpeedTest
+
 
 你可以随意使用其中的源码，但请注明出处。
 ============================

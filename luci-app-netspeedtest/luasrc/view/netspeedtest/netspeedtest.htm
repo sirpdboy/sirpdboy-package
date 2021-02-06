@@ -1,0 +1,133 @@
+<%#
+  Copyright (C) 2020-2021 sirpdboy <herboy2008@gmail.com>
+  The LuCI Network diagnosis and speed test <https://github.com/sirpdboy/NetSpeedTest>
+  Licensed to the public under the Apache License 2.0.
+-%>
+<%+header%>
+<%
+local fs   = require "nixio.fs"
+local has_iperf3 = fs.access("/bin/iperf3") or fs.access("/usr/bin/iperf3")
+local has_ping6 = fs.access("/bin/ping6") or fs.access("/usr/bin/ping6")
+%>
+<script type="text/javascript" src="<%=resource%>/cbi.js"></script>
+<script type="text/javascript">//<![CDATA[
+	var stxhr = new XHR();
+
+	function update_status(field, proto)
+	{
+		var tool = field.name;
+		var addr = field.value;
+		var protocol = proto ? "6" : "";
+
+		var legend = document.getElementById('diag-rc-legend');
+		var output = document.getElementById('diag-rc-output');
+
+0		if (legend && output)
+		0{
+			output.innerHTML =
+				'<img src="<%=resource%>/icons/loading.gif" alt="<%:Loading%>" style="vertical-align:middle" /> ' +
+				'<%:Waiting for command to complete...%>'
+			;
+
+			legend.parentNode.style.display = 'block';
+			legend.style.display = 'inline';
+
+			stxhr.get('<%=url('status')%>/diag_' + tool + protocol + '/' + addr, null,
+				function(x)
+				{
+					if (x.responseText)
+					{
+						legend.style.display = 'none';
+						output.innerHTML = String.format('<pre>%h</pre>', x.responseText);
+					}
+					else
+					{
+						legend.style.display = 'none';
+						output.innerHTML = '<span class="error"><%:Bad address specified!%></span>';
+					}
+				}
+			);
+		}
+	}
+//]]></script>
+
+<form method="post" action="<%=pcdata(FULL_REQUEST_URI)%>">
+  <div class="cbi-map">
+  <h2 name="content">
+    <%:Netspeedtest%>
+  </h2>
+  <fieldset class="cbi-section">
+    <legend>
+    <%:Network speed diagnosis test (including intranet and extranet)%>
+    </legend>
+    <br />
+    <div style="width:50%; float:left">
+    <% if has_iperf3 then %>
+    <select name="iperf3_proto" style="width:auto">
+      <option value="" selected="selected">
+      <%:iperflan%>
+      </option>
+      <option value="6">
+      <%:iperfwan%>
+      </option>
+      <input type="button" value="<%:Start the speed measurement server%>" class="cbi-button cbi-button-apply" onclick="update_status(this.form.iperf3)" />
+      <% else %>
+      </br>
+      <%:You need to install iperf3 plug-in to start the test speed server%>
+      </br>
+      <% end %>
+      </br>
+      </div>
+      <div style="width:50%; float:left">
+      <input style="margin: 5px 0" type="text" value="www.baidu.com" name="ping" />
+      <br />
+      <% if has_ping6 then %>
+      <select name="ping_proto" style="width:auto">
+      <option value="" selected="selected">
+      <%:IPv4%>
+      </option>
+      <option value="6">
+      <%:IPv6%>
+      </option>
+    </select>
+    <input type="button" value="<%:Ping%>" class="cbi-button cbi-button-apply" onclick="update_status(this.form.ping, this.form.ping_proto.selectedIndex)" />
+    <% else %>
+    <input type="button" value="<%:Ping%>" class="cbi-button cbi-button-apply" onclick="update_status(this.form.ping)" />
+    <% end %>
+    </div>
+    <br style="clear:both" />
+    <br />
+  </fieldset>
+  <fieldset class="cbi-section">
+    <div style="width:50%; float:left">
+    <label class="cbi-value-title">
+    <%:instructions:%> </label>
+<div class="cbi-value-field"> <%<br />
+<u> < font color = '# ff0000' > the terminal machine of speed measurement must be in the same local area network as the speed measurement server. </font></u> <br />
+Use steps: A, start the speed measurement server, B, download the test client, C, run the speed measurement client, D, enter the server IP address. <br />
+<br />%>
+</div>
+<div class="cbi-value">
+  <label class="cbi-value-title"><%:Iperf3 speed measurement software download:%></label>
+  <div class="cbi-value-field">
+    <input type="button" class="cbi-button cbi-input-reload" value="<%:Domestic download password:%>cpd6" onclick="javascript:window.open('https://sipdboy.lanzoui.com/b01c3esih','target');" />
+    <input type="button" class="cbi-button cbi-input-reload" value="<%:Download from foreign official websites%>" onclick="javascript:window.open('https://iperf.fr/iperf-download.php','target');" />
+  </div>
+  <div class="cbi-value">
+<label class="cbi-value-title"><%:Click to enter:%> </label>
+<div class="cbi-value-field">
+  <input type="button" class="cbi-button cbi-input-reload" value="<%:Network speed test TG AC group%>" onclick="javascript:window.open('https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ','target');" />
+</div>
+
+</div>
+	
+		</fieldset>
+	</div>
+
+	<fieldset class="cbi-section" style="display:none">
+		<legend id="diag-rc-legend"><%:Collecting data...%>
+    </legend>
+    <span id="diag-rc-output"></span>
+  </fieldset>
+</form>
+<%+footer%>
