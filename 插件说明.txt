@@ -1,0 +1,15 @@
+luci-app-autopoweroff定时自动重启和自动关机
+luci-app-advanced系统高级设置【自带文件管理功能】
+luci-app-NetSpeedTest网络速度测试
+luci-app-poweroffdevice关机功能插件
+luci-app-netdata网络监控中文版
+luci-app-timecontrol定时控制
+luci-app-controlweburl管控过滤[集成上网时间控制，黑白名单IP过滤，网址过滤几大功能]
+luci-app-cpulimitCPU限制
+luci-app-turboacc新版TURBO ACC加速器
+luci-app-eqosEQS网速控制
+luci-app-koolddnsKOOL域名DNS解析工具
+luci-app-koolproxyRKP经典去广告
+luci-them-ebtmodbtmod（适配18.06）
+luci-them-eopentopdopentopd（适配18.06）
+luci-them-eopentoks仿LEDE主题（适配18.06）

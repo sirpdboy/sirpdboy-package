@@ -1,20 +1,16 @@
 
--- Copyright (C) 2020-2021 sirpdboy <herboy2008@gmail.com>
--- The LuCI Network diagnosis and speed test <https://github.com/sirpdboy/NetSpeedTest/luci-app-NetSpeedTest>
--- This is free software, licensed under the GNU General Public License v3.
-
 module("luci.controller.netspeedtest", package.seeall)
 
 function index()
 	local uci = require("luci.model.uci").cursor()
 	local page
-	page = entry({"admin", "network", "NetSpeedTest"}, template("NetSpeedTest/NetSpeedTest"), "NetSpeedTest", 90)
+	page = entry({"admin", "network", "netspeedtest"}, template("netspeedtest"), "netspeedtest", 90)
 	page.dependent = true
 	
-	page = entry({"admin", "network", "diag_iperf3"}, call("diag_iperf3"), nil)
+	page = entry({"admin", "network", "diag_iperf"}, call("diag_iperf"), nil)
 	page.leaf = true
 
-	page = entry({"admin", "network", "diag_iperf36"}, call("diag_iperf36"), nil)
+	page = entry({"admin", "network", "diag_iperf6"}, call("diag_iperf6"), nil)
 	page.leaf = true
 	page = entry({"admin", "network","diag_ping"}, call("diag_ping"), nil)
 	page.leaf = true	
@@ -43,6 +39,7 @@ function diag_cmd(cmd, addr)
 
 	luci.http.status(500, "Bad address")
 end
+
 function testlan(cmd)
 		luci.http.prepare_content("text/plain")
 
@@ -59,15 +56,15 @@ function testlan(cmd)
 		end
 
 		return
-	end
 
-	luci.http.status(500, "Bad Network")
 end
-function diag_iperf3(addr)
+
+
+function diag_iperf(addr)
 	testlan("iperf3 -s 2>&1")
 end
 
-function diag_iperf36(addr)
+function diag_iperf6(addr)
 	testlan("iperf3 -s -B 0.0.0.0 2>&1")
 end
 

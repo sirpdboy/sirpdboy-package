@@ -42,7 +42,7 @@ dns:
   - 114.114.114.114
   - 2620:fe::10
   - 2620:fe::fe:10
-  all_servers: true
+  all_servers: false
   fastest_addr: false
   allowed_clients: []
   disallowed_clients: []

@@ -6,12 +6,13 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=luci-app-netspeedtest
 LUCI_TITLE:=LuCI support Network speed test intranet and Extranet
 LUCI_DEPENDS:=+iperf3
 LUCI_PKGARCH:=all
-PKG_VERSION:=20210206
-PKG_RELEASE:=2
-include $(TOPDIR)/feeds/luci/luci.mk
+PKG_NAME:=luci-app-netspeedtest
+PKG_VERSION:=1.0
+PKG_RELEASE:=4
+LUCI_URL:=https://www.github.com/sirpdboy/NetSpeedTest/luci-app-netspeedtest
+include ../../luci.mk
 
-# call BuildPackage - OpenWrt buildroot signature
+# call BuildPackage - OpenWrt buildroot Network diagnosis and speed test

@@ -9,7 +9,7 @@ msgid "Manual Config"
 msgstr "手动设置"
 
 msgid "Free and open source, powerful network-wide ads & trackers blocking DNS server."
-msgstr "免费开源，功能强大的全网络广告和跟踪程序拦截DNS服务器"
+msgstr "全网络广告和跟踪程序拦截DNS服务器，默认账号和密码均为：admin"
 
 msgid "RUNNING"
 msgstr "运行中"
@@ -30,7 +30,7 @@ msgid "Enable"
 msgstr "启用"
 
 msgid "Browser management port"
-msgstr "网页登陆账号和密码:admin ,端口:"
+msgstr "网页管理账号和密码:admin ,端口:"
 
 msgid "Update"
 msgstr "更新"

@@ -40,8 +40,9 @@ else
 	local version=uci:get("AdGuardHome","AdGuardHome","version")
 	local testtime=fs.stat(binpath,"mtime")
 	if testtime~=tonumber(binmtime) or version==nil then
-		local tmp=luci.sys.exec(binpath.." --version | grep -m 1 -E ' [0-9.]+' -o ")
-		version=string.sub(tmp, 1)
+		-- local tmp=luci.sys.exec(binpath.." --version | grep -m 1 -E ' [0-9.]+' -o ")
+		-- version=string.sub(tmp, 1)
+                version = luci.sys.exec(string.format("echo -n $(%s --version 2>&1 | awk -F 'version ' '{print $2}' | awk -F ',' '{print $1}')", binpath))
 		if version=="" then version="core error" end
 		uci:set("AdGuardHome","AdGuardHome","version",version)
 		uci:set("AdGuardHome","AdGuardHome","binmtime",testtime)
@@ -70,7 +71,7 @@ o.optional = true
 
 ---- bin path
 o = s:option(Value, "binpath", translate("Bin Path"), translate("AdGuardHome Bin path if no bin will auto download"))
-o.default = "/usr/bin/AdGuardHome/AdGuardHome"
+o.default = "/usr/bin/AdGuardHome"
 o.datatype = "string"
 o.optional = false
 o.rmempty=false
