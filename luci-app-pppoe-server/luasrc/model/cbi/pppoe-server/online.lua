@@ -31,6 +31,6 @@ kill = t:option(Button, "_kill", translate("Forced offline"))
 kill.inputstyle = "reset"
 function kill.write(e, t)
     null, e.tag_error[t] = luci.sys.process.signal(e.map:get(t, "PID"), 9)
-    luci.http.redirect(o.build_url("admin/services/pppoe-server/online"))
+    luci.http.redirect(o.build_url("admin/nas/pppoe-server/online"))
 end
 return f

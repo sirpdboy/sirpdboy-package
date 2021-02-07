@@ -71,24 +71,22 @@ o.optional = true
 
 ---- bin path
 o = s:option(Value, "binpath", translate("Bin Path"), translate("AdGuardHome Bin path if no bin will auto download"))
-o.default = "/usr/bin/AdGuardHome"
+o.default = "/usr/bin/AdGuardHome/AdGuardHome"
 o.datatype = "string"
 o.optional = false
-o.rmempty=false
-o.validate=function(self, value)
-if value=="" then return nil end
-if fs.stat(value,"type")=="dir" then
-	fs.rmdir(value)
-end
-if fs.stat(value,"type")=="dir" then
-	if (m.message) then
-	m.message =m.message.."\nerror!bin path is a dir"
-	else
-	m.message ="error!bin path is a dir"
-	end
-	return nil
-end 
-return value
+o.rmempty = false
+o.validate = function(self, value)
+    if value == "" then return nil end
+    if fs.stat(value, "type") == "dir" then fs.rmdir(value) end
+    if fs.stat(value, "type") == "dir" then
+        if (m.message) then
+            m.message = m.message .. "\nerror!bin path is a dir"
+        else
+            m.message = "error!bin path is a dir"
+        end
+        return nil
+    end
+    return value
 end
 
 --- upx
@@ -111,18 +109,16 @@ o.optional = false
 o.rmempty=false
 o.validate=function(self, value)
 if value==nil then return nil end
-if fs.stat(value,"type")=="dir" then
-	fs.rmdir(value)
-end
-if fs.stat(value,"type")=="dir" then
-	if m.message then
-	m.message =m.message.."\nerror!config path is a dir"
-	else
-	m.message ="error!config path is a dir"
-	end
-	return nil
-end 
-return value
+    if fs.stat(value, "type") == "dir" then fs.rmdir(value) end
+    if fs.stat(value, "type") == "dir" then
+        if m.message then
+            m.message = m.message .. "\nerror!config path is a dir"
+        else
+            m.message = "error!config path is a dir"
+        end
+        return nil
+    end
+    return value
 end
 
 ---- work dir
@@ -152,19 +148,17 @@ end
 o = s:option(Value, "logfile", translate("Runtime log file"), translate("AdGuardHome runtime Log file if 'syslog': write to system log;if empty no log"))
 o.datatype = "string"
 o.rmempty = true
-o.validate=function(self, value)
-if fs.stat(value,"type")=="dir" then
-	fs.rmdir(value)
-end
-if fs.stat(value,"type")=="dir" then
-	if m.message then
-	m.message =m.message.."\nerror!log file is a dir"
-	else
-	m.message ="error!log file is a dir"
-	end
-	return nil
-end 
-return value
+o.validate = function(self, value)
+    if fs.stat(value, "type") == "dir" then fs.rmdir(value) end
+    if fs.stat(value, "type") == "dir" then
+        if m.message then
+            m.message = m.message .. "\nerror!log file is a dir"
+        else
+            m.message = "error!log file is a dir"
+        end
+        return nil
+    end
+    return value
 end
 
 ---- debug
@@ -239,10 +233,10 @@ o1:depends ("backupfile", "filters")
 o1:depends ("backupfile", "stats.db")
 o1:depends ("backupfile", "querylog.json")
 o1:depends ("backupfile", "sessions.db")
-for name in fs.glob(workdir.."/data/*")
-do
-	name=fs.basename (name)
-	if name~="filters" and name~="stats.db" and name~="querylog.json" and name~="sessions.db" then
+for name in fs.glob(workdir .. "/data/*") do
+    name = fs.basename(name)
+    if name ~= "filters" and name ~= "stats.db" and name ~= "querylog.json" and
+        name ~= "sessions.db" then
 		o:value(name,name)
 		o1:depends ("backupfile", name)
 	end
