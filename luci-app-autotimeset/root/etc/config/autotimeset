@@ -3,4 +3,4 @@ config login
 	option hour '1'
 	option week '1'
 	option enable '0'
-	option stype '1'
+	option stype '2'

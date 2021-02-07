@@ -1,50 +1,60 @@
 [![若部分图片无法正常显示，请挂上机场浏览或点这里到末尾看修复教程](https://visitor-badge.glitch.me/badge?page_id=sirpdboy-visitor-badge)](#解决-github-网页上图片显示失败的问题) [![](https://img.shields.io/badge/TG群-点击加入-FFFFFF.svg)](https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ)
 
-[autopoweroff自动定时重启关机插件](https://github.com/sirpdboy/luci-app-autopoweroff)
+[autotimeset  定时设置插件](https://github.com/sirpdboy/luci-app-autotimeset)
 ======================
 请 **认真阅读完毕** 本页面，本页面包含注意事项和如何使用。
 
 ## 功能说明：
 
-定时设置重启和定时设置关机二合一升级版，解决原本需要保存二次才能生效的问题。
+### 定时设置1.4版
+#### 2021.2.7 新增功能定时重启网络。现包括：定时重启、定时关机、定时重启网络，各功能可一起使用。
+
+### 定时设置1.3版
+#### 2020.10.6 原来重定关机正式改名为定时设置，实现定时重启和定时关机功能二合一。
+
+### 定时关机1.1版
+#### 2020.7.19  定时关机功能，彻底解决需要保存二次才生效的问题。
+
+### 定时关机1.0版
+#### 2019.2.24 定时关机功能借鉴前辈们的开源代码首发。
 
 ## 编译使用方法 [![](https://img.shields.io/badge/-编译使用方法-F5F5F5.svg)](#编译使用方法-)
 
-将luci-app-autopoweroff添加至 LEDE/OpenWRT 源码的方法。
+将luci-app-autotimeset添加至 LEDE/OpenWRT 源码的方法。
 
 ### 下载源码方法一：
 编辑源码文件夹根目录feeds.conf.default并加入如下内容:
 
 ```Brach
     # feeds获取源码：
-    src-git autopoweroff  https://github.com/sirpdboy/luci-app-autopoweroff
+    src-git autotimeset  https://github.com/sirpdboy/luci-app-autotimeset
  ``` 
   ```Brach
    # 更新feeds，并安装主题：
-    scripts/feeds update autopoweroff
-	scripts/feeds install luci-app-autopoweroff
+    scripts/feeds update autotimeset
+	scripts/feeds install luci-app-autotimeset
  ``` 	
 
 ### 下载源码方法二：
  ```Brach
     # 下载源码
-    git clone https://github.com/sirpdboy/luci-app-autopoweroff package/luci-app-autopoweroff
+    git clone https://github.com/sirpdboy/luci-app-autotimeset package/luci-app-autotimeset
     make menuconfig
  ``` 
 ### 配置菜单
  ```Brach
     make menuconfig
-	# 找到 LuCI -> Themes, 选择 luci-app-autopoweroff, 保存后退出。
+	# 找到 LuCI -> Applications, 选择 luci-app-autotimeset, 保存后退出。
  ``` 
 ### 编译
  ```Brach 
     # 编译固件
-    make package/luci-app-autopoweroff/compile V=s
+    make package/luci-app-autotimeset/compile V=s
  ```
 
 ## 说明 [![](https://img.shields.io/badge/-说明-F5F5F5.svg)](#说明-)
 
-源码来源：https://github.com/sirpdboy/luci-app-autopoweroff
+源码来源：https://github.com/sirpdboy/luci-app-autotimeset
 
 你可以随意使用其中的源码，但请注明出处。
 ============================
@@ -52,7 +62,7 @@
 # My other project
 网络速度测试 ：https://github.com/sirpdboy/NetSpeedTest
 
-定时关机重启 : https://github.com/sirpdboy/luci-app-autopoweroff
+定时设置插件 : https://github.com/sirpdboy/luci-app-autotimeset
 
 关机功能插件 : https://github.com/sirpdboy/luci-app-poweroffdevice
 

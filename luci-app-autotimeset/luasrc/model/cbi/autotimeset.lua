@@ -4,7 +4,7 @@ local s=require"nixio.fs"
 local e=luci.model.uci.cursor()
 local m,s,e
 
-m=Map("autopoweroff",translate("Scheduled Setting"),translate("Scheduled reboot poweroff Setting"))
+m=Map("autotimeset",translate("Scheduled Setting"),translate("Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together."))
 
 s=m:section(TypedSection,"login","")
 s.addremove=false
@@ -17,7 +17,8 @@ e.default=0
 e=s:option(ListValue,"stype",translate("Scheduled Type"))
 e:value(1,translate("Scheduled Reboot"))
 e:value(2,translate("Scheduled Poweroff"))
-e.default=1
+e:value(3,translate("Scheduled ReNetwork"))
+e.default=2
 
 e=s:option(ListValue,"week",translate("Week Day"))
 e:value(7,translate("Everyday"))
@@ -40,7 +41,7 @@ e.rmempty = false
 
 local e=luci.http.formvalue("cbi.apply")
 if e then
-  io.popen("/etc/init.d/autopoweroff restart")
+  io.popen("/etc/init.d/autotimeset restart")
 end
 
 return m
