@@ -1,6 +1,6 @@
 #
-# Copyright (C) 2020-2021 sirpdboy <herboy2008@gmail.com>
-# The LuCI Network diagnosis and speed test <https://github.com/sirpdboy/NetSpeedTest/luci-app-NetSpeedTest>
+# Copyright (C) 2020-2021 sirpdboy  herboy2008@gmail.com 
+# The LuCI Network diagnosis and speed test  https://github.com/sirpdboy/NetSpeedTest/luci-app-NetSpeedTest 
 # This is free software, licensed under the GNU General Public License v3.
 #
 
@@ -36,8 +36,38 @@ msgstr "国内下载密码："
 msgid "Iperf3 speed measurement software download"
 msgstr "iperf3测速软件下载"
 
+msgid "Start network speed test"
+msgstr "启动网速测试"
+
+msgid "Random 3 telecom nodes"
+msgstr "随机3个电信节点"
+
+msgid "Random 9 telecom nodes"
+msgstr "随机9个电信节点"
+
+msgid "Random 3 Unicom nodes"
+msgstr "随机3个联通节点"
+
+msgid "Random 9 Unicom nodes"
+msgstr "随机9个联通节点"
+
+msgid "Random 3 mobile nodes"
+msgstr "随机3个移动节点"
+
+msgid "Random 9 mobile nodes"
+msgstr "随机9个移动节点"
+
+msgid "Random 3 three network"
+msgstr "随机3个全网节点"
+
+msgid "Random 9 three network"
+msgstr "随机9个全网节点"
+
 msgid "Download from foreign official websites"
 msgstr "国外官网下载"
 
-msgid "Network speed test TG AC group"
-msgstr "测速TG交流群"
+msgid "The test kernel does not exist, so the external network speed cannot be tested"
+msgstr "测试内核不存在，不能测试外网速度"
+
+msgid "View all nodes list"
+msgstr "查看全部节点列表"
