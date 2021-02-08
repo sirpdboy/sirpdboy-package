@@ -36,6 +36,7 @@ sed -i 's/services/nas/g'  /usr/lib/lua/luci/view/minidlna_status.htm
 sed -i 's/\"services\"/\"control\"/g' /usr/lib/lua/luci/controller/wol.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autoreboot.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autopoweroff.lua
+sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autotimeset.lua
 sed -i 's/\"network\"/\"control\"/g' /usr/lib/lua/luci/controller/eqos.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/cpulimit.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/samba4.lua
@@ -47,8 +48,7 @@ uci commit vsftpd
 ln -sf /sbin/ip /usr/bin/ip
 
 sed -i 's#http://downloads.openwrt.org#https://mirrors.cloud.tencent.com/lede#g' /etc/opkg/distfeeds.conf
-sed -i '/openwrt_diy/d'   /etc/opkg/distfeeds.conf
-sed -i '/openwrt_helloworld/d'   /etc/opkg/distfeeds.conf
+sed -i '/helloworld/d'   /etc/opkg/distfeeds.conf
 #sed -i 's/root::0:0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/g' /etc/shadow
 # sed -i 's/\"bootstrap\"/\"opentopd\"/g'  /etc/config/luci
 sed -i "s/# //g" /etc/opkg/distfeeds.conf
@@ -65,6 +65,7 @@ sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
 wifi up
 
 sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
+echo "DISTRIB_REVISION='R21.2.1'" >> /etc/openwrt_release
 cat /etc/openwrt_release1 >> /etc/openwrt_release
 sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release
 echo "DISTRIB_DESCRIPTION='OpenWrt '" >> /etc/openwrt_release

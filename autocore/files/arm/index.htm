@@ -12,7 +12,6 @@
 	local has_ipv6 = fs.access("/usr/sbin/ip6tables")
 	local has_dhcp = fs.access("/etc/config/dhcp")
 	local has_wifi = ((fs.stat("/etc/config/wireless", "size") or 0) > 0)
-	local has_temp = fs.access("/sbin/tempinfo")
 
 	local sysinfo = luci.util.ubus("system", "info") or { }
 	local boardinfo = luci.util.ubus("system", "board") or { }
@@ -45,14 +44,14 @@
 		local user_info = luci.sys.exec("cat /proc/net/arp | grep 'br-lan' | grep '0x2' | wc -l")
 		
 		local cpu_usage = (luci.sys.exec("expr 100 - $(top -n 1 | grep 'CPU:' | awk -F '%' '{print$4}' | awk -F ' ' '{print$2}')") or "6") .. "%"
-		local cpu_info = luci.sys.exec("/sbin/cpuinfo") or "ARM Processor"
+		local cpu_info = luci.sys.exec("/sbin/cpuinfo") or "ARM Processor x 0 (233MHz, 2.3°C)"
 
 		local rv = {
 			cpuinfo    = cpu_info,
 			cpuusage   = cpu_usage,
 			userinfo   = user_info,
 			uptime     = sysinfo.uptime or 0,
-			localtime  = os.date(),
+			localtime  = os.date("%Y年%m月%d日") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X"),
 			loadavg    = sysinfo.load or { 0, 0, 0 },
 			memory     = meminfo,
 			memcached  = mem_cached,
@@ -701,9 +700,6 @@
 		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or ""%></td></tr>
 		<tr><td width="33%"><%:Architecture%></td><td id="cpuinfo">-</td></tr>
-		<% if has_temp then %>
-		<tr><td width="33%"><%:Temperature%></td><td><%=luci.sys.exec("/sbin/tempinfo") or "?"%></td></tr>
-		<% end %>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
 			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%><!-- /
 			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>) !-->
