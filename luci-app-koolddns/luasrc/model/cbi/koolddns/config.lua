@@ -22,9 +22,9 @@ e=t:option(ListValue,"service",translate("Service Providers"))
 e:value("aliddns",translate("AliDDNS"))
 e:value("dnspod",translate("DNSPOD"))
 e.rmempty=false
-e=t:option(Value,"accesskey",translate("Access Key"))
+e=t:option(Value,"accesskey",translate("Token ID"))
 e.rmempty=false
-e=t:option(Value,"signature",translate("Signature"))
+e=t:option(Value,"signature",translate("Token Key"))
 e.rmempty=false
 e=t:option(Value,"interface",translate("Interface"))
 e.rmempty=false
