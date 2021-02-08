@@ -19,8 +19,8 @@ local has_speedtest = fs.access("/bin/speedtest") or fs.access("/usr/bin/speedte
 	{
 		var tool = field.name;
 		var addr = field.value;
-		var protocol = proto ? "6" : "";
-
+		var protocol = proto ;
+        
 		var legend = document.getElementById('diag-rc-legend');
 		var output = document.getElementById('diag-rc-output');
 
@@ -60,17 +60,17 @@ local has_speedtest = fs.access("/bin/speedtest") or fs.access("/usr/bin/speedte
     <legend><%:Network speed diagnosis test (including intranet and extranet)%></legend>
     <br />
     <div style="width:50%; float:left">
-      <input style="margin: 5px 0"  type="hidden" value="" name="iperf" />
+      <input style="margin: 5px 0"  type="hidden" value="" name="iperf" /><br />
     <% if has_iperf then %>
     <select name="iperf_to" style="width:auto">
       <option value="" selected="selected"><%:iperflan%></option>
       <option value="6"><%:iperfwan%></option>
     </select>
-      <input type="button" value="<%:Start the speed measurement server%>" class="cbi-button cbi-button-apply" onclick="update_status(this.form.iperf,this.form.iperf_to.selectedIndex)" />
+      <input type="button" value="<%:Start Test server%>" class="cbi-button cbi-button-apply" onclick="update_status(this.form.iperf,this.form.iperf_to.selectedIndex)" />
       <% else %>
-      </br>
+
       <%:You need to install iperf3 plug-in to start the test speed server%>
-      </br>
+
       <% end %>
       </br>
       </div>

@@ -15,7 +15,7 @@ msgstr ""
 
 
 msgid "netspeedtest"
-msgstr "网速测试"
+msgstr "测试网速"
 
 msgid "Network speed diagnosis test (including intranet and extranet)"
 msgstr "网络速度诊断测试（包括内网和外网）"
@@ -26,7 +26,7 @@ msgstr "iperf内网测试"
 msgid "iperfwan"
 msgstr "iperf外网测试"
 
-msgid "Start the speed measurement server"
+msgid "Start Test server"
 msgstr "启动测速服务器"
 
 msgid "You need to install iperf3 plug-in to start the test speed server"
