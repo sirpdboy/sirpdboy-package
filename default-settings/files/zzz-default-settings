@@ -15,7 +15,7 @@ uci set dhcp.lan.ra_management='1'
 uci set dhcp.lan.ra_default='1'
 uci set dhcp.lan.force='1'
 uci set dhcp.@dnsmasq[0].filter_aaaa='0'
-uci set network.@globals[0].ula_prefix='dd48:56c7:1325::/48'
+#uci set network.@globals[0].ula_prefix='dd48:56c7:1325::/48'
 uci set network.@wan[0].mtu=1400
 uci commit network
 rm -f /usr/lib/lua/luci/view/admin_status/index/ddns.htm
@@ -23,8 +23,8 @@ rm -f /usr/lib/lua/luci/view/admin_status/index/minidlna.htm
 
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/aria2.lua
 sed -i 's/services/nas/g' /usr/lib/lua/luci/view/aria2/overview_status.htm
-sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/hd_idle.lua
-sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/samba.lua
+sed -i 's/\"services\"/\"control\"/g' /usr/lib/lua/luci/controller/hd_idle.lua
+sed -i 's/\"services\"/\"control\"/g' /usr/lib/lua/luci/controller/samba.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/minidlna.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/transmission.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/mjpg-streamer.lua
@@ -32,15 +32,14 @@ sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/p910nd.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/usb_printer.lua
 sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/xunlei.lua
 sed -i 's/services/nas/g'  /usr/lib/lua/luci/view/minidlna_status.htm
-
 sed -i 's/\"services\"/\"control\"/g' /usr/lib/lua/luci/controller/wol.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autoreboot.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autopoweroff.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/autotimeset.lua
 sed -i 's/\"network\"/\"control\"/g' /usr/lib/lua/luci/controller/eqos.lua
 sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/cpulimit.lua
-sed -i 's/\"services\"/\"nas\"/g' /usr/lib/lua/luci/controller/samba4.lua
-
+sed -i 's/\"services\"/\"control\"/g' /usr/lib/lua/luci/controller/samba4.lua
+sed -i 's/\"nas\"/\"control\"/g' /usr/lib/lua/luci/controller/cifsd.lua
 
 uci set vsftpd.@listen[0].enable4=0
 uci commit vsftpd
