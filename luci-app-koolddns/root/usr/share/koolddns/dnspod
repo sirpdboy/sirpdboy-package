@@ -48,8 +48,7 @@ send_request() {
     local agent="AnripDdns/6.0.0(mail@anrip.com)"
 
     local apiurl="https://dnsapi.cn/${1:?'Info.Version'}"
-    local params="login_token=$dnspod_ak&format=json&$2"
-    # local params="login_token=$dnspod_ak,$dnspod_sk&Format=json&$2"
+    local params="login_token=$dnspod_ak,$dnspod_sk&format=json&$2"
     
     if type wget >/dev/null 2>&1; then
         /usr/bin/wget --quiet --no-check-certificate --output-document=- --user-agent=$agent --post-data $params $apiurl
