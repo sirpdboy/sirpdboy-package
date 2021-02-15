@@ -12,6 +12,7 @@
 	local has_ipv6 = fs.access("/usr/sbin/ip6tables")
 	local has_dhcp = fs.access("/etc/config/dhcp")
 	local has_wifi = ((fs.stat("/etc/config/wireless", "size") or 0) > 0)
+
 	local sysinfo = luci.util.ubus("system", "info") or { }
 	local boardinfo = luci.util.ubus("system", "board") or { }
 	local unameinfo = nixio.uname() or { }
@@ -40,9 +41,6 @@
 			"sysctl -n -e net.nf_conntrack_max net.ipv4.netfilter.ip_conntrack_max"
 		):match("%d+")) or 4096
 
-		local cpu_info = luci.sys.exec("cpuinfo")
-
-
 		local user_info = luci.sys.exec("cat /proc/net/arp | grep 'br-lan' | grep '0x2' | wc -l")
 		
 		local cpu_usage = (luci.sys.exec("expr 100 - $(top -n 1 | grep 'CPU:' | awk -F '%' '{print$4}' | awk -F ' ' '{print$2}')") or "6") .. "%"
@@ -53,7 +51,7 @@
 			cpuusage   = cpu_usage,
 			userinfo   = user_info,
 			uptime     = sysinfo.uptime or 0,
-			localtime  = os.date(),
+			localtime  = os.date("%Y年%m月%d日") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X"),
 			loadavg    = sysinfo.load or { 0, 0, 0 },
 			memory     = meminfo,
 			memcached  = mem_cached,
@@ -703,8 +701,8 @@
 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or ""%></td></tr>
 		<tr><td width="33%"><%:Architecture%></td><td id="cpuinfo">-</td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
-			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
-			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>)
+			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%><!-- /
+			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>) !-->
 		</td></tr>
 		<tr><td width="33%"><%:Kernel Version%></td><td><%=unameinfo.release or "?"%></td></tr>
 		<tr><td width="33%"><%:Local Time%></td><td id="localtime">-</td></tr>
@@ -713,10 +711,18 @@
 		<tr><td width="33%"><%:CPU usage (%)%></td><td id="cpuusage">-</td></tr>
                                    <tr><td width="33%"><%:help%></td>
 			<td id="cpr">
-				<input type="button" class="cbi-button cbi-button-apply" value="更新建议" onclick="window.open('https://github.com/sirpdboy/openwrt18.06/issues')" />
-				<input type="button" class="cbi-button cbi-button-apply" value="TG聊天群" onclick="window.open('https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ')" />
+				<input type="button" class="cbi-button cbi-button-apply" value="<%:更新建议%>" onclick="window.open('https://github.com/sirpdboy/openwrt18.06/issues')" />
+				<input type="button" class="cbi-button cbi-button-apply" value="<%:TG聊天群%>" onclick="window.open('https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ')" />
 				</td>
 			</tr>
+</table>
+</fieldset>
+
+<fieldset class="cbi-section">
+	<legend><%:天气%></legend>
+
+	<table width="100%" cellspacing="10">
+		<tr><td width="33%"><%:城市天气%></td><td > <iframe width="680" scrolling="no" height="120" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=22&icon=1&temp=1&num=5&site=12"></iframe>		
 	</table>
 </fieldset>
 <fieldset class="cbi-section">
@@ -728,7 +734,6 @@
 		<tr><td width="33%"><%:Buffered%></td><td id="membuff">-</td></tr>
 	</table>
 </fieldset>
-
 <% if swapinfo.total > 0 then %>
 <fieldset class="cbi-section">
 	<legend><%:Swap%></legend>

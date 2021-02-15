@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. /usr/share/libubox/jshn.sh
+#. /usr/share/libubox/jshn.sh
 
 IP4="ip -4"
 IP6="ip -6"

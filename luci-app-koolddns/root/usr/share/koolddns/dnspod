@@ -45,13 +45,20 @@ urlencode() {
 }
 
 send_request() {
-	local args="login_token=$dnspod_ak,$dnspod_sk&Format=json&$2"
-	/usr/bin/wget --no-check-certificate --post-data "$args" "https://dnsapi.cn/$1" -O /tmp/ddnspod
-	isinvalid=`cat /tmp/ddnspod | egrep -C8 "<message>" | grep "<message>" | awk -F'>' '{print $2}' | awk -F'<' '{print $1}' | grep invalid`
-	if [ -n "$isinvalid" ];then
-		echo "$DATE: token有误，无法更新！" >> $log_file
-		exit 0
-	fi
+    local agent="AnripDdns/6.0.0(mail@anrip.com)"
+
+    local apiurl="https://dnsapi.cn/${1:?'Info.Version'}"
+    local params="login_token=$dnspod_ak,$dnspod_sk&format=json&$2"
+    
+    if type wget >/dev/null 2>&1; then
+        /usr/bin/wget --quiet --no-check-certificate --output-document=- --user-agent=$agent --post-data $params $apiurl
+
+	# /usr/bin/wget --no-check-certificate --post-data "$args" "https://dnsapi.cn/$1" -O /tmp/ddnspod
+	# isinvalid=`cat /tmp/ddnspod | egrep -C8 "<message>" | grep "<message>" | awk -F'>' '{print $2}' | awk -F'<' '{print $1}' | grep invalid`
+
+    else
+        curl -s -A $agent -d $params $apiurl  >> $log_file
+    fi
 }
 
 get_recordid() {

@@ -1,4 +1,3 @@
--- Copyright 2018-2020 Lienol <lawlienol@gmail.com>
 module("luci.controller.ipsec-server", package.seeall)
 
 function index()
@@ -17,8 +16,8 @@ function index()
 end
 
 function status()
-    local e = {}
-    e.status = luci.sys.call("/usr/bin/pgrep ipsec > /dev/null") == 0
-    luci.http.prepare_content("application/json")
-    luci.http.write_json(e)
+	local e={}
+	e.status=luci.sys.call("/usr/bin/pgrep ipsec > /dev/null")==0
+	luci.http.prepare_content("application/json")
+	luci.http.write_json(e)
 end

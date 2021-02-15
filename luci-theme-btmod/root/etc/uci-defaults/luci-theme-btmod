@@ -1,8 +1,6 @@
 #!/bin/sh
-if [ "$PKG_UPGRADE" != 1 ]; then
 uci batch <<-EOF
 	set luci.themes.Btmod=/luci-static/btmod
 	commit luci
 EOF
-if
 exit 0

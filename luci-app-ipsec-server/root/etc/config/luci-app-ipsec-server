@@ -7,6 +7,6 @@ config service 'ipsec'
 
 config users
 	option enabled '1'
-	option username 'guest'
+	option username 'sirpdboy'
 	option password '123456'
 

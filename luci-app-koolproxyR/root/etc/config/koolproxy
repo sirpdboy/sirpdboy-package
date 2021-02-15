@@ -18,7 +18,7 @@ config acl_rule
 config rss_rule
 	option load '1'
 	option name 'kpr_our_rule'
-	option url 'https://gitee.com/ledewrt/ledeproxy/raw/master/rules/kpr_our_rule.txt'
+	option url 'https://gitee.com/godros/godproxy/raw/master/rules/kpr_our_rule.txt'
 
 config usetips
 	option load '0'

@@ -11,10 +11,10 @@ msgstr ""
 
 
 msgid "EQoS"
-msgstr "网速控制"
+msgstr "IP限速"
 
 msgid "eqos"
-msgstr "网速控制"
+msgstr "IP限速"
 
 msgid "Comment"
 msgstr "注解"
@@ -29,7 +29,7 @@ msgid "QoS"
 msgstr "QoS"
 
 msgid "Network speed control service"
-msgstr "网速控制服务"
+msgstr "IP限速控制服务"
 
 msgid "Upload speed (Mbit/s)"
 msgstr "上传速度 (Mbit/s)"

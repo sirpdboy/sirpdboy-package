@@ -1,0 +1,83 @@
+#
+# Copyright (C) 2020-2021 sirpdboy  herboy2008@gmail.com 
+# This is free software, licensed under the GNU General Public License v3.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: LuCi Chinese Translation\n"
+"Report-Msgid-Bugs-To: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.0.6\n"
+
+
+msgid "netspeedtest"
+msgstr "测试网速"
+
+msgid "Network speed diagnosis test (including intranet and extranet)"
+msgstr "网络速度诊断测试（包括内网和外网）"
+
+msgid "iperflan"
+msgstr "iperf内网测试"
+
+msgid "iperfwan"
+msgstr "iperf外网测试"
+
+msgid "Start Test server"
+msgstr "启动测速服务器"
+
+msgid "You need to install iperf3 plug-in to start the test speed server"
+msgstr "需要安装iperf3插件才能开启测试速度服务器"
+
+msgid "instructions"
+msgstr "使用说明"
+
+msgid "the terminal machine of speed measurement must be in the same local area network as the speed measurement server.
+Use steps: start the speed measurement server》》download the test client》》run the speed measurement client》》enter the server IP address. "
+msgstr "测速终端机必须与测速服务器在同一局域网内。
+操作步骤：启动测速服务器》》下载测试客户端》》运行测速客户端》》输入服务器IP地址。"
+
+msgid "Domestic download password:"
+msgstr "国内下载密码："
+
+msgid "Iperf3 speed measurement software download"
+msgstr "iperf3测速软件下载"
+
+msgid "Start network speed test"
+msgstr "启动网速测试"
+
+msgid "Random 3 telecom nodes"
+msgstr "随机3个电信节点"
+
+msgid "Random 9 telecom nodes"
+msgstr "随机9个电信节点"
+
+msgid "Random 3 Unicom nodes"
+msgstr "随机3个联通节点"
+
+msgid "Random 9 Unicom nodes"
+msgstr "随机9个联通节点"
+
+msgid "Random 3 mobile nodes"
+msgstr "随机3个移动节点"
+
+msgid "Random 9 mobile nodes"
+msgstr "随机9个移动节点"
+
+msgid "Random 3 three network"
+msgstr "随机3个全网节点"
+
+msgid "Random 9 three network"
+msgstr "随机9个全网节点"
+
+msgid "Download from foreign official websites"
+msgstr "国外官网下载"
+
+msgid "The test kernel does not exist, so the external network speed cannot be tested"
+msgstr "测试内核不存在，不能测试外网速度"
+
+msgid "View all nodes list"
+msgstr "查看全部节点列表"

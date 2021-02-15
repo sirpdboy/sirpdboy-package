@@ -15,6 +15,7 @@ PKG_RELEASE:=5
 define Package/luci-app-onliner/install
     $(INSTALL_DIR) $(1)/usr/lib/lua/luci
 	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
+	
 	$(INSTALL_DIR) $(1)/
 	cp -pR ./root/* $(1)/
 	

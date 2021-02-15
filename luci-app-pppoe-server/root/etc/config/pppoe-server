@@ -5,7 +5,7 @@ config service
 	option count '50'
 	option mru '1492'
 	option mtu '1492'
-	option remoteip '10.0.1.100-254'
+	option remoteip '10.0.1.10-254'
 	option is_nat '1'
 	option export_interface 'default'
 	option client_interface 'eth0'
