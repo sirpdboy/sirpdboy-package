@@ -1,0 +1,9 @@
+﻿[submodule "luci-theme-opentopd"]
+	path = luci-app-vssr
+	url = https://github.com/sirpdboy/luci-theme-opentopd.git
+[submodule "luci-app-poweroffdevice"]
+    path = luci-app-poweroffdevice
+    url = https://github.com/sirpdboy/luci-app-poweroffdevice.git
+[submodule "netspeedtest"]
+    path = netspeedtest
+    url = https://github.com/sirpdboy/netspeedtest.git
