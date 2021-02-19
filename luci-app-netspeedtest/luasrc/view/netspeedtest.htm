@@ -11,7 +11,7 @@ local has_iperf = fs.access("/bin/iperf3") or fs.access("/usr/bin/iperf3")
 local has_ping6 = fs.access("/bin/ping6") or fs.access("/usr/bin/ping6")
 local has_speedtest = fs.access("/bin/speedtest") or fs.access("/usr/bin/speedtest")
 %>
-<script type="text/javascript" src="<%=resource%>/cbi.js"></script>
+<script type="text/javascript" src="<%=resource%>/cbi.js?v=1.1"></script>
 <script type="text/javascript">//<![CDATA[
 	var stxhr = new XHR();
 
@@ -28,7 +28,7 @@ local has_speedtest = fs.access("/bin/speedtest") or fs.access("/usr/bin/speedte
 		{
 			output.innerHTML =
 				'<img src="<%=resource%>/icons/loading.gif" alt="<%:Loading%>" style="vertical-align:middle" /> ' +
-				'<%:Test speed service started%>'
+				'<%:Waiting for command to complete...%>'
 			;
 
 			legend.parentNode.style.display = 'block';
