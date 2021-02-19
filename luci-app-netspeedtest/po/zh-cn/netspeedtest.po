@@ -13,9 +13,8 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.0.6\n"
 
-
 msgid "netspeedtest"
-msgstr "测试网速"
+msgstr "网速测试"
 
 msgid "Network speed diagnosis test (including intranet and extranet)"
 msgstr "网络速度诊断测试（包括内网和外网）"
@@ -35,10 +34,13 @@ msgstr "需要安装iperf3插件才能开启测试速度服务器"
 msgid "instructions"
 msgstr "使用说明"
 
+msgid "Test speed service started"
+msgstr "测试速度服务已经启动"
+
 msgid "the terminal machine of speed measurement must be in the same local area network as the speed measurement server.
-Use steps: start the speed measurement server》》download the test client》》run the speed measurement client》》enter the server IP address. "
+Use steps: start the speed measurement server--download the test client--run the speed measurement client--enter the server IP address. "
 msgstr "测速终端机必须与测速服务器在同一局域网内。
-操作步骤：启动测速服务器》》下载测试客户端》》运行测速客户端》》输入服务器IP地址。"
+操作步骤：启动测速服务器--下载测试客户端--运行测速客户端--输入服务器IP地址。"
 
 msgid "Domestic download password:"
 msgstr "国内下载密码："

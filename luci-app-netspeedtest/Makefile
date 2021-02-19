@@ -13,7 +13,7 @@ LUCI_PKGARCH:=all
 
 PKG_NAME:=luci-app-netspeedtest
 PKG_VERSION:=1.1
-PKG_RELEASE:=8
+PKG_RELEASE:=9
 
 
 include $(TOPDIR)/feeds/luci/luci.mk

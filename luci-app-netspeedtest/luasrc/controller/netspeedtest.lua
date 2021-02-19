@@ -3,11 +3,7 @@ module("luci.controller.netspeedtest", package.seeall)
 
 function index()
 
-	#page = entry({"admin", "network",  "netspeedtest"}, template("netspeedtest"), "netspeedtest", 90)
-       page = node("admin", "network", "netspeedtest")
-		page.target = template("netspeedtest")
-		page.title  = _("netspeedtest")
-		page.order  = 90
+	page = entry({"admin", "network",  "netspeedtest"}, template("netspeedtest"), "netspeedtest", 90)
 	page = entry({"admin", "network", "diag_iperf0"}, post("diag_iperf0"), nil)
 	page.leaf = true
 	page = entry({"admin", "network",  "diag_iperf1"}, post("diag_iperf1"), nil)
@@ -72,11 +68,11 @@ end
 
 
 function diag_iperf0(addr)
-	testlan("iperf3 -s 2>&1", addr)
+	testlan("iperf3 -s ", addr)
 end
 
 function diag_iperf1(addr)
-	testlan("iperf3 -s -B 0.0.0.0 2>&1", addr)
+	testlan("iperf3 -s -B 0.0.0.0 ", addr)
 end
 
 function diag_speedtest0(addr)
