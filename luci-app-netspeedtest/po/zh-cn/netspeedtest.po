@@ -37,10 +37,11 @@ msgstr "使用说明"
 msgid "Test speed service started"
 msgstr "测试速度服务已经启动"
 
-msgid "the terminal machine of speed measurement must be in the same local area network as the speed measurement server.
-Use steps: start the speed measurement server--download the test client--run the speed measurement client--enter the server IP address. "
-msgstr "测速终端机必须与测速服务器在同一局域网内。
-操作步骤：启动测速服务器--下载测试客户端--运行测速客户端--输入服务器IP地址。"
+msgid "the terminal machine of speed measurement must be in the same local area network as the speed measurement server."
+msgstr "测速终端机必须与测速服务器在同一局域网内."
+
+msgid "Use steps: start the speed measurement server--download the test client--run the speed measurement client--enter the server IP address."
+msgstr "操作步骤：启动测速服务器--下载测试客户端--运行测速客户端--输入服务器IP地址."
 
 msgid "Domestic download password:"
 msgstr "国内下载密码："

@@ -45,7 +45,7 @@ local has_speedtest = fs.access("/bin/speedtest") or fs.access("/usr/bin/speedte
 					else
 					{
 						legend.style.display = 'none';
-						output.innerHTML = '<span class="error"><%:Bad address specified!%></span>';
+						output.innerHTML = '<span class="error"><%:Test speed service started%></span>';
 					}
 				}
 			);
@@ -100,8 +100,8 @@ local has_speedtest = fs.access("/bin/speedtest") or fs.access("/usr/bin/speedte
   <fieldset class="cbi-section">
     <div style="width:50%; float:left">
     <label class="cbi-value-title"><%:instructions%></label>
-<div class="cbi-value-field" style="float:left" ><%:the terminal machine of speed measurement must be in the same local area network as the speed measurement server.
-Use steps: start the speed measurement server--download the test client--run the speed measurement client--enter the server IP address. %><br />
+<div class="cbi-value-field" style="float:left" ><%:the terminal machine of speed measurement must be in the same local area network as the speed measurement server.%><br />
+<%:Use steps: start the speed measurement server--download the test client--run the speed measurement client--enter the server IP address.%><br />
 </div>
 <div class="cbi-value" >
   <label class="cbi-value-title"><%:Iperf3 speed measurement software download%></label>
