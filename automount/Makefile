@@ -27,7 +27,6 @@ define Package/automount/description
 endef
 
 define Build/Compile
-	true
 endef
 
 define Package/automount/install
