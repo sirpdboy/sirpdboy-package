@@ -1,4 +1,0 @@
-
-config global
-	option token ''
-	option enable '0'

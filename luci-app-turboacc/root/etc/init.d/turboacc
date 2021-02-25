@@ -35,7 +35,7 @@ global {
     cache_dir="/var/dnscache";     # 缓存文件的位置
     pid_file = /var/run/dnscache.pid;
     server_ip = 127.0.0.1;        # pdnsd监听的网卡，0.0.0.0是全部网卡
-    server_port=5553;           # pdnsd监听的端口，不要和别的服务冲突即可
+    server_port=5333;           # pdnsd监听的端口，不要和别的服务冲突即可
     status_ctl = on;
     paranoid=on;                  # 二次请求模式，如果请求主DNS服务器返回的是垃圾地址，就向备用服务器请求
     query_method=udp_only;
