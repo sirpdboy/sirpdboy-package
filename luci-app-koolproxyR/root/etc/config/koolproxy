@@ -1,7 +1,7 @@
 config global
 	option time_update '4'
 	option koolproxy_port '0'
-	option startup_delay '5'
+	option startup_delay '0'
 	option koolproxy_acl_default '1'
 	option koolproxy_mode '1'
 	option koolproxy_host '1'
@@ -18,7 +18,7 @@ config acl_rule
 config rss_rule
 	option load '1'
 	option name 'kpr_our_rule'
-	option url 'https://gitee.com/godros/godproxy/raw/master/rules/kpr_our_rule.txt'
+	option url 'https://raw.githubusercontent.com/project-lede/koolproxy/main/rules/kpr_our_rule.txt'
 
 config usetips
 	option load '0'
