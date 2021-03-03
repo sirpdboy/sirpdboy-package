@@ -26,7 +26,6 @@ local function fullconebat_status()
 end
 
 local function dnscaching_status()
-	return luci.sys.call("pgrep dnscache >/dev/null") == 0
 end
 
 function action_status()
