@@ -1,0 +1,306 @@
+diff -ruN c/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt	2020-05-16 08:36:16.000000000 +0800
++++ b/CMakeLists.txt	2021-01-23 18:06:58.000000000 +0800
+@@ -97,7 +97,7 @@
+ 
+ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+ 
+-set(CURL_MINIMUM            7.15.4)
++set(CURL_MINIMUM            7.28.0)
+ set(EVENT2_MINIMUM          2.0.10)
+ set(OPENSSL_MINIMUM         0.9.7)
+ set(CYASSL_MINIMUM          3.0)
+diff -ruN a/configure.ac b/configure.ac
+--- a/configure.ac	2020-05-16 08:36:16.000000000 +0800
++++ b/configure.ac	2021-01-23 18:07:46.000000000 +0800
+@@ -39,7 +39,7 @@
+ ##
+ ##
+ 
+-CURL_MINIMUM=7.15.4
++CURL_MINIMUM=7.28.0
+ AC_SUBST(CURL_MINIMUM)
+ LIBEVENT_MINIMUM=2.0.10
+ AC_SUBST(LIBEVENT_MINIMUM)
+diff -ruN a/libtransmission/announcer.c b/libtransmission/announcer.c
+--- a/libtransmission/announcer.c	2020-05-16 08:36:16.000000000 +0800
++++ b/libtransmission/announcer.c	2021-01-23 18:23:49.000000000 +0800
+@@ -1244,9 +1244,11 @@
+                then a separate scrape isn't needed */
+             if (scrape_fields >= 3 || (scrape_fields >= 1 && tracker->scrape_info == NULL))
+             {
++                i = round(tier->scrapeIntervalSec * 0.95) + 
++                tr_rand_int_weak(round(tier->scrapeIntervalSec * 0.1));
+                 tr_logAddTorDbg(tier->tor, "Announce response contained scrape info; "
+-                    "rescheduling next scrape to %d seconds from now.", tier->scrapeIntervalSec);
+-                tier->scrapeAt = get_next_scrape_time(announcer->session, tier, tier->scrapeIntervalSec);
++                    "rescheduling next scrape to %d seconds from now.", i);
++                tier->scrapeAt = get_next_scrape_time(announcer->session, tier, i);
+                 tier->lastScrapeTime = now;
+                 tier->lastScrapeSucceeded = true;
+             }
+@@ -1271,8 +1273,9 @@
+             if (!isStopped && tier->announce_event_count == 0)
+             {
+                 /* the queue is empty, so enqueue a perodic update */
+-                i = tier->announceIntervalSec;
+-                dbgmsg(tier, "Sending periodic reannounce in %d seconds", i);
++                i = round(tier->announceIntervalSec * 0.95) + 
++                tr_rand_int_weak(round(tier->announceIntervalSec * 0.1));
++                tr_logAddTorDbg(tier->tor, "Sending periodic reannounce in %d seconds", i);
+                 tier_announce_event_push(tier, TR_ANNOUNCE_EVENT_NONE, now + i);
+             }
+         }
+diff -ruN a/libtransmission/fdlimit.c b/libtransmission/fdlimit.c
+--- a/libtransmission/fdlimit.c	2020-05-16 08:36:16.000000000 +0800
++++ b/libtransmission/fdlimit.c	2021-01-23 18:10:06.000000000 +0800
+@@ -10,11 +10,6 @@
+ #include <inttypes.h>
+ #include <string.h>
+ 
+-#ifndef _WIN32
+-#include <sys/time.h> /* getrlimit */
+-#include <sys/resource.h> /* getrlimit */
+-#endif
+-
+ #include "transmission.h"
+ #include "error.h"
+ #include "error-types.h"
+@@ -390,26 +385,6 @@
+         fileset_construct(&i->fileset, FILE_CACHE_SIZE);
+         session->fdInfo = i;
+ 
+-#ifndef _WIN32
+-
+-        /* set the open-file limit to the largest safe size wrt FD_SETSIZE */
+-        struct rlimit limit;
+-
+-        if (getrlimit(RLIMIT_NOFILE, &limit) == 0)
+-        {
+-            int const old_limit = (int)limit.rlim_cur;
+-            int const new_limit = MIN(limit.rlim_max, FD_SETSIZE);
+-
+-            if (new_limit != old_limit)
+-            {
+-                limit.rlim_cur = new_limit;
+-                setrlimit(RLIMIT_NOFILE, &limit);
+-                getrlimit(RLIMIT_NOFILE, &limit);
+-                tr_logAddInfo("Changed open file limit from %d to %d", old_limit, (int)limit.rlim_cur);
+-            }
+-        }
+-
+-#endif
+     }
+ }
+ 
+diff -ruN a/libtransmission/rpcimpl.c b/libtransmission/rpcimpl.c
+--- a/libtransmission/rpcimpl.c	2020-05-16 08:36:16.000000000 +0800
++++ b/libtransmission/rpcimpl.c	2021-01-23 17:57:56.000000000 +0800
+@@ -32,6 +32,7 @@
+ #include "tr-macros.h"
+ #include "utils.h"
+ #include "variant.h"
++#include "verify.h"
+ #include "version.h"
+ #include "web.h"
+ 
+@@ -364,6 +365,8 @@
+ {
+     TR_ASSERT(idle_data == NULL);
+ 
++    tr_skipHash ();
++
+     int torrentCount;
+     tr_torrent** torrents = getTorrents(session, args_in, &torrentCount);
+ 
+diff -ruN a/libtransmission/verify.c b/libtransmission/verify.c
+--- a/libtransmission/verify.c	2020-05-16 08:36:16.000000000 +0800
++++ b/libtransmission/verify.c	2021-01-23 18:31:14.000000000 +0800
+@@ -30,6 +30,12 @@
+     MSEC_TO_SLEEP_PER_SECOND_DURING_VERIFY = 100
+ };
+ 
++static bool skipHashCheck = false;
++void tr_skipHash(void)
++{
++    skipHashCheck = true;
++}
++
+ static bool verifyTorrent(tr_torrent* tor, bool* stopFlag)
+ {
+     time_t end;
+@@ -66,7 +72,7 @@
+         }
+ 
+         /* if we're starting a new file... */
+-        if (filePos == 0 && fd == TR_BAD_SYS_FILE && fileIndex != prevFileIndex)
++        if (!skipHashCheck && filePos == 0 && fd == TR_BAD_SYS_FILE && fileIndex != prevFileIndex)
+         {
+             char* filename = tr_torrentFindFile(tor, fileIndex);
+             fd = filename == NULL ? TR_BAD_SYS_FILE : tr_sys_file_open(filename, TR_SYS_FILE_READ | TR_SYS_FILE_SEQUENTIAL, 0,
+@@ -86,7 +92,7 @@
+         {
+             uint64_t numRead;
+ 
+-            if (tr_sys_file_read_at(fd, buffer, bytesThisPass, filePos, &numRead, NULL) && numRead > 0)
++            if (!skipHashCheck && tr_sys_file_read_at(fd, buffer, bytesThisPass, filePos, &numRead, NULL) && numRead > 0)
+             {
+                 bytesThisPass = numRead;
+                 tr_sha1_update(sha, buffer, bytesThisPass);
+@@ -108,7 +114,7 @@
+             uint8_t hash[SHA_DIGEST_LENGTH];
+ 
+             tr_sha1_final(sha, hash);
+-            hasPiece = memcmp(hash, tor->info.pieces[pieceIndex].hash, SHA_DIGEST_LENGTH) == 0;
++            hasPiece = skipHashCheck || memcmp(hash, tor->info.pieces[pieceIndex].hash, SHA_DIGEST_LENGTH) == 0;
+ 
+             if (hasPiece || hadPiece)
+             {
+@@ -146,6 +152,12 @@
+             filePos = 0;
+         }
+     }
++	
++	if (skipHashCheck)
++	{
++		skipHashCheck = false;
++		tr_logAddTorInfo (tor, "%s", _("Skipped hash check"));
++	}
+ 
+     /* cleanup */
+     if (fd != TR_BAD_SYS_FILE)
+diff -ruN a/libtransmission/verify.h b/libtransmission/verify.h
+--- a/libtransmission/verify.h	2020-05-16 08:36:16.000000000 +0800
++++ b/libtransmission/verify.h	2021-01-23 18:00:30.000000000 +0800
+@@ -17,6 +17,8 @@
+  * @{
+  */
+ 
++void tr_skipHash(void);
++
+ void tr_verifyAdd(tr_torrent* tor, tr_verify_done_func callback_func, void* callback_user_data);
+ 
+ void tr_verifyRemove(tr_torrent* tor);
+diff -ruN a/libtransmission/web.c b/libtransmission/web.c
+--- a/libtransmission/web.c	2020-05-16 08:36:16.000000000 +0800
++++ b/libtransmission/web.c	2021-01-23 18:18:49.000000000 +0800
+@@ -8,14 +8,6 @@
+ 
+ #include <string.h> /* strlen(), strstr() */
+ 
+-#ifdef _WIN32
+-#include <windows.h>
+-#include <wincrypt.h>
+-#include <ws2tcpip.h>
+-#else
+-#include <sys/select.h>
+-#endif
+-
+ #include <curl/curl.h>
+ 
+ #include <event2/buffer.h>
+@@ -391,41 +383,6 @@
+     return tr_webRunImpl(tor->session, tr_torrentId(tor), url, range, NULL, done_func, done_func_user_data, buffer);
+ }
+ 
+-/**
+- * Portability wrapper for select().
+- *
+- * http://msdn.microsoft.com/en-us/library/ms740141%28VS.85%29.aspx
+- * On win32, any two of the parameters, readfds, writefds, or exceptfds,
+- * can be given as null. At least one must be non-null, and any non-null
+- * descriptor set must contain at least one handle to a socket.
+- */
+-static void tr_select(int nfds, fd_set* r_fd_set, fd_set* w_fd_set, fd_set* c_fd_set, struct timeval* t)
+-{
+-#ifdef _WIN32
+-
+-    (void)nfds;
+-
+-    if (r_fd_set->fd_count == 0 && w_fd_set->fd_count == 0 && c_fd_set->fd_count == 0)
+-    {
+-        long int const msec = t->tv_sec * 1000 + t->tv_usec / 1000;
+-        tr_wait_msec(msec);
+-    }
+-    else if (select(0, r_fd_set->fd_count != 0 ? r_fd_set : NULL, w_fd_set->fd_count != 0 ? w_fd_set : NULL,
+-        c_fd_set->fd_count != 0 ? c_fd_set : NULL, t) == -1)
+-    {
+-        char errstr[512];
+-        int const e = EVUTIL_SOCKET_ERROR();
+-        tr_net_strerror(errstr, sizeof(errstr), e);
+-        dbgmsg("Error: select (%d) %s", e, errstr);
+-    }
+-
+-#else
+-
+-    select(nfds, r_fd_set, w_fd_set, c_fd_set, t);
+-
+-#endif
+-}
+-
+ static void tr_webThreadFunc(void* vsession)
+ {
+     char* str;
+@@ -434,6 +391,7 @@
+     int taskCount = 0;
+     struct tr_web_task* task;
+     tr_session* session = vsession;
++    uint32_t repeats = 0;
+ 
+     /* try to enable ssl for https support; but if that fails,
+      * try a plain vanilla init */
+@@ -473,6 +431,7 @@
+     for (;;)
+     {
+         long msec;
++        int numfds;
+         int unused;
+         CURLMsg* msg;
+         CURLMcode mcode;
+@@ -538,29 +497,28 @@
+ 
+         if (msec > 0)
+         {
+-            int usec;
+-            int max_fd;
+-            struct timeval t;
+-            fd_set r_fd_set;
+-            fd_set w_fd_set;
+-            fd_set c_fd_set;
+-
+-            max_fd = 0;
+-            FD_ZERO(&r_fd_set);
+-            FD_ZERO(&w_fd_set);
+-            FD_ZERO(&c_fd_set);
+-            curl_multi_fdset(multi, &r_fd_set, &w_fd_set, &c_fd_set, &max_fd);
+-
+             if (msec > THREADFUNC_MAX_SLEEP_MSEC)
+             {
+                 msec = THREADFUNC_MAX_SLEEP_MSEC;
+             }
+ 
+-            usec = msec * 1000;
+-            t.tv_sec = usec / 1000000;
+-            t.tv_usec = usec % 1000000;
+-            tr_select(max_fd + 1, &r_fd_set, &w_fd_set, &c_fd_set, &t);
+-        }
++            curl_multi_wait(multi, NULL, 0, msec, &numfds);
++            if (!numfds)
++            {
++                repeats++;
++                if (repeats > 1)
++                {
++                    /* curl_multi_wait() returns immediately if there are
++                    * no fds to wait for, so we need an explicit wait here
++                    * to emulate select() behavior */
++                    tr_wait_msec(MIN(msec, THREADFUNC_MAX_SLEEP_MSEC / 2));
++                }
++            }
++            else
++            {
++                repeats = 0;
++            }
++         }
+ 
+         /* call curl_multi_perform() */
+         do
