@@ -716,7 +716,7 @@
 	<table width="100%" cellspacing="10">
 		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%></td></tr>
-		<tr><td width="33%"><%:CPU Info%></td><td><%:实时频率%><a>：</a><%=luci.sys.exec("echo `grep 'MHz' /proc/cpuinfo | awk -F ': ' '{ print $2 }' |head -1`")%>Mhz | <%:核心温度%><a>：</a><%=luci.sys.exec("echo `sensors | grep 'Core 0' | cut -c15-22`")%> | <%:CPU使用率%><a>：</a><%=luci.sys.exec("echo -e `expr 100 - $(top -n 1 | grep 'CPU:' | awk -F '%' '{ print $4 }' | awk -F ' ' '{ print $2 }')`") or "0"%>%</td></tr>
+		<tr><td width="33%"><%:CPU Info%></td><td><%:实时频率%><a>：</a><%=luci.sys.exec("echo `grep 'MHz' /proc/cpuinfo | awk -F ': ' '{ print $2 }' |head -1`")%>Mhz | <%:核心温度%><a>：</a><%=luci.sys.exec("echo `sensors | grep 'Core 0' | cut -c15-22`")%> </td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
 			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
 			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>)
