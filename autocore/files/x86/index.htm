@@ -715,13 +715,14 @@
 
 	<table width="100%" cellspacing="10">
 		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
-		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
-		<tr><td width="33%"><%:CPU Info%></td><td id="cpuinfo">-</td></tr>
+		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%></td></tr>
+		<tr><td width="33%"><%:CPU Info%></td><td><%:实时频率%><a>：</a><%=luci.sys.exec("echo `grep 'MHz' /proc/cpuinfo | awk -F ': ' '{ print $2 }' |head -1`")%>Mhz | <%:核心温度%><a>：</a><%=luci.sys.exec("echo `sensors | grep 'Core 0' | cut -c15-22`")%> </td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
 			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
 			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>)
 		</td></tr>
 		<tr><td width="33%"><%:Kernel Version%></td><td><%=unameinfo.release or "?"%></td></tr>
+        <tr><td width="33%"><%:RAM Size%></td><td><%=luci.sys.exec("free -m | grep Mem | awk '{print $2/1024}'") or "?"%>MB</td></tr>
 		<tr><td width="33%"><%:Local Time%></td><td id="localtime">-</td></tr>
 		<tr><td width="33%"><%:Uptime%></td><td id="uptime">-</td></tr>
 		<tr><td width="33%"><%:Load Average%></td><td id="loadavg">-</td></tr>
@@ -729,7 +730,7 @@
                                    <tr><td width="33%"><%:help%></td>
 			<td id="cpr">
 				<input type="button" class="cbi-button cbi-button-apply" value="<%:更新建议%>" onclick="window.open('https://github.com/sirpdboy/openwrt18.06/issues')" />
-				<input type="button" class="cbi-button cbi-button-apply" value="<%:TG聊天群%>" onclick="window.open('https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ')" />
+				<input type="button" class="cbi-button cbi-button-apply" value="<%:电报TG群%>" onclick="window.open('https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ')" />
 				</td>
 			</tr>
 </table>
@@ -739,7 +740,7 @@
 	<legend><%:天气%></legend>
 
 	<table width="100%" cellspacing="10">
-		<tr><td width="33%"><%:城市天气%></td><td > <iframe width="680" scrolling="no" height="120" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=22&icon=1&temp=1&num=5&site=12"></iframe>		
+		<tr><td width="33%"><%:城市天气%></td><td > <iframe width="700" scrolling="no" height="120" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=22&icon=1&temp=1&num=5&site=12"></iframe>		
 	</table>
 </fieldset>
 <fieldset class="cbi-section">

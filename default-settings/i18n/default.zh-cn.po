@@ -19,6 +19,9 @@ msgstr "CPU 频率"
 msgid "RAM frequency"
 msgstr "RAM 频率"
 
+msgid "RAM Size"
+msgstr "内存大小"
+
 msgid "Flash Size"
 msgstr "闪存大小"
 

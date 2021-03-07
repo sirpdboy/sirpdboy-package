@@ -8,7 +8,7 @@ t.anonymous=true
 e=t:option(DummyValue,"_status",translate("Running Status"))
 e.template="ddnsto/dvalue"
 e.value=translate("Collecting data...")
-t=a:section(TypedSection,"global",translate("全局设置"),translate("设置教程:</font><a style=\"color: #ff0000;\" onclick=\"window.open('http://koolshare.cn/thread-116500-1-1.html')\">点击跳转到论坛教程</a>"))
+t=a:section(TypedSection,"global",translate("全局设置"),translate("设置教程:</font><a style=\"color: #ff0000;\" onclick=\"window.open('https://www.ddnsto.com/zh/guide/koolshare_merlin.html')\">点击跳转官网教程</a>"))
 t.anonymous=true
 t.addremove=false
 e=t:option(Flag,"enable",translate("启用"))

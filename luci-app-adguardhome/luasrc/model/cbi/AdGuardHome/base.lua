@@ -27,34 +27,34 @@ o.placeholder = 3000
 o.default = 3000
 o.datatype = "port"
 o.optional = false
-o.description = translate("<input type=\"button\" style=\"width:210px;border-color:Teal; text-align:center;font-weight:bold;color:Green;\" value=\"AdGuardHome Web:"..httpport.."\" onclick=\"window.open('http://'+window.location.hostname+':"..httpport.."/')\"/>")
+o.description = translate("<input type='button' style='width:210px; border-color:Teal; text-align:center; font-weight:bold;color:Green;' value='AdGuardHome Web:" .. httpport .. "' onclick=\"window.open('http://'+window.location.hostname+':" .. httpport .. "')\"/>")
+
 ---- update warning not safe
-local binmtime=uci:get("AdGuardHome","AdGuardHome","binmtime") or "0"
-local e=""
-if not fs.access(configpath) then
-	e=e.." "..translate("no config")
-end
+local binmtime = uci:get("AdGuardHome", "AdGuardHome", "binmtime") or "0"
+local e = ""
+if not fs.access(configpath) then e = e .. " " .. translate("no config") end
 if not fs.access(binpath) then
 	e=e.." "..translate("no core")
 else
 	local version=uci:get("AdGuardHome","AdGuardHome","version")
 	local testtime=fs.stat(binpath,"mtime")
 	if testtime~=tonumber(binmtime) or version==nil then
-		-- local tmp=luci.sys.exec(binpath.." --version | grep -m 1 -E ' [0-9.]+' -o ")
-		-- version=string.sub(tmp, 1)
+        -- local tmp=luci.sys.exec(binpath.." -c /dev/null --check-config 2>&1| grep -m 1 -E 'v[0-9.]+' -o")
+        -- version=string.sub(tmp, 1, -2)
                 version = luci.sys.exec(string.format("echo -n $(%s --version 2>&1 | awk -F 'version ' '{print $2}' | awk -F ',' '{print $1}')", binpath))
 		if version=="" then version="core error" end
 		uci:set("AdGuardHome","AdGuardHome","version",version)
 		uci:set("AdGuardHome","AdGuardHome","binmtime",testtime)
-		uci:save("AdGuardHome")
+        uci:commit("AdGuardHome")
 	end
 	e=version..e
 end
 o = s:option(Button, "restart", translate("Update"))
 o.inputtitle = translate("Update core version")
 o.template = "AdGuardHome/AdGuardHome_check"
-o.showfastconfig=(not fs.access(configpath))
-o.description=string.format(translate("core version:").."<strong><font id=\"updateversion\" color=\"green\">%s </font></strong>",e)
+o.showfastconfig = (not fs.access(configpath))
+o.description = string.format(translate("core version:") .. "<strong><font id='updateversion' color='green'>%s </font></strong>", e)
+
 ---- port warning not safe
 local port = luci.sys.exec("awk '/  port:/{printf($2);exit;}' " .. configpath .. " 2>nul")
 if (port == "") then port = "?" end
@@ -310,7 +310,7 @@ function m.on_commit(map)
                 uci:set("AdGuardHome", "AdGuardHome", "ucitracktest", "2")
             end
         end
-		uci:save("AdGuardHome")
+        uci:commit("AdGuardHome")
     end
 end
 return m

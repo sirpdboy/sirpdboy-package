@@ -49,7 +49,7 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/
 	cp -pR ./root/* $(1)/
 	$(INSTALL_DIR)	$(1)/usr/bin/
-	$(INSTALL_BIN) ./files/arm/ddnsto $(1)/usr/bin/
+	$(INSTALL_BIN) ./files/x86/ddnsto $(1)/usr/bin/
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))

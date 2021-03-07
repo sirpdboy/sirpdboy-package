@@ -74,13 +74,13 @@ dns_caching_mode.default = 1
 dns_caching_mode:depends("dns_caching", 1)
 
 dns_caching_v4_dns = s:option(Value, "dns_caching_v4_dns", translate("Upsteam IPv4 DNS Server"))
-dns_caching_v4_dns.default = "114.114.114.114,114.114.115.115,223.5.5.5,223.6.6.6,180.76.76.76,119.29.29.29,119.28.28.28,1.2.4.8,210.2.4.8"
+dns_caching_v4_dns.default = "114.114.114.114,223.5.5.5,223.6.6.6"
 dns_caching_v4_dns.description = translate("Muitiple IPv4 DNS server can saperate with ','")
 dns_caching_v4_dns:depends("dns_caching_mode", 1)
 dns_caching_v4_dns:depends("dns_caching_mode", 2)
 
 dns_caching_v6_dns = s:option(Value, "dns_caching_v6_dns", translate("Upsteam IPv6 DNS Server"))
-dns_caching_v6_dns.default = "2001:4860:4860::8888,2001:4860:4860::8844,2001:2001::1111,2001:2001::1001,2400:da00::6666,240C::6666,240C::6644"
+dns_caching_v6_dns.default = "2400:da00::6666,2400:3200:baba::1,240C::6644"
 dns_caching_v6_dns.description = translate("Muitiple IPv6 DNS server can saperate with ','")
 dns_caching_v6_dns:depends("dns_caching_mode", 2)
 
