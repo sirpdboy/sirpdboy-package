@@ -50,7 +50,9 @@
 		local user_info = luci.sys.exec("cat /proc/net/arp | grep '0x2' | wc -l") or 0
 
 		local cpu_wd = luci.sys.exec("echo `sensors | grep 'Core 0' | cut -c15-22`") or 0
-		
+		if cpu_wd == "" then
+		   cpu_wd="无支持的传感器"
+		end  
 		local cpu_usage = (luci.sys.exec("expr 100 - $(top -n 1 | grep 'CPU:' | awk -F '%' '{print$4}' | awk -F ' ' '{print$2}')") or "6") .. "%"
 
 		local rv = {
