@@ -198,22 +198,38 @@ load_user_rules() {
 }
 
 load_rules() {
-	sed -i '1,9s/1/0/g' $KP_DIR/data/source.list
+	sed -i '1,7s/1/0/g' $KP_DIR/data/source.list
+
 	local rulelist="$(uci -q get koolproxy.@global[0].koolproxy_rules)"
 	for rule in $rulelist
 	do
 		case "$rule" in
-			koolproxy.txt)
+			yhosts.txt)
 				sed -i '1s/0/1/g' $KP_DIR/data/source.list
 			;;
-			daily.txt)
+			easylistchina.txt)
 				sed -i '2s/0/1/g' $KP_DIR/data/source.list
 			;;
-			kp.dat)
+			fanboy.txt)
 				sed -i '3s/0/1/g' $KP_DIR/data/source.list
 			;;
-			user.txt)
+			anti-ad.txt)
 				sed -i '4s/0/1/g' $KP_DIR/data/source.list
+			;;
+			koolproxy.txt)
+				sed -i '5s/0/1/g' $KP_DIR/data/source.list
+			;;
+			mv.txt)
+				sed -i '6s/0/1/g' $KP_DIR/data/source.list
+			;;
+			daily.txt)
+				sed -i '7s/0/1/g' $KP_DIR/data/source.list
+			;;
+			kp.dat)
+				sed -i '8s/0/1/g' $KP_DIR/data/source.list
+			;;
+			user.txt)
+				sed -i '9s/0/1/g' $KP_DIR/data/source.list
 			;;
 		esac
 	done
@@ -222,21 +238,7 @@ load_rules() {
 	for rule in $rulelist
 	do
 		case "$rule" in
-                        yhosts.txt)
-				sed -i '5s/0/1/g' $KP_DIR/data/source.list
-			;;
-			easylistchina.txt)
-				sed -i '6s/0/1/g' $KP_DIR/data/source.list
-			;;
-			fanboy.txt)
-				sed -i '7s/0/1/g' $KP_DIR/data/source.list
-			;;
-			anti-ad.txt)
-				sed -i '8s/0/1/g' $KP_DIR/data/source.list
-			;;
-		        mv.txt)
-				sed -i '9s/0/1/g' $KP_DIR/data/source.list
-			;;
+
 		esac
 	done
 }

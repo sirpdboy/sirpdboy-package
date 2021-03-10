@@ -1,26 +1,15 @@
 config global
-	option time_update '4'
+	option time_update '5'
 	option koolproxy_port '0'
 	option startup_delay '0'
-	option koolproxy_acl_default '1'
-	option koolproxy_mode '1'
-	option koolproxy_host '1'
-	option koolproxy_rules 'koolproxy.txt daily.txt kp.dat user.txt'
-	option thirdparty_rules 'anti-ad.txt'
-	option enabled '0'
 	option koolproxy_ipv6 '0'
-	
-config acl_rule
-	option proxy_mode '2'
-	option remarks '选要滤https的客户端'
-	option ipaddr '192.168.1.100'
+	option koolproxy_mode '1'
+	option koolproxy_acl_default '0'
+	option time_update 'nil'
+	option enabled '0'
+	option koolproxy_rules 'easylistchina.txt fanboy.txt yhosts.txt anti-ad.txt koolproxy.txt daily.txt kp.dat mv.txt user.txt'
 
-config rss_rule
-	option load '1'
-	option name 'kpr_our_rule'
-	option url 'https://raw.githubusercontent.com/project-lede/koolproxy/main/rules/kpr_our_rule.txt'
-
-config usetips
+config rss_rules
 	option load '0'
 	option name '1'
 	option url '1'
