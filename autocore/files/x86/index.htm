@@ -49,18 +49,16 @@
 
 		local user_info = luci.sys.exec("cat /proc/net/arp | grep '0x2' | wc -l") or 0
 
-		local cpu_wd = luci.sys.exec("echo `sensors | grep 'Core 0' | cut -c15-22`") or 0
-		if cpu_wd == "" then
-		   cpu_wd="无支持的传感器"
-		end  
+		local cpu_wd = luci.sys.exec("echo `sensors | grep 'Core 0' | cut -c15-22`")
+
 		local cpu_usage = (luci.sys.exec("expr 100 - $(top -n 1 | grep 'CPU:' | awk -F '%' '{print$4}' | awk -F ' ' '{print$2}')") or "6") .. "%"
 
 		local rv = {
 			cpuusage    = cpu_usage,
-			cpuinfo    = cpu_info,
+			cpuinfo    = "实时频率：".. cpu_info .." | 核心温度："..cpu_wd ,
 			ethinfo    = eth_info,
 			userinfo    = user_info,
-			cpuwd    = cpu_wd,
+
 			uptime     = sysinfo.uptime or 0,
 			localtime  = os.date("%Y年%m月%d日") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X"),
 			loadavg    = sysinfo.load or { 0, 0, 0 },
@@ -166,7 +164,7 @@
 			return duid.substr(16).replace(/(..)(?=..)/g, '$1:').toUpperCase();
 
 		// DUID-LL / Ethernet
-		if (duid.length === 20 && duid.substr(0, 8) === '00030001')
+		if (duid.length === 24 && duid.substr(0, 8) === '00030001')
 			return duid.substr(8).replace(/(..)(?=..)/g, '$1:').toUpperCase();
 
 		return null;
@@ -181,7 +179,7 @@
 		});
 	}
 
-	XHR.poll(1, '<%=REQUEST_URI%>', { status: 1 },
+	XHR.poll(5, '<%=REQUEST_URI%>', { status: 1 },
 		function(x, info)
 		{
 			if (!(npoll++ % 5))
@@ -666,9 +664,6 @@
 			if (e = document.getElementById('cpuinfo'))
 				e.innerHTML = info.cpuinfo;
 
-			if (e = document.getElementById('cpuwd'))
-				e.innerHTML = info.cpuwd;
-				
 			if (e = document.getElementById('cpuusage'))
 				e.innerHTML = info.cpuusage;
 
@@ -727,7 +722,6 @@
 		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
 		<tr><td width="33%"><%:CPU Info%></td><td id="cpuinfo">-</td></tr>
-		<tr><td width="33%"><%:CPU Temperature%></td><td id="cpuwd">-</td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
 			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
 			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>)

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+	sensors >/dev/null
+
+	if [ $? -eq 0 ];then
+		a=`sensors | grep 'Core 0' | cut -c15-22`
+		#获取CPU核心1温度
+
+	else
+		a="无支持的传感器"
+	fi
+
+echo "$a "
