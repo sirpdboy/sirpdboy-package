@@ -49,16 +49,16 @@
 
 		local user_info = luci.sys.exec("cat /proc/net/arp | grep '0x2' | wc -l") or 0
 
-		local cpu_wd = luci.sys.exec("echo `sensors | grep 'Core 0' | cut -c15-22`")
+		local cpu_wd = luci.sys.exec("cpuwd")
 
 		local cpu_usage = (luci.sys.exec("expr 100 - $(top -n 1 | grep 'CPU:' | awk -F '%' '{print$4}' | awk -F ' ' '{print$2}')") or "6") .. "%"
-
+                local ram_size = luci.sys.exec("free -m | grep Mem | awk '{print $2/1024}'")
 		local rv = {
 			cpuusage    = cpu_usage,
-			cpuinfo    = "实时频率：".. cpu_info .." | 核心温度："..cpu_wd ,
-			ethinfo    = eth_info,
+			cpuinfo    = "CPU频率：".. cpu_info .." | CPU温度："..cpu_wd ,
+			ethinfo    = eth_info,	
 			userinfo    = user_info,
-
+                        ramsize    = ram_size,
 			uptime     = sysinfo.uptime or 0,
 			localtime  = os.date("%Y年%m月%d日") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X"),
 			loadavg    = sysinfo.load or { 0, 0, 0 },
@@ -667,6 +667,11 @@
 			if (e = document.getElementById('cpuusage'))
 				e.innerHTML = info.cpuusage;
 
+
+			if (e = document.getElementById('ramsize'))
+                                e.innerHTML =  String.format('%.0f', info.ramsize)+ " <%:MB%>";
+
+
 			if (e = document.getElementById('loadavg'))
 				e.innerHTML = String.format(
 					'%.02f, %.02f, %.02f',
@@ -727,7 +732,7 @@
 			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>)
 		</td></tr>
 		<tr><td width="33%"><%:Kernel Version%></td><td><%=unameinfo.release or "?"%></td></tr>
-        <tr><td width="33%"><%:RAM Size%></td><td><%=luci.sys.exec("free -m | grep Mem | awk '{print $2/1024}'") or "?"%>MB</td></tr>
+                <tr><td width="33%"><%:RAM Size%></td><td id="ramsize">-</td></tr>
 		<tr><td width="33%"><%:Local Time%></td><td id="localtime">-</td></tr>
 		<tr><td width="33%"><%:Uptime%></td><td id="uptime">-</td></tr>
 		<tr><td width="33%"><%:Load Average%></td><td id="loadavg">-</td></tr>

@@ -7,7 +7,7 @@
 		#获取CPU核心1温度
 
 	else
-		a="无支持的传感器"
+		a="no temperature"
 	fi
 
 echo "$a "
