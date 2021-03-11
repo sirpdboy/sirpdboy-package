@@ -55,10 +55,11 @@
                 local ram_size = luci.sys.exec("free -m | grep Mem | awk '{print $2/1024}'")
 		local rv = {
 			cpuusage    = cpu_usage,
-			cpuinfo    = "CPU频率：".. cpu_info .." | CPU温度："..cpu_wd ,
+			cpuinfo    = cpu_info,
 			ethinfo    = eth_info,	
 			userinfo    = user_info,
-                        ramsize    = ram_size,
+            ramsize    = ram_size,
+			cpuwd     =cpu_wd,
 			uptime     = sysinfo.uptime or 0,
 			localtime  = os.date("%Y年%m月%d日") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X"),
 			loadavg    = sysinfo.load or { 0, 0, 0 },
@@ -662,14 +663,14 @@
 				e.innerHTML = info.userinfo;
 
 			if (e = document.getElementById('cpuinfo'))
-				e.innerHTML = info.cpuinfo;
+				e.innerHTML =" <%:CPU主频:%>" + String.format('%.0f', info.cpuinfo) + " <%:MHz | CPU温度:%>" + info.cpuwd;
 
 			if (e = document.getElementById('cpuusage'))
 				e.innerHTML = info.cpuusage;
 
 
 			if (e = document.getElementById('ramsize'))
-                                e.innerHTML =  String.format('%.0f', info.ramsize)+ " <%:MB%>";
+                e.innerHTML =  String.format('%.0f', info.ramsize)+ " <%:MB%>";
 
 
 			if (e = document.getElementById('loadavg'))
@@ -727,12 +728,12 @@
 		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
 		<tr><td width="33%"><%:CPU Info%></td><td id="cpuinfo">-</td></tr>
+        <tr><td width="33%"><%:RAM Size%></td><td id="ramsize">-</td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
 			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
 			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>)
 		</td></tr>
 		<tr><td width="33%"><%:Kernel Version%></td><td><%=unameinfo.release or "?"%></td></tr>
-                <tr><td width="33%"><%:RAM Size%></td><td id="ramsize">-</td></tr>
 		<tr><td width="33%"><%:Local Time%></td><td id="localtime">-</td></tr>
 		<tr><td width="33%"><%:Uptime%></td><td id="uptime">-</td></tr>
 		<tr><td width="33%"><%:Load Average%></td><td id="loadavg">-</td></tr>
