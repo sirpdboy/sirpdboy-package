@@ -43,17 +43,14 @@
 			"sysctl -n -e net.nf_conntrack_max net.ipv4.netfilter.ip_conntrack_max"
 		):match("%d+")) or 4096
 
-		local cpu_info = luci.sys.exec("cpuinfo")
 
 		local eth_info = luci.sys.exec("ethinfo")
 
 		local user_info = luci.sys.exec("cat /proc/net/arp | grep '0x2' | wc -l") or 0
-		
 		local cpu_usage = (luci.sys.exec("expr 100 - $(top -n 1 | grep 'CPU:' | awk -F '%' '{print$4}' | awk -F ' ' '{print$2}')") or "6") .. "%"
         local ram_size = luci.sys.exec("free -m | grep Mem | awk '{print $2/1024}'")
 		local rv = {
 			cpuusage    = cpu_usage,
-			cpuinfo    = cpu_info,
 			ethinfo    = eth_info,	
 			userinfo    = user_info,
             ramsize    = ram_size,
@@ -659,9 +656,6 @@
 			if (e = document.getElementById('userinfo'))
 				e.innerHTML = info.userinfo;
 
-			if (e = document.getElementById('cpuinfo'))
-				e.innerHTML = info.cpuinfo;
-				
 			if (e = document.getElementById('cpuusage'))
 				e.innerHTML = info.cpuusage;
 
@@ -724,7 +718,7 @@
 	<table width="100%" cellspacing="10">
 		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
 		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
-		<tr><td width="33%"><%:CPU Info%></td><td id="cpuinfo">-</td></tr>
+		<tr><td width="33%"><%:CPU Info%></td><td><%:CPU主频：%><%=luci.sys.exec("cpuinfo")%><%:MHz　|　CPU温度：%><%=luci.sys.exec("cpuwd") or " "%></td></tr>
         <tr><td width="33%"><%:RAM Size%></td><td id="ramsize">-</td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
 			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
