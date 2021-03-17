@@ -1,0 +1,20 @@
+#!/bin/sh /etc/rc.common
+#copyright by sirpdboy
+#log_file="/var/log/netspeedtest.log"
+START=95
+STOP=10
+EXTRA_COMMANDS="nstest"
+
+nstest() {
+   [  -f /tmp/nsreport.txt ] &&rm -f /tmp/nsreport.txt
+   if  [ ! -e '/tmp/nsrun_once_speedtest' ]; then
+	echo 1 > /tmp/nsrun_once_speedtest
+	yes | speedtest  | tee -a /tmp/nsreport.txt
+   else
+      speedtest  | tee -a /tmp/nsreport.txt
+   fi
+}
+
+start() {
+    nstest
+}

@@ -12,8 +12,8 @@ LUCI_DEPENDS:=+iperf3
 LUCI_PKGARCH:=all
 
 PKG_NAME:=luci-app-netspeedtest
-PKG_VERSION:=1.1
-PKG_RELEASE:=10
+PKG_VERSION:=1.2
+PKG_RELEASE:=13
 
 
 include $(TOPDIR)/feeds/luci/luci.mk
