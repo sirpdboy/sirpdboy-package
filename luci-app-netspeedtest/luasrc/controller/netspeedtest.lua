@@ -1,15 +1,17 @@
+
 module("luci.controller.netspeedtest", package.seeall)
+
 function index()
-	page = entry({"admin", "network",  "netspeedtest"}, template("netspeedtest"), "netspeedtest", 89)
-        page.dependent=false
-	page = entry({"admin", "network",  "test_speedtest0"}, post("test_speedtest0"), nil)
-	page.leaf = true
-	page = entry({"admin", "network",  "test_speedtest1"}, post("test_speedtest1"), nil)
-	page.leaf = true
-	page = entry({"admin", "network", "test_iperf0"}, post("test_iperf0"), nil)
-	page.leaf = true
-	page = entry({"admin", "network",  "test_iperf1"}, post("test_iperf1"), nil)
-	page.leaf = true
+
+	entry({"admin","network","netspeedtest"},cbi("netspeedtest/netspeedtest", {hideapplybtn=true, hidesavebtn=true, hideresetbtn=true}),_("netspeedtest"),90).dependent=true
+
+	entry({"admin", "network","test_iperf0"}, post("test_iperf0"), nil).leaf = true
+
+	entry({"admin", "network","test_iperf1"}, post("test_iperf1"), nil).leaf = true
+
+	entry({"admin","network","netspeedtest", "run"}, call("run"))
+
+	entry({"admin", "network", "netspeedtest", "realtime_log"}, call("get_log")) 
 
 end
 
@@ -31,19 +33,24 @@ function testlan(cmd, addr)
 end
 
 
-function test_speedtest0(addr)
-   testlan("yes | speedtest  | tee -a /tmp/nsreport.txt", addr)
-end
-
 function test_iperf0(addr)
 	testlan("iperf3 -s ", addr)
 end
-
 
 function test_iperf1(addr)
 	luci.sys.call("killall iperf3")
 end
 
-function test_speedtest1()
-     luci.sys.exec("yes | speedtest  | tee -a /tmp/nsreport.txt")
+function get_log()
+    local fs = require "nixio.fs"
+    local e = {}
+    e.running = luci.sys.call("busybox ps -w | grep netspeedtest | grep -v grep >/dev/null") == 0
+    e.log = fs.readfile("/var/log/netspeedtest.log") or ""
+	luci.http.prepare_content("application/json")
+	luci.http.write_json(e)
+end
+
+function run()
+ 	luci.sys.call("/etc/init.d/netspeedtest nstest >/dev/null 2>&1")
+	luci.http.redirect(luci.dispatcher.build_url("admin","network","netspeedtest"))
 end

@@ -1,0 +1,22 @@
+<%+cbi/valueheader%>
+<label class="cbi-value-title"> </label>
+<div class="cbi-value-field">
+    <input class="cbi-button cbi-button-apply" id="update_service" type="button" size="0" onclick="run()" value="<%= translate('Perform wanspeedtest') %>" />
+</div>
+
+
+<script type="text/javascript">
+
+    const RUN_URL = '<%=luci.dispatcher.build_url("admin", "network", "netspeedtest","run")%>';
+    const S_URL = '<%=luci.dispatcher.build_url("admin", "network", "netspeedtest")%>';
+
+
+    function run() {
+        XHR.get(RUN_URL, null, () => {
+            setTimeout(() => { window.location = S_URL }, 500);
+        });
+        return false;
+    }
+
+</script>
+<%+cbi/valuefooter%>

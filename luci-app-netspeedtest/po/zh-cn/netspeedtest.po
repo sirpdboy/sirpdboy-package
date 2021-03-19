@@ -16,22 +16,20 @@ msgstr ""
 msgid "netspeedtest"
 msgstr "网速测试"
 
-msgid "iperf3 lan speed test"
-msgstr "iperf3 内网速度测试"
+msgid "Network speed diagnosis test (including intranet and extranet)"
+msgstr "网络速度诊断测试（包括内网和外网）"
+
+msgid "iperf3 lanspeedtest"
+msgstr "iperf3 内网测速"
 
 msgid "iperfstart"
 msgstr "iperf服务启动"
 
-
 msgid "iperfstop"
 msgstr "iperf服务停止"
 
-
 msgid "Perform operation"
 msgstr "执行操作"
-
-msgid "You need to install iperf3 plug-in to start the test speed server"
-msgstr "需要安装iperf3插件才能开启测试速度服务器"
 
 msgid "iperf3 instructions"
 msgstr "iperf3 使用说明"
@@ -43,7 +41,7 @@ msgid "The speed measurement terminal must be in the same LAN as the router that
 msgstr "测速终端机必须与启动测速的路由器在同一局域网内"
 
 msgid "Operation steps: start router speed measurement service download test client run speed measurement client input IP address of router speed measurement service"
-msgstr "操作步骤：启动路由器测速服务--下载测试客户端--运行测速客户端--输入路由器测速服务IP地址"
+msgstr "使用步骤：A.启动路由器测速服务 B.下载测试客户端 C.运行测速客户端 D.输入路由器测速服务IP地址。 "
 
 msgid "Domestic download password:"
 msgstr "国内下密码："
@@ -51,27 +49,24 @@ msgstr "国内下密码："
 msgid "Iperf3 speed measurement software download"
 msgstr "iperf3测速软件下载"
 
+msgid "wanspeedtest"
+msgstr "宽带测速"
 
-msgid "Broadband network measurement"
-msgstr "宽带网络测速"
-
-msgid "Perform Network speed test"
-msgstr "执行测速"
+msgid "Perform wanspeedtest"
+msgstr "执行宽带测速"
 
 msgid "Operation execution completet"
 msgstr "操作执行完毕"
 
 msgid "server_info"
-
 msgstr "测速节点信息"
+
 msgid "down_info"
 msgstr "下载速度"
 
 msgid "up_info"
 msgstr "上行速度"
+
 msgid "Download from foreign official websites"
 msgstr "国外官网"
-
-msgid "The test kernel does not exist, so the external network speed cannot be tested"
-msgstr "测试内核不存在，不能测试外网速度"
 

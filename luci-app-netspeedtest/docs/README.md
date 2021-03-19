@@ -7,7 +7,7 @@
 =
 Welcome to sirpdboy's  git source of packages
 -
-[NetSpeedTest — 网络速度测试](https://github.com/sirpdboy/NetSpeedTest)
+[NetSpeedTest1.4 — 网络速度测试](https://github.com/sirpdboy/NetSpeedTest)
 ======================
 
 [![](https://img.shields.io/badge/-目录:-696969.svg)](#readme) [![](https://img.shields.io/badge/-写在前面-F5F5F5.svg)](#写在前面-) [![](https://img.shields.io/badge/-编译说明-F5F5F5.svg)](#编译说明-) [![](https://img.shields.io/badge/-说明-F5F5F5.svg)](#说明-) [![](https://img.shields.io/badge/-捐助-F5F5F5.svg)](#捐助-) 
@@ -20,7 +20,7 @@ a new NetSpeedTest luci app bese luci-app-NetSpeedTest
 ## 写在前面：[![](https://img.shields.io/badge/-写在前面-F5F5F5.svg)](#写在前面-)
 
  一直在找OPENWRT上测试速度的插件，苦寻不到，于是有了它!
-此插件目前只能测试内网，后期测试稳定了再加入外网网络速度测试。
+此插件可进行内外和外网网络速度测试。
 
 1.内网测速基于iperf3 插件，服务端路由器如果没有安装请先安装此ipk插件。
 
@@ -34,7 +34,9 @@ a new NetSpeedTest luci app bese luci-app-NetSpeedTest
 
 6.网络测速iperf3客户端下载地址：https://sipdboy.lanzoui.com/b01c3esih 密码:cpd6
 
-7.新插件难免有bug 请不要大惊小怪。欢迎提交bug。
+8.外网测速使用 ookla 提供的测速程序,在此感谢开源的superspeed和user1121114685，因为有你们才有此插件！
+
+9.新插件难免有bug 请不要大惊小怪。欢迎提交bug。
 
 ## 编译说明 [![](https://img.shields.io/badge/-编译说明-F5F5F5.svg)](#编译说明-) 
 

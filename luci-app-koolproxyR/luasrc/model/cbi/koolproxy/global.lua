@@ -126,8 +126,8 @@ e.write = function()
 	luci.http.redirect(luci.dispatcher.build_url("admin","services","koolproxy"))
 end
 e.description = translate(string.format("<font color=\"red\"><strong>更新订阅规则与Adblock Plus Hosts</strong></font><br /><font color=\"green\">ABP规则: %s条<br />Fanboy规则: %s条<br />Yhosts规则: %s条<br />Anti-AD规则: %s条<br />静态规则: %s条<br />视频规则: %s<br />乘风视频: %s条<br />每日规则: %s条<br />自定义规则: %s条<br />Host: %s条</font><br />", s, u, p, f, l, b, m, q, h, i))
-t:tab("cert",translate("Certificate Management"))
 
+t:tab("cert",translate("Certificate Management"))
 e=t:taboption("cert",DummyValue,"c1status",translate("<div align=\"left\"><strong>证书恢复</strong></div>"))
 e=t:taboption("cert",FileUpload,"")
 e.template="koolproxy/caupload"
