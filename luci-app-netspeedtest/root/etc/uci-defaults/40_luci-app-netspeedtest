@@ -1,10 +1,11 @@
 #!/bin/sh
-
 uci -q batch <<-EOF >/dev/null
 	delete ucitrack.@netspeedtest[-1]
 	add ucitrack netspeedtest
 	set ucitrack.@netspeedtest[-1].init=netspeedtest
 	commit ucitrack
 EOF
-
-rm -f /tmp/luci-indexcache
+echo "netspeedtest by sirpdboy " >/var/log/netspeedtest.log
+chmod 755 /etc/init.d/netspeedtest >/dev/null 2>&1
+rm -rf /tmp/luci-modulecache /tmp/luci-indexcache*
+exit 0

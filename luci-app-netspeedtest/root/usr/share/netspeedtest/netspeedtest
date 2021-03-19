@@ -1,0 +1,65 @@
+#!/bin/sh
+# set -x
+
+. /lib/functions.sh
+
+NS_FILE=/usr/share/netspeedtest/netspeedtest.txt
+TMP_DIR=/tmp/netspeedtest
+LOG="/var/log/netspeedtest.log"
+
+limit_log() {
+	local logf=$1
+	[ ! -f "$logf" ] && return
+	local sc=100
+	[ -n "$2" ] && sc=$2
+	local count=$(grep -c "" $logf)
+	if [ $count -gt $sc ];then
+		let count=count-$sc
+		sed -i "1,$count d" $logf
+	fi
+}
+
+init_env() {
+	rm -rf "$TMP_DIR"
+	mkdir -p "$TMP_DIR"
+	[ ! -f "$LOG" ] && echo "netspeedtest by sirpdboy" > $LOG
+	[ ! -f "$NS_FILE" ] && echo 1 > $NS_FILE
+}
+
+start_netspeedtest() {
+   echo 1 > $NS_FILE
+   echo -ne "\n  —————————————————————————————————————" | tee -a $LOG
+   start=$(date +%s) 
+   if  [ ! -e '/tmp/nsrun_once_speedtest' ];then
+	echo 1 > /tmp/nsrun_once_speedtest
+	yes | speedtest  | tee -a $NS_FILE
+   else
+      speedtest  | tee -a $NS_FILE
+   fi
+	end=$(date +%s)  
+    [ ! -f "$NS_FILE" ] && return
+	ns_server=`cat  $NS_FILE | grep 'Server:' |awk -F: '{printf $2}'`
+	ns_down=`cat  $NS_FILE | grep 'Download:' |awk -F: '{printf $2}' | cut -c0-15`
+	ns_up=`cat  $NS_FILE | grep 'Upload:' |awk -F: '{printf $2}' | cut -c0-15`
+	ns_loss=`cat  $NS_FILE | grep 'Loss:' |awk -F: '{printf $2}' | cut -c0-15`
+	echo -ne "\n     测速节点信息： ${ns_server} " | tee -a $LOG
+	echo -ne "\n     测速下载速度： ${ns_down} ---- 测速上传速度： ${ns_up}" | tee -a $LOG
+	echo -ne "\n     测速丢包： ${ns_loss}" | tee -a $LOG
+	time=$(( $end - $start ))
+	if [[ $time -gt 60 ]]; then
+		min=$(expr $time / 60)
+		sec=$(expr $time % 60)
+		echo -ne "\n     测试完成, 本次测速耗时: ${min} 分 ${sec} 秒" | tee -a $LOG
+	else
+		echo -ne "\n     测试完成, 本次测速耗时: ${time} 秒" | tee -a $LOG
+	fi
+		echo -ne "\n     当前时间: " | tee -a $LOG
+	echo $(date +%Y-%m-%d" "%H:%M:%S) | tee -a $LOG
+}
+
+# main process
+init_env
+limit_log $LOG
+start_netspeedtest
+
+

@@ -1,0 +1,53 @@
+#!/bin/sh /etc/rc.common
+# Copyright 2020 -2021 sirpdboy (herboy2008@gmail.com)
+
+START=95
+STOP=10
+
+. /lib/functions.sh
+EXTRA_COMMANDS="nstest"
+EXTRA_HELP="	netspeedtest"
+NS_FILE=/usr/share/netspeedtest/netspeedtest.txt
+TMP_DIR=/tmp/netspeedtest
+LOG="/var/log/netspeedtest.log"
+
+limit_log() {
+	local logf=$1
+	[ ! -f "$logf" ] && return
+	local sc=100
+	[ -n "$2" ] && sc=$2
+	local count=$(grep -c "" $logf)
+	if [ $count -gt $sc ];then
+		let count=count-$sc
+		sed -i "1,$count d" $logf
+	fi
+}
+
+init_env() {
+	rm -rf "$TMP_DIR"
+	mkdir -p "$TMP_DIR"
+	[ ! -f "$LOG" ] && echo "netspeedtest by sirpdboy" > $LOG
+	[ ! -f "$NS_FILE" ] && echo 1 > $NS_FILE
+}
+
+nstest() {
+   init_env
+   limit_log $LOG
+   echo -ne "\n  ————————————————————————" | tee -a $LOG
+        speedtest -p no   --accept-license | tee -a $NS_FILE
+	ns_server=`cat  $NS_FILE | grep 'Server:' |awk -F: '{printf $2}'`
+	ns_down=`cat  $NS_FILE | grep 'Download:' |awk -F: '{printf $2}' | cut -c0-15`
+	ns_up=`cat  $NS_FILE | grep 'Upload:' |awk -F: '{printf $2}' | cut -c0-15`
+	echo -ne "\n  测速服务器位置:${ns_server} " | tee -a $LOG
+	echo -ne "\n  下行速率:${ns_down} ---- 上行速率:${ns_up}" | tee -a $LOG
+	echo -ne "\n  测试时间: " | tee -a $LOG
+	echo $(date +%Y-%m-%d" "%H:%M:%S) | tee -a $LOG
+}
+
+reload(){
+ 	start
+}
+
+start() {
+	nstest
+}

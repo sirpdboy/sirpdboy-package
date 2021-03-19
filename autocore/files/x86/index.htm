@@ -21,13 +21,16 @@
 		buffered = 0,
 		shared = 0
 	}
-                   local mem_cached = luci.sys.exec("sed -e '/^Cached: /!d; s#Cached: *##; s# kB##g' /proc/meminfo")
+	
+	local mem_cached = luci.sys.exec("sed -e '/^Cached: /!d; s#Cached: *##; s# kB##g' /proc/meminfo")
+
 	local swapinfo = sysinfo.swap or {
 		total = 0,
 		free = 0
 	}
 
 	local has_dsl = fs.access("/etc/init.d/dsl_control")
+
 	if luci.http.formvalue("status") == "1" then
 		local ntm = require "luci.model.network".init()
 		local wan = ntm:get_wannet()
@@ -45,14 +48,14 @@
 		local eth_info = luci.sys.exec("ethinfo")
 
 		local user_info = luci.sys.exec("cat /proc/net/arp | grep '0x2' | wc -l") or 0
-		
 		local cpu_usage = (luci.sys.exec("expr 100 - $(top -n 1 | grep 'CPU:' | awk -F '%' '{print$4}' | awk -F ' ' '{print$2}')") or "6") .. "%"
-
+        local ram_size = luci.sys.exec("free -m | grep Mem | awk '{print $2/1024}'")
 		local rv = {
 			cpuusage    = cpu_usage,
 			cpuinfo    = cpu_info,
 			ethinfo    = eth_info,
 			userinfo    = user_info,
+            ramsize    = ram_size,
 			uptime     = sysinfo.uptime or 0,
 			localtime  = os.date("%Y年%m月%d日") .. " " .. translate(os.date("%A")) .. " " .. os.date("%X"),
 			loadavg    = sysinfo.load or { 0, 0, 0 },
@@ -80,7 +83,6 @@
 			}
 		end
 
-	
 		if wan6 then
 			rv.wan6 = {
 				ip6addr   = wan6:ip6addr(),
@@ -159,7 +161,7 @@
 			return duid.substr(16).replace(/(..)(?=..)/g, '$1:').toUpperCase();
 
 		// DUID-LL / Ethernet
-		if (duid.length === 20 && duid.substr(0, 8) === '00030001')
+		if (duid.length === 24 && duid.substr(0, 8) === '00030001')
 			return duid.substr(8).replace(/(..)(?=..)/g, '$1:').toUpperCase();
 
 		return null;
@@ -662,6 +664,11 @@
 			if (e = document.getElementById('cpuusage'))
 				e.innerHTML = info.cpuusage;
 
+
+			if (e = document.getElementById('ramsize'))
+                e.innerHTML =  String.format('%.0f', info.ramsize)+ " <%:MB%>";
+
+
 			if (e = document.getElementById('loadavg'))
 				e.innerHTML = String.format(
 					'%.02f, %.02f, %.02f',
@@ -715,14 +722,14 @@
 
 	<table width="100%" cellspacing="10">
 		<tr><td width="33%"><%:Hostname%></td><td><%=luci.sys.hostname() or "?"%></td></tr>
-		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%></td></tr>
-		<tr><td width="33%"><%:CPU Info%></td><td><%:实时频率%><a>：</a><%=luci.sys.exec("echo `grep 'MHz' /proc/cpuinfo | awk -F ': ' '{ print $2 }' |head -1`")%>Mhz | <%:核心温度%><a>：</a><%=luci.sys.exec("echo `sensors | grep 'Core 0' | cut -c15-22`")%> </td></tr>
+		<tr><td width="33%"><%:Model%></td><td><%=pcdata(boardinfo.model or "?")%> <%=luci.sys.exec("cat /etc/bench.log") or " "%></td></tr>
+		<tr><td width="33%"><%:CPU Info%></td><td id="cpuinfo">-</td></tr>
+        <tr><td width="33%"><%:RAM Size%></td><td id="ramsize">-</td></tr>
 		<tr><td width="33%"><%:Firmware Version%></td><td>
 			<%=pcdata(ver.distname)%> <%=pcdata(ver.distversion)%> /
 			<%=pcdata(ver.luciname)%> (<%=pcdata(ver.luciversion)%>)
 		</td></tr>
 		<tr><td width="33%"><%:Kernel Version%></td><td><%=unameinfo.release or "?"%></td></tr>
-        <tr><td width="33%"><%:RAM Size%></td><td><%=luci.sys.exec("free -m | grep Mem | awk '{print $2/1024}'") or "?"%>MB</td></tr>
 		<tr><td width="33%"><%:Local Time%></td><td id="localtime">-</td></tr>
 		<tr><td width="33%"><%:Uptime%></td><td id="uptime">-</td></tr>
 		<tr><td width="33%"><%:Load Average%></td><td id="loadavg">-</td></tr>

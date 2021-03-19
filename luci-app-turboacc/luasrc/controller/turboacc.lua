@@ -8,7 +8,6 @@ function index()
 	page = entry({"admin", "network", "turboacc"}, cbi("turboacc"), _("Turbo ACC Center"), 101)
 	page.i18n = "turboacc"
 	page.dependent = true
-	page.acl_depends = { "luci-app-turboacc" }
 	
 	entry({"admin", "network", "turboacc", "status"}, call("action_status"))
 end
@@ -26,6 +25,7 @@ local function fullconebat_status()
 end
 
 local function dnscaching_status()
+	return luci.sys.call("pgrep dnscache >/dev/null") == 0
 end
 
 function action_status()

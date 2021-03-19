@@ -19,68 +19,54 @@ msgstr "网速测试"
 msgid "Network speed diagnosis test (including intranet and extranet)"
 msgstr "网络速度诊断测试（包括内网和外网）"
 
-msgid "iperflan"
-msgstr "iperf内网测试"
+msgid "iperf3 lanspeedtest"
+msgstr "iperf3 内网测速"
 
-msgid "iperfwan"
-msgstr "iperf外网测试"
+msgid "iperfstart"
+msgstr "iperf服务启动"
 
-msgid "Start Test server"
-msgstr "启动测速服务器"
+msgid "iperfstop"
+msgstr "iperf服务停止"
 
-msgid "You need to install iperf3 plug-in to start the test speed server"
-msgstr "需要安装iperf3插件才能开启测试速度服务器"
+msgid "Perform operation"
+msgstr "执行操作"
 
-msgid "instructions"
-msgstr "使用说明"
+msgid "iperf3 instructions"
+msgstr "iperf3 使用说明"
 
 msgid "Test speed service started"
 msgstr "测试速度服务已经启动"
 
-msgid "the terminal machine of speed measurement must be in the same local area network as the speed measurement server."
-msgstr "测速终端机必须与测速服务器在同一局域网内."
+msgid "The speed measurement terminal must be in the same LAN as the router that starts the speed measurement"
+msgstr "测速终端机必须与启动测速的路由器在同一局域网内"
 
-msgid "Use steps: start the speed measurement server--download the test client--run the speed measurement client--enter the server IP address."
-msgstr "操作步骤：启动测速服务器--下载测试客户端--运行测速客户端--输入服务器IP地址."
+msgid "Operation steps: start router speed measurement service download test client run speed measurement client input IP address of router speed measurement service"
+msgstr "使用步骤：A.启动路由器测速服务 B.下载测试客户端 C.运行测速客户端 D.输入路由器测速服务IP地址。 "
 
 msgid "Domestic download password:"
-msgstr "国内下载密码："
+msgstr "国内下密码："
 
 msgid "Iperf3 speed measurement software download"
 msgstr "iperf3测速软件下载"
 
-msgid "Start network speed test"
-msgstr "启动网速测试"
+msgid "wanspeedtest"
+msgstr "宽带测速"
 
-msgid "Random 3 telecom nodes"
-msgstr "随机3个电信节点"
+msgid "Perform wanspeedtest"
+msgstr "执行宽带测速"
 
-msgid "Random 9 telecom nodes"
-msgstr "随机9个电信节点"
+msgid "Operation execution completet"
+msgstr "操作执行完毕"
 
-msgid "Random 3 Unicom nodes"
-msgstr "随机3个联通节点"
+msgid "server_info"
+msgstr "测速节点信息"
 
-msgid "Random 9 Unicom nodes"
-msgstr "随机9个联通节点"
+msgid "down_info"
+msgstr "下载速度"
 
-msgid "Random 3 mobile nodes"
-msgstr "随机3个移动节点"
-
-msgid "Random 9 mobile nodes"
-msgstr "随机9个移动节点"
-
-msgid "Random 3 three network"
-msgstr "随机3个全网节点"
-
-msgid "Random 9 three network"
-msgstr "随机9个全网节点"
+msgid "up_info"
+msgstr "上行速度"
 
 msgid "Download from foreign official websites"
-msgstr "国外官网下载"
+msgstr "国外官网"
 
-msgid "The test kernel does not exist, so the external network speed cannot be tested"
-msgstr "测试内核不存在，不能测试外网速度"
-
-msgid "View all nodes list"
-msgstr "查看全部节点列表"
