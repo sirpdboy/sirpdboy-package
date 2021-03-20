@@ -1,7 +1,7 @@
 local e=require"nixio.fs"
 local e=luci.http
 local a,t,e
-a=Map("ddnsto",translate("ddnsto"),translate("ddnsto是koolshare小宝开发的，支持http2的快速远程路由工具。</br>你需要先到 https://www.ddnsto.com 注册，然后在本插件内填入Token，再登录 https://www.ddnsto.com 设置穿透。"))
+a=Map("ddnsto",translate("ddnsto"),translate("ddnsto是koolshare小宝开发的，支持http2的快速远程路由工具。</br>你需要先到 https://www.ddnsto.com/app/#/weixinlogin注册，然后在本插件内填入Token，再登录 https://www.ddnsto.com/app/#/weixinlogin设置穿透。"))
 a.template="ddnsto/index"
 t=a:section(TypedSection,"global",translate("Running Status"))
 t.anonymous=true
@@ -26,7 +26,7 @@ e=t:option(Button,"Configuration",translate("域名配置管理"))
 e.inputtitle=translate("打开网站")
 e.inputstyle="reload"
 e.write=function()
-luci.http.redirect("https://www.ddnsto.com")
+luci.http.redirect("https://www.ddnsto.com/app/#/weixinlogin")
 end
 end
 return a

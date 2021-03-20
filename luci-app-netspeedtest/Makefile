@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-netspeedtest
 PKG_VERSION:=1.4
-PKG_RELEASE:=16
+PKG_RELEASE:=20210321
 PKG_LICENSE:=GPLv2
 PKG_MAINTAINER:=NetSpeedTest by sirpdboy
 
