@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=luci-app-netspeedtest
 LUCI_DESCRIPTION:=LuCI support Network speed test intranet and Extranet
-LUCI_DEPENDS:=+iperf3 +speedtest
+LUCI_DEPENDS:=+iperf3
 LUCI_PKGARCH:=all
 
 PKG_NAME:=luci-app-netspeedtest
