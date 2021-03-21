@@ -39,7 +39,6 @@ endef
 
 define Package/$(PKG_NAME)/conffiles
 /etc/config/netspeedtest
-/etc/netspeedtest/
 endef
 
 define Package/$(PKG_NAME)/install
