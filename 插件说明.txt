@@ -1,4 +1,4 @@
-luci-app-autopoweroff定时自动重启和自动关机
+﻿luci-app-autotimeset定时自动重启和自动关机 原luci-app-autopoweroff
 luci-app-advanced系统高级设置【自带文件管理功能】
 luci-app-NetSpeedTest网络速度测试
 luci-app-poweroffdevice关机功能插件
