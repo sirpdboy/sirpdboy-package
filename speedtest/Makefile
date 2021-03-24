@@ -7,14 +7,16 @@
 
 include $(TOPDIR)/rules.mk
 
+PKG_ARCH:=$(ARCH)
 PKG_NAME:=speedtest
 PKG_VERSION:=1.0.0
 PKG_RELEASE:=3
-
+PKG_SOURCE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
+PKG_SOURCE_URL:=https://ookla.bintray.com/download/
+PKG_HASH:=skip
 
 PKG_LICENSE:=GPLv3
 PKG_MAINTAINER:=ookla speedtest by sirpdboy
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -25,10 +27,14 @@ define Package/$(PKG_NAME)
   DEPENDS:=+kmod-tun +wget +curl
 endef
 
+define Build/Configure
+endef
+
+define Build/Compile
+endef
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(CURDIR)/file/$(PKG_NAME) $(1)/usr/bin
-	$(CP) -r ./files/$(PKG_NAME)  $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(PKG_NAME) $(1)/usr/bin
 endef
 
 
