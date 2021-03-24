@@ -13,17 +13,15 @@ PKG_RELEASE:=3
 
 
 PKG_LICENSE:=GPLv3
-PKG_LICENSE_FILES:=LICENSE
-
+PKG_MAINTAINER:=ookla speedtest by sirpdboy
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
-  CATEGORY:=ookla speedtest by sirpdboy
-  SUBMENU:=1. Performance
+  SECTION:=net
+  CATEGORY:=Network
   TITLE:=A Speedtest application
-  MAINTAINER:=ookla speedtest by sirpdboy
   DEPENDS:=+kmod-tun +wget +curl
 endef
 
