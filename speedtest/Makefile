@@ -14,7 +14,6 @@ PKG_RELEASE:=3
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
-PKG_MAINTAINER:=ookla speedtest by sirpdboy
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
@@ -24,20 +23,15 @@ define Package/$(PKG_NAME)
   CATEGORY:=ookla speedtest by sirpdboy
   SUBMENU:=1. Performance
   TITLE:=A Speedtest application
+  MAINTAINER:=ookla speedtest by sirpdboy
   DEPENDS:=+kmod-tun +wget +curl
-endef
-
-define Package/$(PKG_NAME)/description
-Command line interface for testing internet bandwidth using ookla
 endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(CURDIR)/file/$(PKG_NAME) $(1)/usr/bin
-	$(CP) -r ./files/$(PKG_NAME)  $(1)/usr/bin/$(PKG_NAME)
+	$(CP) -r ./files/$(PKG_NAME)  $(1)/usr/bin
 endef
 
-define Package/$(PKG_NAME)/postinst
-endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
