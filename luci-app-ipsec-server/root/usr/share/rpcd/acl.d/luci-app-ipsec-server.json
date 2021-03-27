@@ -1,11 +1,11 @@
 {
-	"luci-app-ipsec-server": {
+	"luci-app-ipsec-vpnserver-manyusers": {
 		"description": "Grant UCI access for luci-app-ipsec-server",
 		"read": {
-			"uci": [ "luci-app-ipsec-server" ]
+			"uci": [ "ipsec" ]
 		},
 		"write": {
-			"uci": [ "luci-app-ipsec-server" ]
+			"uci": [ "ipsec" ]
 		}
 	}
 }

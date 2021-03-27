@@ -72,7 +72,7 @@ case "$ACTION" in
 				echo -e "\toption path '$target'" >> $config_file
 				echo -e "\toption read_only 'no'" >> $config_file
 				echo -e "\toption guest_ok 'yes'" >> $config_file
-				echo -e "\toption create_mask '0666'" >> $config_file
+				echo -e "\toption create_mask '0777'" >> $config_file
 				echo -e "\toption dir_mask '0777'" >> $config_file
 				echo -e "\toption device '$device'" >> $config_file
 				/etc/init.d/ksmbd reload
