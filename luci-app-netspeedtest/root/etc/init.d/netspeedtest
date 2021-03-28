@@ -27,14 +27,14 @@ init_env() {
 	rm -rf "$TMP_DIR"
 	mkdir -p "$TMP_DIR"
 	[ ! -f "$LOG" ] && echo "netspeedtest by sirpdboy" > $LOG
-	[ ! -f "$NS_FILE" ] && echo 1 > $NS_FILE
+	echo 1 > $NS_FILE
 }
 
 nstest() {
    init_env
    limit_log $LOG
    echo -ne "\n  ————————————————————————" | tee -a $LOG
-        speedtest -p no   --accept-license | tee -a $NS_FILE
+    speedtest -p no   --accept-license | tee -a $NS_FILE
 	ns_server=`cat  $NS_FILE | grep 'Server:' |awk -F: '{printf $2}'`
 	ns_down=`cat  $NS_FILE | grep 'Download:' |awk -F: '{printf $2}' | cut -c0-15`
 	ns_up=`cat  $NS_FILE | grep 'Upload:' |awk -F: '{printf $2}' | cut -c0-15`

@@ -51,6 +51,7 @@ function get_log()
 end
 
 function run()
- 	luci.sys.call("/etc/init.d/netspeedtest nstest >/dev/null 2>&1")
+ 	cmd ="/etc/init.d/netspeedtest nstest >/dev/null 2>&1 &"
+	io.popen(cmd)
 	luci.http.redirect(luci.dispatcher.build_url("admin","network","netspeedtest"))
 end
