@@ -66,6 +66,7 @@ echo "ip6tables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53
 sed -i '/option disabled/d' /etc/config/wireless
 sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
 wifi up
+sed -i "s/script_timeout '60/script_timeout '360/g"  /etc/config/uhttpd 
 
 sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
 echo "DISTRIB_REVISION='R21.2.1'" >> /etc/openwrt_release

@@ -11,36 +11,43 @@ PKG_ARCH:=$(ARCH)
 PKG_NAME:=speedtest
 PKG_VERSION:=1.0.0
 PKG_RELEASE:=3
-PKG_SOURCE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
-PKG_SOURCE_URL:=https://ookla.bintray.com/download/
-PKG_HASH:=skip
 
-PKG_LICENSE:=MIT
-PKG_LICENSE_FILES:=LICENSE
-PKG_MAINTAINER:=ookla speedtest by sirpdboy
+
+STRIP:=true
+
 
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
   SECTION:=net
   CATEGORY:=Network
+  SUBMENU:=speedtest
   TITLE:=A Speedtest application
   DEPENDS:=+kmod-tun +wget +curl +python3
 endef
 
-define Build/Configure
+
+define Package/$(PKG_NAME)/description
+  A Speedtest application
+  ookla speedtest by sirpdboy
+endef
+define Download/speedtest
+  URL:=https://ookla.bintray.com/download
+  URL_FILE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
+  FILE:=speedtest
+  HASH:=skip
 endef
 
+
 define Build/Compile
-	$(call GoPackage/Build/Compile)
-	$(STAGING_DIR_HOST)/bin/upx --lzma --best $(GO_PKG_BUILD_BIN_DIR)/Speedtest || true
 endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(GO_PKG_BUILD_BIN_DIR)/Speedtest $(1)/usr/bin/Speedtest
+	$(INSTALL_BIN) $(DL_DIR)/speedtest $(1)/usr/bin
 endef
 
 
-$(eval $(call GoBinPackage,$(PKG_NAME)))
+
+$(eval $(call Download,speedtest))
 $(eval $(call BuildPackage,$(PKG_NAME)))
