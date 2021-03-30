@@ -7,7 +7,7 @@
 =
 Welcome to sirpdboy's  git source of packages
 -
-[NetSpeedTest1.4 — 网络速度测试](https://github.com/sirpdboy/NetSpeedTest)
+[luci-app-NetSpeedTest — 网络速度测试1.5完整版](https://github.com/sirpdboy/NetSpeedTest)
 ======================
 
 [![](https://img.shields.io/badge/-目录:-696969.svg)](#readme) [![](https://img.shields.io/badge/-写在前面-F5F5F5.svg)](#写在前面-) [![](https://img.shields.io/badge/-编译说明-F5F5F5.svg)](#编译说明-) [![](https://img.shields.io/badge/-说明-F5F5F5.svg)](#说明-) [![](https://img.shields.io/badge/-捐助-F5F5F5.svg)](#捐助-) 
@@ -34,9 +34,11 @@ a new NetSpeedTest luci app bese luci-app-NetSpeedTest
 
 6.网络测速iperf3客户端下载地址：https://sipdboy.lanzoui.com/b01c3esih 密码:cpd6
 
-8.外网测速使用 ookla 提供的测速程序,在此感谢开源的superspeed和user1121114685，因为有你们才有此插件！
+8.外网测速使用speedtest.net测速内核，需要依赖speedtest,另外感谢superspeed和user1121114685因为借用了你们的灵感！
 
-9.新插件难免有bug 请不要大惊小怪。欢迎提交bug。
+9.外网测速最后测试阶段感谢佐大：佐须之男 测试查问题！
+
+10.新插件难免有bug 请不要大惊小怪。欢迎提交bug。
 
 ## 编译说明 [![](https://img.shields.io/badge/-编译说明-F5F5F5.svg)](#编译说明-) 
 

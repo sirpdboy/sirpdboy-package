@@ -7,10 +7,10 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-netspeedtest
-PKG_VERSION:=1.4
-PKG_RELEASE:=20210321
+PKG_VERSION:=1.5
+PKG_RELEASE:=20210330
 PKG_LICENSE:=GPLv2
-PKG_MAINTAINER:=NetSpeedTest by sirpdboy
+PKG_MAINTAINER:=NetSpeedTest by sirpdboy <herboy2008@gmail.com>
 
 
 include $(INCLUDE_DIR)/package.mk
@@ -31,7 +31,7 @@ endef
 
 define Build/Prepare
 	$(foreach po,$(wildcard ${CURDIR}/po/zh-cn/*.po), \
-		po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
+	po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
 endef
 
 define Build/Compile

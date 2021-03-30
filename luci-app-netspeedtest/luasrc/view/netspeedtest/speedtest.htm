@@ -16,13 +16,13 @@
 	var output = document.getElementById('test-rc-output');
 			output.innerHTML =
 				'<img src="<%=resource%>/icons/loading.gif" alt="<%:Loading%>" style="vertical-align:middle" /> ' +
-				'<%:Waiting for command to complete...%>'
+				'<%:Network speed test, please wait for 1 minutes%>'
 			;
 
 			legend.parentNode.style.display = 'block';
 			legend.style.display = 'inline';
         XHR.get(RUN_URL, null, () => {
-            setTimeout(() => { window.location = S_URL }, 18000);
+            setTimeout(() => { window.location = S_URL }, 3000);
         });
         return false;
     }

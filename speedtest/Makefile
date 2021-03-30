@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 PKG_ARCH:=x86_64
 PKG_NAME:=speedtest
 PKG_VERSION:=1.0.0
-PKG_RELEASE:=4
+PKG_RELEASE:=5
 
 PKG_SOURCE_URL:=https://ookla.bintray.com/download
 PKG_SOURCE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz

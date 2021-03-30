@@ -1,14 +1,5 @@
 -- Copyright 2018 sirpdboy (herboy2008@gmail.com)
-require ("nixio.fs")
-require ("luci.http")
-require ("luci.dispatcher")
-require ("nixio.fs")
 require("luci.util")
-local fs = require "nixio.fs"
-local sys = require "luci.sys"
-local http = require "luci.http"
-
-
 local o,t,e
  
 if luci.sys.call("pidof iperf3 >/dev/null") == 0 then
