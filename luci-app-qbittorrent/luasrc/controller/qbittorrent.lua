@@ -13,7 +13,7 @@ function index()
   end
   
  	entry({"admin", "nas", "qbittorrent"},
-		firstchild(), _("qBittorrent")).dependent = false
+		firstchild(), _("BT下载")).dependent = false
 		
 	entry({"admin", "nas", "qbittorrent", "config"},
 		cbi("qbittorrent/config"), _("Global settings"), 1)
