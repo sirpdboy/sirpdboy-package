@@ -15,8 +15,9 @@ PKG_RELEASE:=4
 PKG_SOURCE_URL:=https://ookla.bintray.com/download
 PKG_SOURCE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
 PKG_HASH:=skip
-PKG_LICENSE:=MIT
+PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
+
 PKG_MAINTAINER:=sirpdboy <herboy2008@gmail.com>
 
 include $(INCLUDE_DIR)/package.mk
@@ -29,28 +30,29 @@ define Package/$(PKG_NAME)
   URL:=https://github.com/sirpdboy/NetSpeedTest
 endef
 
-define Download/speedtest
-  URL:=https://ookla.bintray.com/download
-  URL_FILE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
-  FILE:=tmpspeedtest
-  HASH:=skip
-endef
+# define Download/speedtest
+#  URL:=https://ookla.bintray.com/download
+#  URL_FILE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
+#   FILE:=tmpspeedtest
+#   HASH:=skip
+# endef
 
 define Package/$(PKG_NAME)/description
-  A Speedtest application
+  luci for testing internet bandwidth using speedtest.net
   ookla speedtest by sirpdboy
 endef
 
 define Build/Prepare
-		[ ! -f $(DL_DIR)/test ] && wget -O $(DL_DIR)/test  $(PKG_SOURCE_URL)/$(PKG_SOURCE) && tar -xzf $(DL_DIR)/test
+	mkdir -p $(PKG_BUILD_DIR)/$(PKG_NAME)
+	$(CP) ./file/speedtest $(PKG_BUILD_DIR)/$(PKG_NAME)
 endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(DL_DIR)/speedtest $(1)/usr/bin
-	tar -xzf $(PKG_BUILD_DIR)/tmpspeedtest
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/speedtest $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(PKG_NAME)/speedtest  $(1)/usr/bin
+
 endef
 
-$(eval $(call Download,speedtest))
+define Package/$(PKG_NAME)/postinst
+endef
 $(eval $(call BuildPackage,$(PKG_NAME)))

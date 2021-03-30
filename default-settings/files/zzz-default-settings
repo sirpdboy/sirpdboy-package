@@ -19,7 +19,6 @@ uci set dhcp.@dnsmasq[0].filter_aaaa='0'
 uci set network.@globals[0].ula_prefix='dd48:56c7:1325::/48'
 uci set network.@wan[0].mtu=1400
 uci commit network
-if [ -f /etc/config/sfe ]; then
 uci set sfe.config.enabled=0
 uci set sfe.config.bbr=0
 uci commit sfe
@@ -46,10 +45,9 @@ sed -i 's/\"system\"/\"control\"/g' /usr/lib/lua/luci/controller/cpulimit.lua
 sed -i 's/\"services\"/\"control\"/g' /usr/lib/lua/luci/controller/samba4.lua
 sed -i 's/\"nas\"/\"control\"/g' /usr/lib/lua/luci/controller/cifsd.lua
 
-if [ -f /etc/config/vsftpd ]; then
 uci set vsftpd.@listen[0].enable4='0'
 uci commit vsftpd
-fi
+
 ln -sf /sbin/ip /usr/bin/ip
 
 sed -i 's#http://downloads.openwrt.org#https://mirrors.cloud.tencent.com/lede#g' /etc/opkg/distfeeds.conf
@@ -69,8 +67,6 @@ sed -i '/option disabled/d' /etc/config/wireless
 sed -i '/set wireless.radio${devidx}.disabled/d' /lib/wifi/mac80211.sh
 wifi up
 
-# sed -i "s/script_timeout '60/script_timeout '360/g"  /etc/config/uhttpd 
-
 sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
 echo "DISTRIB_REVISION='R21.2.1'" >> /etc/openwrt_release
 cat /etc/openwrt_release1 >> /etc/openwrt_release
@@ -82,7 +78,6 @@ echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
 
 sed -i 's/cbi.submit\"] = true/cbi.submit\"] = \"1\"/g' /usr/lib/lua/luci/dispatcher.lua
 echo 'hsts=0' > /root/.wgetrc
-# sed -i 's/option enabled.*/option enabled 1/g' /etc/config/upnpd
 
 rm -rf /tmp/luci-modulecache/
 rm -f /tmp/luci-indexcache
