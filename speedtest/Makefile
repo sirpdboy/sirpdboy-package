@@ -7,7 +7,7 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_ARCH:=$(ARCH)
+PKG_ARCH:=x86_64
 PKG_NAME:=speedtest
 PKG_VERSION:=1.0.0
 PKG_RELEASE:=4
@@ -29,12 +29,12 @@ define Package/$(PKG_NAME)
   URL:=https://github.com/sirpdboy/NetSpeedTest
 endef
 
-#define Download/speedtest
-#  URL:=https://ookla.bintray.com/download
-#  URL_FILE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
-#  FILE:=speedtest
-#  HASH:=skip
-#endef
+define Download/speedtest
+  URL:=https://ookla.bintray.com/download
+  URL_FILE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
+  FILE:=tmpspeedtest
+  HASH:=skip
+endef
 
 define Package/$(PKG_NAME)/description
   A Speedtest application
@@ -42,14 +42,15 @@ define Package/$(PKG_NAME)/description
 endef
 
 define Build/Prepare
-		[ ! -f $(DL_DIR)/test ] && wget -O $(DL_DIR)/test  $(PKG_SOURCE_URL)/$(PKG_SOURCE) && tar -zxvf $(DL_DIR)/test speedtest
+		[ ! -f $(DL_DIR)/test ] && wget -O $(DL_DIR)/test  $(PKG_SOURCE_URL)/$(PKG_SOURCE) && tar -xzf $(DL_DIR)/test
 endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(DL_DIR)/speedtest $(1)/usr/bin
-	#$(INSTALL_BIN) $(PKG_BUILD_DIR)/speedtest $(1)/usr/bin/speedtest
+	tar -xzf $(PKG_BUILD_DIR)/tmpspeedtest
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/speedtest $(1)/usr/bin
 endef
 
-#$(eval $(call Download,speedtest))
+$(eval $(call Download,speedtest))
 $(eval $(call BuildPackage,$(PKG_NAME)))
