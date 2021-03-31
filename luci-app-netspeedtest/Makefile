@@ -7,8 +7,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-netspeedtest
-PKG_VERSION:=1.5
-PKG_RELEASE:=20210330
+PKG_VERSION:=1.6
+PKG_RELEASE:=20210331
 PKG_LICENSE:=GPLv2
 PKG_MAINTAINER:=NetSpeedTest by sirpdboy <herboy2008@gmail.com>
 
@@ -30,8 +30,8 @@ define Package/$(PKG_NAME)/description
 endef
 
 define Build/Prepare
-	$(foreach po,$(wildcard ${CURDIR}/po/zh-cn/*.po), \
-	po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
+	mkdir -p $(PKG_BUILD_DIR)/$(PKG_NAME)
+	cp -pR  ./root/usr/bin/$(PKG_NAME)/speedtest $(PKG_BUILD_DIR)/
 endef
 
 define Build/Compile
@@ -42,12 +42,8 @@ define Package/$(PKG_NAME)/conffiles
 endef
 
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
-	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
-	$(INSTALL_DIR) $(1)/
-	cp -pR ./root/* $(1)/
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/netspeedtest.lmo $(1)/usr/lib/lua/luci/i18n/
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(PKG_NAME)/speedtest  $(1)/usr/bin
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk

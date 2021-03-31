@@ -49,6 +49,6 @@ reload(){
 }
 
 start() {
-        limit_log $LOG 200
+    limit_log $LOG 200
 	nstest
 }

@@ -10,11 +10,11 @@ include $(TOPDIR)/rules.mk
 PKG_ARCH:=x86_64
 PKG_NAME:=speedtest
 PKG_VERSION:=1.0.0
-PKG_RELEASE:=5
+PKG_RELEASE:=6
 
-PKG_SOURCE_URL:=https://ookla.bintray.com/download
-PKG_SOURCE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
-PKG_HASH:=skip
+#PKG_SOURCE_URL:=https://ookla.bintray.com/download
+#PKG_SOURCE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
+#PKG_HASH:=skip
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
 
@@ -38,7 +38,7 @@ endef
 
 define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)/$(PKG_NAME)
-	$(CP) ./file/speedtest $(PKG_BUILD_DIR)/$(PKG_NAME)
+	cp ./file/speedtest $(PKG_BUILD_DIR)/$(PKG_NAME)
 endef
 
 define Build/Configure
