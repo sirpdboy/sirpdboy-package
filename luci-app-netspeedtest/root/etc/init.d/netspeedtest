@@ -26,19 +26,19 @@ limit_log() {
 init_env() {
 	[ ! -f "$LOG" ] && echo "netspeedtest by sirpdboy" > $LOG
 	echo 1 > $NS_FILE
-        echo 1 > $TMP_T
+    echo 1 > $TMP_T
 }
 
 nstest() {
-	[ -f "$TMP_T" ] && return && exit
-        init_env
-        echo -ne "\n  ————————————————————————————" | tee -a $LOG
-        speedtest  | tee -a $NS_FILE
+	[ -f "$TMP_T" ] && return
+    init_env
+    echo -ne "\n  ————————————————————————————" | tee -a $LOG
+    speedtest  | tee -a $NS_FILE
 	ns_server=`cat  $NS_FILE | grep 'Hosted by' | cut -c10-`
 	ns_down=`cat  $NS_FILE | grep 'Download:' |awk -F: '{printf $2}' `
 	ns_up=`cat  $NS_FILE | grep 'Upload:' |awk -F: '{printf $2}' `
 	echo -ne "\n  测服信息:${ns_server} " | tee -a $LOG
-        echo -ne "\n  下行速率:${ns_down} ---- 上行速率:${ns_up} " | tee -a $LOG
+    echo -ne "\n  下行速率:${ns_down} ---- 上行速率:${ns_up} " | tee -a $LOG
 	echo -ne "\n  测试时间: " | tee -a $LOG
 	echo $(date +%Y-%m-%d" "%H:%M:%S) | tee -a $LOG
 	rm -rf $TMP_T

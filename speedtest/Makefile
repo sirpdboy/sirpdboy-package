@@ -18,24 +18,18 @@ PKG_HASH:=skip
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
 
-PKG_MAINTAINER:=sirpdboy <herboy2008@gmail.com>
+PKG_MAINTAINER:=sirpdboy
 
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
-  SECTION:=net
   CATEGORY:=Network
+  SUBMENU:=1. Performance
   TITLE:=A Speedtest application 
   DEPENDS:=+kmod-tun +wget +curl +python3
   URL:=https://github.com/sirpdboy/NetSpeedTest
 endef
 
-# define Download/speedtest
-#  URL:=https://ookla.bintray.com/download
-#  URL_FILE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
-#   FILE:=tmpspeedtest
-#   HASH:=skip
-# endef
 
 define Package/$(PKG_NAME)/description
   luci for testing internet bandwidth using speedtest.net
@@ -47,6 +41,12 @@ define Build/Prepare
 	$(CP) ./file/speedtest $(PKG_BUILD_DIR)/$(PKG_NAME)
 endef
 
+define Build/Configure
+endef
+
+define Build/Compile
+endef
+
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(PKG_NAME)/speedtest  $(1)/usr/bin
@@ -55,4 +55,5 @@ endef
 
 define Package/$(PKG_NAME)/postinst
 endef
+
 $(eval $(call BuildPackage,$(PKG_NAME)))
