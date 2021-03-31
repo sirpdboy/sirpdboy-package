@@ -26,12 +26,13 @@ limit_log() {
 init_env() {
 	[ ! -f "$LOG" ] && echo "netspeedtest by sirpdboy" > $LOG
 	echo 1 > $NS_FILE
-    echo 1 > $TMP_T
+   
 }
 
 nstest() {
-	[ -f "$TMP_T" ] && return
     init_env
+	[ -f "$TMP_T" ] && return
+    echo 1 > $TMP_T
     echo -ne "\n  ————————————————————————————" | tee -a $LOG
     speedtest  | tee -a $NS_FILE
 	ns_server=`cat  $NS_FILE | grep 'Hosted by' | cut -c10-`
