@@ -12,9 +12,12 @@ PKG_RELEASE:=20210401
 PKG_LICENSE:=GPLv2
 PKG_MAINTAINER:=sirpdboy
 
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
+LUA_LIBRARYDIR = /usr/lib/lua
+LUCI_LIBRARYDIR = $(LUA_LIBRARYDIR)/luci
 define Package/$(PKG_NAME)
   SECTION:=LuCI
   CATEGORY:=LuCI
@@ -28,39 +31,26 @@ define Package/$(PKG_NAME)/description
 	Luci Support for netspeedtest.
 endef
 
-
 define Build/Prepare
-	chmod +x root/etc/init.d/netspeedtest root/usr/bin/speedtest >/dev/null 2>&1
-	$(foreach po,$(wildcard ${CURDIR}/po/zh-cn/*.po), \
-	po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
-endef
-
-define Package/$(PKG_NAME)/conffiles
-/etc/config/netspeedtest
+	mkdir -p $(PKG_BUILD_DIR)
+	$(CP) ./* $(PKG_BUILD_DIR)/
 endef
 
 define Build/Configure
 endef
 
-define Build/Compile
-endef
-
-define Package/$(PKG_NAME)/postinst
-endef
 
 
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
-	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
+	$(INSTALL_DIR) $(1)$(LUCI_LIBRARYDIR)
+	cp -pR $(PKG_BUILD_DIR)/luasrc/* $(1)$(LUCI_LIBRARYDIR)/
+
 	$(INSTALL_DIR) $(1)/
 	cp -pR ./root/* $(1)/
 	$(INSTALL_DIR)	$(1)/usr/bin/
+	
 	$(INSTALL_BIN) ./files/speedtest $(1)/usr/bin/
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/netspeedtest.lmo $(1)/usr/lib/lua/luci/i18n/
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk
-
-# call BuildPackage - OpenWrt buildroot signature
 

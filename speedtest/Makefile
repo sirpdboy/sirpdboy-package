@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 PKG_ARCH:=x86_64
 PKG_NAME:=speedtest
 PKG_VERSION:=1.0.0
-PKG_RELEASE:=6
+PKG_RELEASE:=7
 
 #PKG_SOURCE_URL:=https://ookla.bintray.com/download
 #PKG_SOURCE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
@@ -25,9 +25,9 @@ include $(INCLUDE_DIR)/package.mk
 define Package/$(PKG_NAME)
   SECTION:=net
   CATEGORY:=Network
+  SUBMENU:=speedtest-openwrt
   TITLE:=A Speedtest application 
   DEPENDS:=+kmod-tun +wget +curl +python3
-  URL:=https://github.com/sirpdboy/NetSpeedTest
 endef
 
 
@@ -36,24 +36,17 @@ define Package/$(PKG_NAME)/description
   ookla speedtest by sirpdboy
 endef
 
-define Build/Prepare
-	mkdir -p $(PKG_BUILD_DIR)/$(PKG_NAME)
-	$(CP) ./file/speedtest $(PKG_BUILD_DIR)/$(PKG_NAME)
-endef
+#define Build/Prepare
+#	mkdir -p $(PKG_BUILD_DIR)
+#	$(CP) ./$(PKG_NAME)/* $(PKG_BUILD_DIR)/
+#endef
 
-define Build/Configure
-endef
-
-define Build/Compile
-endef
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(PKG_NAME)/speedtest  $(1)/usr/bin
+	$(INSTALL_BIN) ./files/speedtest $(1)/usr/bin
 
 endef
 
-define Package/$(PKG_NAME)/postinst
-endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
