@@ -32,6 +32,8 @@ endef
 
 define Build/Prepare
 	chmod +x root/etc/init.d/netspeedtest root/usr/bin/speedtest >/dev/null 2>&1
+	$(foreach po,$(wildcard ${CURDIR}/po/zh-cn/*.po), \
+	po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
 endef
 
 define Package/$(PKG_NAME)/conffiles
@@ -56,7 +58,10 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR)	$(1)/usr/bin/
 	$(INSTALL_BIN) ./files/speedtest $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	po2lmo ./po/zh-cn/netspeedtest.po $(1)/usr/lib/lua/luci/i18n/netspeedtest.zh-cn.lmo
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/netspeedtest.lmo $(1)/usr/lib/lua/luci/i18n/
 endef
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+include $(TOPDIR)/feeds/luci/luci.mk
+
+# call BuildPackage - OpenWrt buildroot signature
+
