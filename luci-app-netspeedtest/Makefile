@@ -12,7 +12,6 @@ PKG_RELEASE:=20210401
 PKG_LICENSE:=GPLv2
 PKG_MAINTAINER:=sirpdboy
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -21,7 +20,7 @@ define Package/$(PKG_NAME)
   CATEGORY:=LuCI
   SUBMENU:=3. Applications
   TITLE:=LuCI Support for netspeedtest
-  DEPENDS:=+iperf3 +python3
+  DEPENDS:=+iperf3 +python3 +speedtest
   PKGARCH:=all
 endef
 

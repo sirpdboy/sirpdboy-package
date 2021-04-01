@@ -23,8 +23,8 @@ PKG_MAINTAINER:=sirpdboy
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
+  SECTION:=net
   CATEGORY:=Network
-  SUBMENU:=1. Performance
   TITLE:=A Speedtest application 
   DEPENDS:=+kmod-tun +wget +curl +python3
   URL:=https://github.com/sirpdboy/NetSpeedTest
@@ -38,7 +38,7 @@ endef
 
 define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)/$(PKG_NAME)
-	cp ./file/speedtest $(PKG_BUILD_DIR)/$(PKG_NAME)
+	$(CP) ./file/speedtest $(PKG_BUILD_DIR)/$(PKG_NAME)
 endef
 
 define Build/Configure
