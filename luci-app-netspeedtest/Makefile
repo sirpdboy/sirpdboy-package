@@ -13,18 +13,17 @@ PKG_MAINTAINER:=sirpdboy <herboy2008@gmail.com>
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
 
-
-RSTRIP:=true
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
-  SECTION:=LuCI
-  CATEGORY:=LuCI
-  SUBMENU:=3. Applications
-  TITLE:=LuCI Support for netspeedtest
-  DEPENDS:=+iperf3 +python3
-  PKGARCH:=all
+	SECTION:=luci
+	CATEGORY:=LuCI
+	SUBMENU:=3. Applications
+	TITLE:=LuCI Support for netspeedtest
+	PKGARCH:=all
+	DEPENDS:=+python3 +iperf3
 endef
 
 define Package/$(PKG_NAME)/description
@@ -34,13 +33,17 @@ endef
 define Build/Prepare
 endef
 
+define Package/$(PKG_NAME)/conffiles
+/etc/config/ netspeedtest
+endef
+
+define Build/Configure
+endef
+
+define Build/Compile
+endef
+
 define Package/$(PKG_NAME)/postinst
-#!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	( . /etc/uci-defaults/40_luci-app-netspeedtest ) && rm -f /etc/uci-defaults/40_luci-app-netspeedtest
-	rm -f /tmp/luci-indexcache
-fi
-exit 0
 endef
 
 
@@ -50,18 +53,12 @@ define Package/$(PKG_NAME)/install
 	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
 	$(INSTALL_DIR) $(1)/
 	cp -pR ./root/* $(1)/
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	po2lmo ./po/zh-cn/netspeedtest.po $(1)/usr/lib/lua/luci/i18n
 
 	$(INSTALL_DIR)	$(1)/usr/bin/
-	
+	$(INSTALL_BIN) ./files/speedtest $(1)/usr/bin/
 
-ifeq ($(ARCH),x86)
-	$(INSTALL_BIN) ./files/speedtest $(1)/usr/bin/
-endif
-ifeq ($(ARCH),x86_64)
-	$(INSTALL_BIN) ./files/speedtest $(1)/usr/bin/
-endif
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+	po2lmo ./po/zh-cn/netspeedtest.po $(1)/usr/lib/lua/luci/i18n
 endef
 
-$(eval $(call BuildPackage,luci-app-speedtest))
+$(eval $(call BuildPackage,$(PKG_NAME)))
