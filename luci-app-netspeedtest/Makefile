@@ -13,7 +13,6 @@ PKG_MAINTAINER:=sirpdboy <herboy2008@gmail.com>
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 RSTRIP:=true
 
@@ -52,7 +51,7 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/
 	cp -pR ./root/* $(1)/
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	po2lmo ./po/zh-cn/netspeedtest.po $(1)/usr/lib/lua/luci/i18n/netspeedtest.zh-cn.lmo
+	po2lmo ./po/zh-cn/netspeedtest.po $(1)/usr/lib/lua/luci/i18n
 
 	$(INSTALL_DIR)	$(1)/usr/bin/
 	
@@ -65,4 +64,4 @@ ifeq ($(ARCH),x86_64)
 endif
 endef
 
-$(eval $(call BuildPackage,luci-app-koolproxyR))
+$(eval $(call BuildPackage,luci-app-speedtest))
