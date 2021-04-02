@@ -20,7 +20,6 @@ define Package/$(PKG_NAME)
 	SUBMENU:=3. Applications
 	TITLE:=LuCI Support for ddnsto
 	PKGARCH:=all
-	DEPENDS:=
 endef
 
 define Package/$(PKG_NAME)/description
@@ -52,4 +51,4 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_BIN) ./files/x86/ddnsto $(1)/usr/bin/
 endef
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+include $(TOPDIR)/feeds/luci/luci.mk

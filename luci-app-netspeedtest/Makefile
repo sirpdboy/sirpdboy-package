@@ -11,9 +11,6 @@ PKG_VERSION:=1.6
 PKG_RELEASE:=20210402
 PKG_MAINTAINER:=sirpdboy <herboy2008@gmail.com>
 PKG_LICENSE:=GPLv3
-PKG_LICENSE_FILES:=LICENSE
-
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -46,8 +43,6 @@ endef
 define Package/$(PKG_NAME)/postinst
 endef
 
-
-
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
 	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
@@ -61,4 +56,4 @@ define Package/$(PKG_NAME)/install
 	po2lmo ./po/zh-cn/netspeedtest.po $(1)/usr/lib/lua/luci/i18n
 endef
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+include $(TOPDIR)/feeds/luci/luci.mk
