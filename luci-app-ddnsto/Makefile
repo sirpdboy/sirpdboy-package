@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-ddnsto
 PKG_VERSION:=1.0.0
-PKG_RELEASE:=20210321
+PKG_RELEASE:=20210403
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
@@ -27,6 +27,8 @@ define Package/$(PKG_NAME)/description
 endef
 
 define Build/Prepare
+	$(foreach po,$(wildcard ${CURDIR}/po/zh-cn/*.po), \
+	 po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
 endef
 
 define Package/$(PKG_NAME)/conffiles
@@ -49,6 +51,8 @@ define Package/$(PKG_NAME)/install
 	cp -pR ./root/* $(1)/
 	$(INSTALL_DIR)	$(1)/usr/bin/
 	$(INSTALL_BIN) ./files/x86/ddnsto $(1)/usr/bin/
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/ddnsto.*.lmo $(1)/usr/lib/lua/luci/i18n/
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk

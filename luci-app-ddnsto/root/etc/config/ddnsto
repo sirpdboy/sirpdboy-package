@@ -1,4 +1,3 @@
-
-config global
-	option token ''
-	option enable '0'
+config ddnsto
+	option 'token' ''
+	option 'enabled' '0'
