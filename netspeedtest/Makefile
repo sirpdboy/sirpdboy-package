@@ -19,7 +19,7 @@ define Package/$(PKG_NAME)
   SECTION:=net
   CATEGORY:=Network
    TITLE:= A Speedtest application 
-   DEPENDS:= +python3 
+   DEPENDS:=+python3 +wget
    MAINTAINER:= sirpdboy
    PKGARCH:=all
 
@@ -27,15 +27,16 @@ endef
 
 define Package/$(PKG_NAME)/description
   luci for testing internet bandwidth using speedtest.net
-  ookla speedtest by sirpdboy
 endef
 
 
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) ./files/speedtest $(1)/usr/bin
+
 	$(CP) ./files/* $(1)/usr/bin
 
+	$(INSTALL_DIR) $(1)/usr/sbin
+	$(INSTALL_BIN) ./files/speedtest $(1)/usr/sbin/speedtest
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
