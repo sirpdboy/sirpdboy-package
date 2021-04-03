@@ -25,11 +25,17 @@ include $(INCLUDE_DIR)/package.mk
 define Package/$(PKG_NAME)
   SECTION:=net
   CATEGORY:=Network
-  SUBMENU:=speedtest-openwrt
   TITLE:=A Speedtest application 
   DEPENDS:=+kmod-tun +wget +curl +python3
+  URL:=https://github.com/sirpdboy/NetSpeedTest
 endef
 
+# define Download/speedtest
+#  URL:=https://ookla.bintray.com/download
+#  URL_FILE:=ookla-$(PKG_NAME)-$(PKG_VERSION)-$(PKG_ARCH)-linux.tgz
+#   FILE:=tmpspeedtest
+#   HASH:=skip
+# endef
 
 define Package/$(PKG_NAME)/description
   luci for testing internet bandwidth using speedtest.net
@@ -48,5 +54,6 @@ define Package/$(PKG_NAME)/install
 
 endef
 
+include $(TOPDIR)/feeds/luci/luci.mk
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+# call BuildPackage - OpenWrt buildroot signature

@@ -8,9 +8,9 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-netspeedtest
 PKG_VERSION:=1.6
-PKG_RELEASE:=20210402
-PKG_MAINTAINER:=sirpdboy <herboy2008@gmail.com>
-PKG_LICENSE:=GPLv3
+PKG_RELEASE:=20210403
+PKG_LICENSE:=GPLv2
+PKG_MAINTAINER:=sirpdboy
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -19,8 +19,9 @@ define Package/$(PKG_NAME)
 	CATEGORY:=LuCI
 	SUBMENU:=3. Applications
 	TITLE:=LuCI Support for netspeedtest
-	PKGARCH:=all
-	DEPENDS:=+python3 +iperf3
+  DEPENDS:=+iperf3 +speedtest
+  DESCRIPTION:=LuCI support Network speed test intranet and Extranet
+  PKGARCH:=all
 endef
 
 define Package/$(PKG_NAME)/description
@@ -28,19 +29,15 @@ define Package/$(PKG_NAME)/description
 endef
 
 define Build/Prepare
-endef
-
-define Package/$(PKG_NAME)/conffiles
-/etc/config/ netspeedtest
-endef
-
-define Build/Configure
+	$(foreach po,$(wildcard ${CURDIR}/po/zh-cn/*.po), \
+	po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
 endef
 
 define Build/Compile
 endef
 
-define Package/$(PKG_NAME)/postinst
+define Package/$(PKG_NAME)/conffiles
+/etc/config/netspeedtest
 endef
 
 define Package/$(PKG_NAME)/install
@@ -48,12 +45,11 @@ define Package/$(PKG_NAME)/install
 	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
 	$(INSTALL_DIR) $(1)/
 	cp -pR ./root/* $(1)/
-
-	$(INSTALL_DIR)	$(1)/usr/bin/
-	$(INSTALL_BIN) ./files/speedtest $(1)/usr/bin/
-
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	po2lmo ./po/zh-cn/netspeedtest.po $(1)/usr/lib/lua/luci/i18n
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/netspeedtest.lmo $(1)/usr/lib/lua/luci/i18n/
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk
+
+# call BuildPackage - OpenWrt buildroot signature
+
