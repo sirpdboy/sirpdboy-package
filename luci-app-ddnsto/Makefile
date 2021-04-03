@@ -20,6 +20,7 @@ define Package/$(PKG_NAME)
 	SUBMENU:=3. Applications
 	TITLE:=LuCI Support for ddnsto
 	PKGARCH:=all
+	DEPENDS:=
 endef
 
 define Package/$(PKG_NAME)/description
@@ -27,8 +28,6 @@ define Package/$(PKG_NAME)/description
 endef
 
 define Build/Prepare
-	$(foreach po,$(wildcard ${CURDIR}/po/zh-cn/*.po), \
-	 po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
 endef
 
 define Package/$(PKG_NAME)/conffiles
@@ -51,8 +50,6 @@ define Package/$(PKG_NAME)/install
 	cp -pR ./root/* $(1)/
 	$(INSTALL_DIR)	$(1)/usr/bin/
 	$(INSTALL_BIN) ./files/x86/ddnsto $(1)/usr/bin/
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/ddnsto.*.lmo $(1)/usr/lib/lua/luci/i18n/
 endef
 
-include $(TOPDIR)/feeds/luci/luci.mk
+$(eval $(call BuildPackage,$(PKG_NAME)))

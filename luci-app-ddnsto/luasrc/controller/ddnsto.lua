@@ -3,10 +3,10 @@ function index()
 if not nixio.fs.access("/etc/config/ddnsto")then
 return
 end
-	entry({"admin", "services", "ddnsto"}, cbi("ddnsto"), _("DDNS.to"), 57).dependent = true
-	entry({"admin", "services", "ddnsto_status"}, call("ddnsto_status"))
+entry({"admin","services","ddnsto"},cbi("ddnsto/global"),_("DDNS.to内网穿透"), 60).dependent = true
+entry({"admin","services","ddnsto_status"},call("act_status")).leaf=true
 end
-function ddnsto_status()
+function act_status()
 	local sys  = require "luci.sys"
 
 	local status = {
