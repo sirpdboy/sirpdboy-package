@@ -29,14 +29,10 @@ define Package/$(PKG_NAME)/description
   luci for testing internet bandwidth using speedtest.net
 endef
 
-
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) ./files/speedtest $(1)/usr/bin
 
-	$(CP) ./files/* $(1)/usr/bin
-
-	$(INSTALL_DIR) $(1)/usr/sbin
-	$(INSTALL_BIN) ./files/speedtest $(1)/usr/sbin/speedtest
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
