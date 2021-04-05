@@ -26,12 +26,15 @@ function testlan(cmd, addr)
 				luci.http.write(ln)
 				luci.http.write("\n")
 			end
-
 			util:close()
 		end
 
 end
 
+function testwan(cmd)
+		local util = io.popen(cmd)
+		util:close()
+end
 
 function test_iperf0(addr)
 	testlan("iperf3 -s ", addr)
@@ -51,6 +54,6 @@ function get_log()
 end
 
 function run()
- 	luci.sys.call("/etc/init.d/netspeedtest nstest >/dev/null 2>&1")
+        testwan("/etc/init.d/netspeedtest nstest ")
 	luci.http.redirect(luci.dispatcher.build_url("admin","network","netspeedtest"))
 end

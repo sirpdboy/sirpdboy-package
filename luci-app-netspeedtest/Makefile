@@ -7,20 +7,19 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-netspeedtest
-PKG_VERSION:=1.4
-PKG_RELEASE:=20210321
+PKG_VERSION:=1.6
+PKG_RELEASE:=20210403
 PKG_LICENSE:=GPLv2
-PKG_MAINTAINER:=NetSpeedTest by sirpdboy
-
+PKG_MAINTAINER:=sirpdboy
 
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
-  SECTION:=LuCI
-  CATEGORY:=LuCI
-  SUBMENU:=3. Applications
-  TITLE:=luci-app-netspeedtest
-  DEPENDS:=+iperf3 +speedtest
+	SECTION:=luci
+	CATEGORY:=LuCI
+	SUBMENU:=3. Applications
+	TITLE:=LuCI Support for netspeedtest
+  DEPENDS:=+iperf3 +netspeedtest
   DESCRIPTION:=LuCI support Network speed test intranet and Extranet
   PKGARCH:=all
 endef
@@ -31,7 +30,7 @@ endef
 
 define Build/Prepare
 	$(foreach po,$(wildcard ${CURDIR}/po/zh-cn/*.po), \
-		po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
+	po2lmo $(po) $(PKG_BUILD_DIR)/$(patsubst %.po,%.lmo,$(notdir $(po)));)
 endef
 
 define Build/Compile

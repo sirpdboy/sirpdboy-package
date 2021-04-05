@@ -58,14 +58,8 @@ msgstr "执行宽带测速"
 msgid "Operation execution complete"
 msgstr "操作执行完毕"
 
-msgid "server_info"
-msgstr "测速服务器信息"
-
-msgid "down_info"
-msgstr "下载速率"
-
-msgid "up_info"
-msgstr "上行速率"
+msgid "Network speed test, please wait for 1 minutes"
+msgstr "网速测试中，请稍等1分钟"
 
 msgid "Download from foreign official websites"
 msgstr "国外官网"

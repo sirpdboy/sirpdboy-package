@@ -12,8 +12,17 @@
 
 
     function run() {
+	var legend = document.getElementById('test-rc-legend');
+	var output = document.getElementById('test-rc-output');
+			output.innerHTML =
+				'<img src="<%=resource%>/icons/loading.gif" alt="<%:Loading%>" style="vertical-align:middle" /> ' +
+				'<%:Network speed test, please wait for 1 minutes%>'
+			;
+
+			legend.parentNode.style.display = 'block';
+			legend.style.display = 'inline';
         XHR.get(RUN_URL, null, () => {
-            setTimeout(() => { window.location = S_URL }, 500);
+            setTimeout(() => { window.location = S_URL }, 3000);
         });
         return false;
     }

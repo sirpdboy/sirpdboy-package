@@ -5,7 +5,7 @@
 
 <% include("cbi/map") %>
 <script type="text/javascript">//<![CDATA[
-	XHR.poll(2, '<%=luci.dispatcher.build_url("admin", "services", "ddnsto", "status")%>', null,
+	XHR.poll(2, '<%=luci.dispatcher.build_url("admin", "services", "ddnsto_status")%>', null,
 		function(x, result)
 		{
 			var status = document.getElementsByClassName('ddnsto_status');
