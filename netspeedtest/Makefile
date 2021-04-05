@@ -16,31 +16,23 @@ PKG_LICENSE:=GPL-3.0
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
-  SECTION:=net
-  CATEGORY:=Network
+	SECTION:=net
+	CATEGORY:=Network
    TITLE:= A Speedtest application 
    DEPENDS:=+python3 +wget
    MAINTAINER:= sirpdboy
-   PKGARCH:=all
 
-endef
-
-define Package/$(PKG_NAME)/description
-  luci for testing internet bandwidth using speedtest.net
 endef
 
 define Build/Prepare
-	mkdir -p $(PKG_BUILD_DIR)/$(PKG_NAME)
-	$(CP) ./file/speedtest $(PKG_BUILD_DIR)/$(PKG_NAME)
+	mkdir -p $(PKG_BUILD_DIR)
+	$(CP) ./file/* $(PKG_BUILD_DIR)/
 endef
-
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(PKG_NAME)/speedtest $(1)/usr/bin
+	
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/speedtest $(1)/usr/bin
 endef
 
 
-define Package/$(PKG_NAME)/postinst
-endef
-
-$(eval $(call BuildPackage,$(PKG_NAME)))
+$(eval $(call BuildPackage,netspeedtest))
