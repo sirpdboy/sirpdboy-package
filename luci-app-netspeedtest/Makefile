@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-netspeedtest
 PKG_VERSION:=1.6
-PKG_RELEASE:=20210403
+PKG_RELEASE:=20210405
 PKG_LICENSE:=GPLv2
 PKG_MAINTAINER:=sirpdboy
 
@@ -19,7 +19,7 @@ define Package/$(PKG_NAME)
 	CATEGORY:=LuCI
 	SUBMENU:=3. Applications
 	TITLE:=LuCI Support for netspeedtest
-  DEPENDS:=+iperf3 +netspeedtest
+  DEPENDS:=+python3 +iperf3
   DESCRIPTION:=LuCI support Network speed test intranet and Extranet
   PKGARCH:=all
 endef
