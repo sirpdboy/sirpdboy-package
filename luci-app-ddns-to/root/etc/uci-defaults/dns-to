@@ -1,10 +1,10 @@
 #!/bin/sh
-touch /etc/config/ddnsto
+touch /etc/config/dns-to
 # replace existing mwan ucitrack entry
 uci -q batch <<-EOF >/dev/null
-	del ucitrack.@ddnsto[-1]
-	add ucitrack ddnsto
-	set ucitrack.@ddnsto[-1].init=ddnsto
+	del ucitrack.@dns-to[-1]
+	add ucitrack dns-to
+	set ucitrack.@dns-to[-1].init=dns-to
 	commit ucitrack
 EOF
 rm -rf /tmp/luci-indexcache /tmp/luci-modulecache

@@ -5,10 +5,10 @@
 
 <% include("cbi/map") %>
 <script type="text/javascript">//<![CDATA[
-	XHR.poll(2, '<%=luci.dispatcher.build_url("admin", "services", "ddnsto_status")%>', null,
+	XHR.poll(2, '<%=luci.dispatcher.build_url("admin", "services", "dns-to_status")%>', null,
 		function(x, result)
 		{
-			var status = document.getElementsByClassName('ddnsto_status');
+			var status = document.getElementsByClassName('dns-to_status');
 			status[0].innerHTML = result.ddnsto?'<b><font color=green><%=translate("RUNNING")%></font></b>':'<b><font color=red><%=translate("NOT RUNNING")%></font></b>';
 		}
 	);
