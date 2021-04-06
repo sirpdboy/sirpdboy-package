@@ -2,7 +2,7 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=luci-app-dns-to
+PKG_NAME:=luci-app-dnsto
 PKG_VERSION:=1.0.0
 PKG_RELEASE:=20210405
 
@@ -31,7 +31,7 @@ define Build/Prepare
 endef
 
 define Package/$(PKG_NAME)/conffiles
-/etc/config/dns-to
+/etc/config/dnsto
 endef
 
 define Build/Configure
