@@ -3,7 +3,7 @@ function index()
 if not nixio.fs.access("/etc/config/dnsto")then
 return
 end
-entry({"admin","services","dnsto"},cbi("dnsto/global"),_("DDNSTO内网穿透"), 61).dependent = true
+entry({"admin","services","dnsto"},cbi("dnsto/global"),_("Ddnsto内网穿透"), 61).dependent = true
 entry({"admin","services","dnsto_status"},call("act_status")).leaf=true
 end
 function act_status()
