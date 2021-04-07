@@ -9,7 +9,7 @@
 		function(x, result)
 		{
 			var status = document.getElementsByClassName('dnsto_status');
-			status[0].innerHTML = result.dnsto?'<b><font color=green><%=translate("Ddnsto 已运行")%></font></b>':'<b><font color=red><%=translate("Ddnsto 未运行")%></font></b>';
+			status[0].innerHTML = result.dnsto?'<b><font color=green><%=translate("RUNNING")%></font></b>':'<b><font color=red><%=translate("NOT RUNNING")%></font></b>';
 		}
 	);
 //]]>
