@@ -2,9 +2,9 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=luci-app-ddnsto
+PKG_NAME:=luci-app-dnsto
 PKG_VERSION:=1.0.0
-PKG_RELEASE:=20210403
+PKG_RELEASE:=20210405
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
@@ -31,7 +31,7 @@ define Build/Prepare
 endef
 
 define Package/$(PKG_NAME)/conffiles
-/etc/config/ddnsto
+/etc/config/dnsto
 endef
 
 define Build/Configure

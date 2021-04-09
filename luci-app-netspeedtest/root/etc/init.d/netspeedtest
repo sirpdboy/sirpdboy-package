@@ -34,7 +34,7 @@ nstest() {
 	[ -f "$TMP_T" ] && return
     echo 1 > $TMP_T
     echo -ne "\n  ————————————————————————————" | tee -a $LOG
-    speedtest  | tee -a $NS_FILE
+    /etc/init.d/speedtest  | tee -a $NS_FILE
 	ns_server=`cat  $NS_FILE | grep 'Hosted by' | cut -c10-`
 	ns_down=`cat  $NS_FILE | grep 'Download:' |awk -F: '{printf $2}' `
 	ns_up=`cat  $NS_FILE | grep 'Upload:' |awk -F: '{printf $2}' `
