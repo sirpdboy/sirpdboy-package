@@ -24,7 +24,7 @@ define Package/$(PKG_NAME)
 endef
 
 define Package/$(PKG_NAME)/description
-	LuCI Support for ddnsto.
+	LuCI Support for dnsto.
 endef
 
 define Build/Prepare
@@ -49,7 +49,7 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/
 	cp -pR ./root/* $(1)/
 	$(INSTALL_DIR)	$(1)/usr/bin/
-	$(INSTALL_BIN) ./files/x86/ddnsto $(1)/usr/bin/
+	$(INSTALL_BIN) ./files/x86/dnsto $(1)/usr/bin/
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
