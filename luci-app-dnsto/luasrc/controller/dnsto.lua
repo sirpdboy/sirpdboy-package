@@ -1,6 +1,6 @@
 module("luci.controller.dnsto",package.seeall)
 function index()
-if not nixio.fs.access("/etc/config/dnsto")then
+if not nixio.fs.access("/etc/config/ddnsto")then
 return
 end
 entry({"admin","services","dnsto"},cbi("dnsto/global"),_("Ddnsto内网穿透"), 61).dependent = true

@@ -13,7 +13,7 @@ SERVICE_USE_PID=1
 SERVICE_WRITE_PID=1
 SERVICE_DAEMONIZE=1
 
-CONFIG=dnsto
+CONFIG=ddnsto
 LOGFILE=/var/log/$CONFIG.log
 
 get_config()
@@ -28,18 +28,18 @@ start() {
 	config_foreach get_config global
 	[ "$enable" -ne 1 ] && exit 0
 	[ -z "$token" ] && exit 0
-	service_start /usr/bin/dnsto -u $token -d >/dev/null 2>&1 &
-	logger -t dnsto 'Start dnsto service'
+	service_start /usr/bin/ddnsto -u $token -d >/dev/null 2>&1 &
+	logger -t ddnsto 'Start ddnsto service'
 }
 
 stop() {
-	pids=`pgrep /usr/bin/dnsto`
+	pids=`pgrep /usr/bin/ddnsto`
 	[ -n "$pids" ] && {
 		for pid in $pids
 		do
 			kill -9 $pid >/dev/null 2>&1 &
 		done
 	}
-	logger -t dnsto 'Stop ddnsto service'
+	logger -t ddnsto 'Stop ddnsto service'
 }
 
