@@ -54,6 +54,6 @@ function get_log()
 end
 
 function run()
-        testwan("/etc/init.d/netspeedtest nstest ")
+    testwan("/etc/init.d/netspeedtest nstest ")
 	luci.http.redirect(luci.dispatcher.build_url("admin","network","netspeedtest"))
 end
