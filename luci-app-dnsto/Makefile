@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-dnsto
 PKG_VERSION:=1.0.0
-PKG_RELEASE:=20210414
+PKG_RELEASE:=20210415
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
@@ -31,7 +31,7 @@ define Build/Prepare
 endef
 
 define Package/$(PKG_NAME)/conffiles
-/etc/config/dnsto
+/etc/config/ddnsto
 endef
 
 define Build/Configure
@@ -49,7 +49,7 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/
 	cp -pR ./root/* $(1)/
 	$(INSTALL_DIR)	$(1)/usr/bin/
-	$(INSTALL_BIN) ./files/x86/dnsto $(1)/usr/bin/
+	$(INSTALL_BIN) ./files/x86/ddnsto $(1)/usr/bin/
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))

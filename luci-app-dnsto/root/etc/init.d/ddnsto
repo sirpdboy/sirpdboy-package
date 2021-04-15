@@ -22,7 +22,6 @@ get_config()
 	config_get token $1 token
 }
 
-
 start() {
 	config_load $CONFIG
 	config_foreach get_config global

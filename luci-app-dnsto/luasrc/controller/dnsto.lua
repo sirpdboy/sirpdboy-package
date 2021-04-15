@@ -9,7 +9,7 @@ end
 
 function act_status()
   local e={}
-  e.running=luci.sys.call("pgrep -f dnsto >/dev/null")==0
+  e.running=luci.sys.call("pgrep -f ddnsto >/dev/null")==0
   luci.http.prepare_content("application/json")
   luci.http.write_json(e)
 
