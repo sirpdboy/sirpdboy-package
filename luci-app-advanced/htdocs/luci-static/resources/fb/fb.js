@@ -176,11 +176,11 @@ String.prototype.replaceAll = function(search, replacement) {
             icon: (f[1][0] === 'd') ? "folder-icon" : (isLink ? "link-icon" : "file-icon")
           };
 		  
-		  var install_btn = '<button class="cbi-button cbi-button-install" style="visibility: hidden;">安装</button>';
+		  var install_btn = '<button class="cbi-button cbi-button-reload" style="visibility: hidden;">安装</button>';
           var index= o.filename.lastIndexOf(".");
 		  var ext = o.filename.substr(index+1);
           if (ext === 'ipk') {
-            install_btn = '<button class="cbi-button cbi-button-install">安装</button>';
+            install_btn = '<button class="cbi-button cbi-button-reload">安装</button>';
           }
 		  
           listHtml += '<tr class="cbi-section-table-row cbi-rowstyle-' + (1 + i%2)
