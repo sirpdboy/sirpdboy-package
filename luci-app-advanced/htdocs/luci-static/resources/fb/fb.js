@@ -17,7 +17,7 @@ String.prototype.replaceAll = function(search, replacement) {
     }
   };
   function removePath(filename, isdir) {
-    var c = confirm('确认删除 ' + filename + ' ?');
+    var c = confirm('你确定要删除 ' + filename + ' 吗？');
     if (c) {
       iwxhr.get('/cgi-bin/luci/admin/system/filebrowser_delete',
         {
@@ -31,8 +31,47 @@ String.prototype.replaceAll = function(search, replacement) {
       });
     }
   }
+
+  function installPath(filename, isdir) {
+    if (isdir === "1") {
+      alert('这是一个目录，请选择 ipk 文件进行安装！');
+      return;
+    }
+    var isipk = isIPK(filename);
+    if (isipk === 0) {
+      alert('只允许安装 ipk 格式的文件！');
+      return;
+    }
+    var c = confirm('你确定要安装 ' + filename + ' 吗？');
+    if (c) {
+      iwxhr.get('/cgi-bin/luci/admin/system/filebrowser_install',
+        {
+          filepath: concatPath(currentPath, filename),
+          isdir: isdir
+        },
+        function (x, res) {
+          if (res.ec === 0) {
+            location.reload();
+            alert('安装成功!');
+          } else {
+            alert('安装失败，请检查文件格式!');
+          }
+      });
+    }
+  }
+
+  function isIPK(filename) {
+    var index= filename.lastIndexOf(".");
+    var ext = filename.substr(index+1);
+    if (ext === 'ipk') {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   function renamePath(filename) {
-    var newname = prompt('输入新名字:', filename);
+    var newname = prompt('请输入新的文件名：', filename);
     if (newname) {
       newname = newname.trim();
       if (newname != filename) {
@@ -84,6 +123,10 @@ String.prototype.replaceAll = function(search, replacement) {
       infoElem = targetElem.parentNode.parentNode;
       removePath(infoElem.dataset['filename'] , infoElem.dataset['isdir'])
     }
+    else if (targetElem.className.indexOf('cbi-button-install') > -1) {
+      infoElem = targetElem.parentNode.parentNode;
+      installPath(infoElem.dataset['filename'] , infoElem.dataset['isdir'])
+    }
     else if (targetElem.className.indexOf('cbi-button-edit') > -1) {
       renamePath(targetElem.parentNode.parentNode.dataset['filename']);
     }
@@ -115,7 +158,7 @@ String.prototype.replaceAll = function(search, replacement) {
   function refresh_list(filenames, path) {
     var listHtml = '<table class="cbi-section-table"><tbody>';
     if (path !== '/') {
-      listHtml += '<tr><td class="parent-icon" colspan="6"><strong>..</strong></td></tr>';
+      listHtml += '<tr class="cbi-section-table-row cbi-rowstyle-2"><td class="parent-icon" colspan="6"><strong>..</strong></td></tr>';
     }
     if (filenames) {
       for (var i = 0; i < filenames.length; i++) {
@@ -132,6 +175,14 @@ String.prototype.replaceAll = function(search, replacement) {
             owner: f[3],
             icon: (f[1][0] === 'd') ? "folder-icon" : (isLink ? "link-icon" : "file-icon")
           };
+		  
+		  var install_btn = '<button class="cbi-button cbi-button-install" style="visibility: hidden;">安装</button>';
+          var index= o.filename.lastIndexOf(".");
+		  var ext = o.filename.substr(index+1);
+          if (ext === 'ipk') {
+            install_btn = '<button class="cbi-button cbi-button-install">安装</button>';
+          }
+		  
           listHtml += '<tr class="cbi-section-table-row cbi-rowstyle-' + (1 + i%2)
             + '" data-filename="' + o.filename + '" data-isdir="' + Number(f[1][0] === 'd' || f[1][0] === 'z') + '"'
             + ((f[1][0] === 'z' || f[1][0] === 'l') ? (' data-linktarget="' + f[9].split(' -> ')[1]) : '')
@@ -143,8 +194,11 @@ String.prototype.replaceAll = function(search, replacement) {
             + '<td class="cbi-value-field cbi-value-date">'+o.date+'</td>'
             + '<td class="cbi-value-field cbi-value-size">'+o.size+'</td>'
             + '<td class="cbi-value-field cbi-value-perm">'+o.perms+'</td>'
-            + '<td class="cbi-section-table-cell"><button class="cbi-button cbi-button-edit">重命名</button>\
-                <button class="cbi-button cbi-button-remove">删除</button></td>'
+            + '<td class="cbi-section-table-cell">\
+				<button class="cbi-button cbi-button-edit">重命名</button>\
+                <button class="cbi-button cbi-button-remove">删除</button>'
+			+ install_btn
+			+ '</td>'
             + '</tr>';
         }
       }
@@ -209,7 +263,7 @@ String.prototype.replaceAll = function(search, replacement) {
           uploadinput.value = '';
         }
         else {
-          alert('上传失败');
+          alert('上传失败，请稍后再试...');
         }
       };
       xhr.send(formData);
