@@ -15,10 +15,11 @@ cpulimit_get(){
 start() {
  	config_load cpulimit
 	config_foreach cpulimit_get list
+	 /usr/bin/cpulimit.sh start &
 }
 
 stop() {
-  killall cpulimit
+  killall -9 cpulimit
 }
 
 
