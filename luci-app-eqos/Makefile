@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=LuCI support for eqos.
 LUCI_DESCRIPTION:=LuCI support for Easy QoS(Support speed limit based on IP address).
-LUCI_DEPENDS:=+luci-base +tc +kmod-sched-core +kmod-ifb
+LUCI_DEPENDS:=+tc +kmod-sched-core +kmod-ifb
 LUCI_PKGARCH:=all
 
 PKG_NAME:=luci-app-eqos
