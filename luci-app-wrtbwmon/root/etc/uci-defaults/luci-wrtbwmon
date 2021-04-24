@@ -6,7 +6,6 @@ uci -q batch <<-EOF >/dev/null
 	set ucitrack.@wrtbwmon[-1].init=wrtbwmon
 	commit ucitrack
 EOF
-/etc/init.d/wrtbwmon enable
-/etc/init.d/wrtbwmon start
+
 rm -f /tmp/luci-indexcache
 exit 0

@@ -14,7 +14,7 @@ PKG_LICENSE:=Apache-2.0
 PKG_MAINTAINER:=
 
 LUCI_TITLE:=A Luci module that uses wrtbwmon to track bandwidth usage
-LUCI_DEPENDS:=+luci-app-nlbwmon
+LUCI_DEPENDS:=+wrtbwmon
 LUCI_PKGARCH:=all
 
 include $(TOPDIR)/feeds/luci/luci.mk
