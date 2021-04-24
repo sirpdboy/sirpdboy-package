@@ -39,11 +39,10 @@
 	local categories = disp.node_childs(tree)
 %>
 </div>
-<footer class="mobile-hide">
+<footer>
 	<div class="ftc">
 		<a class="luci-link" href="https://github.com/openwrt/luci">Powered by <%= ver.luciname %>
 			(<%= ver.luciversion %>)</a> /
-		<a href="https://github.com/jerrykuku/luci-theme-argon">ArgonTheme <%# vPKG_VERSION %></a> /
 		<%= ver.distversion %>
 		<% if #categories > 1 then %>
 		<ul class="breadcrumb pull-right" id="modemenu">
@@ -69,6 +68,15 @@
 			var newHeight = $(this).height();
 			var keyboradHeight = newHeight - winHeight;
 			$(".ftc").css("bottom", keyboradHeight + 30);
+		}
+		if($(document.body).height() < 525 ){
+			if($(".ftc").css('display') != 'none'){
+				$(".ftc").hide()
+			}
+		}else{
+			if($(".ftc").css('display') == 'none'){
+				$(".ftc").show()
+			}
 		}
 	})
 </script>
