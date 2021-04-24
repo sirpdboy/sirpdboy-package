@@ -19,7 +19,7 @@ String.prototype.replaceAll = function(search, replacement) {
   function removePath(filename, isdir) {
     var c = confirm('你确定要删除 ' + filename + ' 吗？');
     if (c) {
-      iwxhr.get('/cgi-bin/luci/admin/system/filebrowser_delete',
+      iwxhr.get('/cgi-bin/luci/admin/system/fileassistant/delete',
         {
           path: concatPath(currentPath, filename),
           isdir: isdir
@@ -44,7 +44,7 @@ String.prototype.replaceAll = function(search, replacement) {
     }
     var c = confirm('你确定要安装 ' + filename + ' 吗？');
     if (c) {
-      iwxhr.get('/cgi-bin/luci/admin/system/filebrowser_install',
+      iwxhr.get('/cgi-bin/luci/admin/system/fileassistant/install',
         {
           filepath: concatPath(currentPath, filename),
           isdir: isdir
@@ -76,7 +76,7 @@ String.prototype.replaceAll = function(search, replacement) {
       newname = newname.trim();
       if (newname != filename) {
         var newpath = concatPath(currentPath, newname);
-        iwxhr.get('/cgi-bin/luci/admin/system/filebrowser_rename',
+        iwxhr.get('/cgi-bin/luci/admin/system/fileassistant/rename',
           {
             filepath: concatPath(currentPath, filename),
             newpath: newpath
@@ -93,7 +93,7 @@ String.prototype.replaceAll = function(search, replacement) {
 
   function openpath(filename, dirname) {
     dirname = dirname || currentPath;
-    window.open('/cgi-bin/luci/admin/system/filebrowser_open?path='
+    window.open('/cgi-bin/luci/admin/system/fileassistant/open?path='
       + encodeURIComponent(dirname) + '&filename='
       + encodeURIComponent(filename));
   }
@@ -158,7 +158,7 @@ String.prototype.replaceAll = function(search, replacement) {
   function refresh_list(filenames, path) {
     var listHtml = '<table class="cbi-section-table"><tbody>';
     if (path !== '/') {
-      listHtml += '<tr class="cbi-section-table-row cbi-rowstyle-2"><td class="parent-icon" colspan="6"><strong>..</strong></td></tr>';
+      listHtml += '<tr class="cbi-section-table-row cbi-rowstyle-2"><td class="parent-icon" colspan="6"><strong>..返回上级目录</strong></td></tr>';
     }
     if (filenames) {
       for (var i = 0; i < filenames.length; i++) {
@@ -176,11 +176,11 @@ String.prototype.replaceAll = function(search, replacement) {
             icon: (f[1][0] === 'd') ? "folder-icon" : (isLink ? "link-icon" : "file-icon")
           };
 		  
-		  var install_btn = '<button class="cbi-button cbi-button-reload" style="visibility: hidden;">安装</button>';
+		  var install_btn = ' <button class="cbi-button cbi-button-install" style="visibility: hidden;">安装</button>';
           var index= o.filename.lastIndexOf(".");
 		  var ext = o.filename.substr(index+1);
           if (ext === 'ipk') {
-            install_btn = '<button class="cbi-button cbi-button-reload">安装</button>';
+            install_btn = ' <button class="cbi-button cbi-button-install">安装</button>';
           }
 		  
           listHtml += '<tr class="cbi-section-table-row cbi-rowstyle-' + (1 + i%2)
@@ -190,7 +190,7 @@ String.prototype.replaceAll = function(search, replacement) {
             + '<td class="cbi-value-field ' + o.icon + '">'
             +   '<strong>' + o.displayname + '</strong>'
             + '</td>'
-            + '<td class="cbi-value-field cbi-value-owner">'+o.owner+'</td>'
+
             + '<td class="cbi-value-field cbi-value-date">'+o.date+'</td>'
             + '<td class="cbi-value-field cbi-value-size">'+o.size+'</td>'
             + '<td class="cbi-value-field cbi-value-perm">'+o.perms+'</td>'
@@ -210,7 +210,7 @@ String.prototype.replaceAll = function(search, replacement) {
     opt = opt || {};
     path = concatPath(path, '');
     if (currentPath != path) {
-      iwxhr.get('/cgi-bin/luci/admin/system/filebrowser_list',
+      iwxhr.get('/cgi-bin/luci/admin/system/fileassistant/list',
         {path: path},
         function (x, res) {
           if (res.ec === 0) {
@@ -255,7 +255,7 @@ String.prototype.replaceAll = function(search, replacement) {
       formData.append('upload-dir', concatPath(currentPath, ''));
       formData.append('upload-file', uploadinput.files[0]);
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", "/cgi-bin/luci/admin/system/filebrowser_upload", true);
+      xhr.open("POST", "/cgi-bin/luci/admin/system/fileassistant/upload", true);
       xhr.onload = function() {
         if (xhr.status == 200) {
           var res = JSON.parse(xhr.responseText);
