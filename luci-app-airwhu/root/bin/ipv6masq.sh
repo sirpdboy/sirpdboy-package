@@ -8,7 +8,7 @@ if [ "$action"x = "install"x ]; then
 	uci delete network.globals.ula_prefix
 
 	uci set network.wan6.peerdns='0'
-	uci set network.wan6.dns='240c::6666'
+	uci set network.wan6.dns='2001:da8:202:10::36'
 
 	uci delete network.lan.ip6assign
 	uci set network.lan.ip6addr='BABE:BABE:BABE:BABE::1/64'
@@ -25,7 +25,7 @@ elif [ "$action"x = "uninstall"x ]; then
 	uci set network.globals.ula_prefix='fdad:91b7:54bb::/48'
 
 	uci delete network.wan6.peerdns='0'
-	uci delete network.wan6.dns='240c::6666'
+	uci delete network.wan6.dns='2001:da8:202:10::36'
 
 	uci set network.lan.ip6assign='60'
 	uci delete network.lan.ip6addr='BABE:BABE:BABE:BABE::1/64'
