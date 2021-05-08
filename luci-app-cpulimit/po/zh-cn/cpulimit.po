@@ -24,7 +24,7 @@ msgid "exename"
 msgstr "进程名称"
 
 msgid "name of the executable program file or path name"
-msgstr "可执行文件名称。不能是应用程序路径！"
+msgstr "可执行文件名称，或包含路径的应用程序"
 
 msgid "limit"
-msgstr "占用率限制"
+msgstr "占用率限制（自定义时使用不含'%'的整数）"
