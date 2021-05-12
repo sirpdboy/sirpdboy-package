@@ -41,7 +41,7 @@ if not fs.access(binpath) then
 	e=e.." "..translate("no core")
 else
 	local version=uci:get("AdGuardHome","AdGuardHome","version")
-	local tmp=luci.sys.exec(binpath.." --version  2>/dev/null | grep -m 1 -E '[0-9]+[.][0-9.]+' -o")
+	 local tmp=luci.sys.exec(binpath.." --version  2>/dev/null | grep -m 1 -E '[0-9]+[.][0-9.]+' -o")
 	local testtime=fs.stat(binpath,"mtime")
 	if testtime~=tonumber(binmtime) or version==nil or version ~=tmp then
 		version=string.sub(tmp, 1, -2)

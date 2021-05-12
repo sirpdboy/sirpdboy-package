@@ -1,93 +1,88 @@
-# Copyright (C) 2019 OpenWrt.org
 #
-# Twinzo1 <1282055288@qq.com>
-# KFERMercer <KFER.Mercer@gmail.com>
-# 	
-# This is free software, licensed under the GNU General Public License v3.
+# Copyright (C) 2015-2016 OpenWrt.org
+# This is free software, licensed under the GNU General Public License v2.
+# See /LICENSE.txt for more information.
 #
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=AdGuardHome
-PKG_VERSION:=0.102.0
+PKG_VERSION:=0.105.2
 PKG_RELEASE:=1
-PKG_LICENSE:=GPL-3.0
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/AdguardTeam/AdGuardHome.git
-PKG_SOURCE_VERSION:=bab7b2dc65004d7c9661a590965f710584f063b9
+PKG_SOURCE_VERSION:=v$(PKG_VERSION)
+PKG_SOURCE_URL:=https://github.com/AdguardTeam/AdGuardHome
+PKG_MIRROR_HASH:=a85af0f251cb8473f032c400643bef920e4cb1756d08dfe3e06c4911e13bab24
 
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)
-PKG_SOURCE:=$(PKG_SOURCE_SUBDIR)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_SOURCE_SUBDIR)
+PKG_LICENSE:=GPL-3.0-only
+PKG_LICENSE_FILES:=LICENSE.txt
+PKG_MAINTAINER:=Dobroslaw Kijowski <dobo90@gmail.com>
 
-include $(INCLUDE_DIR)/package.mk
-
-PKG_BUILD_DEPENDS:=node/host
-PKG_USE_MIPS16:=0
-
-
-NODEJS_CPU:=$(subst powerpc,ppc,$(subst aarch64,arm64,$(subst x86_64,x64,$(subst i386,ia32,$(ARCH)))))
-TMPNPM:=$(shell mktemp -u XXXXXXXXXX)
-
-TARGET_CFLAGS+=$(FPIC)
-TARGET_CPPFLAGS+=$(FPIC)
-
-define Build/Prepare
-	tar -zxvf $(DL_DIR)/$(PKG_SOURCE) -C $(BUILD_DIR)/$(PKG_NAME) --strip-components 1
-endef
-
-define Build/Compile
-	$(MAKE_VARS) \
-	$(MAKE_FLAGS) \
-	npm_config_arch=$(NODEJS_CPU) \
-	npm_config_target_arch=$(NODEJS_CPU) \
-	npm_config_build_from_source=true \
-	npm_config_nodedir=$(STAGING_DIR)/usr/ \
-	npm_config_prefix=$(PKG_INSTALL_DIR)/usr/ \
-	npm_config_cache=$(TMP_DIR)/npm-cache-$(TMPNPM) \
-	npm_config_tmp=$(TMP_DIR)/npm-tmp-$(TMPNPM) \
-	npm install -g $(DL_DIR)/$(PKG_SOURCE)
-	rm -rf $(TMP_DIR)/npm-tmp-$(TMPNPM)
-	rm -rf $(TMP_DIR)/npm-cache-$(TMPNPM)
-endef
-	
-PKG_BUILD_DEPENDS:=golang/host
+PKG_BUILD_DEPENDS:=golang/host node/host
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
 
+PKG_CONFIG_DEPENDS:= \
+	CONFIG_ADGUARDHOME_COMPRESS_GOPROXY \
+	CONFIG_ADGUARDHOME_COMPRESS_UPX
+
 GO_PKG:=github.com/AdguardTeam/AdGuardHome
+GO_PKG_EXCLUDES:=dhcpd/standalone
 GO_PKG_LDFLAGS:=-s -w
-GO_PKG_LDFLAGS_X:= \
-	$(GO_PKG)/version.Version=$(PKG_VERSION)
-	
+GO_PKG_LDFLAGS_X:=main.version=$(PKG_VERSION) main.channel=release
+
+include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk
 
-define Package/$(PKG_NAME)
-	SECTION:=net
-	CATEGORY:=Network
-	DEPENDS:=$(GO_ARCH_DEPENDS)
-	TITLE:=Network-wide ads & trackers blocking DNS server
-	URL:=https://github.com/AdguardTeam/AdGuardHome
+define Package/AdGuardHome
+  SECTION:=net
+  CATEGORY:=Network
+  TITLE:=Network-wide ads and trackers blocking DNS server
+  URL:=https://github.com/AdguardTeam/AdGuardHome
+  DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle
 endef
 
-define Package/$(PKG_NAME)/description
-Network-wide ads & trackers blocking DNS server
+define Package/AdGuardHome/description
+Free and open source, powerful network-wide ads and trackers blocking DNS server.
 endef
+
+define Package/$(PKG_NAME)/config
+config ADGUARDHOME_COMPRESS_GOPROXY
+	bool "Compiling with GOPROXY proxy"
+	default n
+
+config ADGUARDHOME_COMPRESS_UPX
+	bool "Compress executable files with UPX"
+	default n
+endef
+
+ifeq ($(CONFIG_ADGUARDHOME_COMPRESS_GOPROXY),y)
+export GO111MODULE=on
+export GOPROXY=https://goproxy.io
+endif
 
 define Build/Compile
-	$(call GoPackage/Build/Configure)
-	$(call GoPackage/Build/Compile)
+( \
+  cd $(PKG_BUILD_DIR) ; \
+  npm --prefix client ci ; \
+  npm --prefix client run build-prod ; \
+  GOOS=$$$$(go env GOOS) GOARCH=$$$$(go env GOARCH) GO111MODULE=off go get -v github.com/gobuffalo/packr/... ; \
+  "$$$$(go env GOPATH)/bin/packr" -v -z -i $(PKG_BUILD_DIR)/home ; \
+  $(call GoPackage/Build/Compile) ; \
+)
+ifeq ($(CONFIG_ADGUARDHOME_COMPRESS_UPX),y)
 	$(STAGING_DIR_HOST)/bin/upx --lzma --best $(GO_PKG_BUILD_BIN_DIR)/AdGuardHome
-	chmod +wx $(GO_PKG_BUILD_BIN_DIR)/AdGuardHome
+endif
 endef
 
-define Package/$(PKG_NAME)/install
+define Package/AdGuardHome/install
+	$(call GoPackage/Package/Install/Bin,$(PKG_INSTALL_DIR))
 	$(INSTALL_DIR) $(1)/usr/bin/AdGuardHome
-	$(INSTALL_BIN) $(GO_PKG_BUILD_BIN_DIR)/$(PKG_NAME) $(1)/usr/bin/AdGuardHome/$(PKG_NAME)
-	$(INSTALL_DIR) $(1)/etc
+	$(INSTALL_BIN) $(GO_PKG_BUILD_BIN_DIR)/AdGuardHome $(1)/usr/bin/AdGuardHome/AdGuardHome
+        $(INSTALL_DIR) $(1)/etc
 	$(CP) -r ./files/etc $(1)/etc
 endef
 
-$(eval $(call GoBinPackage,$(PKG_NAME)))
-$(eval $(call BuildPackage,$(PKG_NAME)))
+$(eval $(call GoBinPackage,AdGuardHome))
+$(eval $(call BuildPackage,AdGuardHome))
