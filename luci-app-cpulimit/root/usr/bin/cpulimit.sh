@@ -8,9 +8,8 @@ cpulimit_get(){
 	[ $enabled -gt 0 ] || return 1
 	config_get limit $1 limit
 	config_get exename $1 exename
-	eval exepid=$(pgrep $exename)
-	cpulimit -l $limit -p $exepid &
-	echo cpulimit -l $limit -p $exepid
+	cpulimit -l $limit -e $exename &
+	echo cpulimit -l $limit -e $exename
 }
 
 
