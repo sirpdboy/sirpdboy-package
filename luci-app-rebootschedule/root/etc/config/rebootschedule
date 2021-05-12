@@ -1,0 +1,19 @@
+
+config crontab
+	option week '*'
+	option hour '5'
+	option minute '0'
+	option command 'sleep 5 && touch /etc/banner && reboot'
+	option day '*'
+	option month '*'
+	option enable '0'
+
+config crontab
+	option enable '0'
+	option month '*'
+	option day '*'
+	option week '*'
+	option hour '5'
+	option minute '0'
+	option command 'sync && echo 3 > /proc/sys/vm/drop_caches'
+

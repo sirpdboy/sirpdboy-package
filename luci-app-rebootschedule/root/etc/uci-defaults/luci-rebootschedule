@@ -1,0 +1,11 @@
+#!/bin/sh
+
+uci -q batch <<-EOF >/dev/null
+	delete ucitrack.@rebootschedule[-1]
+	add ucitrack rebootschedule
+	set ucitrack.@rebootschedule[-1].init=rebootschedule
+	commit ucitrack
+EOF
+
+rm -f /tmp/luci-*
+exit 0

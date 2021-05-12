@@ -1,0 +1,28 @@
+#!/bin/sh /etc/rc.common
+# Author=wulishui , 20200908-0915 ; <wulishui@gmail.com>
+
+START=55
+
+start() {
+	sed -i '/rebootschedule/d' /etc/crontabs/root 2>/dev/null
+	sum=$(grep -c 'config crontab' /etc/config/rebootschedule)
+	for i in $(seq 0 $((sum - 1))); do
+		enable=$(uci get rebootschedule.@crontab[$i].enable 2>/dev/null)
+		if [ "$enable" -eq "1" ]; then
+			month=$(uci get rebootschedule.@crontab[$i].month 2>/dev/null) || month="*"
+			day=$(uci get rebootschedule.@crontab[$i].day 2>/dev/null) || day="*"
+			week=$(uci get rebootschedule.@crontab[$i].week 2>/dev/null) || week="*"
+			hour=$(uci get rebootschedule.@crontab[$i].hour 2>/dev/null) || hour="*"
+			# [ "$hour" -eq "0" ] && hour="00"
+			minute=$(uci get rebootschedule.@crontab[$i].minute 2>/dev/null) || minute="00"
+			# [ "$minute" -eq "0" ] && minute="00"
+			command=$(uci get rebootschedule.@crontab[$i].command 2>/dev/null) || command="echo "Reboot schedule tested.""
+			echo "$minute $hour $day $month $week $command #rebootschedule" >>/etc/crontabs/root
+		fi
+	done
+	/etc/init.d/cron restart
+}
+
+stop() {
+	sed -i '/rebootschedule/d' /etc/crontabs/root 2>/dev/nul
+}
