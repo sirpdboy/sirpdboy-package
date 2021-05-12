@@ -182,7 +182,7 @@ msgid "Run command"
 msgstr "运行命令"
 
 msgid "Advance"
-msgstr "高级"
+msgstr "高级设置"
 
 msgid "Mount tmpfs directory"
 msgstr "挂载tmpfs到容器内部目录"
@@ -293,10 +293,10 @@ msgid "Logs"
 msgstr "日志"
 
 msgid "TX/RX"
-msgstr "发送/接收"
+msgstr "(累计)发送/接收"
 
 msgid "Upload/Download"
-msgstr "上传/下载"
+msgstr "(当前)上传/下载"
 
 msgid "CPU Useage"
 msgstr "CPU用量"
@@ -418,6 +418,9 @@ msgstr "错误"
 msgid "Console"
 msgstr "控制台"
 
+msgid "DockerMan is a Simple Docker manager client for LuCI, If you have any issue please visit:"
+msgstr "DockerMan 是一个简单的 Docker 管理客户端，如果您在使用过程中有问题，请访问："
+
 msgid "Access Control for the bridge network"
 msgstr "birdge 网络访问控制"
 
@@ -432,6 +435,60 @@ msgstr "哪些 bridge 网络下的容器可以被访问，即使访问来自不�
 
 msgid "Which interface(s) can access containers under the bridge network, fill-in Interface Name"
 msgstr "哪些接口可以访问 bridge 网络下的容器, 填入接口名"
+
+msgid "Please input the PATH and select the file !"
+msgstr "请先输入路径，然后选择文件！"
+
+msgid "Please input the PATH !"
+msgstr "请输入路径！"
+
+msgid "Canceled"
+msgstr "已取消"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Submit"
+msgstr "提交"
+
+msgid "Command line"
+msgstr "命令行"
+
+msgid "Docker actions done."
+msgstr "Docker下载完成。"
+
+msgid "Reveal/hide password"
+msgstr "显示/隐藏 密码"
+
+msgid "Unless stopped"
+msgstr "除非停止"
+
+msgid "Always"
+msgstr "总是"
+
+msgid "On failure"
+msgstr "失败时"
+
+msgid "No"
+msgstr ""
+
+msgid "Network mode"
+msgstr "网络模式"
+
+msgid "Number of CPUs. Number is a fractional number. 0.000 means no limit"
+msgstr "CPU数量，数字是小数，0.000表示没有限制"
+
+msgid "CPU shares relative weight, if 0 is set, the system will ignore the value and use the default of 1024"
+msgstr "CPU份额相对权重，如果设置为0，则系统将忽略该值，并使用默认值1024。"
+
+msgid "Memory limit (format: <number>[<unit>]). Number is a positive integer. Unit can be one of b, k, m, or g. Minimum is 4M"
+msgstr "内存限制 (格式: <容量>[<单位>]). 数字是一个正整数。单位可以是b，k，m或g之一。最小为4M"
+
+msgid "Block IO weight (relative weight) accepts a weight value between 10 and 1000"
+msgstr "IO 权重 (相对权重) 接受10到1000之间的权重值"
+
+msgid ""
+msgstr "" 
 
 msgid "Dockerman connect to remote endpoint"
 msgstr "Dockerman 将连接到远程节点"
