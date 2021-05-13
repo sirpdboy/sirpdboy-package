@@ -31,7 +31,7 @@ add_rule(){
 				ip6tables -t nat -I PREROUTING 1  ${MAC} ${TME}  -m comment --comment "TIMECONTROL" -j RETURN
 		fi
 	done
-
+echo "/etc/init.d/timecontrol restart" > "/var/etc/timecontrol.include"
 }
 
 del_rule(){
