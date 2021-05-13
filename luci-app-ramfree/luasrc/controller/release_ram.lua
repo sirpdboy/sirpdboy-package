@@ -1,7 +1,7 @@
 module("luci.controller.release_ram",package.seeall)
 
 function index()
-	entry({"admin","status","release_ram"}, call("release_ram"), _("释放内存"), 9999)
+	entry({"admin","status","release_ram"}, call("release_ram"), _("释放刷新"), 9999)
 end
 
 function release_ram()
