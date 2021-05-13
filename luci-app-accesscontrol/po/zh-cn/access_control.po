@@ -46,4 +46,7 @@ msgstr "六"
 msgid "Sun"
 msgstr "日"
 
+msgid "Everyday"
+msgstr "每天"
+
 

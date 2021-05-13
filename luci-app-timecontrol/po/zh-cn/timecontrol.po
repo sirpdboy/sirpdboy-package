@@ -39,3 +39,6 @@ msgstr "周六"
 
 msgid "Sunday"
 msgstr "周日"
+
+msgid "Everyday"
+msgstr "每天"
