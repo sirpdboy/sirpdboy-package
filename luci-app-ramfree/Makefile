@@ -12,8 +12,8 @@ PKG_VERSION:=1.0
 PKG_RELEASE:=3
 
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/usr/share/ramfree
-	$(INSTALL_BIN) ./file/* $(1)/usr/share/ramfree
+	$(INSTALL_DIR) $(1)/etc
+	$(INSTALL_BIN) ./file/* $(1)/etc
 endef
 
 include $(TOPDIR)/feeds/luci/luci.mk

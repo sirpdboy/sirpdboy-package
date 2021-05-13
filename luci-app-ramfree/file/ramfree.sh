@@ -1,12 +1,5 @@
-#!/bin/sh /etc/rc.common
-
-START=95
-STOP=10
-
-EXTRA_COMMANDS="freeclear"
-
-freeclear()
-{
+#!/bin/sh
+ 
 cd /overlay
 rm -rf `ls | egrep -v '(upper|.fs_state)'`
 cd /overlay/upper
@@ -22,4 +15,4 @@ rm -rf `ls | egrep -v '(arpbind|ksmbd|access_control|netspeedtest|autoreboot|ddn
 rm -f /tmp/luci*
 sync && echo 3 > /proc/sys/vm/drop_caches
 
-}
+ 
