@@ -1,10 +1,7 @@
 m=Map("rebootschedule",translate("定时任务设置"),
 translate("<font color=\"red\"><b>让计划任务更加易用的插件，可以使用-表示连续的时间范围，使用,表示不连续的多个时间点，使用*/表示循环执行。可以使用“添加”来添加多条计划任务命令。可使用“--自定义--”来自行添加其它参数。</b></font></br>") ..
 translate("*所有时间参数都是指该自然单位中的时间点，而非累积计数，比如月份只能是1～12，日期只能是1～31，星期只能是0～6，小时只能是0～23，分钟只能是0～59，不能使用50天、48小时这种累积计数表示法。</br>") ..
-translate("* 所有数值可使用 - 连接表示连续范围，比如星期：1-5 表示星期一至星期五；使用,表示不连续的点，比如星期：1,3,5 表示仅仅星期一、三、五。月份、日期、时间用法相同。</br></br>") ..
-translate("translate("&nbsp;&nbsp;&nbsp;<input class=\"cbi-button cbi-button-apply\" type=\"button\" value=\"" ..
- translate("查看任务文件") ..
-" \" onclick=\"window.open('crontab')\"/>") ..
+translate("* 所有数值可使用 - 连接表示连续范围，比如星期：1-5 表示星期一至星期五；使用,表示不连续的点，比如星期：1,3,5 表示仅仅星期一、三、五。月份、日期、时间用法相同。") ..
 translate("&nbsp;&nbsp;&nbsp;<input class=\"cbi-button cbi-button-apply\" type=\"button\" value=\"" ..
  translate("查看任务用法") ..
 " \" onclick=\"window.open('https://tool.lu/crontab/')\"/>")
@@ -47,7 +44,7 @@ week.default='*'
 hour=s:option(Value,"hour",translate("时 <font color=\" red\">(数值范围0～23)</font>"),
 translate("<font color=\"gray\">*表示每小时，*/n表示每n小时</br>n1-n5连续，n1,n3,n5不连续</font>"))
 hour.rmempty = false
-hour.default = '6'
+hour.default = '5'
 
 minute=s:option(Value,"minute",translate("分 <font color=\" red\">(数值范围0～59)</font>"),
 translate("<font color=\"gray\">*表示每分钟，*/n表示每n分钟</br>n1-n5连续，n1,n3,n5不连续</font>"))
