@@ -4,134 +4,14 @@ msgstr "CPU限制"
 msgid "Use cpulimit to restrict app's cpu usage."
 msgstr "利用cpulimit限制应用程序的CPU使用率"
 
+msgid "Usage restrictions"
+msgstr "使用率限制"
+
 msgid "exename"
 msgstr "进程名称"
 
 msgid "name of the executable program file or path name"
-msgstr "可执行文件名称。不能是应用程序路径！"
+msgstr "可执行文件名称。不能用应用程序路径！"
 
 msgid "limit"
-msgstr "占用率限制"
-
-msgid "Disks Model"
-msgstr "硬盘型号"
-
-msgid "Firmware"
-msgstr "固件版本"
-
-msgid "Capacity"
-msgstr "容量"
-
-msgid "Sector size"
-msgstr "扇区大小"
-
-msgid "Temperature"
-msgstr "温度"
-
-msgid "Power state"
-msgstr "电源状态"
-
-msgid "Startup Delay"
-msgstr "启动延迟"
-
-msgid "MWAN Interfaces"
-msgstr "MWAN接口信息"
-
-msgid "untagged"
-msgstr "无标记"
-
-msgid "tagged"
-msgstr "已标记"
-
-msgid "Custom WEB UI directory"
-msgstr "自定义Web UI目录"
-
-msgid "Successful safe shutdown!"
-msgstr "已经关机！"
-
-msgid "Power Off"
-msgstr "关机"
-
-msgid "PowerOff the operating system of your device"
-msgstr "安全关机，某些机器不能完全断电，关机后只能通过手工重新启动。"
-
-msgid "Perform PowerOff"
-msgstr "执行关机"
-
-msgid "RAM Size"
-msgstr "内存容量"
-
-msgid "CPU usage"
-msgstr "CPU使用率"
-
-msgid "Unsupported"
-msgstr "不支持"
-
-msgid "CPU Model"
-msgstr "CPU型号"
-
-msgid "AriaNg"
-msgstr "打开AriaNg的Web管理界面"
-
-msgid "WebUI-Aria2"
-msgstr "打开WebUI-Aria2的Web管理界面"
-
-msgid "YAAW"
-msgstr "打开YAAW的Web管理界面"
-
-msgid "services"
-msgstr "服务"
-
-msgid "Control"
-msgstr "管控"
-
-msgid "Raid arrays"
-msgstr "RAID 设备"
-
-msgid "Level"
-msgstr "RAID模式"
-
-msgid "# Disks"
-msgstr "硬盘个数"
-
-msgid "Capacity"
-msgstr ""
-
-msgid "Metadata"
-msgstr "硬盘位置"
-
-msgid "Status"
-msgstr ""
-
-msgid "Serial number"
-msgstr "硬盘序列号"
-
-msgid "Weather"
-msgstr "天气"
-
-msgid "Local Weather"
-msgstr "当地天气"
-
-msgid "Device is PowerOff..."
-msgstr "设备已关闭..."
-
-msgid "Bad Gateway"
-msgstr "错误的网关"
-
-msgid "The process did not produce any response"
-msgstr "这个过程没有任何反应"
-
-msgid "fail"
-msgstr "失败"
-
-msgid "connecting"
-msgstr "连接中"
-
-msgid "Use as Docker data (/opt/docker)"
-msgstr "作为Docker数据分区使用 (/opt/docker)"
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""
+msgstr "占用率限制）"

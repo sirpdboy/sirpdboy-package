@@ -1,10 +1,31 @@
 #!/bin/sh /etc/rc.common
-# Author=wulishui , 20200908-0915 ; <wulishui@gmail.com>
+# Author=wulishui , 20200908-0915 ; <wulishui@gmail.com> 
+# 20210514 by sirpdboy
 
 START=55
 
-start() {
-	sed -i '/rebootschedule/d' /etc/crontabs/root 2>/dev/null
+add_cron() {
+                config_get_bool enable $1 enable
+		config_get month $1 month
+		config_get day $1 day
+		config_get week $1 week
+		config_get hour $1 hour
+		config_get minute $1 minute
+		config_get_sane command "$1" command
+		
+		
+		[ "$month" -eq 0 ] && month="*"
+		[ "$day" -eq 0 ] && hour="*"
+		[ "$week" -eq 7 ] && week="*"
+		[ "$hour" -eq 0 ] && hour="00"
+		[ "$minute" -eq 0 ] && minute="00"
+		[ "$command" -eq 0 ] &&  command="echo "Reboot schedule tested.""
+	        
+		[ "$enable" -eq "1" ]  echo "$minute $hour $day $month $week $command #rebootschedule" >>/etc/crontabs/root
+}
+
+up_cron() {
+	
 	sum=$(grep -c 'config crontab' /etc/config/rebootschedule)
 	for i in $(seq 0 $((sum - 1))); do
 		enable=$(uci get rebootschedule.@crontab[$i].enable 2>/dev/null)
@@ -13,9 +34,7 @@ start() {
 			day=$(uci get rebootschedule.@crontab[$i].day 2>/dev/null) || day="*"
 			week=$(uci get rebootschedule.@crontab[$i].week 2>/dev/null) || week="*"
 			hour=$(uci get rebootschedule.@crontab[$i].hour 2>/dev/null) || hour="*"
-			# [ "$hour" -eq "0" ] && hour="00"
 			minute=$(uci get rebootschedule.@crontab[$i].minute 2>/dev/null) || minute="00"
-			# [ "$minute" -eq "0" ] && minute="00"
 			command=$(uci get rebootschedule.@crontab[$i].command 2>/dev/null) || command="echo "Reboot schedule tested.""
 			echo "$minute $hour $day $month $week $command #rebootschedule" >>/etc/crontabs/root
 		fi
@@ -23,6 +42,32 @@ start() {
 	/etc/init.d/cron restart
 }
 
-stop() {
+
+init_config()
+{
+
+        sed -i '/rebootschedule/d' /etc/crontabs/root 2>/dev/null
+	config_load rebootschedule
+	config_foreach add_cron crontab
+
+}
+
+del_cron() {
 	sed -i '/rebootschedule/d' /etc/crontabs/root 2>/dev/nul
+}
+
+
+start()
+{       
+        init_config
+	if [ ! -e /etc/config/rebootschedule ]; then
+	    logger -p daemon.error -t 'rebootschedule' "missing config /etc/config/rebootschedule!"
+	exit 1
+	fi
+	up_cron
+}
+
+stop()
+{
+    del_cron
 }

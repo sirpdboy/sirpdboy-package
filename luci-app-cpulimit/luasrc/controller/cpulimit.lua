@@ -2,14 +2,11 @@
 module("luci.controller.cpulimit", package.seeall)
 
 function index()
-	require("luci.i18n")
-	luci.i18n.loadc("cpulimit")
 	if not nixio.fs.access("/etc/config/cpulimit") then
 		return
 	end
-	
-	local page = entry({"admin", "system", "cpulimit"}, cbi("cpulimit"), luci.i18n.translate("cpulimit"), 65)
-	page.i18n = "cpulimit"
+        entry({"admin", "control"}, firstchild(), "Control", 44).dependent = false
+	local page = entry({"admin", "control", "cpulimit"}, cbi("cpulimit"), _("CPU限制醒"), 65)
 	page.dependent = true
-	
+
 end
