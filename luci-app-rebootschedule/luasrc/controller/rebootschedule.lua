@@ -5,7 +5,7 @@ function index()
 	end
 	
 	local page
-	page = entry({"admin", "control", "rebootschedule"}, cbi("rebootschedule"), "Reboot schedule", 88)
+	page = entry({"admin", "control", "rebootschedule"}, cbi("rebootschedule"), "定时设置", 88)
 	page.dependent = true
 end
 

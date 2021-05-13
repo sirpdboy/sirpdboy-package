@@ -1,8 +1,0 @@
-msgid "Reboot schedule"
-msgstr "定时设置"
-
-msgid ""
-msgstr ""
-
-msgid ""
-msgstr ""

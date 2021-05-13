@@ -22,6 +22,6 @@ function index()
 --		return
 --	end
 	
-
-	entry({"admin", "control", "access_control"}, cbi("access_control"), _("Internet Access Schedule Control"), 30).dependent = true
+    entry({"admin", "control"}, firstchild(), "Control", 44).dependent = false
+	entry({"admin", "control", "access_control"}, cbi("access_control"), _("时间控制"), 10).dependent = true
 end
