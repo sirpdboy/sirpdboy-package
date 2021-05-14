@@ -18,15 +18,6 @@ p=s:option(Flag,"enable",translate("Enable"))
 p.rmempty = false
 p.default=0
 
--- month=s:option(Value,"month",translate("月 <font color=\" red\">(数值范围1～12)</font>"),
--- translate("<font color=\"gray\">*表示每个月，*/n表示每n个月</br>n1-n5连续，n1,n3,n5不连续</font>"))
--- month.rmempty = false
--- month.default = '*'
-
--- day=s:option(Value,"day",translate("日 <font color=\" red\">(数值范围1～31)</font>"),
--- translate("<font color=\"gray\">*表示每天，*/n表示每n天</br>n1-n5连续，n1,n3,n5不连续</font>"))
--- day.rmempty = false
--- day.default = '*'
 
 week=s:option(Value,"week",translate("星期 <font color=\" red\">(数值范围0～6)</font>"),
 translate("<font color=\"gray\">和日期是逻辑“与”关系</br>n1-n5连续，n1,n3,n5不连续</font>"))
@@ -53,16 +44,18 @@ minute.default = '0'
 
 command=s:option(Value,"command",translate("执行命令 <font color=\" red\">(多条用 && 连接)</font>"),
 translate("<font color=\"gray\">按“--自定义--”可进行修改</br>(亦可添加后到计划任务中修改)</font>"))
-command:value('sleep 5 && touch /etc/banner && reboot',translate("1.重启系统"))
-command:value('poweroff',translate("2.关闭电源"))
-command:value('/etc/init.d/network restart',translate("3.重启网络"))
-command:value('killall -q pppd && sleep 5 && pppd file /tmp/ppp/options.wan', translate("4.重新拨号"))
-command:value('ifdown wan',translate("5.关闭联网"))
-command:value('ifup wan',translate("6.打开联网"))
-command:value('wifi down',translate("7.关闭WIFI"))
-command:value('wifi up',translate("8.打开WIFI"))
-command:value('sync && echo 3 > /proc/sys/vm/drop_caches', translate("9.释放内存"))
-command:value('/usr/bin/sysfree',translate("0.清理垃圾"))
+command:value('sync && echo 3 > /proc/sys/vm/drop_caches', translate("A.释放内存"))
+command:value('sysfree.sh',translate("B.清理垃圾"))
+command:value('sleep 5 && touch /etc/banner && reboot',translate("C重启系统"))
+command:value('poweroff',translate("D.关闭电源"))
+command:value('/etc/init.d/ksmdb restart',translate("E.重启共享"))
+command:value('/etc/init.d/network restart',translate("F.重启网络"))
+command:value('ifdown wan && ifup wan',translate("G.重启WAN"))
+command:value('killall -q pppd && sleep 5 && pppd file /tmp/ppp/options.wan', translate("H.重新拨号"))
+command:value('ifdown wan',translate("I.关闭联网"))
+command:value('ifup wan',translate("J.打开联网"))
+command:value('wifi down',translate("K.关闭WIFI"))
+command:value('wifi up',translate("M.打开WIFI"))
 command.default='sleep 5 && touch /etc/banner && reboot'
 
 local e=luci.http.formvalue("cbi.apply")
