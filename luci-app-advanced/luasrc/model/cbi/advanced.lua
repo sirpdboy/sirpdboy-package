@@ -26,9 +26,9 @@ e.remove("/tmp/dnsmasq.conf")
 end
 end
 end
+
 if nixio.fs.access("/etc/config/network")then
 s:tab("netwrokconf",translate("配置网络"),translate("本页是配置/etc/config/network包含网络配置文档内容。应用保存后自动重启生效"))
-
 conf=s:taboption("netwrokconf",Value,"netwrokconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=20
@@ -49,7 +49,7 @@ end
 end
 end
 
- if nixio.fs.access("/etc/config/arpbind")then
+if nixio.fs.access("/etc/config/arpbind")then
 s:tab("arpbindconf",translate("配置ARP绑定"),translate("本页是配置/etc/config/arpbind包含APR绑定MAC地址文档内容。应用保存后自动重启生效"))
 conf=s:taboption("arpbindconf",Value,"arpbindconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
@@ -70,11 +70,9 @@ e.remove("/tmp/arpbind")
 end
 end
 end
+
 if nixio.fs.access("/etc/config/firewall")then
 s:tab("firewallconf",translate("配置防火墙"),translate("本页是配置/etc/config/firewall包含防火墙协议设置文档内容。应用保存后自动重启生效"))
-
-if nixio.fs.access("/etc/hosts-")then
-s:tab("hostsconf",translate("配置hosts"),translate("本页是配置/etc/hosts包含hosts配置文档内容。应用保存后自动重启生效！"))
 conf=s:taboption("firewallconf",Value,"firewallconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=20
@@ -123,7 +121,7 @@ conf.template="cbi/tvalue"
 conf.rows=20
 conf.wrap="off"
 conf.cfgvalue=function(t,t)
-return e.readfile("/etc/config/dhcp")or""et
+return e.readfile("/etc/config/dhcp")or""
 end
 conf.write=function(a,a,t)
 if t then
@@ -227,7 +225,7 @@ end
 end
 
 if nixio.fs.access("/etc/config/ksmbd")then
-s:tab("ksmbd",translate("配置文件共享"),translate("本页是配置/etc/config/ksmbd包含文件共享KSMBD配置文档内容。应用保存后自动重启生效！"))
+s:tab("ksmbdconf",translate("配置ksmbd"),translate("本页是配置/etc/config/ksmbd包含网络唤醒配置文档内容。应用保存后自动重启生效"))
 conf=s:taboption("ksmbdconf",Value,"ksmbdconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=20
@@ -239,7 +237,7 @@ conf.write=function(a,a,t)
 if t then
 t=t:gsub("\r\n?","\n")
 e.writefile("/tmp/ksmbd",t)
-if(luci.sys.call("cmp -s /tmp/ksmbd /etc/config/ksmbd")==1)then
+if(luci.sys.call("cmp -s /tmp/ksmbd/etc/config/ksmbd")==1)then
 e.writefile("/etc/config/ksmbd",t)
 luci.sys.call("/etc/init.d/ksmbd restart >/dev/null")
 end
