@@ -1,5 +1,4 @@
-# Copyright (C) 2018 Lienol
-#
+# Copyright (C) 2020-2021 sirpdboy <herboy2008@gmail.com>
 # This is free software, licensed under the Apache License, Version 2.0 .
 #
 
@@ -27,10 +26,10 @@ define Package/$(PKG_NAME)/postinst
 rm -f /tmp/luci-indexcache /tmp/luci-modulecache
 endef
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/etc/init.d $(1)/etc/config $(1)/usr/lib/lua/luci
+	$(INSTALL_DIR)  $(1)/usr/lib/lua/luci
 	$(CP) ./luasrc/* $(1)/usr/lib/lua/luci
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) ./file/ramfree.sh $(1)/usr/bin
 endef
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+include $(TOPDIR)/feeds/luci/luci.mk
