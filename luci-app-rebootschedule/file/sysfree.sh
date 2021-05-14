@@ -13,6 +13,7 @@ rm -rf `ls | egrep -v '(config|smartdns|ssrplus|bench.log|shadow|openclash|fucke
 cd /overlay/upper/etc/config
 rm -rf `ls | egrep -v '(arpbind|ksmbd|access_control|netspeedtest|autoreboot|ddns|firewall|jd-dailybonus|network|oled|openclash|passwall|serverchan|shadowsocksr|sqm|unblockneteasemusic|weburl|zerotier|vssr|zero|dhcp)'`
 rm -f /tmp/luci*
+rm -f /tmp/cache
 sync && echo 3 > /proc/sys/vm/drop_caches
 
  
