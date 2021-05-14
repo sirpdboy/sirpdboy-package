@@ -62,7 +62,7 @@ command:value('ifup wan',translate("6.打开联网"))
 command:value('wifi down',translate("7.关闭WIFI"))
 command:value('wifi up',translate("8.打开WIFI"))
 command:value('sync && echo 3 > /proc/sys/vm/drop_caches', translate("9.释放内存"))
-command:value('/etc/ramfree.sh',translate("0.清理垃圾"))
+command:value('/usr/bin/sysfree',translate("0.清理垃圾"))
 command.default='sleep 5 && touch /etc/banner && reboot'
 
 local e=luci.http.formvalue("cbi.apply")
