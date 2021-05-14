@@ -10,7 +10,6 @@ define Package/$(PKG_NAME)
   SECTION:=luci
   CATEGORY:=LuCI
   SUBMENU:=3. Applications
-  DEPENDS:=
   TITLE:=LuCI support for rebootschedule
   PKGARCH:=all
 endef
@@ -20,7 +19,7 @@ endef
 
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
-rm -f /tmp/luci-*
+rm -f /tmp/luci-indexcache /tmp/luci-modulecache
 endef
 
 define Package/$(PKG_NAME)/conffiles
@@ -32,8 +31,7 @@ define Package/$(PKG_NAME)/install
 	$(CP) ./luasrc/* $(1)/usr/lib/lua/luci
 	$(INSTALL_CONF) ./root/etc/config/* $(1)/etc/config
 	$(INSTALL_BIN) ./root/etc/init.d/* $(1)/etc/init.d
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
-	po2lmo ./po/zh-cn/*.po $(1)/usr/lib/lua/luci/i18n/rebootschedule.zh-cn.lmo
+
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))

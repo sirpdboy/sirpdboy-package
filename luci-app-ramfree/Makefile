@@ -6,18 +6,31 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-ramfree
-LUCI_TITLE:=Add Release RAM Button
-LUCI_PKGARCH:=all
-PKG_VERSION:=1.0
-PKG_RELEASE:=3
 
-define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/etc
-	$(INSTALL_BIN) ./file/* $(1)/etc
+PKG_VERSION:=1.0
+PKG_RELEASE:=4
+
+include $(INCLUDE_DIR)/package.mk
+define Package/$(PKG_NAME)
+  SECTION:=luci
+  CATEGORY:=LuCI
+  SUBMENU:=3. Applications
+  LUCI_TITLE:=Add Release ramfree Button
+  PKGARCH:=all
 endef
 
-include $(TOPDIR)/feeds/luci/luci.mk
+define Build/Compile
+endef
 
-# call BuildPackage - OpenWrt buildroot signature
+define Package/$(PKG_NAME)/postinst
+#!/bin/sh
+rm -f /tmp/luci-indexcache /tmp/luci-modulecache
+endef
+define Package/$(PKG_NAME)/install
+	$(INSTALL_DIR) $(1)/etc/init.d $(1)/etc/config $(1)/usr/lib/lua/luci
+	$(CP) ./luasrc/* $(1)/usr/lib/lua/luci
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) ./file/ramfree.sh $(1)/usr/bin
+endef
 
-
+$(eval $(call BuildPackage,$(PKG_NAME)))
