@@ -6,5 +6,5 @@ function index()
 	end
 
     entry({"admin", "control"}, firstchild(), "Control", 44).dependent = false
-    entry({"admin", "control", "eqos"}, cbi("eqos"), "网络限速", 90).dependent = true
+    entry({"admin", "control", "eqos"}, cbi("eqos"), "网速限制", 90).dependent = true
 end
