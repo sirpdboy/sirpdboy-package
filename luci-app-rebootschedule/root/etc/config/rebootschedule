@@ -1,12 +1,12 @@
 
 config crontab
 	option week '*'
-	option hour '5'
+	option hour '*/4'
 	option day '*'
 	option month '*'
-	option minute '30'
+	option minute '0'
 	option command 'sync && echo 3 > /proc/sys/vm/drop_caches'
-	option enable '0'
+	option enable '1'
 
 config crontab
 	option month '*'
@@ -46,8 +46,15 @@ config crontab
 
 config crontab
 	option minute '0'
+	option week '*'
+	option hour '5'
+	option command '/etc/init.d/ksmdb restart'
+	option enable '0'
+
+config crontab
+	option minute '0'
 	option week '2'
-	option hour '0'
-	option command '/etc/ramfree.sh'
+	option hour '5'
+	option command 'sysfree.sh'
 	option enable '0'
 
