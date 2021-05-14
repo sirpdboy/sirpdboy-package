@@ -14,8 +14,13 @@ define Package/$(PKG_NAME)
   PKGARCH:=all
 endef
 
+define Package/$(PKG_NAME)/description
+	LuCI support for rebootschedule  
+endef
+
 define Build/Compile
 endef
+
 
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
@@ -34,4 +39,7 @@ define Package/$(PKG_NAME)/install
 
 endef
 
-$(eval $(call BuildPackage,$(PKG_NAME)))
+include $(TOPDIR)/feeds/luci/luci.mk
+
+# call BuildPackage - OpenWrt buildroot signature
+
