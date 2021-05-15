@@ -30,7 +30,7 @@ msgstr "基本设置"
 msgid ""
 "Create log file for this SQM instance under /var/run/sqm/${Interface_name}."
 "[start|stop]-sqm.log."
-msgstr "创建日志文件(/var/run/sqm/${Interface_name}.[start|stop]-sqm.log)。"
+msgstr "创建日志文件"
 
 #: applications/luci-app-sqm/luasrc/model/cbi/sqm.lua:80
 msgid ""
