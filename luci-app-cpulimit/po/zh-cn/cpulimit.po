@@ -14,4 +14,8 @@ msgid "name of the executable program file or path name"
 msgstr "可执行文件名称。不能用应用程序路径！"
 
 msgid "limit"
-msgstr "占用率限制）"
+msgstr "占用率限制"
+
+msgid "Settings"
+msgstr "设置"
+
