@@ -25,12 +25,6 @@ o.default=3000
 o.datatype="port"
 o.optional = false
 o.description = translate("<input type=\"button\" style=\"width:210px;border-color:Teal; text-align:center;font-weight:bold;color:Green;\" value=\"AdGuardHome Web:"..httpport.."\" onclick=\"window.open('http://'+window.location.hostname+':"..httpport.."/')\"/>")
----- control version
-o =s:option(Value,"cversion",translate("AdGuardHome's version"))
-o.placeholder=0
-o.default=0
-o.optional = false
-o.description = translate("In case of the latest realease is a source code that can not download the binary file")
 ---- update warning not safe
 local binmtime=uci:get("AdGuardHome","AdGuardHome","binmtime") or "0"
 local e=""
