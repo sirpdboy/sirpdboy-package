@@ -1,0 +1,11 @@
+{
+	"luci-app-tencentddns": {
+		"description": "Grant UCI access for luci-app-tencentddns",
+		"read": {
+			"uci": [ "tencentddns" ]
+		},
+		"write": {
+			"uci": [ "tencentddns" ]
+		}
+	}
+}
