@@ -21,10 +21,10 @@ config crontab
 	option month '*'
 	option day '*'
 	option week '*'
-	option minute '0'
-	option hour '*/4'
 	option command '/etc/init.d/network restart'
 	option enable '0'
+	option hour '*/12'
+	option minute '30'
 
 config crontab
 	option month '*'
@@ -48,8 +48,8 @@ config crontab
 	option minute '0'
 	option week '*'
 	option hour '5'
-	option command '/etc/init.d/ksmdb restart'
 	option enable '0'
+	option command '/etc/init.d/ksmdb restart &&/etc/init.d/samba restart'
 
 config crontab
 	option minute '0'
