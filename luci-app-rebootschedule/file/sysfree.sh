@@ -14,8 +14,6 @@ cd /overlay/upper/etc/config
 rm -rf `ls | egrep -v '(timecontrol|arpbind|ksmbd|access_control|netspeedtest|rebootschedule|wrtbwmon|ddns|wolplus|advanced|firewall|jd-dailybonus|network|oled|openclash|passwall|serverchan|shadowsocksr|sqm|unblockneteasemusic|weburl|zerotier|vssr|zero|dhcp)'`
 rm -f /tmp/luci*
 rm -f /tmp/cache/*
-rm -f /etc/AdGuardHome/data
-rm -f /usr/bin/AdGuardHome/data
 sync && echo 3 > /proc/sys/vm/drop_caches
 
  
