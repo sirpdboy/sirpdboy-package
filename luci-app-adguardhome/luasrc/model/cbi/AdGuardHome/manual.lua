@@ -32,7 +32,7 @@ function gen_template_config()
 	f:close()
 	return table.concat(tbl, "\n")
 end
-m = Map("AdGuardHome",translate('Needed to click "save&apply" to generate the configuration file'))
+m = Map("AdGuardHome")
 local configpath = uci:get("AdGuardHome","AdGuardHome","configpath")
 local binpath = uci:get("AdGuardHome","AdGuardHome","binpath")
 s = m:section(TypedSection, "AdGuardHome")

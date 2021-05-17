@@ -196,7 +196,7 @@ end
 end
 
 if nixio.fs.access("/etc/config/ksmbd")then
-s:tab("ksmbdconf",translate("网络共享"),translate("本页是配置/etc/config/ksmbd包含网络唤醒配置文档内容。应用保存后自动重启生效"))
+s:tab("ksmbdconf",translate("网络共享"),translate("本页是配置/etc/config/ksmbd包含网络共享ksmbd配置文档内容。应用保存后自动重启生效"))
 conf=s:taboption("ksmbdconf",Value,"ksmbdconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=20

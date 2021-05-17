@@ -11,7 +11,7 @@ local e=io.popen(e,"r")
 exename=s:option(Value,"exename",translate("exename"),translate("name of the executable program file or path name"))
 exename.optional=false
 exename.rmempty=false
-exename.default="ksmbd"
+exename.default="ksmbd.mountd"
 for e in e:lines()do
 exename:value(e)
 end

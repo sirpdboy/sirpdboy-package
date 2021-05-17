@@ -25,12 +25,6 @@ o.default=3000
 o.datatype="port"
 o.optional = false
 o.description = translate("<input type=\"button\" style=\"width:210px;border-color:Teal; text-align:center;font-weight:bold;color:Green;\" value=\"AdGuardHome Web:"..httpport.."\" onclick=\"window.open('http://'+window.location.hostname+':"..httpport.."/')\"/>")
----- control version
-o =s:option(Value,"cversion",translate("AdGuardHome's version"))
-o.placeholder=0
-o.default=0
-o.optional = false
-o.description = translate("In case of the latest realease is a source code that can not download the binary file")
 ---- update warning not safe
 local binmtime=uci:get("AdGuardHome","AdGuardHome","binmtime") or "0"
 local e=""
@@ -124,7 +118,7 @@ return value
 end
 ---- work dir
 o = s:option(Value, "workdir", translate("Work dir"), translate("AdGuardHome work dir include rules,audit log and database"))
-o.default     = "/usr/bin/AdGuardHome"
+o.default     = "/etc/AdGuardHome"
 o.datatype    = "string"
 o.optional = false
 o.rmempty=false
@@ -219,7 +213,7 @@ o = s:option(Flag, "waitonboot", translate("On boot when network ok restart"))
 o.default = 1
 o.optional = true
 ---- backup workdir on shutdown
-local workdir=uci:get("AdGuardHome","AdGuardHome","workdir") or "/usr/bin/AdGuardHome"
+local workdir=uci:get("AdGuardHome","AdGuardHome","workdir") or "/etc/AdGuardHome"
 o = s:option(MultiValue, "backupfile", translate("Backup workdir files when shutdown"))
 o1 = s:option(Value, "backupwdpath", translate("Backup workdir path"))
 local name
@@ -245,7 +239,7 @@ o.optional=false
 o.description=translate("Will be restore when workdir/data is empty")
 ----backup workdir path
 
-o1.default     = "/usr/bin/AdGuardHome"
+o1.default     = "/etc/AdGuardHome"
 o1.datatype    = "string"
 o1.optional = false
 o1.validate=function(self, value)

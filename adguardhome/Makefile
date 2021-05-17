@@ -80,7 +80,7 @@ define Package/AdGuardHome/install
 	$(call GoPackage/Package/Install/Bin,$(PKG_INSTALL_DIR))
 	$(INSTALL_DIR) $(1)/usr/bin/AdGuardHome
 	$(INSTALL_BIN) $(GO_PKG_BUILD_BIN_DIR)/AdGuardHome $(1)/usr/bin/AdGuardHome/AdGuardHome
-        $(INSTALL_DIR) $(1)/etc
+	$(INSTALL_DIR) $(1)/etc
 	$(CP) -r ./files/etc $(1)/etc
 endef
 

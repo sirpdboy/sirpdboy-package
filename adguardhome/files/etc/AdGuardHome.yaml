@@ -1,15 +1,19 @@
 bind_host: 0.0.0.0
 bind_port: 3000
+beta_bind_port: 0
 users:
 - name: admin
   password: $2y$10$vHRcARdPCieYG3RXWomV5evDYN.Nj/edtwEkQgQJZcK6z7qTLaIc6
+auth_attempts: 5
+block_auth_min: 15
 http_proxy: ""
 language: zh-cn
 rlimit_nofile: 0
 debug_pprof: false
 web_session_ttl: 720
 dns:
-  bind_host: 0.0.0.0
+  bind_hosts:
+  - 0.0.0.0
   port: 5553
   statistics_interval: 1
   querylog_enabled: true
@@ -28,13 +32,9 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   upstream_dns:
-  - tls://1dot1dot1dot1.cloudflare-dns.com
-  - tls://dns.google
-  - tcp://8.8.4.4
   - 223.5.5.5
   - 223.6.6.6
   - 119.29.29.29
-  - 114.114.114.114
   upstream_dns_file: ""
   bootstrap_dns:
   - 119.29.29.29
@@ -70,6 +70,9 @@ dns:
   cache_time: 30
   rewrites: []
   blocked_services: []
+  local_domain_name: lan
+  resolve_clients: true
+  local_ptr_upstreams: []
 tls:
   enabled: false
   server_name: ""
@@ -77,6 +80,8 @@ tls:
   port_https: 443
   port_dns_over_tls: 853
   port_dns_over_quic: 784
+  port_dnscrypt: 0
+  dnscrypt_config_file: ""
   allow_unencrypted_doh: false
   strict_sni_check: false
   certificate_chain: ""
@@ -233,4 +238,4 @@ log_max_size: 100
 log_max_age: 3
 log_file: ""
 verbose: false
-schema_version: 7
+schema_version: 10
