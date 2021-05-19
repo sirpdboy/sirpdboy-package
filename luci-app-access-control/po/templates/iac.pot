@@ -1,0 +1,53 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "Access Control"
+msgstr ""
+
+msgid ""
+"Access Control allows you to manage Internet access for specific local hosts."
+"<br/> Each rule defines a device to block from having Internet access. The "
+"rules may be active permanently or during certain times of the day.<br/> The "
+"rules may also be restricted to specific days of the week.<br/> Any device "
+"that is blocked may obtain a ticket suspending the restriction for a "
+"specified time."
+msgstr ""
+
+msgid "Client Rules"
+msgstr ""
+
+msgid "End time"
+msgstr ""
+
+msgid "General settings"
+msgstr ""
+
+msgid "Internet Access Control"
+msgstr ""
+
+msgid "Issue"
+msgstr ""
+
+msgid "MAC address"
+msgstr ""
+
+msgid "MTWTFSS"
+msgstr ""
+
+msgid "Must be set to enable the internet access blocking"
+msgstr ""
+
+msgid "Start time"
+msgstr ""
+
+msgid "Ticket"
+msgstr ""
+
+msgid "Ticket time [min]"
+msgstr ""
+
+msgid "Time granted when a ticket is issued"
+msgstr ""
+
+msgid "Time value must be HH:MM or empty"
+msgstr ""
