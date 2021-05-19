@@ -5,7 +5,7 @@ local m,s,o,o1
 local fs=require"nixio.fs"
 local uci=require"luci.model.uci".cursor()
 local configpath=uci:get("AdGuardHome","AdGuardHome","configpath") or "/etc/AdGuardHome.yaml"
-local binpath=uci:get("AdGuardHome","AdGuardHome","binpath") or "/usr/bin/AdGuardHome/AdGuardHome"
+local binpath=uci:get("AdGuardHome","AdGuardHome","binpath") or "/usr/bin/AdGuardHome"
 httpport=uci:get("AdGuardHome","AdGuardHome","httpport") or "3000"
 m = Map("AdGuardHome", "AdGuard Home")
 m.description = translate("Free and open source, powerful network-wide ads & trackers blocking DNS server.")
@@ -42,7 +42,7 @@ else
 		if version=="" then version="core error" end
 		uci:set("AdGuardHome","AdGuardHome","version",version)
 		uci:set("AdGuardHome","AdGuardHome","binmtime",testtime)
-		uci:commit("AdGuardHome")
+		uci:save("AdGuardHome")
 	end
 	e=version..e
 end
@@ -65,7 +65,7 @@ o.default     = "none"
 o.optional = true
 ---- bin path
 o = s:option(Value, "binpath", translate("Bin Path"), translate("AdGuardHome Bin path if no bin will auto download"))
-o.default     = "/usr/bin/AdGuardHome/AdGuardHome"
+o.default     = "/usr/bin/AdGuardHome"
 o.datatype    = "string"
 o.optional = false
 o.rmempty=false
@@ -160,13 +160,8 @@ end
 o = s:option(Flag, "verbose", translate("Verbose log"))
 o.default = 0
 o.optional = true
----- gfwlist 
-local a
-if fs.access(configpath) then
-a=luci.sys.call("grep -m 1 -q programadd "..configpath)
-else
-a=1
-end
+---- gfwlist
+local a=luci.sys.call("grep -m 1 -q programadd "..configpath)
 if (a==0) then
 a="Added"
 else
@@ -303,7 +298,7 @@ function m.on_commit(map)
 				uci:set("AdGuardHome","AdGuardHome","ucitracktest","2")
 			end
 		end
-		uci:commit("AdGuardHome")
+		uci:save("AdGuardHome")
 	end
 end
 return m

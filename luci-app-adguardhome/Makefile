@@ -5,7 +5,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-adguardhome
 PKG_VERSION:=1.8
-PKG_RELEASE:=20200910
+PKG_RELEASE:=12
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
@@ -18,18 +18,20 @@ define Package/luci-app-adguardhome
 	TITLE:=LuCI app for adguardhome
 	PKG_MAINTAINER:=<https://github.com/rufengsuixing/luci-app-adguardhome>
 	PKGARCH:=all
-	DEPENDS:=+!wget&&!curl:wget
+	DEPENDS:=+ca-certs +curl +wget-ssl +PACKAGE_$(PKG_NAME)_INCLUDE_binary:adguardhome
 endef
 
 define Package/luci-app-adguardhome/description
 	LuCI support for adguardhome
 endef
 
-define Build/Prepare
+define Package/$(PKG_NAME)/config
+config PACKAGE_$(PKG_NAME)_INCLUDE_binary
+	bool "Include Binary File"
+	default y
 endef
 
-define Build/Compile
-endef
+PKG_CONFIG_DEPENDS:= CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_binary
 
 define Package/luci-app-adguardhome/conffiles
 /usr/share/AdGuardHome/links.txt

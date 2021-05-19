@@ -3,7 +3,10 @@ local fs = require "nixio.fs"
 local http = require "luci.http"
 local uci = require"luci.model.uci".cursor()
 function index()
-    entry({"admin", "services", "AdGuardHome"}, alias("admin", "services", "AdGuardHome", "base"), _("AdGuard Home"), 11).dependent = true
+local page = entry({"admin", "services", "AdGuardHome"},alias("admin", "services", "AdGuardHome", "base"),_("AdGuard Home"))
+page.order = 11
+page.dependent = true
+page.acl_depends = { "luci-app-adguardhome" }
     entry({"admin", "services", "AdGuardHome", "base"}, cbi("AdGuardHome/base"),  _("Base Setting"), 1).leaf = true
     entry({"admin", "services", "AdGuardHome", "log"}, form("AdGuardHome/log"), _("Log"), 2).leaf = true
     entry({"admin", "services", "AdGuardHome", "manual"}, cbi("AdGuardHome/manual"), _("Manual Config"), 3).leaf = true
@@ -18,8 +21,7 @@ end
 function get_template_config()
 	local b
 	local d=""
-	local RESCONF=uci:get_first("dhcp","dnsmasq","resolvfile") or "/tmp/resolv.conf.d/resolv.conf.auto"
-	for cnt in io.lines(RESCONF) do
+	for cnt in io.lines("/tmp/resolv.conf.d/resolv.conf.auto") do
 		b=string.match (cnt,"^[^#]*nameserver%s+([^%s]+)$")
 		if (b~=nil) then
 			d=d.."  - "..b.."\n"
