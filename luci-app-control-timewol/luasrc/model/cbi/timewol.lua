@@ -1,37 +1,66 @@
 local i = require "luci.sys"
 local t, e, o
-t = Map("timewol", translate("定时网络唤醒"),
-        translate("定时唤醒你的局域网设备"))
-t.template = "timewol/index"
-e = t:section(TypedSection, "basic", translate("Running Status"))
+local button = ""
+local state_msg = ""
+local running=(luci.sys.call("cat /etc/crontabs/root |grep etherwake >/dev/null") == 0)
+local button = ""
+local state_msg = ""
+if running then
+        state_msg = "<b><font color=\"green\">" .. translate("正在运行") .. "</font></b>"
+else
+        state_msg = "<b><font color=\"red\">" .. translate("没有运行") .. "</font></b>"
+end
+
+t = Map("timewol", translate("定时网络设备唤醒"), translate("<b>利用“计划任务”来定时唤醒局域网中的设备的工具。时间点设置可参考<input class=\"cbi-button cbi-button-apply\" type=\"submit\" value=\" "..translate("“计划重启”").." \" onclick=\"window.open('http://'+window.location.hostname+'/cgi-bin/luci/admin/system/rebootschedule')\"/>中的说明。</b>") .. button .. "<br/><br/>" .. translate("运行状态").. " : "  .. state_msg .. "<br />")
+
+e = t:section(TypedSection, "basic", translate(""))
 e.anonymous = true
-o = e:option(DummyValue, "timewol_status", translate("当前状态"))
-o.template = "timewol/timewol"
-o.value = translate("Collecting data...")
-e = t:section(TypedSection, "basic", translate("基本设置"))
-e.anonymous = true
-o = e:option(Flag, "enable", translate("开启"))
+o = e:option(Flag, "enabled", translate("功能开关"))
 o.rmempty = false
-e = t:section(TypedSection, "macclient", translate("客户端设置"))
+
+a = e:option(ListValue, "tool", translate("唤醒工具"), translate("有时候可能需要尝试其中某一个工具才能确定正常工作，wakeonlan需要自行安装"))
+a:value("etherwake", "etherwake")
+a:value("wakeonlan", "wakeonlan")
+a.default = "etherwake"
+
+e = t:section(TypedSection, "macclient", translate(""))
 e.template = "cbi/tblsection"
 e.anonymous = true
 e.addremove = true
-nolimit_mac = e:option(Value, "macaddr", translate("客户端MAC"))
+
+a = e:option(Flag, "enable", translate("开启"))
+a.rmempty = false
+a.default = '1'
+
+nolimit_mac = e:option(Value, "macaddr", translate("被唤醒的设备MAC"))
 nolimit_mac.rmempty = false
 i.net.mac_hints(function(e, t) nolimit_mac:value(e, "%s (%s)" % {e, t}) end)
-nolimit_eth = e:option(Value, "maceth", translate("网络接口"))
-nolimit_eth.rmempty = false
-for t, e in ipairs(i.net.devices()) do if e ~= "lo" then nolimit_eth:value(e) end end
-a = e:option(Value, "minute", translate("分钟"))
+
+a = e:option(Value, "maceth", translate("网络接口"))
+a.rmempty = false
+a.default = "br-lan"
+for t, e in ipairs(i.net.devices()) do if e ~= "lo" then a:value(e) end end
+
+a = e:option(Value, "month", translate("月<font color=\"green\">(数值范围1～12)</font>"))
 a.optional = false
-a = e:option(Value, "hour", translate("小时"))
+a.default = '*'
+
+a = e:option(Value, "day", translate("日<font color=\"green\">(数值范围1～31)</font>"))
 a.optional = false
-a = e:option(Value, "day", translate("日"))
+a.default = '*'
+
+a = e:option(Value, "weeks", translate("星期<font color=\"green\">(数值范围0～6)</font>"))
 a.optional = false
-a = e:option(Value, "month", translate("月"))
+a.default = '*'
+
+a = e:option(Value, "hour", translate("时<font color=\"green\">(数值范围0～23)</font>"))
 a.optional = false
-a = e:option(Value, "weeks", translate("星期"))
+a.default = '05'
+
+a = e:option(Value, "minute", translate("分<font color=\"green\">(数值范围0～59)</font>"))
 a.optional = false
-local e = luci.http.formvalue("cbi.apply")
-if e then io.popen("/etc/init.d/timewol restart") end
+a.default = '00'
+
 return t
+
+
