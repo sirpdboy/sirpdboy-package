@@ -1,0 +1,70 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+"Language: cs\n"
+
+msgid "Access Control"
+msgstr "Řízení přístupu"
+
+msgid ""
+"Access Control allows you to manage Internet access for specific local hosts."
+"<br/> Each rule defines a device to block from having Internet access. The "
+"rules may be active permanently or during certain times of the day.<br/> The "
+"rules may also be restricted to specific days of the week.<br/> Any device "
+"that is blocked may obtain a ticket suspending the restriction for a "
+"specified time."
+msgstr ""
+"Řízení přístupu umožňuje spravovat přístup k Internetu pro konkrétní místní "
+"hostitele. <br/> Každé pravidlo definuje zařízení, které má mít blokovaný "
+"přístup k internetu. Pravidla mohou být aktivní trvale nebo v určitých "
+"časech během dne. <br/> Pravidla mohou být také omezena na konkrétní dny v "
+"týdnu. <br/> Každé blokované zařízení může obdržet propustku, která "
+"pozastavuje omezení po určitý čas."
+
+msgid "Client Rules"
+msgstr "Pravidla klientů"
+
+msgid "End time"
+msgstr "Čas ukončení"
+
+msgid "General settings"
+msgstr "Obecná nastavení"
+
+msgid "Internet Access Control"
+msgstr "Řízení přístupu k internetu"
+
+msgid "Issue"
+msgstr "Přidělit"
+
+msgid "MAC address"
+msgstr "MAC adresa"
+
+msgid "MTWTFSS"
+msgstr "PÚSČPSN"
+
+msgid "Must be set to enable the internet access blocking"
+msgstr "Musí být povoleno pro blokování internetu na základě pravidel"
+
+msgid "Start time"
+msgstr "Čas začátku"
+
+msgid "Ticket"
+msgstr "Propustka"
+
+msgid "Ticket time [min]"
+msgstr "Doba propustky [min]"
+
+msgid "Time granted when a ticket is issued"
+msgstr "Čas dočasného povolení internetu po přidělení propustky"
+
+msgid "Time value must be HH:MM or empty"
+msgstr "Časová hodnota musí být ve formátu HH:MM nebo prázdná"

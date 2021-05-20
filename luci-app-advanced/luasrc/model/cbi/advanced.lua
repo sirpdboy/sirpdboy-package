@@ -4,6 +4,29 @@ m=Map("advanced",translate("高级进阶设置"),translate("<font color=\"Red\">
 m.apply_on_parse=true
 s=m:section(TypedSection,"advanced")
 s.anonymous=true
+if nixio.fs.access("/etc/dnsmasq.conf")then
+
+s:tab("dnsmasqconf",translate("dnsmasq"),translate("本页是配置/etc/dnsmasq.conf的文档内容。应用保存后自动重启生效"))
+
+conf=s:taboption("dnsmasqconf",Value,"dnsmasqconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+conf.template="cbi/tvalue"
+conf.rows=20
+conf.wrap="off"
+conf.cfgvalue=function(t,t)
+return e.readfile("/etc/dnsmasq.conf")or""
+end
+conf.write=function(a,a,t)
+if t then
+t=t:gsub("\r\n?","\n")
+e.writefile("/tmp/dnsmasq.conf",t)
+if(luci.sys.call("cmp -s /tmp/dnsmasq.conf /etc/dnsmasq.conf")==1)then
+e.writefile("/etc/dnsmasq.conf",t)
+luci.sys.call("/etc/init.d/dnsmasq restart >/dev/null")
+end
+e.remove("/tmp/dnsmasq.conf")
+end
+end
+end
 if nixio.fs.access("/etc/config/network")then
 s:tab("netwrokconf",translate("网络"),translate("本页是配置/etc/config/network包含网络配置文档内容。应用保存后自动重启生效"))
 conf=s:taboption("netwrokconf",Value,"netwrokconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
@@ -22,6 +45,28 @@ e.writefile("/etc/config/network",t)
 luci.sys.call("/etc/init.d/network restart >/dev/null")
 end
 e.remove("/tmp/network")
+end
+end
+end
+if nixio.fs.access("/etc/hosts")then
+s:tab("hostsconf",translate("hosts"),translate("本页是配置/etc/hosts的文档内容。应用保存后自动重启生效"))
+
+conf=s:taboption("hostsconf",Value,"hostsconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+conf.template="cbi/tvalue"
+conf.rows=20
+conf.wrap="off"
+conf.cfgvalue=function(t,t)
+return e.readfile("/etc/hosts")or""
+end
+conf.write=function(a,a,t)
+if t then
+t=t:gsub("\r\n?","\n")
+e.writefile("/tmp/hosts.tmp",t)
+if(luci.sys.call("cmp -s /tmp/hosts.tmp /etc/hosts")==1)then
+e.writefile("/etc/hosts",t)
+luci.sys.call("/etc/init.d/dnsmasq restart >/dev/null")
+end
+e.remove("/tmp/hosts.tmp")
 end
 end
 end
@@ -195,27 +240,6 @@ end
 end
 end
 
-if nixio.fs.access("/etc/config/ksmbd")then
-s:tab("ksmbdconf",translate("网络共享"),translate("本页是配置/etc/config/ksmbd包含网络共享ksmbd配置文档内容。应用保存后自动重启生效"))
-conf=s:taboption("ksmbdconf",Value,"ksmbdconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
-conf.template="cbi/tvalue"
-conf.rows=20
-conf.wrap="off"
-conf.cfgvalue=function(t,t)
-return e.readfile("/etc/config/ksmbd")or""
-end
-conf.write=function(a,a,t)
-if t then
-t=t:gsub("\r\n?","\n")
-e.writefile("/tmp/ksmbd",t)
-if(luci.sys.call("cmp -s /tmp/ksmbd/etc/config/ksmbd")==1)then
-e.writefile("/etc/config/ksmbd",t)
-luci.sys.call("/etc/init.d/ksmbd restart >/dev/null")
-end
-e.remove("/tmp/ksmbd")
-end
-end
-end
 if nixio.fs.access("/etc/config/smartdns")then
 s:tab("smartdnsconf",translate("SMARTDNS"),translate("本页是配置/etc/config/smartdns包含smartdns配置文档内容。应用保存后自动重启生效"))
 conf=s:taboption("smartdnsconf",Value,"smartdnsconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
@@ -234,6 +258,27 @@ e.writefile("/etc/config/smartdns",t)
 luci.sys.call("/etc/init.d/smartdns restart >/dev/null")
 end
 e.remove("/tmp/smartdns")
+end
+end
+end
+if nixio.fs.access("/etc/config/openclash")then
+s:tab("openclashconf",translate("openclash"),translate("本页是配置/etc/config/openclash的文档内容。应用保存后自动重启生效"))
+conf=s:taboption("openclashconf",Value,"openclashconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+conf.template="cbi/tvalue"
+conf.rows=20
+conf.wrap="off"
+conf.cfgvalue=function(t,t)
+return e.readfile("/etc/config/openclash")or""
+end
+conf.write=function(a,a,t)
+if t then
+t=t:gsub("\r\n?","\n")
+e.writefile("/tmp/openclash",t)
+if(luci.sys.call("cmp -s /tmp/openclash /etc/config/openclash")==1)then
+e.writefile("/etc/config/openclash",t)
+luci.sys.call("/etc/init.d/openclash restart >/dev/null")
+end
+e.remove("/tmp/openclash")
 end
 end
 end

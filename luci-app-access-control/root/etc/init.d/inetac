@@ -1,0 +1,26 @@
+#!/bin/sh /etc/rc.common
+# Copyright 2016 Krzysztof Szuster
+#
+#    This file is part of luci-app-access-control
+#
+START=70
+STOP=15
+PROG=/usr/sbin/inetacd.lua
+
+SERVICE_DAEMONIZE=1
+
+start() {        
+    service_start $PROG
+}                 
+ 
+stop() {          
+#   start-stop-daemon cannot stop whole process group:
+#   service_stop $PROG
+    NAME=${PROG##*/}
+    set -- `pidof $NAME`
+    PID=$1
+    [ -z "$PID" ] && return
+    PGID=`< /proc/$PID/stat sed -n '$s/.*) [^ ]* [^ ]* \([^ ]*\).*/\1/p'`
+    [ -z "$PGID" ] && return
+    kill -KILL -$PGID
+}
