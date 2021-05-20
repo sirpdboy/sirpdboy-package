@@ -6,7 +6,7 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=adguardhome
+PKG_NAME:=AdGuardHome
 PKG_VERSION:=0.106.2
 PKG_RELEASE:=1
 
@@ -19,7 +19,7 @@ PKG_LICENSE:=GPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE.txt
 PKG_MAINTAINER:=Dobroslaw Kijowski <dobo90@gmail.com>
 
-PKG_BUILD_DEPENDS:=golang/host node/host node-yarn/host packr/host
+PKG_BUILD_DEPENDS:=golang/host node/host
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
 
@@ -28,8 +28,8 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_ADGUARDHOME_COMPRESS_UPX
 
 GO_PKG:=github.com/AdguardTeam/AdGuardHome
-GO_PKG_BUILD_PKG:=github.com/AdguardTeam/AdGuardHome
-
+GO_PKG_EXCLUDES:=dhcpd/standalone
+GO_PKG_LDFLAGS:=-s -w
 AGH_BUILD_TIME:=$(shell date -d @$(SOURCE_DATE_EPOCH) +%FT%TZ%z)
 AGH_VERSION_PKG:=github.com/AdguardTeam/AdGuardHome/internal/version
 GO_PKG_LDFLAGS_X:=$(AGH_VERSION_PKG).channel=release \
@@ -39,9 +39,9 @@ GO_PKG_LDFLAGS_X:=$(AGH_VERSION_PKG).channel=release \
 	$(AGH_VERSION_PKG).gomips=$(GO_MIPS)
 
 include $(INCLUDE_DIR)/package.mk
-include ../../lang/golang/golang-package.mk
+include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk
 
-define Package/adguardhome
+define Package/AdGuardHome
 	SECTION:=net
 	CATEGORY:=Network
 	TITLE:=Network-wide ads and trackers blocking DNS server
@@ -49,7 +49,7 @@ define Package/adguardhome
 	DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle
 endef
 
-define Package/adguardhome/conffiles
+define Package/AdGuardHome/conffiles
 /etc/adguardhome.yaml
 endef
 
