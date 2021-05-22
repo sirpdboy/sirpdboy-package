@@ -23,14 +23,6 @@ up_cron() {
 	/etc/init.d/cron restart
 }
 
-
-init_config()
-{
-
-        sed -i '/rebootschedule/d' /etc/crontabs/root 2>/dev/null
-
-}
-
 del_cron() {
 	sed -i '/rebootschedule/d' /etc/crontabs/root 2>/dev/nul
 }
@@ -38,7 +30,7 @@ del_cron() {
 
 start()
 {       
-        init_config
+        del_cron
 	if [ ! -e /etc/config/rebootschedule ]; then
 	    logger -p daemon.error -t 'rebootschedule' "missing config /etc/config/rebootschedule!"
 	exit 1
