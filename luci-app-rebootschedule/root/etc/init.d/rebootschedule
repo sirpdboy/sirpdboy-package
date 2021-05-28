@@ -4,25 +4,6 @@
 
 START=55
 
-add_cron() {
-                config_get_bool enable $1 enable
-		config_get month $1 month
-		config_get day $1 day
-		config_get week $1 week
-		config_get hour $1 hour
-		config_get minute $1 minute
-		config_get_sane command "$1" command
-		
-		
-		[ "$month" -eq 0 ] && month="*"
-		[ "$day" -eq 0 ] && hour="*"
-		[ "$week" -eq 7 ] && week="*"
-		[ "$hour" -eq 0 ] && hour="00"
-		[ "$minute" -eq 0 ] && minute="00"
-		[ "$command" -eq 0 ] &&  command="echo "Reboot schedule tested.""
-	        
-		[ "$enable" -eq "1" ]  echo "$minute $hour $day $month $week $command #rebootschedule" >>/etc/crontabs/root
-}
 
 up_cron() {
 	
@@ -42,16 +23,6 @@ up_cron() {
 	/etc/init.d/cron restart
 }
 
-
-init_config()
-{
-
-        sed -i '/rebootschedule/d' /etc/crontabs/root 2>/dev/null
-	config_load rebootschedule
-	config_foreach add_cron crontab
-
-}
-
 del_cron() {
 	sed -i '/rebootschedule/d' /etc/crontabs/root 2>/dev/nul
 }
@@ -59,7 +30,7 @@ del_cron() {
 
 start()
 {       
-        init_config
+        del_cron
 	if [ ! -e /etc/config/rebootschedule ]; then
 	    logger -p daemon.error -t 'rebootschedule' "missing config /etc/config/rebootschedule!"
 	exit 1
