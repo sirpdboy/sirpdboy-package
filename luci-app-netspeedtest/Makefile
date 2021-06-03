@@ -19,14 +19,11 @@ define Package/$(PKG_NAME)
 	CATEGORY:=LuCI
 	SUBMENU:=3. Applications
 	TITLE:=LuCI Support for netspeedtest
-  DEPENDS:=+python3 +iperf3
-  DESCRIPTION:=LuCI support Network speed test intranet and Extranet
-  PKGARCH:=all
+	DEPENDS:=+python3 +iperf3
+	DESCRIPTION:=LuCI support Network speed test intranet and Extranet
+	PKGARCH:=all
 endef
 
-define Package/$(PKG_NAME)/description
-	Luci Support for netspeedtest.
-endef
 
 define Build/Compile
 endef
