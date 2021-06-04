@@ -6,7 +6,14 @@
 
 <%+header%>
 <div class="cbi-map">
-        <h2 name="content"><%=translate("实时监控")%></h2>
+    <h2 name="content"><%=translate("NetData")%></h2>  
+<script type="text/javascript">//<![CDATA[
+		function upnetdata(button) {
+
+		(new XHR()).post('<%=controller%>/admin/status/netdata/call', { token: '<%=token%>' }, check);
+	}
+//]]></script>
+
         <iframe id="netdata" style="width: 100%; min-height: 1200px; border: none; border-radius: 3px;"></iframe>
 </div>
 <script type="text/javascript">
