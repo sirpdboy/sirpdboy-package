@@ -6,31 +6,11 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=luci-app-netdata
-PKG_VERSION:=1.1
-PKG_RELEASE:=20210603
-PKG_MAINTAINER:=sirpdboy
-
-include $(INCLUDE_DIR)/package.mk
-define Package/$(PKG_NAME)
-	SECTION:=luci
-	CATEGORY:=LuCI
-	SUBMENU:=3. Applications
-	TITLE:=LuCI support for Netdata
-	DEPENDS:=+netdata
-	DESCRIPTION:=LuCI support Network speed test intranet and Extranet
-	PKGARCH:=all
-endef
-define Build/Compile
-endef
-
-
-define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
-	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
-	$(INSTALL_DIR) $(1)/usr/share/netdata/web
-	cp -pR ./web $(1)/usr/share/netdata/web
-endef
+LUCI_TITLE:=LuCI support for Netdata
+LUCI_DEPENDS:=+netdata
+LUCI_PKGARCH:=all
+PKG_VERSION:=1.0
+PKG_RELEASE:=4
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
