@@ -2,7 +2,7 @@ msgid "Control"
 msgstr "管控"
 
 msgid "Internet Time Control"
-msgstr "上网时间控制"
+msgstr "时间控制"
 
 msgid "Client Settings"
 msgstr "客户端设置"
