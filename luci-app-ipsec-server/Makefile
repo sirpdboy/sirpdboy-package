@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=LuCI support for IPSec VPN Server
-LUCI_DEPENDS:=+strongswan +strongswan-default +strongswan-mod-xauth-generic +strongswan-mod-eap-mschapv2 +strongswan-mod-dhcp +strongswan-mod-farp
+LUCI_DEPENDS:=+strongswan +strongswan-minimal +strongswan-mod-xauth-generic
 LUCI_PKGARCH:=all
 PKG_VERSION:=1
 PKG_RELEASE:=8-20200513
