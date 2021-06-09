@@ -15,21 +15,6 @@ PKG_RELEASE:=6
 define Build/Compile
 endef
 
-define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
-	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
-	$(INSTALL_DIR) $(1)/
-	cp -pR ./root/* $(1)/
-endef
-
-define Package/$(PKG_NAME)/postinst
-	rm $(1)/usr/share/netdata/web/dashboard.js
-	rm $(1)/usr/share/netdata/web/dashboard_info.js
-	rm $(1)/usr/share/netdata/web/index.html
-	rm $(1)/usr/share/netdata/web/main.js
-	$(CP) ./files/web $(1)/usr/share/netdata/web
-endef
-
 include $(TOPDIR)/feeds/luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature

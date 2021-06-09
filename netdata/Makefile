@@ -96,10 +96,6 @@ endef
 
 
 define Package/netdata/postinst
-	rm $(1)/usr/share/netdata/web/dashboard.js
-	rm $(1)/usr/share/netdata/web/dashboard_info.js
-	rm $(1)/usr/share/netdata/web/index.html
-	rm $(1)/usr/share/netdata/web/main.js
 	$(CP) ./files/web $(1)/usr/share/netdata/web
 endef
 
