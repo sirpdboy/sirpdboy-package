@@ -90,9 +90,18 @@ define Package/netdata/install
 	rm $(1)/usr/share/netdata/web/images/*.gif
 	rm $(1)/usr/share/netdata/web/images/*.ico
 	rm -rf $(1)/usr/share/netdata/web/old
-	$(CP) ./files/web $(1)/usr/share/netdata/web
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/netdata.init $(1)/etc/init.d/netdata
 endef
+
+
+define Package/netdata/postinst
+	rm $(1)/usr/share/netdata/web/dashboard.js
+	rm $(1)/usr/share/netdata/web/dashboard_info.js
+	rm $(1)/usr/share/netdata/web/index.html
+	rm $(1)/usr/share/netdata/web/main.js
+	$(CP) ./files/web $(1)/usr/share/netdata/web
+endef
+
 
 $(eval $(call BuildPackage,netdata))
