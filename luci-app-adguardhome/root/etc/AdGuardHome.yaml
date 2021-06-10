@@ -90,16 +90,16 @@ tls:
   private_key_path: ""
 filters:
 - enabled: true
-  url: https://adaway.org/hosts.txt
-  name: Adaway HOST
-  id: 139789111
-- enabled: true
-  url: https://raw.githubusercontent.com/neodevpro/neodevhost/master/adblocker
-  name: NEO DEV HOST
+  url: http://sub.adtchrome.com/adt-chinalist-easylist.txt
+  name: 广告终结者使用的拦截规则，基于ChinaList+EasyList修正维护
+  id: 139789181
+- enabled: false
+  url: https://easylist-downloads.adblockplus.org/easylist.txt
+  name: EasyList-去除国际网页中大多数广告，包括不需要的框架、图像和对象
   id: 139789112
-- enabled: true
-  url: https://banbendalao.coding.net/p/adgk/d/ADgk/git/raw/master/ADgk.txt
-  name: adgk手机去广告规则
+- enabled: false
+  url: https://easylist-downloads.adblockplus.org/easylistchina.txt
+  name: EasyList China-EasyList针对国内的补充规则
   id: 139789121
 - enabled: true
   url: https://cdn.jsdelivr.net/gh/privacy-protection-tools/anti-AD@master/anti-ad-easylist.txt
@@ -113,15 +113,15 @@ filters:
   url: https://easylist.to/easylist/easyprivacy.txt
   name: EasyPrivacy隐私相关
   id: 139789132
-- enabled: true
+- enabled: false
   url: https://www.i-dont-care-about-cookies.eu/abp/
   name: I don't care about cookies隐私相关
   id: 139789133
 - enabled: true
-  url: https://gitee.com/cjx82630/cjxlist/raw/master/cjx-ublock.txt
-  name: CJX's uBlock list隐私相关
+  url: https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/all.txt
+  name: 百万ADH广告拦截过滤规则
   id: 139789141
-- enabled: false
+- enabled: true
   url: https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Hosts/GoodbyeAds-Ultra.txt
   name: GoodbyeAds 大全去广告
   id: 139789142
@@ -190,10 +190,6 @@ filters:
   name: Fanboy's problematic-sites
   id: 139789175
 - enabled: false
-  url: http://sub.adtchrome.com/adt-chinalist-easylist.txt
-  name: ChinaList+EasyList(修正)
-  id: 139789181
-- enabled: false
   url: https://raw.githubusercontent.com/adbyby/xwhyc-rules/master/lazy.txt
   name: Adbyby Lazy Rule
   id: 139789182
@@ -205,15 +201,62 @@ filters:
   url: https://gitlab.com/xuhaiyang1234/AAK-Cont/raw/master/FINAL_BUILD/aak-cont-list-notubo.txt
   name: aak-cont-list-notubo
   id: 139789184
+- enabled: false
+  url: https://adaway.org/hosts.txt
+  name: Adaway HOST
+  id: 139789187
 whitelist_filters: []
 user_rules:
 - '@@||taobao.com^$important'
+- '@@||tmall.com^$important'
 - '@@||jd.com^important'
 - '@@||flyme.cn^$important'
 - '@@||meizu.com^$important'
-- '@@||wl.jd.com^$important'
 - '@@||flydigi.com^'
 - '@@||pv.sohu.com^$important'
+- /googleads.$~script,domain=~googleads.github.io
+- /pagead/lvz?
+- '||google.com/pagead/'
+- '||static.doubleclick.net^$domain=youtube.com'
+- '||youtube.com/get_midroll_'
+- '||5hz.org^'
+- '@@||000714.xyz^'
+- '@@||blueskyxn.com^'
+- '||topnewsfeeds.net^'
+- '||nbryb.com^'
+- '||superbdolly.com^'
+- '||salutationcheerlessdemote.com^'
+- '||buildingdoodlesquare.com^'
+- '||colonistnobilityheroic.com^'
+- '@@||analytics.google.com^'
+- '@@||analytics.twitter.com^'
+- '@@||azure.com^'
+- '@@||microsoft.com^'
+- '@@||gstatic.com^'
+- '@@||windows.com^'
+- '@@||live.com^'
+- '@@||google-analytics.com^'
+- '@@||maccms.com^'
+- '@@||gvt2.com^'
+- '@@||googleapis.com^'
+- '@@||www.paypalobjects.com^'
+- '@@||paypal.com^'
+- '@@||amazon.com^'
+- '@@||ad.jp^'
+- '@@||tagtic.cn^'
+- '@@||knet.cn^'
+- '@@||anquan.org^'
+- '@@||hanada.info^'
+- '@@||moonbbs.com^'
+- '@@||weiming.info^'
+- '@@||disqus.com^'
+- '@@||referrer.disqus.com^'
+- '@@||go.rakuten.com^'
+- '@@||fvs.io^'
+- '@@||ssl.p.jwpcdn.com'
+- '@@||c3pool.com^'
+- '@@||bankcomm.com^'
+- '@@||cmbchina.com^'
 dhcp:
   enabled: false
   interface_name: ""
