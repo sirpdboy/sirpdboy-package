@@ -18,7 +18,7 @@ function byte_format(byte)
   end
 end
 
-local map_dockerman = Map("dockerman", translate("Docker"))
+local m = Map("dockerd", translate("Docker"), translate("DockerMan is a Simple Docker manager client for LuCI, If you have any issue please visit:") .. " ".. [[<a href="https://github.com/lisaac/luci-app-dockerman" target="_blank">]] ..translate("Github") .. [[</a>]])
 local docker_info_table = {}
 -- docker_info_table['0OperatingSystem'] = {_key=translate("Operating System"),_value='-'}
 -- docker_info_table['1Architecture'] = {_key=translate("Architecture"),_value='-'}
@@ -31,10 +31,10 @@ docker_info_table['7DockerRootDir'] = {_key=translate("Docker Root Dir"),_value=
 docker_info_table['8IndexServerAddress'] = {_key=translate("Index Server Address"),_value='-'}
 docker_info_table['9RegistryMirrors'] = {_key=translate("Registry Mirrors"),_value='-'}
 
-local s = map_dockerman:section(Table, docker_info_table)
+local s = m:section(Table, docker_info_table)
 s:option(DummyValue, "_key", translate("Info"))
 s:option(DummyValue, "_value")
-s = map_dockerman:section(SimpleSection)
+s = m:section(SimpleSection)
 s.containers_running = '-'
 s.images_used = '-'
 s.containers_total = '-'
@@ -42,7 +42,7 @@ s.images_total = '-'
 s.networks_total = '-'
 s.volumes_total = '-'
 local containers_list
--- local socket = luci.model.uci.cursor():get("dockerman", "local", "socket_path")
+-- local socket = luci.model.uci.cursor():get("dockerd", "dockerman", "socket_path")
 if (require "luci.model.docker").new():_ping().code == 200 then
   local dk = docker.new()
   containers_list = dk.containers:list({query = {all=true}}).body
@@ -86,7 +86,7 @@ if (require "luci.model.docker").new():_ping().code == 200 then
 end
 s.template = "dockerman/overview"
 
-local section_dockerman = map_dockerman:section(NamedSection, "local", "section", translate("Setting"))
+local section_dockerman = m:section(NamedSection, "dockerman", "section", translate("Setting"))
 section_dockerman:tab("daemon", translate("Docker Daemon"))
 section_dockerman:tab("ac", translate("Access Control"))
 section_dockerman:tab("dockerman",  translate("DockerMan"))
@@ -132,9 +132,9 @@ if nixio.fs.access("/usr/bin/dockerd") then
     end
   end
 
-  local dockerd_enable = section_dockerman:taboption("daemon", Flag, "daemon_ea", translate("Enable"))
-  dockerd_enable.enabled = "true"
-  dockerd_enable.rmempty = true
+  -- local dockerd_enable = section_dockerman:taboption("daemon", Flag, "daemon_ea", translate("Enable"))
+  -- dockerd_enable.enabled = "true"
+  -- dockerd_enable.rmempty = true
   local data_root = section_dockerman:taboption("daemon", Value, "daemon_data_root", translate("Docker Root Dir"))
   data_root.placeholder = "/opt/docker/"
   local registry_mirrors = section_dockerman:taboption("daemon", DynamicList, "daemon_registry_mirrors", translate("Registry Mirrors"))
@@ -151,4 +151,36 @@ if nixio.fs.access("/usr/bin/dockerd") then
   hosts:value("tcp://0.0.0.0:2375", "tcp://0.0.0.0:2375")
   hosts.rmempty = true
 end
-return map_dockerman
+
+local daemon_changes = false
+
+m.on_before_save = function(self)
+  -- daemon {"dockerd":{"dockerman":{"daemon_registry_mirrors":""}}}
+  local m_changes = m.uci:changes("dockerd")
+  if not m_changes or not m_changes.dockerd or not m_changes.dockerd.dockerman then return end
+
+  if m_changes.dockerd.dockerman.daemon_hosts then
+    m.uci:set("dockerd", "globals", "hosts", m_changes.dockerd.dockerman.daemon_hosts)
+    daemon_changes = true
+  end
+  if m_changes.dockerd.dockerman.daemon_registry_mirrors then
+    m.uci:set("dockerd", "globals", "registry_mirrors", m_changes.dockerd.dockerman.daemon_registry_mirrors)
+    daemon_changes = true
+  end
+  if m_changes.dockerd.dockerman.daemon_data_root then
+    m.uci:set("dockerd", "globals", "data_root", m_changes.dockerd.dockerman.daemon_data_root)
+    daemon_changes = true
+  end
+  if m_changes.dockerd.dockerman.daemon_log_level then
+    m.uci:set("dockerd", "globals", "log_level", m_changes.dockerd.dockerman.daemon_log_level)
+    daemon_changes = true
+  end
+end
+
+m.on_after_commit = function(self)
+  if daemon_changes then
+    luci.util.exec("/etc/init.d/dockerd restart")
+  end
+  luci.util.exec("/etc/init.d/dockerman start")
+end
+return m

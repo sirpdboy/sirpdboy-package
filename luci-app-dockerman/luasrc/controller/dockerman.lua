@@ -16,13 +16,13 @@ function index()
 
   entry({"admin","services","docker","overview"},cbi("dockerman/overview"),_("Overview"),0).leaf=true
 
-  local remote = luci.model.uci.cursor():get("dockerman", "local", "remote_endpoint")
+  local remote = luci.model.uci.cursor():get("dockerd", "dockerman", "remote_endpoint")
   if remote ==  nil then
-    local socket = luci.model.uci.cursor():get("dockerman", "local", "socket_path")
+    local socket = luci.model.uci.cursor():get("dockerd", "dockerman", "socket_path")
     if socket and not nixio.fs.access(socket) then return end
   elseif remote == "true" then
-    local host = luci.model.uci.cursor():get("dockerman", "local", "remote_host")
-    local port = luci.model.uci.cursor():get("dockerman", "local", "remote_port")
+    local host = luci.model.uci.cursor():get("dockerd", "dockerman", "remote_host")
+    local port = luci.model.uci.cursor():get("dockerd", "dockerman", "remote_port")
     if not host or not port then return end
   end
 
@@ -85,8 +85,10 @@ local get_memory = function(d)
   -- local limit = string.format("%.2f", tonumber(d["memory_stats"]["limit"]) / 1024 / 1024)
   -- local usage = string.format("%.2f", (tonumber(d["memory_stats"]["usage"]) - tonumber(d["memory_stats"]["stats"]["total_cache"])) / 1024 / 1024)
   -- return usage .. "MB / " .. limit.. "MB" 
+  -- luci.util.perror(luci.jsonc.stringify(d))
   local limit =tonumber(d["memory_stats"]["limit"])
-  local usage = tonumber(d["memory_stats"]["usage"]) - tonumber(d["memory_stats"]["stats"]["total_cache"])
+  local usage = tonumber(d["memory_stats"]["usage"])
+  -- - tonumber(d["memory_stats"]["stats"]["total_cache"])
   return usage, limit
 end
 
@@ -275,39 +277,39 @@ function load_images()
   luci.http.write_json({message = msg})
 end
 
--- function import_images()
---   local src = luci.http.formvalue("src")
---   local itag = luci.http.formvalue("tag")
---   local dk = docker.new()
---   local ltn12 = require "luci.ltn12"
---   local rec_send = function(sinkout)
---     luci.http.setfilehandler(function (meta, chunk, eof)
---       if chunk then
---         ltn12.pump.step(ltn12.source.string(chunk), sinkout)
---       end
---     end)
---   end
---   docker:write_status("Images: importing".. " ".. itag .."...\n")
---   local repo = itag and itag:match("^([^:]+)")
---   local tag = itag and itag:match("^[^:]-:([^:]+)")
---   local res = dk.images:create({query = {fromSrc = src or "-", repo = repo or nil, tag = tag or nil }, body = not src and rec_send or nil}, docker.import_image_show_status_cb)
---   local msg = res and res.body and ( res.body.message )or nil
---   if not msg and #res.body == 0 then
---     -- res.body = {"status":"sha256:d5304b58e2d8cc0a2fd640c05cec1bd4d1229a604ac0dd2909f13b2b47a29285"}
---     msg = res.body.status or res.body.error
---   elseif not msg and #res.body >= 1 then
---     -- res.body = [...{"status":"sha256:d5304b58e2d8cc0a2fd640c05cec1bd4d1229a604ac0dd2909f13b2b47a29285"}]
---     msg = res.body[#res.body].status or res.body[#res.body].error
---   end
---   if res.code == 200 and msg and msg:match("sha256:") then
---     docker:clear_status()
---   else
---     docker:append_status("code:" .. res.code.." ".. msg)
---   end
---   luci.http.status(res.code, msg)
---   luci.http.prepare_content("application/json")
---   luci.http.write_json({message = msg})
--- end
+function import_images()
+  local src = luci.http.formvalue("src")
+  local itag = luci.http.formvalue("tag")
+  local dk = docker.new()
+  local ltn12 = require "luci.ltn12"
+  local rec_send = function(sinkout)
+    luci.http.setfilehandler(function (meta, chunk, eof)
+      if chunk then
+        ltn12.pump.step(ltn12.source.string(chunk), sinkout)
+      end
+    end)
+  end
+  docker:write_status("Images: importing".. " ".. itag .."...\n")
+  local repo = itag and itag:match("^([^:]+)")
+  local tag = itag and itag:match("^[^:]-:([^:]+)")
+  local res = dk.images:create({query = {fromSrc = src or "-", repo = repo or nil, tag = tag or nil }, body = not src and rec_send or nil}, docker.import_image_show_status_cb)
+  local msg = res and res.body and ( res.body.message )or nil
+  if not msg and #res.body == 0 then
+    -- res.body = {"status":"sha256:d5304b58e2d8cc0a2fd640c05cec1bd4d1229a604ac0dd2909f13b2b47a29285"}
+    msg = res.body.status or res.body.error
+  elseif not msg and #res.body >= 1 then
+    -- res.body = [...{"status":"sha256:d5304b58e2d8cc0a2fd640c05cec1bd4d1229a604ac0dd2909f13b2b47a29285"}]
+    msg = res.body[#res.body].status or res.body[#res.body].error
+  end
+  if res.code == 200 and msg and msg:match("sha256:") then
+    docker:clear_status()
+  else
+    docker:append_status("code:" .. res.code.." ".. msg)
+  end
+  luci.http.status(res.code, msg)
+  luci.http.prepare_content("application/json")
+  luci.http.write_json({message = msg})
+end
 
 function get_image_tags(image_id)
   if not image_id then 

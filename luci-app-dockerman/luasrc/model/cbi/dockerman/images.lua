@@ -59,7 +59,7 @@ local pull_section = m:section(SimpleSection, translate("Pull Image"))
 pull_section.template="cbi/nullsection"
 local tag_name = pull_section:option(Value, "_image_tag_name")
 tag_name.template = "dockerman/cbi/inlinevalue"
-tag_name.placeholder="hello-world:latest"
+tag_name.placeholder="lisaac/luci:latest"
 local action_pull = pull_section:option(Button, "_pull")
 action_pull.inputtitle= translate("Pull")
 action_pull.template = "dockerman/cbi/inlinebutton"
@@ -90,9 +90,9 @@ action_pull.write = function(self, section)
   luci.http.redirect(luci.dispatcher.build_url("admin/services/docker/images"))
 end
 
--- local import_section = m:section(SimpleSection, translate("Import Images"))
--- local im = import_section:option(DummyValue, "_image_import")
--- im.template = "dockerman/images_import"
+local import_section = m:section(SimpleSection, translate("Import Images"))
+local im = import_section:option(DummyValue, "_image_import")
+im.template = "dockerman/images_import"
 
 local image_table = m:section(Table, image_list, translate("Images"))
 
