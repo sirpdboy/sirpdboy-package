@@ -1,0 +1,7 @@
+{
+    "data-root": "/opt/docker/",
+    "log-level": "warn",
+	"log-driver": "json-file",
+	"log-opts": {"max-size":"5m", "max-file":"2"},
+	"dns" : ["172.17.0.1","114.114.114.114"]
+}
