@@ -222,22 +222,22 @@ end
 
 _docker.new = function(option)
   local option = option or {}
-  local remote = uci:get("dockerman", "local", "remote_endpoint")
+  local remote = uci:get("dockerd", "dockerman", "remote_endpoint")
   options = {
-    host = (remote == "true") and (option.host or uci:get("dockerman", "local", "remote_host")) or nil,
-    port = (remote == "true") and (option.port or uci:get("dockerman", "local", "remote_port")) or nil,
-    debug = option.debug or uci:get("dockerman", "local", "debug") == 'true' and true or false,
-    debug_path = option.debug_path or uci:get("dockerman", "local", "debug_path")
+    host = (remote == "true") and (option.host or uci:get("dockerd", "dockerman", "remote_host")) or nil,
+    port = (remote == "true") and (option.port or uci:get("dockerd", "dockerman", "remote_port")) or nil,
+    debug = option.debug or uci:get("dockerd", "dockerman", "debug") == 'true' and true or false,
+    debug_path = option.debug_path or uci:get("dockerd", "dockerman", "debug_path")
   }
-  options.socket_path = (remote ~= "true" or not options.host or not options.port) and (option.socket_path or uci:get("dockerman", "local", "socket_path") or "/var/run/docker.sock") or nil
+  options.socket_path = (remote ~= "true" or not options.host or not options.port) and (option.socket_path or uci:get("dockerd", "dockerman", "socket_path") or "/var/run/docker.sock") or nil
   local _new = docker.new(options)
-  _new.options.status_path = uci:get("dockerman", "local", "status_path")
+  _new.options.status_path = uci:get("dockerd", "dockerman", "status_path")
   _new.containers_upgrade = upgrade
   _new.containers_duplicate_config = duplicate_config
   return _new
 end
 _docker.options={}
-_docker.options.status_path = uci:get("dockerman", "local", "status_path")
+_docker.options.status_path = uci:get("dockerd", "dockerman", "status_path")
 
 _docker.append_status=function(self,val)
   if not val then return end
@@ -303,23 +303,23 @@ end
 --{"status":"Downloading from https://downloads.openwrt.org/releases/19.07.0/targets/x86/64/openwrt-19.07.0-x86-64-generic-rootfs.tar.gz"}
 --{"status":"Importing","progressDetail":{"current":1572391,"total":3821714},"progress":"[====================\u003e                              ]  1.572MB/3.822MB"}
 --{"status":"sha256:d5304b58e2d8cc0a2fd640c05cec1bd4d1229a604ac0dd2909f13b2b47a29285"}
--- _docker.import_image_show_status_cb = function(res, source)
---   return status_cb(res, source, function(chunk)
---     local json_parse = luci.jsonc.parse
---     local step = json_parse(chunk)
---     if type(step) == "table" then
---       local buf = _docker:read_status()
---       local num = 0
---       local str = '\t' .. (step.status and step.status or "") .. (step.progress and (" " .. step.progress) or "").."\n"
---       if step.status then buf, num = buf:gsub("\t"..step.status .. " .-\n", str) end
---       if num == 0 then
---         buf = buf .. str
---       end
---       _docker:write_status(buf)
---     end
---   end
---   )
--- end
+_docker.import_image_show_status_cb = function(res, source)
+  return status_cb(res, source, function(chunk)
+    local json_parse = luci.jsonc.parse
+    local step = json_parse(chunk)
+    if type(step) == "table" then
+      local buf = _docker:read_status()
+      local num = 0
+      local str = '\t' .. (step.status and step.status or "") .. (step.progress and (" " .. step.progress) or "").."\n"
+      if step.status then buf, num = buf:gsub("\t"..step.status .. " .-\n", str) end
+      if num == 0 then
+        buf = buf .. str
+      end
+      _docker:write_status(buf)
+    end
+  end
+  )
+end
 
 -- _docker.print_status_cb = function(res, source)
 --   return status_cb(res, source, function(step)
@@ -330,7 +330,7 @@ end
 
 _docker.create_macvlan_interface = function(name, device, gateway, subnet)
   if not nixio.fs.access("/etc/config/network") or not nixio.fs.access("/etc/config/firewall") then return end
-  if uci:get("dockerman", "local", "remote_endpoint") == "true" then return end
+  if uci:get("dockerd", "dockerman", "remote_endpoint") == "true" then return end
   local ip = require "luci.ip"
   local if_name = "docker_"..name
   local dev_name = "macvlan_"..name
@@ -371,7 +371,7 @@ end
 
 _docker.remove_macvlan_interface = function(name)
   if not nixio.fs.access("/etc/config/network") or not nixio.fs.access("/etc/config/firewall") then return end
-  if uci:get("dockerman", "local", "remote_endpoint") == "true" then return end
+  if uci:get("dockerd", "dockerman", "remote_endpoint") == "true" then return end
   local if_name = "docker_"..name
   local dev_name = "macvlan_"..name
   uci:foreach("firewall", "zone", function(s)
