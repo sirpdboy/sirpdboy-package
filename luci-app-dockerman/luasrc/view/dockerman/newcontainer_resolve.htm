@@ -10,17 +10,17 @@
     z-index: 20000;
   }
 
-  #dialog_reslov .dialog_box {
-    position: relative;
-    background: rgba(7,34,62,.4);
-    top: 10%;
-    width: 50%;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    height:auto;
-    align-items: center;
-  }
+	#dialog_reslov .dialog_box {
+		position: relative;
+		background: rgba(255, 255, 255);
+		top: 10%;
+		width: 50%;
+		margin: auto;
+		display: flex;
+		flex-wrap: wrap;
+		height:auto;
+		align-items: center;
+	}
 
   #dialog_reslov .dialog_line {
     margin-top: .5em;
@@ -81,15 +81,16 @@
     s.innerHTML = ""
   }
 
-  function show_reslov_dialog() {
-    document.getElementById('dialog_reslov') || document.body.insertAdjacentHTML("beforeend", '<div id="dialog_reslov"><div class="dialog_box"><div class="dialog_line"></div><div class="dialog_line"><span><%:Plese input <docker create/run> command line:%></span><br><span id="cmd-line-status"></span></div><div class="dialog_line"><textarea class="cbi-input-textarea" id="dialog_reslov_text" style="width: 100%; height:100%;" rows="15" onkeyup="clear_text()"></textarea></div><div class="dialog_line" style="text-align: right;"><input type="button" class="cbi-button cbi-button-apply" type="submit" value="<%:Submit%>" onclick="reslov_container()" /> <input type="button" class="cbi-button cbi-button-reset" type="reset" value="<%:Cancel%>" onclick="close_reslov_dialog()" /></div><div class="dialog_line"></div></div></div>')
-    document.body.classList.add('dialog-reslov-active')
-    let s = document.getElementById('cmd-line-status')
-    s.innerHTML = ""
-    document.documentElement.style.overflowY = 'hidden'
-  }
+	function show_reslov_dialog() {
+		document.getElementById('dialog_reslov') || document.body.insertAdjacentHTML("beforeend", '<div id="dialog_reslov"><div class="dialog_box"><div class="dialog_line"></div><div class="dialog_line"><span><%:Plese input <docker create/run> command line:%></span><br><span id="cmd-line-status"></span></div><div class="dialog_line"><textarea class="cbi-input-textarea" id="dialog_reslov_text" style="width: 100%; height:100%;" rows="15" onkeyup="clear_text()"></textarea></div><div class="dialog_line" style="text-align: right;"><input type="button" class="btn cbi-button cbi-button-apply" type="submit" value="<%:Submit%>" onclick="reslov_container()" /> <input type="button" class="btn cbi-button cbi-button-reset" type="reset" value="<%:Cancel%>" onclick="close_reslov_dialog()" /></div><div class="dialog_line"></div></div></div>')
+		document.body.classList.add('dialog-reslov-active')
+		let s = document.getElementById('cmd-line-status')
+		s.innerHTML = ""
+		document.documentElement.style.overflowY = 'hidden'
+	}
 </script>
 <%+cbi/valueheader%>
-<input type="button" class="cbi-button cbi-button-apply" value="<%:Command line%>" onclick="show_reslov_dialog()" />
+
+<input type="button" class="btn cbi-button cbi-button-apply" value="<%:Command line%>" onclick="show_reslov_dialog()" />
 
 <%+cbi/valuefooter%>

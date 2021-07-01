@@ -42,12 +42,12 @@
   }
 </style>
 <script type="text/javascript">//<![CDATA[
-    var xhr = new XHR(),
-      uci_apply_rollback = <%=math.max(luci.config and luci.config.apply and luci.config.apply.rollback or 30, 30)%>,
-      uci_apply_holdoff = <%=math.max(luci.config and luci.config.apply and luci.config.apply.holdoff or 4, 1)%>,
-      uci_apply_timeout = <%=math.max(luci.config and luci.config.apply and luci.config.apply.timeout or 5, 1)%>,
-      uci_apply_display = <%=math.max(luci.config and luci.config.apply and luci.config.apply.display or 1.5, 1)%>,
-      was_xhr_poll_running = false;
+	var xhr = new XHR(),
+	uci_apply_rollback = <%=math.max(luci.config and luci.config.apply and luci.config.apply.rollback or 90, 90)%>,
+	uci_apply_holdoff = <%=math.max(luci.config and luci.config.apply and luci.config.apply.holdoff or 4, 1)%>,
+	uci_apply_timeout = <%=math.max(luci.config and luci.config.apply and luci.config.apply.timeout or 5, 1)%>,
+	uci_apply_display = <%=math.max(luci.config and luci.config.apply and luci.config.apply.display or 1.5, 1)%>,
+	was_xhr_poll_running = false;
 
 function docker_status_message(type, content) {
   document.getElementById('docker_apply_overlay') || document.body.insertAdjacentHTML("beforeend",'<div id="docker_apply_overlay"><div class="alert-message"></div></div>')
@@ -130,11 +130,15 @@ function fnSubmitForm(el){
   })
 <%- end %>
 
-window.onload= function (){
-var buttons = document.querySelectorAll('input[type="submit"]');
-[].slice.call(buttons).forEach(function (el) {
-  el.onclick = fnSubmitForm.bind(this, el);
-});
-}
+	window.onload= function (){
+		var buttons = document.querySelectorAll('input[type="submit"]');
+		[].slice.call(buttons).forEach(function (el) {
+			el.onclick = fnSubmitForm.bind(this, el);
+		});
+
+		if(typeof(fnWindowLoad) == "function"){
+			fnWindowLoad()
+		}
+	}
 
 //]]></script>
