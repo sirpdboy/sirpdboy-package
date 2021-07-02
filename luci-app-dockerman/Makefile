@@ -14,7 +14,7 @@ PKG_LICENSE:=AGPL-3.0
 PKG_MAINTAINER:=lisaac <https://github.com/lisaac/luci-app-dockerman> \
 		Florian Eckert <fe@dev.tdt.de>
 
-PKG_VERSION:=v0.5.17
+PKG_VERSION:=v0.5.21
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
