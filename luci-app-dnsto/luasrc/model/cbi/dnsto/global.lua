@@ -8,8 +8,12 @@ else
 	status = translate("<strong><font color=\"red\">ddnsto 服务端已停止</font></strong>")
 end
 
-a=Map("ddnsto",translate("ddnsto内网穿透"))
-a.description=translate("ddnsto是支持http2的快速远程路由工具。</br>你需要先到 https://www.ddnsto.com/app/#/weixinlogin注册，然后在本插件内填入Token，再登录 https://www.ddnsto.com/app/#/weixinlogin设置穿透。")
+a=Map("ddnsto",translate("DDNSTO 内网穿透"))
+a.description = translate("DDNSTO是收费的快速远程穿透的工具。") .. 
+translate("<br><br><input class=\"cbi-button cbi-button-apply\" type=\"button\" value=\"" .. 
+translate("注册与教程") ..
+"\" onclick=\"window.open('https://www.ddnsto.com')\"/>") ..
+"<br><br><b>" .. translate("运行状态：") .. state_msg .. "</b>"
 
 t = a:section(TypedSection, "global", translate(''))
 t.anonymous = true
