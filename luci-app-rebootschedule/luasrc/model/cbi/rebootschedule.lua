@@ -32,21 +32,18 @@ week:value(5,translate("Friday"))
 week:value(6,translate("Saturday"))
 week.default='*'
 
-week.size = 8
 
 hour=s:option(Value,"hour",translate("时 <font color=\" red\">(数值范围0～23)</font>"),
 translate("<font color=\"gray\">*表示每小时，*/n表示每n小时</br>n1-n5连续，n1,n3,n5不连续</font>"))
 hour.rmempty = false
 hour.default = '5'
-hour.size = 8
 
 minute=s:option(Value,"minute",translate("分 <font color=\" red\">(数值范围0～59)</font>"),
 translate("<font color=\"gray\">*表示每分钟，*/n表示每n分钟</br>n1-n5连续，n1,n3,n5不连续</font>"))
 minute.rmempty = false
 minute.default = '0'
-minute.size = 8
 
-command=s:option(Value,"command",translate("执行的任务"))
+command=s:option(Value,"command",translate("执行命令 <font color=\" red\">(多条用 && 连接)</font>"),
 translate("<font color=\"gray\">按“--自定义--”可进行修改</br>(亦可添加后到计划任务中修改)</font>"))
 command:value('sync && echo 3 > /proc/sys/vm/drop_caches', translate("A.释放内存"))
 command:value('sysfree.sh',translate("B.清理垃圾"))
