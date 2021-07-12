@@ -13,13 +13,9 @@ a.description = translate("DDNSTO是收费的快速远程穿透的工具。") ..
 translate("<br><br><input class=\"cbi-button cbi-button-apply\" type=\"button\" value=\"" .. 
 translate("注册与教程") ..
 "\" onclick=\"window.open('https://www.ddnsto.com')\"/>") ..
-"<br><br><b>" .. translate("运行状态：") .. state_msg .. "</b>"
+"<br><br><b>" .. translate("运行状态：") .. status .. "</b>"
 
-t = a:section(TypedSection, "global", translate(''))
-t.anonymous = true
-t.description = translate(string.format("%s<br />", status))
-
-t=a:section(TypedSection,"global",translate("全局设置"),translate("设置教程:</font><a style=\"color: #ff0000;\" onclick=\"window.open('https://www.ddnsto.com/zh/guide/koolshare_merlin.html')\">点击跳转官网教程</a>"))
+t=a:section(TypedSection,"global",translate("设置"))
 t.anonymous=true
 t.addremove=false
 e=t:option(Flag,"enable",translate("启用"))
