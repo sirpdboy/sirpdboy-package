@@ -14,7 +14,7 @@ config interface 'loopback'
 
 config interface 'lan'
 	option type 'bridge'
-	option ifname 'eth0 eth0.12 eth0.13 eth0.14 eth0.15 eth0.16 eth0.17 eth0.18'
+	option ifname 'eth0 eth1 eth2 eth3 eth4 eth5 eth0.12 eth0.13 eth0.14 eth0.15 eth0.16 eth0.17 eth0.18'
 	option proto 'static'
 	option ipaddr '192.168.1.2'
 	option netmask '255.255.255.0'

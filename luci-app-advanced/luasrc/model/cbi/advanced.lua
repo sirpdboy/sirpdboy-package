@@ -314,8 +314,8 @@ end
 end
 
 if nixio.fs.access("/bin/nuc")then
-	s:tab("mode",translate("模式切换(适用软路由）"),translate("<br />可以在这里切换NUC和正常模式，重置你的网络设置。<br /><font color=\"Red\"><strong>点击后会立即重启设备，没有确认过程，请谨慎操作！</strong></font><br/>"))
-	o=s:taboption("mode",Button,"nucmode",translate("切换为NUC模式"),translate("<font color=\"green\"><strong>本模式适合于单网口主机，如NUC、单网口电脑，需要配合VLAN交换机使用！<br />默认gateway是：192.168.2.1，ipaddr是192.168.2.2。用本机接口LAN接上级LAN当NAS。</strong></font><br/>"))
+	s:tab("mode",translate("模式切换(旁路由）"),translate("<br />可以在这里切换旁路由和正常模式，重置你的网络设置。<br /><font color=\"Red\"><strong>点击后会立即重启设备，没有确认过程，请谨慎操作！</strong></font><br/>"))
+	o=s:taboption("mode",Button,"nucmode",translate("切换为旁路由模式"),translate("<font color=\"green\"><strong>本模式适合于单网口主机，如NUC、单网口电脑！<br />默认gateway是：192.168.1.1，ipaddr是192.168.1.2。用本机接口LAN接上级LAN当旁路由，主路由关闭DHCP服务。</strong></font><br/>"))
 	o.inputtitle=translate("NUC模式")
 	o.inputstyle="reload"
 

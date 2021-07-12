@@ -14,6 +14,7 @@ if nixio.fs.access("/usr/bin/dockerd") and not m.uci:get_bool("dockerd", "docker
 
 	o = s:option(Flag, "auto_start", translate("Auto start"))
 	o.rmempty = false
+	o.default = "no"
 	o.write = function(self, section, value)
 		if value == "1" then
 			luci.util.exec("/etc/init.d/dockerd enable")
