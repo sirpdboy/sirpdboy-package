@@ -58,12 +58,7 @@ if t==""then return""end
 local t=luci.sys.exec("ifconfig %q|grep 'inet addr'|awk '{print $2}'|cut -d: -f2"%t)or""
 return t
 end
-e=t:option(DummyValue,"nslookupip",translate("Nslookup").." IP")
-e.width="15%"
-e.template="koolddns/domain"
-e.cfgvalue=function(t,t)
-return o
-end
+
 e=t:option(Flag,"enable",translate("Enable State"))
 e.width="10%"
 e.rmempty=false
