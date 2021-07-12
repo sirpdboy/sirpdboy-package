@@ -19,7 +19,7 @@ config interface 'lan'
 	option ipaddr '192.168.1.2'
 	option netmask '255.255.255.0'
 	option gateway '192.168.1.1'
-	option dns '192.168.1.1'
+	option dns '223.5.5.5'
 
 config interface 'wan'
 	option ifname 'eth0.11'
