@@ -11,7 +11,10 @@ else
         state_msg = "<b><font color=\"red\">" .. translate("没有运行") .. "</font></b>"
 end
 
-t = Map("timewol", translate("定时网络设备唤醒"), translate("<b>利用“计划任务”来定时唤醒局域网中的设备的工具。时间点设置可参考<input class=\"cbi-button cbi-button-apply\" type=\"submit\" value=\" "..translate("“计划重启”").." \" onclick=\"window.open('http://'+window.location.hostname+'/cgi-bin/luci/admin/system/rebootschedule')\"/>中的说明。</b>") .. button .. "<br/><br/>" .. translate("运行状态").. " : "  .. state_msg .. "<br />")
+t = Map("timewol", translate("定时网络设备唤醒"), translate("<b>利用“计划任务”来定时唤醒局域网中的设备的工具。计划任务设置可参考<input class=\"cbi-button cbi-button-apply\" type=\"submit\" value=\" "..
+translate("“查看/验证”").." \" onclick=\"window.open('https://tool.lu/crontab/')\"/></b>") .. button .. "<br/><br/>" .. 
+translate("运行状态").. " : "  .. state_msg .. "<br />"
+)
 
 e = t:section(TypedSection, "basic", translate(""))
 e.anonymous = true
