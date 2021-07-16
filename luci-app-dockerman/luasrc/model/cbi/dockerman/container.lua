@@ -25,13 +25,6 @@ else
 	return
 end
 
-res = dk.networks:list()
-if res.code < 300 then
-	networks = res.body
-else
-	return
-end
-
 local get_ports = function(d)
 	local data
 
@@ -289,6 +282,12 @@ s = m:section(SimpleSection)
 s.template = "dockerman/container"
 
 if action == "info" then
+	res = dk.networks:list()
+	if res.code < 300 then
+		networks = res.body
+	else
+		return
+	end
 	m.submit = false
 	m.reset  = false
 	table_info = {
@@ -380,7 +379,7 @@ if action == "info" then
 	info_networks = get_networks(container_info)
 	list_networks = {}
 	for _, v in ipairs (networks) do
-		if v.Name then
+		if v and v.Name then
 			local parent = v.Options and v.Options.parent or nil
 			local ip = v.IPAM and v.IPAM.Config and v.IPAM.Config[1] and v.IPAM.Config[1].Subnet or nil
 			ipv6 =  v.IPAM and v.IPAM.Config and v.IPAM.Config[2] and v.IPAM.Config[2].Subnet or nil
@@ -722,7 +721,7 @@ elseif action == "console" then
 			end
 
 			local hosts
-			local uci = require "luci.model.uci".cursor()
+			local uci = (require "luci.model.uci").cursor()
 			local remote = uci:get_bool("dockerd", "dockerman", "remote_endpoint") or false
 			local host = nil
 			local port = nil
@@ -736,9 +735,9 @@ elseif action == "console" then
 			end
 
 			if remote and host and port then
-				hosts = host .. ':'.. port
+				hosts = "tcp://" .. host .. ':'.. port
 			elseif socket then
-				hosts = socket
+				hosts = "unix://" .. socket
 			else
 				return
 			end
@@ -749,7 +748,7 @@ elseif action == "console" then
 				uid = ""
 			end
 
-			local start_cmd = string.format('%s -d 2 --once -p 7682 %s -H "unix://%s" exec -it %s %s %s&', cmd_ttyd, cmd_docker, hosts, uid, container_id, cmd)
+			local start_cmd = string.format('%s -d 2 --once -p 7682 %s -H "%s" exec -it %s %s %s&', cmd_ttyd, cmd_docker, hosts, uid, container_id, cmd)
 
 			os.execute(start_cmd)
 

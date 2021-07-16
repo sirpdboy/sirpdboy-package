@@ -57,7 +57,8 @@
 
   function reslov_container() {
     let s = document.getElementById('cmd-line-status')
-    if (!s) return
+		if (!s)
+			return
     let cmd_line = document.getElementById("dialog_reslov_text").value;
     if (cmd_line == null || cmd_line == "") {
       return

@@ -11,7 +11,7 @@ end
 function act_nslookup()
 local e={}
 e.index=luci.http.formvalue("index")
-e.value=luci.sys.exec("nslookup %q localhost 2>&1|grep 'Address 1:'|tail -n1|cut -d' ' -f3"%luci.http.formvalue("domain"))
+e.value=luci.sys.exec("nslookup %q localhost 2>&1|grep 'Address:'|tail -n1|cut -d' ' -f2"%luci.http.formvalue("domain"))
 luci.http.prepare_content("application/json")
 luci.http.write_json(e)
 end

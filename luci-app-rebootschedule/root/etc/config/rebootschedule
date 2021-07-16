@@ -1,4 +1,3 @@
-
 config crontab
 	option week '*'
 	option hour '*/4'
@@ -16,6 +15,13 @@ config crontab
 	option week '1,3,5'
 	option command 'sleep 5 && touch /etc/banner && reboot'
 	option enable '0'
+
+config crontab
+	option enable '0'
+	option week '*'
+	option hour '23'
+	option minute '59'
+	option command 'poweroff'
 
 config crontab
 	option month '*'

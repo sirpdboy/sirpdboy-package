@@ -19,7 +19,6 @@ PKG_CPE_ID:=cpe:/a:my-netdata:netdata
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/netdata/netdata/tar.gz/v$(PKG_VERSION)?
 PKG_HASH:=e05f8b59d283fb2844280455b9481a2f9104730fd77f535312ff2fec40a6bc11
-
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
 PKG_FIXUP:=autoreconf

@@ -1,9 +1,30 @@
 local e=require"nixio.fs"
 local t=require"luci.sys"
+local t=luci.model.uci.cursor()
 m=Map("advanced",translate("高级进阶设置"),translate("<font color=\"Red\"><strong>配置文档是直接编辑的除非你知道自己在干什么，否则请不要轻易修改这些配置文档。配置不正确可能会导致不能开机等错误。</strong></font><br/>"))
 m.apply_on_parse=true
 s=m:section(TypedSection,"advanced")
 s.anonymous=true
+
+if nixio.fs.access("/bin/nuc")then
+	s:tab("mode",translate("模式切换(旁路由）"),translate("<br />可以在这里切换旁路由和正常模式，重置你的网络设置。<br /><font color=\"Red\"><strong>点击后会立即重启设备，没有确认过程，请谨慎操作！</strong></font><br/>"))
+	o=s:taboption("mode",Button,"nucmode",translate("切换为旁路由模式"),translate("<font color=\"green\"><strong>本模式适合于单口和多网口主机，自动将网口全桥接好！<br />默认gateway是：192.168.1.1，ipaddr是192.168.1.2。用本机接口LAN接上级LAN当旁路由，主路由关闭DHCP服务。</strong></font><br/>"))
+	o.inputtitle=translate("旁路由模式")
+	o.inputstyle="reload"
+
+	o.write=function()
+	luci.sys.call("/bin/nuc")
+	end
+
+	o=s:taboption("mode",Button,"normalmode",translate("切换成正常模式"),translate("<font color=\"green\"><strong>本模式适合于有两个网口或以上的设备使用，如多网口软路由或者虚拟了两个以上网口的虚拟机使用！</strong></font><br/>"))
+	o.inputtitle=translate("正常模式")
+	o.inputstyle="reload"
+
+	o.write=function()
+	luci.sys.call("/bin/normalmode")
+	end
+end
+
 if nixio.fs.access("/etc/dnsmasq.conf")then
 
 s:tab("dnsmasqconf",translate("dnsmasq"),translate("本页是配置/etc/dnsmasq.conf的文档内容。应用保存后自动重启生效"))
@@ -282,4 +303,6 @@ e.remove("/tmp/openclash")
 end
 end
 end
+
+
 return m

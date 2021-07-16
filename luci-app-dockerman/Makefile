@@ -11,10 +11,10 @@ LUCI_DEPENDS:=@(aarch64||arm||x86_64) \
 LUCI_PKGARCH:=all
 
 PKG_LICENSE:=AGPL-3.0
-PKG_MAINTAINER:=lisaac <https://github.com/lisaac/luci-app-dockerman> \
+PKG_MAINTAINER:=lisaac <lisaac.cn@gmail.com> \
 		Florian Eckert <fe@dev.tdt.de>
 
-PKG_VERSION:=v0.5.21
+PKG_VERSION:=v0.5.23-2
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
