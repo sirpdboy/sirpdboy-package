@@ -1,0 +1,372 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2016-2017 Hsing-wang Liao <kuoruan@gmail.com>
+# Licensed to the public under the Apache License 2.0.
+
+START=99
+USE_PROCD=1
+
+NAME=aria2
+PROG=/usr/bin/aria2c
+
+_info() {
+	logger -p daemon.info -t "$NAME" "$*"
+}
+
+_err() {
+	logger -p daemon.err -t "$NAME" "$*"
+}
+
+_make_dir() {
+	local d
+	for d in "$@"; do
+		if [ ! -d "$d" ]; then
+			if mkdir -p "$d" 2>/dev/null; then
+				_info "成功创建<code>"$d"</code>目录。"
+				return 0
+			else
+				_info "无法创建<code>"$d"</code>目录。"
+				return 1
+			fi
+		fi
+	done
+	return 0
+}
+
+_create_file() {
+	touch "$@" 2>/dev/null
+}
+
+_change_owner() {
+	local u="$1"; shift
+	local d
+	for d in "$@"; do
+		if [ -f "$d" ]; then
+			chown "$u" "$d" 2>/dev/null || return 1
+		elif [ -d "$d" ]; then
+			chown -R "$u" "$d" 2>/dev/null || return 1
+		fi
+	done
+	return 0
+}
+
+_change_file_mode() {
+	local mod="$1"; shift
+	chmod "$mod" "$@" 2>/dev/null
+}
+
+_reset_dir_mode() {
+	local d
+	for d in "$@"; do
+		if [ -d "$d" ]; then
+			find "$d" -type d -exec chmod 755 {} \; 2>/dev/null
+			find "$d" -type f -exec chmod 644 {} \; 2>/dev/null
+		fi
+	done
+}
+
+append_options() {
+	local o; local v
+	for o in "$@"; do
+		v="$(eval echo "\$$o")"
+		[ -n "$v" ] && echo "${o//_/-}=$v" >>"$config_file_tmp"
+	done
+}
+
+append_setting() {
+	local s="$1"
+	[ -n "$s" ] && echo "$s" >>"$config_file_tmp"
+}
+
+append_header() {
+	local h="$1"
+	[ -n "$h" ] && echo "header=\"$h\"" >>"$config_file_tmp"
+}
+
+aria2_validate() {
+	uci_load_validate "$NAME" aria2 "$1" "$2" \
+		'dir:string' \
+		'log:string' \
+		'user:string' \
+		'split:uinteger' \
+		'enabled:bool:0' \
+		'enable_Pro:bool' \
+		'rpc_user:string' \
+		'all_proxy:string' \
+		'seed_time:ufloat' \
+		'certificate:file' \
+		'timeout:uinteger' \
+		'private_key:file' \
+		'seed_ratio:ufloat' \
+		'rpc_secret:string' \
+		'user_agent:string' \
+		'rpc_passwd:string' \
+		'enable_proxy:bool' \
+		'disk_cache:string' \
+		'listen_port:string' \
+		'max_tries:uinteger' \
+		'enable_logging:bool' \
+		'ca_certificate:file' \
+		'retry_wait:uinteger' \
+		'rpc_certificate:file' \
+		'rpc_private_key:file' \
+		'all_proxy_user:string' \
+		'min_split_size:string' \
+		'peer_id_prefix:string' \
+		'bt_max_peers:uinteger' \
+		'dht_listen_port:string' \
+		'all_proxy_passwd:string' \
+		'max_upload_limit:string' \
+		'bt_tracker:list(string)' \
+		'bt_stop_timeout:uinteger' \
+		'pause:or("true","false")' \
+		'connect_timeout:uinteger' \
+		'max_download_limit:string' \
+		'lowest_speed_limit:string' \
+		'bt_max_open_files:uinteger' \
+		'bt_prioritize_piece:string' \
+		'Pro:string:/usr/share/aria2' \
+		'force_save:or("true","false")' \
+		'rpc_secure:or("true","false")' \
+		'save_session_interval:uinteger' \
+		'enable_dht6:or("true","false")' \
+		'disable_ipv6:or("true","false")' \
+		'max_overall_upload_limit:string' \
+		'auto_save_interval:range(0,600)' \
+		'bt_enable_lpd:or("true","false")' \
+		'config_dir:string:/var/etc/aria2' \
+		'http_no_cache:or("true","false")' \
+		'max_concurrent_downloads:uinteger' \
+		'rpc_listen_port:range(1024,65535)' \
+		'pause_metadata:or("true","false")' \
+		'max_overall_download_limit:string' \
+		'enable_dht:or("true","false"):true' \
+		'check_integrity:or("true","false")' \
+		'bt_request_peer_speed_limit:string' \
+		'max_connection_per_server:uinteger' \
+		'bt_save_metadata:or("true","false")' \
+		'http_accept_gzip:or("true","false")' \
+		'bt_seed_unverified:or("true","false")' \
+		'bt_detach_seed_only:or("true","false")' \
+		'follow_torrent:or("true","false","mem")' \
+		'enable_peer_exchange:or("true","false")' \
+		'bt_load_saved_metadata:or("true","false")' \
+		'check_certificate:or("true","false"):true' \
+		'bt_remove_unselected_file:or("true","false")' \
+		'rpc_auth_method:or("none","user_pass","token")' \
+		'log_level:or("debug","info","notice","warn","error")' \
+		'event_poll:or("epoll","kqueue","port","poll","select")' \
+		'file_allocation:or("none","prealloc","trunc","falloc")'
+}
+
+	aria2_start() {
+		local section="$1"
+		[ "$2" = "0" ] || { _info "验证失败。"; return 1; }
+		[ "$enabled" = "1" ] || { _info "实例 \"$section\" 已禁用。"; return 1; }
+	if [ "$enable_Pro" == 1 ]; then
+		a="$Pro"
+		_make_dir "$Pro"
+	else
+		_make_dir "$config_dir"
+		a="$config_dir"
+		[ -d "$Pro" ] && rm -rf "$Pro" && _info "扩展功能已关闭，删除原来的$Pro目录"
+		if [ ! -f "$a"/dht.dat ] && [ ."$enable_dht" = ."true" ]; then
+			dht_file="$a/dht.dat"
+			_create_file "$dht_file" || {
+			_info "无法创建DHT文件: $dht_file"
+			return 1; }
+			append_setting "enable-dht=true"
+			append_setting "dht-file-path=$dht_file"
+		fi
+	fi
+	[ -n "$dir" ] && _make_dir "$dir" || { _info "请设置下载目录。"; return 1; }
+
+	config_file="$a/$NAME.conf.$section"
+	config_file_tmp="$a/$NAME.conf.tmp"
+	session_file="$a/$NAME.session"
+
+	_create_file "$session_file" "$config_file" "$config_file_tmp" || {
+	_info "无法创建$session_file, $config_file, $config_file_tmp的目录。"
+	return 1; }
+
+	# 创建tmp文件
+	cat >"$config_file_tmp" <<-EOF
+
+	#===以下是系统生成，对此文件修改将无法正常运行===#
+
+	EOF
+
+	append_setting "dir=$dir"
+	append_setting "enable-rpc=true"
+	append_setting "rpc-allow-origin-all=true"
+	append_setting "rpc-listen-all=true"
+	append_setting "quiet=true"
+	append_setting "continue=true"
+	append_setting "input-file=$session_file"
+	append_setting "save-session=$a/$NAME.session"
+
+	if [ -z "$enable_logging" ]; then
+		append_options "log" "log_level"
+	elif [ "$enable_logging" = "1" ]; then
+		log=${log:-"/var/log/aria2.log"}
+
+		local log_dir
+		log_dir="$(dirname "$log")"
+
+		_make_dir "$log_dir"
+		# create or clear log file
+		echo >"$log"
+		append_setting "log=$log"
+		append_options "log_level"
+	fi
+
+	if [ -z "$enable_proxy" ] || [ "$enable_proxy" = "1" ]; then
+		append_options "all_proxy" "all_proxy_user" "all_proxy_passwd"
+	fi
+
+	unset_auth_method() {
+		uci -q batch <<-EOF
+			set $NAME.$section.rpc_auth_method=""
+			commit $NAME
+		EOF
+	}
+
+	if [ -z "$rpc_auth_method" ]; then
+		if [ -n "$rpc_secret" ]; then
+			append_setting "rpc-secret=$rpc_secret"
+		elif [ -n "$rpc_user" ]; then
+			append_setting "rpc-user=$rpc_user"
+			append_setting "rpc-passwd=$rpc_passwd"
+		else
+			_info "建议设置RPC密码。"
+		fi
+	elif [ "$rpc_auth_method" = "token" ]; then
+		if [ -n "$rpc_secret" ]; then
+			append_setting "rpc-secret=$rpc_secret"
+		else
+			unset_auth_method
+		fi
+	elif [ "$rpc_auth_method" = "user_pass" ]; then
+		if [ -n "$rpc_user" ]; then
+			append_setting "rpc-user=$rpc_user"
+			append_setting "rpc-passwd=$rpc_passwd"
+		else
+			_info "请设置RPC用户。"
+			unset_auth_method
+		fi
+	fi
+
+	if [ ."$rpc_secure" = ."true" ] && [ -n "$rpc_certificate" ]; then
+		append_setting "rpc-secure=true"
+		append_options "rpc_certificate" "rpc_private_key"
+	fi
+
+	if [ ."$check_certificate" = ."true" ]; then
+		append_setting "check-certificate=true"
+		append_options "ca_certificate"
+	elif [ ."$check_certificate" = ."false" ]; then
+		append_setting "check-certificate=false"
+	fi
+
+	if [ ."$enable_dht6" = ."true" ] && [ ."$disable_ipv6" != ."true" ]; then
+		dht6_file="$a/dht6.dat"
+		_create_file "$dht6_file" || {
+		_info "无法创建DHT6文件：$dht6_file"
+		return 1; }
+		append_setting "enable-dht6=true"
+		append_setting "dht-file-path6=$dht6_file"
+	fi
+
+	if [ -n "$bt_tracker" ]; then
+		local bt_tracker_list; local t
+		for t in $bt_tracker; do
+			if [ -z "$bt_tracker_list" ]; then
+				bt_tracker_list="$t"
+			else
+				bt_tracker_list="$bt_tracker_list,$t"
+			fi
+		done
+		append_setting "bt-tracker=$bt_tracker_list"
+	fi
+
+	append_options "auto_save_interval" "bt_enable_lpd" "bt_max_open_files" "bt_max_peers" \
+		"bt_remove_unselected_file" "bt_request_peer_speed_limit" "pause" "bt_prioritize_piece" \
+		"bt_stop_timeout" "bt_detach_seed_only" "bt_save_metadata" "bt_load_saved_metadata" \
+		"bt_seed_unverified" "certificate" "check_integrity" "connect_timeout" "dht_listen_port" \
+		"disable_ipv6" "disk_cache" "enable_peer_exchange" "event_poll" "file_allocation" \
+		"follow_torrent" "force_save" "http_accept_gzip" "http_no_cache" "listen_port" "split" \
+		"lowest_speed_limit" "max_concurrent_downloads" "max_connection_per_server" "user_agent" \
+		"max_download_limit" "max_overall_download_limit" "max_overall_upload_limit" "max_tries" \
+		"max_upload_limit" "min_split_size" "pause_metadata" "peer_id_prefix" "private_key" \
+		"retry_wait" "rpc_listen_port" "save_session_interval" "seed_ratio" "seed_time" "timeout"
+
+	config_list_foreach "$section" "header" append_header
+	config_list_foreach "$section" "extra_settings" append_setting
+
+	# Download_Pro_conf
+	if [ "$enable_Pro" = "1" ]; then
+		cd $Pro
+		if for i in aria2.conf clean.sh delete.sh tracker.sh dht.dat; do
+			if [ ! -s $i ]; then
+				wget -N -t2 -T3 https://raw.githubusercontent.com/P3TERX/aria2.conf/master/$i || \
+				wget -N -t2 -T3 https://cdn.jsdelivr.net/gh/P3TERX/aria2.conf/$i || \
+				curl -fsSLO https://p3terx.github.io/aria2.conf/$i || \
+				curl -fsSLO https://gh.p3terx.workers.dev/aria2.conf/master/$i
+				[ -s $i ] && _info "附加功能脚本[ $i ]文件下载成功 !" || _info "[ $i ] 配置文件下载失败 !"
+			fi
+		done
+		sed -i -e 's|NLOAD_PATH=.*|NLOAD_PATH='"'$dir'"'|g' -e 's|dir=.*|dir='"$dir"'|g' \
+		-e 's|/root/.aria2|'"$Pro"'|g' -e 's|#!.*|#!/bin/sh|g' -e '/et=P3TERX/d' \
+		-e 's|${F.*X}||g' -e 's|${G.*EFIX}||g' -e 's|${R.*EFIX}||g' -e 's|${Y.*EFIX}||g' \
+		-e 's|${L.*EFIX}||g' "$Pro"/* 2>/dev/null; then
+		_info "Aria2加强配置下载完成！"; fi
+		chmod +x *.sh && sh ./tracker.sh
+		cat aria2.conf > "$config_file"
+		sed '/^$/d' "$config_file_tmp" >> "$config_file"
+	else
+		sed '/^$/d' "$config_file_tmp" > "$config_file"
+	fi
+
+	rm -f "$config_file_tmp"
+	_reset_dir_mode "$config_dir"
+	_change_file_mode 600 "$config_file"
+
+	if [ -n "$user" ]; then
+		if ( user_exists "$user" && _change_owner "$user" "$a" "$log" ); then
+			_info "Aria2将以<code>"$user"</code>的用户身份运行。"
+				if [ "$user" != "root" ]; then
+					_info "请确保用户$user具有下载目录$dir的写入权限。"
+				fi
+		else
+			_info "设置$user用户运行失败，使用默认用户。"
+			user=
+		fi
+	fi
+
+	procd_open_instance "$NAME.$section"
+	procd_set_param command "$PROG"
+	procd_append_param command --conf-path="$config_file"
+
+	procd_set_param respawn
+	procd_set_param stdout 1
+	procd_set_param stderr 1
+
+	procd_set_param file "$config_file"
+	[ -n "$user" ] && \
+		procd_set_param user "$user"
+
+	procd_add_jail "$NAME.$section" log
+	procd_add_jail_mount "$config_file"
+	procd_add_jail_mount_rw "$dir" "$a" "$log"
+	procd_close_instance
+
+}
+
+service_triggers() {
+	procd_add_reload_trigger "$NAME"
+	procd_add_validation aria2_validate
+}
+
+start_service() {
+	config_load "$NAME"
+	config_foreach aria2_validate "aria2" aria2_start
+}
