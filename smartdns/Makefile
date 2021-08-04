@@ -6,13 +6,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=smartdns
-PKG_VERSION:=Release33
-PKG_RELEASE:=1
+PKG_VERSION:=2021.07.30
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://www.github.com/pymumu/smartdns.git
-PKG_MIRROR_HASH:=5840408326c4dba25c4ad1188b4a7fbbf1d7e8141493a28b7bbe2188470f0a23
-PKG_SOURCE_VERSION:=c53a87b8d93537af0ad6c0f63bca23c4bea488bf
+PKG_SOURCE_VERSION:=b77cea63e9eecd45ab257906868c77baec27e6b7
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
@@ -29,7 +28,7 @@ define Package/smartdns
   SECTION:=net
   CATEGORY:=Network
   TITLE:=smartdns server
-  DEPENDS:=+libpthread +libopenssl
+  DEPENDS:=+libc +libpthread +libopenssl
   URL:=https://www.github.com/pymumu/smartdns/
 endef
 
