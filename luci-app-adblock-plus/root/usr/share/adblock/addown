@@ -1,0 +1,39 @@
+#!/bin/sh
+[ "$1" = --down ] || exit 1
+# 防止重复启动
+LOCK=/var/lock/adblock.lock
+[ -f $LOCK ] && exit 1
+touch $LOCK
+
+A=0
+B=/tmp/adblock
+C=/tmp/adupdate.log
+D="date +'%Y-%m-%d %H:%M:%S'"
+E="Download Adblock Plus Rules"
+
+if [ "$2" = 1 ];then
+	mkdir -p $B
+	echo "`eval $D` [Check network status]" > $C
+	while ! curl -so /dev/null -m 3 www.baidu.com;do
+		cat $C | grep -q Wait || echo "`eval $D` [Wait for network to connect]" >> $C
+		sleep 2
+	done
+	echo "`eval $D` [Check network status Successful]" >> $C
+	echo "`eval $D` [$E]" >> $C
+	X=1
+	while ! curl --connect-timeout 5 -m 20 -Lfso $B/adblock.conf https://cdn.jsdelivr.net/gh/small-5/ad-rules/dnsmasq.adblock;do
+		[ $X -ge 20 ] && A=1 && return || let X++
+		sleep 2
+	done
+	echo "`eval $D` [$E Successful]" >> $C
+	for i in $(cat /etc/adblock/white.list);do sed -i -e "/\/$i\//d" -e "/\.$i\//d" $B/adblock.conf;done
+fi
+
+if [ "$3" = 1 -a $A = 0 ];then
+	echo "`eval $D` [Download Subscribe Rules]" >> $C
+	/usr/share/adblock/adblock addown >> $C
+fi
+
+[ $A = 1 ] && echo "`eval $D` [$E Failed]" >> $C || (echo "`eval $D` [Start Adblock Plus+]" >> $C;echo "`eval $D`" > $B/adblock.updated)
+rm -f $LOCK
+/etc/init.d/adblock start &

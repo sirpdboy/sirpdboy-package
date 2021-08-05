@@ -1,0 +1,12 @@
+uci batch <<EOF
+	delete ucitrack.@adblock[-1]
+	add ucitrack adblock
+	set ucitrack.@adblock[-1].init=adblock
+	commit ucitrack
+	delete firewall.adblock
+	set firewall.adblock=include
+	set firewall.adblock.type=script
+	set firewall.adblock.path=/var/etc/adblock.include
+	set firewall.adblock.reload=1
+	commit firewall
+EOF
