@@ -1,6 +1,9 @@
 msgid "Base Setting"
 msgstr "基本设置"
 
+msgid "Adblock plus+"
+msgstr "Adblock广告过滤"
+
 msgid "Support AdGuardHome/Host/DNSMASQ Rules"
 msgstr "支持 AdGuardHome/Host/DNSMASQ 规则"
 
