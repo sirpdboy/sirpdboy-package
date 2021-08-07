@@ -6,7 +6,7 @@
 
 <%+header%>
 <div class="cbi-map">
-    <h2 name="content"><%=translate("")%></h2>  
+
 <script type="text/javascript">//<![CDATA[
 		function upnetdata(button) {
 
@@ -14,7 +14,7 @@
 	}
 //]]></script>
 
-        <iframe id="netdata" style="width: 100%; min-height: 1200px; border: none; border-radius: 3px;"></iframe>
+<iframe id="netdata" style="width: 100%; min-height: 780px; border: none; border-radius: .375rem;box-shadow: rgba(0, 0, 0, 0.75) 0px 0px 15px -5px;"></iframe>
 </div>
 <script type="text/javascript">
         document.getElementById("netdata").src = window.location.protocol + "//" + window.location.hostname + ":19999";
