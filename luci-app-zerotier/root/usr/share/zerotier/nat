@@ -1,0 +1,25 @@
+#!/bin/sh
+n=zerotier
+[ "$1" = up -a "$(uci -q get $n.@$n[0].nat)" = 1 ] || exit
+X=iptables
+extract_rules(){
+	echo "*$1"
+	iptables-save -t $1 | grep $n | sed -e "s/^-A \(FORWARD\|POSTROUTING\)/-I \1 1/"
+	echo 'COMMIT'
+}
+
+while ! ifconfig | grep zt >/dev/null;do sleep 1;done
+for i in $(ifconfig | grep 'zt' | awk '{print $1}');do
+	$X -I FORWARD -i $i -m comment --comment $n -j ACCEPT
+	$X -I FORWARD -o $i -m comment --comment $n -j ACCEPT
+	$X -I INPUT -i $i -m comment --comment $n -j ACCEPT
+	$X -t nat -I POSTROUTING -o $i -m comment --comment $n -j MASQUERADE
+done
+
+cat <<-EOF >> /var/etc/$n.include
+	iptables-save -c | grep -v $n | iptables-restore -c
+	iptables-restore -n <<-EOT
+	$(extract_rules filter)
+	$(extract_rules nat)
+	EOT
+EOF
