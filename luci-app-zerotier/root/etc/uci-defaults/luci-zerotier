@@ -1,8 +1,0 @@
-uci batch <<EOF
-	delete firewall.zerotier
-	set firewall.zerotier=include
-	set firewall.zerotier.type=script
-	set firewall.zerotier.path=/var/etc/zerotier.include
-	set firewall.zerotier.reload=1
-	commit firewall
-EOF
