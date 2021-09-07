@@ -25,6 +25,9 @@ msgstr "启用规则自动更新"
 msgid "Update time"
 msgstr "更新时间"
 
+msgid "DNSFilter"
+msgstr "DNS广告过滤"
+
 msgid "DNSFilter Data"
 msgstr "DNSFilter 规则数据库"
 
