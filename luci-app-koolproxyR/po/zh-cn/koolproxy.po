@@ -28,6 +28,15 @@ msgstr "下载证书备份"
 msgid "Set Backlist Of Websites"
 msgstr "网站黑名单设置"
 
+msgid "KoolproxyR Plus+"
+msgstr "广告过滤大师 Plus+"
+
+msgid "RUNNING"
+msgstr "正在运行中"
+
+msgid "NOT RUNNING"
+msgstr "未运行"
+
 msgid "Koolproxy Logs"
 msgstr "查看最近的更新日志"
 

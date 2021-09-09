@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-koolproxyR
 PKG_VERSION:=3.8.5
-PKG_RELEASE:=1-20210303
+PKG_RELEASE:=1-20210909
 
 PKG_MAINTAINER:=panda-mute <wxuzju@gmail.com>
 PKG_LICENSE:=GPLv3
@@ -18,7 +18,7 @@ define Package/luci-app-koolproxyR
 	SECTION:=luci
 	CATEGORY:=LuCI
 	SUBMENU:=3. Applications
-	TITLE:=LuCI support for koolproxyR
+	TITLE:=LuCI support for koolproxy
 	DEPENDS:=+openssl-util +ipset +dnsmasq-full +@BUSYBOX_CONFIG_DIFF +iptables-mod-nat-extra +wget
 	MAINTAINER:=panda-mute
 endef

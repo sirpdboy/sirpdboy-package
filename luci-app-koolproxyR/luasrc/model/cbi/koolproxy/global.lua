@@ -26,14 +26,10 @@ local f=luci.sys.exec("grep -v !x /usr/share/koolproxy/data/rules/anti-ad.txt | 
 local i=luci.sys.exec("cat /usr/share/koolproxy/dnsmasq.adblock | wc -l")
 
 
-if luci.sys.call("pidof koolproxy >/dev/null") == 0 then
-	status = translate("<strong><font color=\"green\">广告过滤大师 Plus+  运行中</font></strong>")
-else
-	status = translate("<strong><font color=\"red\">广告过滤大师 Plus+  已停止</font></strong>")
-end
 
-o = Map("koolproxy", "<font color='green'>" .. translate("广告过滤大师 Plus+ ") .."</font>",     "<font color='purple'>" .. translate( "广告过滤大师 Plus+是能识别Adblock规则的广告屏蔽软件，可以过滤网页广告、视频广告、HTTPS广告") .."</font>")
+o = Map("koolproxy", "<font color='green'>" .. translate("KoolproxyR Plus+") .."</font>",     "<font color='purple'>" .. translate( "广告过滤大师 Plus+是能识别Adblock规则的广告屏蔽软件，可以过滤网页广告、视频广告、HTTPS广告") .."</font>")
 
+o.template="koolproxy/status"
 t = o:section(TypedSection, "global")
 t.anonymous = true
 t.description = translate(string.format("%s<br /><br />", status))
@@ -66,15 +62,20 @@ e:value(3, translate("视频模式"))
 e = t:taboption("base", MultiValue, "koolproxy_rules", translate("内置规则"))
 e.optional = false
 e.rmempty = false
+e:value("koolproxy.txt", translate("静态规则"))
+e:value("daily.txt", translate("每日规则"))
+e:value("kp.dat", translate("视频规则"))
+e:value("user.txt", translate("自定义规则"))
+
+e = t:taboption("base", MultiValue, "thirdparty_rules", translate("第三方规则"))
+e.optional = true
+e.rmempty = false
 e:value("easylistchina.txt", translate("ABP规则"))
 e:value("fanboy.txt", translate("Fanboy规则"))
 e:value("yhosts.txt", translate("Yhosts规则"))
 e:value("anti-ad.txt", translate("Anti-AD规则"))
-e:value("koolproxy.txt", translate("静态规则"))
-e:value("daily.txt", translate("每日规则"))
-e:value("kp.dat", translate("视频规则"))
 e:value("mv.txt", translate("乘风视频"))
-e:value("user.txt", translate("自定义规则"))
+
 
 e = t:taboption("base", ListValue, "koolproxy_port", translate("端口控制"))
 e.default = 0
