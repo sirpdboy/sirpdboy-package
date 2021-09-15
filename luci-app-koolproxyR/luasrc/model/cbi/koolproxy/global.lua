@@ -28,13 +28,16 @@ local i=luci.sys.exec("cat /usr/share/koolproxy/dnsmasq.adblock | wc -l")
 
 
 o = Map("koolproxy", "<font color='green'>" .. translate("KoolproxyR Plus+") .."</font>",     "<font color='purple'>" .. translate( "广告过滤大师 Plus+是能识别Adblock规则的广告屏蔽软件，可以过滤网页广告、视频广告、HTTPS广告") .."</font>")
+o.template = "koolproxy/index"
 
-o.template="koolproxy/status"
 t = o:section(TypedSection, "global")
 t.anonymous = true
-t.description = translate(string.format("%s<br /><br />", status))
 
 t:tab("base",translate("Basic Settings"))
+
+e = t:taboption("base",DummyValue, "koolproxy_status", translate("Status"))
+e.template="koolproxy/dvalue"
+e.value = translate("Collecting data...")
 
 e = t:taboption("base", Flag, "enabled", translate("Enable"))
 e.default = 0
