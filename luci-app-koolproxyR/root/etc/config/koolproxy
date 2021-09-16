@@ -23,3 +23,8 @@ config usetips
 	option load '0'
 	option name '1'
 	option url '1'
+
+config rss_rules
+	option load '0'
+	option name '1'
+	option url '1'
