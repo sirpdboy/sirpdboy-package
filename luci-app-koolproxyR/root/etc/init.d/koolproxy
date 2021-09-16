@@ -418,6 +418,7 @@ post_stop() {
 	flush_ipt_rules
 	flush_nat
 	del_cru
+	killall -q -9  koolproxy
 	return 0
 }
 
@@ -431,6 +432,7 @@ start_service() {
 	procd_append_param command --mark
 	procd_append_param command --ttl 160
 	procd_append_param command --ipv6
+	procd_append_param command -d
 
 	procd_set_param respawn
 
