@@ -166,7 +166,6 @@
 	end
 
 	local function render_changes()
-		-- calculate the number of unsaved changes
 		if tree.nodes[category] and tree.nodes[category].ucidata then
 			local ucichanges = 0
 			for i, j in pairs(require("luci.model.uci").cursor():changes()) do
@@ -194,9 +193,15 @@
 	for f in ipairs(glob("/www/luci-static/opentopd/img/*")) do
 		bgcount = bgcount + 1
 	end
-	
-	
--%>
+
+ if bgcount < 3 then 
+luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/1.jpg >/dev/null 2>&1) &")
+luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/2.jpg >/dev/null 2>&1) &")
+luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/3.jpg >/dev/null 2>&1) &")
+end
+
+%>
+
 <!DOCTYPE html>
 <html lang="<%=luci.i18n.context.lang%>">
 <head>
@@ -276,9 +281,8 @@
                 </div>
             </header>
 		<div class="darkMask"></div>
-		<% if bgcount > 0 then %>
-		<div class="login-bg" style="background-image:url(<%=media%>/img/bg<%=math.random(1,bgcount)%>.jpg)"></div>
-		<% end %>
+		<div id="CrossFade"><img src="<%=media%>/img/1.jpg" alt="img"/><img src="<%=media%>/img/2.jpg" alt="img"/><img src="<%=media%>/img/3.jpg" alt="img"/>
+</div>
 		<div id="maincontent">
 			<div class="container">
 				<%- if luci.sys.process.info("uid") == 0 and luci.sys.user.getuser("root") and not luci.sys.user.getpasswd("root") then -%>
