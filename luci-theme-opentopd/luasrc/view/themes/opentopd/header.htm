@@ -1,7 +1,7 @@
-<%#
+ <%#
 	opentopd is a clean HTML5 theme for LuCI. It is based on luci-theme-bootstrap and MUI
 	luci-theme-opentopd
-    Copyright 2020 sirpdboy <sirpdboy@qq.com>
+    Copyright 2020-2021 sirpdboy <sirpdboy@qq.com>
 	Have a bug? Please create an issue here on GitHub!
 	https://github.com/sirpdboy/luci-theme-opentopd/issues
 
@@ -38,7 +38,7 @@
 	local node = disp.context.dispatched
 
 	local categories = disp.node_childs(tree)
-
+	local uptime="$( cat /proc/uptime |awk -F ' '  '{print int($1/87000)}')"
 	local c = tree
 	local i, r
 	
@@ -193,11 +193,9 @@
 	for f in ipairs(glob("/www/luci-static/opentopd/img/*")) do
 		bgcount = bgcount + 1
 	end
-
- if bgcount < 3 then 
+if bgcount < 2 or  #uptime > 1  then 
 luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/1.jpg >/dev/null 2>&1) &")
 luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/2.jpg >/dev/null 2>&1) &")
-luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/3.jpg >/dev/null 2>&1) &")
 end
 
 %>
@@ -281,8 +279,9 @@ end
                 </div>
             </header>
 		<div class="darkMask"></div>
-		<div id="CrossFade"><img src="<%=media%>/img/1.jpg" alt="img"/><img src="<%=media%>/img/2.jpg" alt="img"/><img src="<%=media%>/img/3.jpg" alt="img"/>
-</div>
+		<% if bgcount > 0 then %>
+		<div class="login-bg" style="background-image:url(<%=media%>/img/<%=math.random(1,bgcount)%>.jpg)"></div>
+		<% end %>
 		<div id="maincontent">
 			<div class="container">
 				<%- if luci.sys.process.info("uid") == 0 and luci.sys.user.getuser("root") and not luci.sys.user.getpasswd("root") then -%>
