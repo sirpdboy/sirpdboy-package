@@ -100,6 +100,18 @@ btmob 主题: https://github.com/sirpdboy/luci-theme-btmob
 
 **你们的支持就是我的动力！**
 
+------------------------------
+
+## 捐助名单
+
+**loso                 捐助200元
+
+**KK                   捐助600元
+
+**潮                   捐助50元
+
+------------------------------
+
 ### 捐助方式
 
 |     <img src="https://img.shields.io/badge/-支付宝-F5F5F5.svg" href="#赞助支持本项目-" height="25" alt="图飞了😂"/>  |  <img src="https://img.shields.io/badge/-微信-F5F5F5.svg" height="25" alt="图飞了😂" href="#赞助支持本项目-"/>  | 
