@@ -38,7 +38,8 @@
 	local node = disp.context.dispatched
 
 	local categories = disp.node_childs(tree)
-	local uptime="$( cat /proc/uptime |awk -F ' '  '{print int($1/87000)}')"
+	local ODAY=luci.sys.exec("ls -l -tc 1.jpg |awk -F ' '  '{print int($7)}'")
+	local NDAY=luci.sys.exec("date +'%d' |awk -F ' '  '{print int($1)}' ")
 	local c = tree
 	local i, r
 	
@@ -193,11 +194,13 @@
 	for f in ipairs(glob("/www/luci-static/opentopd/img/*")) do
 		bgcount = bgcount + 1
 	end
-if bgcount < 2 or  #uptime > 1  then 
+if bgcount < 3 or NDAY > ODAY  then 
 luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/1.jpg >/dev/null 2>&1) &")
 luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/2.jpg >/dev/null 2>&1) &")
+luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/3.jpg >/dev/null 2>&1) &")
 end
 
+ 
 %>
 
 <!DOCTYPE html>
