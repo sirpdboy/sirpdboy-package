@@ -24,6 +24,9 @@ define Package/$(PKG_NAME)
 	PKGARCH:=all
 endef
 
+define Package/$(PKG_NAME)/description
+	Luci Support for netspeedtest.
+endef
 
 define Build/Compile
 endef
@@ -37,9 +40,9 @@ define Package/$(PKG_NAME)/install
 	cp -pR ./luasrc/* $(1)/usr/lib/lua/luci
 	$(INSTALL_DIR) $(1)/
 	cp -pR ./root/* $(1)/
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+	po2lmo ./po/zh-cn/netspeedtest.po $(1)/usr/lib/lua/luci/i18n/netspeedtest.lmo
 endef
 
-include $(TOPDIR)/feeds/luci/luci.mk
-
-# call BuildPackage - OpenWrt buildroot signature
+$(eval $(call BuildPackage,$(PKG_NAME)))
 
