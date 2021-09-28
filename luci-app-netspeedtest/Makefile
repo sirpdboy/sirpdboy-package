@@ -24,13 +24,6 @@ define Package/$(PKG_NAME)
 	PKGARCH:=all
 endef
 
-define Package/$(PKG_NAME)/description
-	Luci Support for netspeedtest.
-endef
-
-define Build/Compile
-endef
-
 define Package/$(PKG_NAME)/conffiles
 /etc/config/netspeedtest
 endef
