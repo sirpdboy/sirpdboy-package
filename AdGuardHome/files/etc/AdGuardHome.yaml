@@ -117,11 +117,11 @@ filters:
   url: https://gitee.com/xinggsf/Adblock-Rule/raw/master/rule.txt
   name: 乘风 广告过滤规则
   id: 139789133
-- enabled: false
+- enabled: true
   url: https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/all.txt
   name: 百万ADH广告拦截过滤规则
   id: 139789141
-- enabled: true
+- enabled: false
   url: https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Hosts/GoodbyeAds-Ultra.txt
   name: GoodbyeAds 大全去广告
   id: 139789142
@@ -228,35 +228,6 @@ user_rules:
 - '||salutationcheerlessdemote.com^'
 - '||buildingdoodlesquare.com^'
 - '||colonistnobilityheroic.com^'
-- '@@||analytics.google.com^'
-- '@@||analytics.twitter.com^'
-- '@@||azure.com^'
-- '@@||microsoft.com^'
-- '@@||gstatic.com^'
-- '@@||windows.com^'
-- '@@||live.com^'
-- '@@||google-analytics.com^'
-- '@@||maccms.com^'
-- '@@||gvt2.com^'
-- '@@||googleapis.com^'
-- '@@||www.paypalobjects.com^'
-- '@@||paypal.com^'
-- '@@||amazon.com^'
-- '@@||ad.jp^'
-- '@@||tagtic.cn^'
-- '@@||knet.cn^'
-- '@@||anquan.org^'
-- '@@||hanada.info^'
-- '@@||moonbbs.com^'
-- '@@||weiming.info^'
-- '@@||disqus.com^'
-- '@@||referrer.disqus.com^'
-- '@@||go.rakuten.com^'
-- '@@||fvs.io^'
-- '@@||ssl.p.jwpcdn.com'
-- '@@||c3pool.com^'
-- '@@||bankcomm.com^'
-- '@@||cmbchina.com^'
 dhcp:
   enabled: false
   interface_name: ""
