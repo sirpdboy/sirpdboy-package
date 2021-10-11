@@ -14,7 +14,7 @@ function index()
 		_("Docker"),
 		40).acl_depends = { "luci-app-dockerman" }
 
-	entry({"admin", "services", "docker", "config"}, cbi("dockerman/configuration"), _("Configuration"), 2).leaf=true
+	entry({"admin", "services", "docker", "config"}, cbi("dockerman/configuration"), _("Configuration"), 8).leaf=true
 	
 	-- local uci = (require "luci.model.uci").cursor()
 	-- if uci:get_bool("dockerd", "dockerman", "remote_endpoint") then
@@ -45,8 +45,10 @@ function index()
 	entry({"admin", "services","docker", "newnetwork"}, form("dockerman/newnetwork")).leaf=true
 	entry({"admin", "services","docker", "container"}, form("dockerman/container")).leaf=true
 
-	entry({"admin", "services", "container_stats"}, call("action_get_container_stats")).leaf=true
+	entry({"admin", "services","docker",  "call"}, call("action_call_docker")).leaf=true
+	entry({"admin", "services","docker",  "container_stats"}, call("action_get_container_stats")).leaf=true
 	entry({"admin", "services","docker", "containers_stats"}, call("action_get_containers_stats")).leaf=true
+	entry({"admin", "services", "docker", "get_system_df"}, call("action_get_system_df")).leaf=true
 	entry({"admin", "services","docker", "container_get_archive"}, call("download_archive")).leaf=true
 	entry({"admin", "services","docker", "container_put_archive"}, call("upload_archive")).leaf=true
 	entry({"admin", "services","docker","container_list_file"},call("list_file")).leaf=true
@@ -60,6 +62,17 @@ function index()
 	entry({"admin", "services","docker", "images_tag"}, call("tag_image")).leaf=true
 	entry({"admin", "services","docker", "images_untag"}, call("untag_image")).leaf=true
 	entry({"admin", "services","docker", "confirm"}, call("action_confirm")).leaf=true
+end
+
+function action_call_docker()
+	
+end
+
+function action_get_system_df()
+	local res = docker.new():df()
+	luci.http.status(res.code, res.message)
+	luci.http.prepare_content("application/json")
+	luci.http.write_json(res.body)
 end
 
 function scandir(id, directory)
