@@ -195,7 +195,7 @@
 		bgcount = bgcount + 1
 	end
 
-if ODAY < NDAY or bgcount < 3 then 
+if ODAY > NDAY then 
 luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/1.jpg >/dev/null 2>&1) &")
 luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/2.jpg >/dev/null 2>&1) &")
 luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/3.jpg >/dev/null 2>&1) &")
