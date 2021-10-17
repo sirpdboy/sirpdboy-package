@@ -39,7 +39,7 @@
 
 	local categories = disp.node_childs(tree)
 
-	local ODAY=luci.sys.exec("date  -r  '/www/luci-static/opentopd/img/1.jpg' +'%Y%m%d' |awk -F ' '  '{print int($1+7)}'")
+	local ODAY=luci.sys.exec("date  -r  '/www/luci-static/opentopd/img/1.jpg' +'%Y%m%d' |awk -F ' '  '{print int($1-7)}'")
 	local NDAY=luci.sys.exec("date  +'%Y%m%d'  |awk -F ' '  '{print int($1)}' ")
 
 	local c = tree
