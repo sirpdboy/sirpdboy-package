@@ -9,8 +9,8 @@ THEME_NAME:=opentopd
 THEME_TITLE:=opentopd Theme
 
 PKG_NAME:=luci-theme-$(THEME_NAME)
-PKG_VERSION:=1.3.7
-PKG_RELEASE:=20211018
+PKG_VERSION:=1.3.8
+PKG_RELEASE:=20211019
 
 include $(INCLUDE_DIR)/package.mk
 
