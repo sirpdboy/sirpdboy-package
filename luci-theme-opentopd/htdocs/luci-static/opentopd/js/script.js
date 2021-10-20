@@ -1,37 +1,23 @@
 /**
- *  Argon is a clean HTML5 theme for LuCI. It is based on luci-theme-material and Argon Template
- *
- *  luci-theme-argon
- *      Copyright 2019 Jerrykuku <jerrykuku@qq.com>
- *
- *  Have a bug? Please create an issue here on GitHub!
- *      https://github.com/jerrykuku/luci-theme-argon/issues
- *
- *  luci-theme-bootstrap:
- *      Copyright 2008 Steven Barth <steven@midlink.org>
- *      Copyright 2008 Jo-Philipp Wich <jow@openwrt.org>
- *      Copyright 2012 David Menting <david@nut-bolt.nl>
- *
- *  MUI:
- *      https://github.com/muicss/mui
- *
- *  luci-theme-material:
- *      https://github.com/LuttyYang/luci-theme-material/
- *
- *  Agron Theme
- *	    https://demos.creative-tim.com/argon-dashboard/index.html
- *
- *  Login background
- *      https://unsplash.com/
- *
- *  Licensed to the public under the Apache License 2.0
- */
-
-/*
- *  Font generate by Icomoon<icomoon.io>
+*	opentopd is a clean HTML5 theme for LuCI. It is based on luci-theme-bootstrap and MUI
+*	luci-theme-opentopd
+*   Copyright 2020-2021 sirpdboy <sirpdboy@qq.com>
+*	Have a bug? Please create an issue here on GitHub!
+*	https://github.com/sirpdboy/luci-theme-opentopd/issues
+*	
+*	luci-theme-material:
+*	Copyright 2015 Lutty Yang
+*
+*	luci-theme-bootstrap:
+*	Copyright 2008 Steven Barth <steven@midlink.org>
+*	Copyright 2008-2016 Jo-Philipp Wich <jow@openwrt.org>
+*	Copyright 2012 David Menting <david@nut-bolt.nl>
+*	MUI:
+*	https://github.com/muicss/mui
+*
+*	Licensed to the public under the Apache License 2.0
  */
 (function ($) {
-	$(".main > .loading").hide();
     $(".main > .loading").fadeOut();
 
     /**
@@ -48,16 +34,16 @@
     var mainNodeName = undefined;
 
     var nodeUrl = "";
-    (function (node) {
-        if (node[0] == "admin") {
+    (function(node){
+        if (node[0] == "admin"){
             luciLocation = [node[1], node[2]];
-        } else {
+        }else{
             luciLocation = node;
         }
 
-        for (var i in luciLocation) {
+        for(var i in luciLocation){
             nodeUrl += luciLocation[i];
-            if (i != luciLocation.length - 1) {
+            if (i != luciLocation.length - 1){
                 nodeUrl += "/";
             }
         }
@@ -73,11 +59,9 @@
             luciLocation = ["Main", "Login"];
             return true;
         }
-        $(".main > .main-left > .nav > .slide > .active").next(".slide-menu").stop(true).slideUp("fast");
-        $(".main > .main-left > .nav > .slide > .menu").removeClass("active");
+
         $(".main > .main-left > .nav > .slide > .menu").each(function () {
             var ulNode = $(this);
-
             ulNode.next().find("a").each(function () {
                 var that = $(this);
                 var href = that.attr("href");
@@ -102,42 +86,25 @@
         var ul = $(this).next(".slide-menu");
         var menu = $(this);
         if (!menu.hasClass("exit")) {
-            $(".main > .main-left > .nav > .slide > .active").next(".slide-menu").stop(true).slideUp("fast");
-            $(".main > .main-left > .nav > .slide > .menu").removeClass("active");
-            if (!ul.is(":visible")) {
-                menu.addClass("active");
-                ul.addClass("active");
-                ul.stop(true).slideDown("fast");
-            } else {
-                ul.stop(true).slideUp("fast", function () {
-                    menu.removeClass("active");
-                    ul.removeClass("active");
-                });
-            }
-
-            return false;
+        if (!ul.is(":visible")) {
+            menu.addClass("active");
+            ul.addClass("active");
+            ul.stop(true).slideDown("fast");
+        } else {
+            ul.stop(true).slideUp("fast", function () {
+                menu.removeClass("active");
+                ul.removeClass("active");
+            });
         }
-
+        return false;
+        }
     });
-
-
-
-
-// define what element should be observed by the observer
-// and what types of mutations trigger the callback
-    if ($("#cbi-dhcp-lan-ignore").length > 0) {
-        observer.observe(document.getElementById("cbi-dhcp-lan-ignore"), {
-            subtree: true,
-            attributes: true
-        });
-    }
 
     /**
      * hook menu click and add the hash
      */
     $(".main > .main-left > .nav > .slide > .slide-menu > li > a").click(function () {
-        if (lastNode != undefined)
-            lastNode.removeClass("active");
+        if (lastNode != undefined) lastNode.removeClass("active");
         $(this).parent().addClass("active");
         $(".main > .loading").fadeIn("fast");
         return true;
@@ -147,18 +114,8 @@
      * fix menu click
      */
     $(".main > .main-left > .nav > .slide > .slide-menu > li").click(function () {
-        if (lastNode != undefined)
-            lastNode.removeClass("active");
+        if (lastNode != undefined) lastNode.removeClass("active");
         $(this).addClass("active");
-        $(".main > .loading").fadeIn("fast");
-        window.location = $($(this).find("a")[0]).attr("href");
-        return false;
-    });
-    
-    /**
-     * fix submenu click
-     */
-    $("#maincontent > .container > .tabs > li").click(function () {
         $(".main > .loading").fadeIn("fast");
         window.location = $($(this).find("a")[0]).attr("href");
         return false;
@@ -244,19 +201,13 @@
         that.after("<span class='panel-title'>" + that.text() + "</span>");
     });
 
-    $(".cbi-section-table-titles, .cbi-section-table-descr, .cbi-section-descr").each(function () {
+    /*fix vlan prot*/
+    /*$(".cbi-section-table-titles, .cbi-section-table-descr, .cbi-section-descr").each(function () {
         var that = $(this);
-        if (that.text().trim() == "") {
+        if (that.text().trim() == ""){
             that.css("display", "none");
         }
-    });
-
-    $(".node-main-login > .main .cbi-value.cbi-value-last .cbi-input-text").focus(function () {
-        //$(".node-main-login > .main > .main-right > .login-bg").addClass("blur");
-    });
-    $(".node-main-login > .main .cbi-value.cbi-value-last .cbi-input-text").blur(function () {
-        //$(".node-main-login > .main > .main-right > .login-bg").removeClass("blur");
-    });
+    });*/
 
 
     $(".main-right").focus();
@@ -284,5 +235,4 @@
                 break;
         }
     }
-
 })(jQuery);
