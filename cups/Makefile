@@ -9,13 +9,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cups
-PKG_VERSION:=2.3.3
+PKG_VERSION:=v2.3.3op2
 PKG_RELEASE:=1
-
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-source.tar.gz
-PKG_SOURCE_URL:=https://github.com/apple/cups/releases/download/v$(PKG_VERSION)
-#PKG_SOURCE_URL:=http://www.cups.org/software/$(PKG_VERSION)
-PKG_MD5SUM:=skip
+PKG_SOURCE_URL:=https://github.com/OpenPrinting/cups/releases/download/v$(PKG_VERSION)
+PKG_MD5SUM:=524266752cf243c968921547b18ee594
 
 TARGET_LDFLAGS+=-Wl,-rpath-link=$(STAGING_DIR)/usr/lib
 
