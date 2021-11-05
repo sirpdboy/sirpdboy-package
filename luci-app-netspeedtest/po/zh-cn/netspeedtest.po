@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.0.6\n"
 
-msgid "netspeedtest"
+msgid "Netspeedtest"
 msgstr "网速测试"
 
 msgid "Network speed diagnosis test (including intranet and extranet)"
