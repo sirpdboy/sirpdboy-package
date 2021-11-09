@@ -39,8 +39,6 @@
 
 	local categories = disp.node_childs(tree)
 
-	local ODAY=luci.sys.exec("date  -r  '/www/luci-static/opentopd/img/1.jpg' +'%Y%m%d' |awk -F ' '  '{print int($1-7)}'")
-	local NDAY=luci.sys.exec("date  +'%Y%m%d'  |awk -F ' '  '{print int($1)}' ")
 
 	local c = tree
 	local i, r
@@ -53,7 +51,9 @@
 			return nil, code, msg
 		end
 	end
-	
+    function getExtension(str)
+		return str:match(".+%.(%w+)$")
+	end
 	-- tag all nodes leading to this page
 	for i, r in ipairs(request) do
 		if c.nodes and c.nodes[r] then
@@ -191,14 +191,40 @@
 	end
 	math.randomseed(os.time())
 	local bgcount = 0
-	for f in ipairs(glob("/www/luci-static/opentopd/img/*")) do
-		bgcount = bgcount + 1
+	local currentBg = {}
+	local bgs,attr = {}
+	local theme_dir = media .. "/background/"
+	for i, f in ipairs(glob("/www" .. theme_dir .. "*")) do
+		attr = fs.stat(f)
+		if attr then
+			local ext = getExtension(fs.basename(f))
+			if ext == "jpg" or ext == "png" or ext == "gif"  then
+				local bg = {}
+				bg.type = ext
+				bg.url = theme_dir .. fs.basename(f)
+				table.insert(bgs,bg)
+				bgcount = bgcount + 1
+			end
+		end
 	end
 
-if ODAY > NDAY then 
-luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/1.jpg >/dev/null 2>&1) &")
-luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/2.jpg >/dev/null 2>&1) &")
-luci.sys.exec("(curl -k -L \"$(curl -s https://instant.unsplash.com | grep -oE '\"raw\":\".*?\",\"full\"'| grep -o 'https://.*,' | sed 's/\",//g')\&q=80\&w=1680\" -o /www/luci-static/opentopd/img/3.jpg >/dev/null 2>&1) &")
+	if bgcount > 0 then
+		currentBg = bgs[math.random(1,bgcount)]
+	end
+
+	local bg_url = media .. "/img/bg1.jpg"
+	local bing = "123"
+	if (bgcount == 0 ) then
+		local json = require "luci.jsonc"
+		local remote_bg_url="http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US"
+		--bing = sys.httpget(remote_bg_url)
+		bing = sys.exec("wget --timeout=0.5 -qO- '%s'" %remote_bg_url)
+		if (bing and bing ~= '') then
+			bg_url = "https://www.bing.com" .. json.parse(bing).images[1].url
+		elseif ( bgcount > 0 ) then
+			bg_url = currentBg.url
+		end
+
 end
 
 %>
@@ -282,9 +308,7 @@ end
                 </div>
             </header>
 		<div class="darkMask"></div>
-		<% if bgcount > 0 then %>
-		<div class="login-bg" style="background-image:url(<%=media%>/img/<%=math.random(1,bgcount)%>.jpg)"></div>
-		<% end %>
+		<div class="login-bg" style="background-image:url(<%=bg_url%>)"></div>
 		<div id="maincontent">
 			<div class="container">
 				<%- if luci.sys.process.info("uid") == 0 and luci.sys.user.getuser("root") and not luci.sys.user.getpasswd("root") then -%>
