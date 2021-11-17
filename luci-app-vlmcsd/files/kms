@@ -1,0 +1,45 @@
+#!/bin/sh /etc/rc.common
+# Copyright (c) 2011-2015 OpenWrt.org
+
+START=99
+
+VLMCSD=/etc/init.d/vlmcsd
+DNSMASQ=/etc/init.d/dnsmasq
+
+del_vlmcs_entry(){
+	sed -i '/srv-host=_vlmcs._tcp.lan/d' /etc/dnsmasq.conf
+}
+
+add_vlmcs_entry() {
+	local host_name=`uci get system.@system[0].hostname`
+	del_vlmcs_entry
+	echo "srv-host=_vlmcs._tcp.lan,$host_name.lan,1688,0,100" >> /etc/dnsmasq.conf
+	
+	#/etc/init.d/dnsmasq restart
+	exit 0
+}
+
+reload() {
+	local enabled=`uci get vlmcsd.config.enabled`
+	local autoactivate=`uci get vlmcsd.config.autoactivate`
+	
+	if [ $enabled -eq 0 ]; then
+		$VLMCSD stop
+		$VLMCSD disable
+	else	
+		$VLMCSD start
+		$VLMCSD enable
+		#echo "KMS Server has started."
+	fi
+
+	if [ $autoactivate -eq 1 ]; then
+		add_vlmcs_entry
+		$DNSMASQ restart
+	else
+		del_vlmcs_entry
+	fi
+}
+
+start(){}
+stop(){}
+
