@@ -1,7 +1,7 @@
 /**
-*	opentopd is a clean HTML5 theme for LuCI. It is based on luci-theme-bootstrap and MUI
-*	luci-theme-opentopd
-*   Copyright 2020-2021 sirpdboy <sirpdboy@qq.com>
+* opentopd is a clean HTML5 theme for LuCI. It is based on luci-theme-Argon and MUI
+* luci-theme-opentopd
+*   Copyright 2019-2021 sirpdboy <sirpdboy@qq.com>
 *	Have a bug? Please create an issue here on GitHub!
 *	https://github.com/sirpdboy/luci-theme-opentopd/issues
 *	
@@ -59,7 +59,8 @@
             luciLocation = ["Main", "Login"];
             return true;
         }
-
+        $(".main > .main-left > .nav > .slide > .active").next(".slide-menu").stop(true).slideUp("fast");
+        $(".main > .main-left > .nav > .slide > .menu").removeClass("active");
         $(".main > .main-left > .nav > .slide > .menu").each(function () {
             var ulNode = $(this);
             ulNode.next().find("a").each(function () {
@@ -86,17 +87,20 @@
         var ul = $(this).next(".slide-menu");
         var menu = $(this);
         if (!menu.hasClass("exit")) {
-        if (!ul.is(":visible")) {
-            menu.addClass("active");
-            ul.addClass("active");
-            ul.stop(true).slideDown("fast");
-        } else {
-            ul.stop(true).slideUp("fast", function () {
-                menu.removeClass("active");
-                ul.removeClass("active");
-            });
-        }
-        return false;
+            $(".main > .main-left > .nav > .slide > .active").next(".slide-menu").stop(true).slideUp("fast");
+            $(".main > .main-left > .nav > .slide > .menu").removeClass("active");
+            if (!ul.is(":visible")) {
+                menu.addClass("active");
+                ul.addClass("active");
+                ul.stop(true).slideDown("fast");
+            } else {
+                ul.stop(true).slideUp("fast", function () {
+                    menu.removeClass("active");
+                    ul.removeClass("active");
+                });
+            }
+
+            return false;
         }
     });
 
@@ -104,7 +108,8 @@
      * hook menu click and add the hash
      */
     $(".main > .main-left > .nav > .slide > .slide-menu > li > a").click(function () {
-        if (lastNode != undefined) lastNode.removeClass("active");
+        if (lastNode != undefined)
+            lastNode.removeClass("active");
         $(this).parent().addClass("active");
         $(".main > .loading").fadeIn("fast");
         return true;
@@ -114,8 +119,18 @@
      * fix menu click
      */
     $(".main > .main-left > .nav > .slide > .slide-menu > li").click(function () {
-        if (lastNode != undefined) lastNode.removeClass("active");
+        if (lastNode != undefined)
+            lastNode.removeClass("active");
         $(this).addClass("active");
+        $(".main > .loading").fadeIn("fast");
+        window.location = $($(this).find("a")[0]).attr("href");
+        return false;
+    });
+    
+    /**
+     * fix submenu click
+     */
+    $("#maincontent > .container > .tabs > li").click(function () {
         $(".main > .loading").fadeIn("fast");
         window.location = $($(this).find("a")[0]).attr("href");
         return false;
@@ -129,7 +144,7 @@
         mainNodeName = mainNodeName.replace(/[ \t\n\r\/]+/g, "_").toLowerCase();
         $("body").addClass(mainNodeName);
     }
-    $(".cbi-button-up").val("");
+    $(".cbi-button-up").val("");
     $(".cbi-button-down").val("");
 
 
@@ -157,16 +172,12 @@
     $(".showSide").click(function () {
         if (showSide) {
             $(".darkMask").stop(true).fadeOut("fast");
-            $(".main-left").stop(true).animate({
-                width: "0"
-            }, "fast");
+            $(".main-left").width(0);
             $(".main-right").css("overflow-y", "auto");
             showSide = false;
         } else {
             $(".darkMask").stop(true).fadeIn("fast");
-            $(".main-left").stop(true).animate({
-                width: "15rem"
-            }, "fast");
+            $(".main-left").width("15rem");
             $(".main-right").css("overflow-y", "hidden");
             showSide = true;
         }
@@ -177,9 +188,7 @@
         if (showSide) {
             showSide = false;
             $(".darkMask").stop(true).fadeOut("fast");
-            $(".main-left").stop(true).animate({
-                width: "0"
-            }, "fast");
+            $(".main-left").width(0);
             $(".main-right").css("overflow-y", "auto");
         }
     });
@@ -201,13 +210,19 @@
         that.after("<span class='panel-title'>" + that.text() + "</span>");
     });
 
-    /*fix vlan prot*/
-    /*$(".cbi-section-table-titles, .cbi-section-table-descr, .cbi-section-descr").each(function () {
+    $(".cbi-section-table-titles, .cbi-section-table-descr, .cbi-section-descr").each(function () {
         var that = $(this);
-        if (that.text().trim() == ""){
-            that.css("display", "none");
+        if (that.text().trim() == "") {
+            that.css("padding", "0px");
         }
-    });*/
+    });
+
+    $(".node-main-login > .main .cbi-value.cbi-value-last .cbi-input-text").focus(function () {
+        //$(".node-main-login > .main > .main-right > .login-bg").addClass("blur");
+    });
+    $(".node-main-login > .main .cbi-value.cbi-value-last .cbi-input-text").blur(function () {
+        //$(".node-main-login > .main > .main-right > .login-bg").removeClass("blur");
+    });
 
 
     $(".main-right").focus();
