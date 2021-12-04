@@ -17,11 +17,7 @@ else
 		images = res.body
 	end
 
-	res = dk.containers:list({
-		query = {
-			all=true
-		}
-	})
+	res = dk.containers:list({ query = {	all = true } })
 	if res and res.code and res.code < 300 then
 		containers = res.body
 	end
