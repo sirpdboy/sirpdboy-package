@@ -100,7 +100,7 @@ creat_ipset() {
 	# Load ipset netfilter kernel modules and kernel modules
 	ipset -! create white_kp_list nethash
 	ipset -! create black_koolproxy iphash
-	cat $KP_DIR/data/rules/yhosts.txt $KP_DIR/data/rules/easylistchina.txt $KP_DIR/data/rules/fanboy.txt $KP_DIR/data/rules/anti-ad.txt $KP_DIR/data/rules/koolproxy.txt $KP_DIR/data/rules/mv.txt $KP_DIR/data/rules/daily.txt $KP_DIR/data/rules/user.txt | grep -Eo "(.\w+\:[1-9][0-9]{1,4})/" | grep -Eo "([0-9]{1,5})" | sort -un | sed -e '$a\80' -e '$a\443' | sed -e "s/^/-A kp_full_port &/g" -e "1 i\-N kp_full_port bitmap:port range 0-65535 " | ipset -R -!
+	cat $KP_DIR/data/rules/yhosts.txt $KP_DIR/data/rules/adg.txt $KP_DIR/data/rules/steven.txt $KP_DIR/data/rules/antiad.txt $KP_DIR/data/rules/koolproxy.txt $KP_DIR/data/rules/adgk.txt $KP_DIR/data/rules/daily.txt $KP_DIR/data/rules/user.txt | grep -Eo "(.\w+\:[1-9][0-9]{1,4})/" | grep -Eo "([0-9]{1,5})" | sort -un | sed -e '$a\80' -e '$a\443' | sed -e "s/^/-A kp_full_port &/g" -e "1 i\-N kp_full_port bitmap:port range 0-65535 " | ipset -R -!
 }
 
 add_white_black_ip() {
@@ -178,7 +178,7 @@ __load_exrule() {
 		fi
 
 		if [ ! -f $KP_DIR/data/rules/$file ]; then
-			wget-ssl --quiet --timeout=5 --no-check-certificate $exrule -O $TMP_DIR/$file
+			wget $exrule -q -O $TMP_DIR/$file
 			if [ "$?" == "0" ]; then
 				uci set koolproxy.$1.time="`date +%Y-%m-%d" "%H:%M`"
 				uci commit koolproxy
@@ -225,16 +225,16 @@ load_rules() {
                         yhosts.txt)
 				sed -i '5s/0/1/g' $KP_DIR/data/source.list
 			;;
-			easylistchina.txt)
+			adg.txt)
 				sed -i '6s/0/1/g' $KP_DIR/data/source.list
 			;;
-			fanboy.txt)
+			steven.txt)
 				sed -i '7s/0/1/g' $KP_DIR/data/source.list
 			;;
-			anti-ad.txt)
+			antiad.txt)
 				sed -i '8s/0/1/g' $KP_DIR/data/source.list
 			;;
-		        mv.txt)
+		        adgk.txt)
 				sed -i '9s/0/1/g' $KP_DIR/data/source.list
 			;;
 		esac
@@ -247,10 +247,10 @@ get_mode_name() {
 			echo "不过滤"
 		;;
 		1)
-			echo "过滤 HTTP"
+			echo "过滤HTTP协议"
 		;;
 		2)
-			echo "过滤HTTP + HTTPS"
+			echo "过滤HTTP(S)协议"
 		;;
 		3)
 			echo "过滤全端口"
@@ -430,7 +430,6 @@ start_service() {
 	procd_set_param command /usr/share/koolproxy/koolproxy
 	procd_append_param command --mark
 	procd_append_param command --ttl 160
-	procd_append_param command --ipv6
 
 	procd_set_param respawn
 
