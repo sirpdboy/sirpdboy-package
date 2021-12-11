@@ -4,7 +4,7 @@ require("io")
 local m,s,o,o1
 local fs=require"nixio.fs"
 local uci=require"luci.model.uci".cursor()
-local configpath=uci:get("AdGuardHome","AdGuardHome","configpath") or "/etc/AdGuardHome.yaml"
+local configpath = uci:get("AdGuardHome", "AdGuardHome", "configpath") or "/etc/config/AdGuardHome.yaml"
 local binpath=uci:get("AdGuardHome","AdGuardHome","binpath") or "/usr/bin/AdGuardHome"
 httpport=uci:get("AdGuardHome","AdGuardHome","httpport") or "3000"
 m = Map("AdGuardHome", "AdGuard Home")
@@ -37,12 +37,13 @@ else
 	local version=uci:get("AdGuardHome","AdGuardHome","version")
 	local testtime=fs.stat(binpath,"mtime")
 	if testtime~=tonumber(binmtime) or version==nil then
-		local tmp=luci.sys.exec(binpath.." --version | grep -m 1 -E 'v[0-9.]+' -o ")
-		version=string.sub(tmp, 1)
+        -- local tmp=luci.sys.exec(binpath.." -c /dev/null --check-config 2>&1| grep -m 1 -E 'v[0-9.]+' -o")
+        -- version=string.sub(tmp, 1, -2)
+        version = luci.sys.exec(string.format("echo -n $(%s --version 2>&1 | awk -F 'version ' '{print $2}' | awk -F ',' '{print $1}')", binpath))
 		if version=="" then version="core error" end
 		uci:set("AdGuardHome","AdGuardHome","version",version)
 		uci:set("AdGuardHome","AdGuardHome","binmtime",testtime)
-		uci:save("AdGuardHome")
+        uci:commit("AdGuardHome")
 	end
 	e=version..e
 end
@@ -97,7 +98,7 @@ o.description=translate("bin use less space,but may have compatibility issues")
 o.rmempty = true
 ---- config path
 o = s:option(Value, "configpath", translate("Config Path"), translate("AdGuardHome config path"))
-o.default     = "/etc/AdGuardHome.yaml"
+o.default = "/etc/config/AdGuardHome.yaml"
 o.datatype    = "string"
 o.optional = false
 o.rmempty=false
