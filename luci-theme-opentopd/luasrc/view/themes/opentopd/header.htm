@@ -260,14 +260,6 @@ end
 <body class="lang_<%=luci.i18n.context.lang%> <%- if node then %><%= striptags( node.title ) %><%- end %> <% if luci.dispatcher.context.authsession then %>logged-in<% end %>">
 
 <div class="main">
-    <div style="" class="loading">
-        <div class="sk-folding-cube">
-            <div class="sk-cube1 sk-cube"></div>
-            <div class="sk-cube2 sk-cube"></div>
-            <div class="sk-cube4 sk-cube"></div>
-            <div class="sk-cube3 sk-cube"></div>
-        </div>
-    </div>
     <div class="main-left">
         <div class="sidenav-header d-flex align-items-center">
             <a class="brand" href="#"><%=boardinfo.hostname or "?"%></a> 

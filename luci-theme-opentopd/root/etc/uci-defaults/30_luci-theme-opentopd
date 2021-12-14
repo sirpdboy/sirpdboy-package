@@ -5,7 +5,7 @@
 [ -f /www/luci-static/opentopd/icons/port_up.png ] && mv -f /www/luci-static/opentopd/icons/port_up.png /www/luci-static/resources/icons/port_up.png
 
 uci batch <<-EOF
-	set luci.themes.opentopd=/luci-static/opentopd
+	set luci.themes.Opentopd=/luci-static/opentopd
 	set luci.main.mediaurlbase=/luci-static/opentopd
 	commit luci
 EOF
