@@ -200,24 +200,26 @@
 			end
 		end
 	end
-
+	local bg_url = media.."/img/bg1.jpg"
 	if bgcount > 0 then
 		currentBg = bgs[math.random(1,bgcount)]
+		bg_url = currentBg.url
 	end
 
-	local bg_url = media.."/img/bg1.jpg"
-	local bing = "123"
-	i = math.random(1,3)
-	if (bgcount == 0 ) then
-		local json = require "luci.jsonc"
-		local remote_bg_url="http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=3&mkt=en-US"
-		--bing = sys.httpget(remote_bg_url)
-		bing = sys.exec("wget --timeout=0.5 -qO- '%s'" %remote_bg_url)
-		if (bing and bing ~= '') then
-			bg_url = "https://www.bing.com" .. json.parse(bing).images[i].url
-		elseif ( bgcount > 0 ) then
-			bg_url = currentBg.url
-		end
+
+--	local bing = "123"
+-- 	i = math.random(1,3)
+-- 	if (bgcount == 0 ) then
+-- 		local json = require "luci.jsonc"
+-- 		local remote_bg_url="http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=3&mkt=en-US"
+-- 		--bing = sys.httpget(remote_bg_url)
+-- 		bing = sys.exec("wget --timeout=0.5 -qO- '%s'" %remote_bg_url)
+-- 		if (bing and bing ~= '') then
+-- 			bg_url = "https://www.bing.com" .. json.parse(bing).images[i].url
+-- 		elseif ( bgcount > 0 ) then
+-- 			bg_url = currentBg.url
+-- 		end
+
 end
 
 %>
