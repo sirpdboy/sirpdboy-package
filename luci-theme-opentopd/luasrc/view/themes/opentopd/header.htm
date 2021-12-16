@@ -16,7 +16,7 @@
 	local disp = require "luci.dispatcher"
 	local fs = require "nixio.fs"
 	local nutil = require "nixio.util"
-
+	local uci = require 'luci.model.uci'.cursor()
 	local boardinfo = util.ubus("system", "board")
 
 	local request  = disp.context.path
@@ -205,19 +205,19 @@
 		currentBg = bgs[math.random(1,bgcount)]
 	end
 
-	local bg_url = media .. "/img/bg1.jpg"
+	local bg_url = media.."/img/bg1.jpg"
 	local bing = "123"
+	i = math.random(1,3)
 	if (bgcount == 0 ) then
 		local json = require "luci.jsonc"
-		local remote_bg_url="http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US"
+		local remote_bg_url="http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=3&mkt=en-US"
 		--bing = sys.httpget(remote_bg_url)
 		bing = sys.exec("wget --timeout=0.5 -qO- '%s'" %remote_bg_url)
 		if (bing and bing ~= '') then
-			bg_url = "https://www.bing.com" .. json.parse(bing).images[1].url
+			bg_url = "https://www.bing.com" .. json.parse(bing).images[i].url
 		elseif ( bgcount > 0 ) then
 			bg_url = currentBg.url
 		end
-
 end
 
 %>
@@ -247,12 +247,7 @@ end
 	<link rel="stylesheet" href="<%=media%>/css/style.css?v=<%=math.random(1,100000)%>">
 	<link rel="stylesheet" href="<%=media%>/css/pure-min.css?v=<%=math.random(1,100000)%>">
 	<link rel="shortcut icon" href="<%=media%>/favicon.ico"> 
-	<% if node and node.css then %>
-		<link rel="stylesheet" href="<%=resource%>/<%=node.css%>">
-	<% end -%>
-	<% if css then %>
-		<style title="text/css"><%= css %></style>
-	<% end -%>
+	
 	<script src="<%=resource%>/cbi.js<%# ?v=PKG_VERSION %>"></script>
 	<script src="<%=resource%>/xhr.js<%# ?v=PKG_VERSION %>"></script>
 	<script src="<%=media%>/js/jquery.min.js<%# ?v=PKG_VERSION %>"></script>
