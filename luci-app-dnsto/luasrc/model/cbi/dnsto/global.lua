@@ -15,25 +15,11 @@ translate("注册与教程") ..
 "\" onclick=\"window.open('https://www.ddnsto.com')\"/>") ..
 "<br><br><b>" .. translate("运行状态：") .. status .. "</b>"
 
-t=a:section(TypedSection,"global",translate("设置"))
-t.anonymous=true
-t.addremove=false
-e=t:option(Flag,"enable",translate("启用"))
-e.default=0
-e.rmempty=false
-e=t:option(Value,"start_delay",translate("延迟启动"),translate("单位：秒"))
-e.datatype="uinteger"
-e.default="0"
-e.rmempty=true
-e=t:option(Value,"token",translate('ddnsto 令牌'))
-e.password=true
-e.rmempty=false
-if nixio.fs.access("/etc/config/ddnsto")then
-e=t:option(Button,"Configuration",translate("域名配置管理"))
-e.inputtitle=translate("打开网站")
-e.inputstyle="reload"
-e.write=function()
-luci.http.redirect("https://www.ddnsto.com/app/#/weixinlogin")
-end
-end
+s=a:section(TypedSection, "ddnsto", translate("设置"))
+s.addremove=false
+s.anonymous=true
+
+s:option(Flag, "enable", translate("Enable")).rmempty=false
+
+s:option(Value, "token", translate("Token")).rmempty=false
 return a

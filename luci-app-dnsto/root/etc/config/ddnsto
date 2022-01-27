@@ -1,4 +1,4 @@
 
-config global
+config ddnsto
 	option token ''
 	option enable '0'
