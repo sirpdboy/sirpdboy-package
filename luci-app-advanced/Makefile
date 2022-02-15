@@ -9,8 +9,8 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/package.mk
 
 PKG_NAME:=luci-app-advanced
-PKG_VERSION:=1.10
-PKG_RELEASE:=20210711
+PKG_VERSION:=1.11
+PKG_RELEASE:=20220215
 define Package/$(PKG_NAME)
   SECTION:=luci
   CATEGORY:=LuCI

@@ -75,6 +75,6 @@ $ifconfig eth0.18 hw ether 58:b0:35:86:cf:18
 $vconfig set_flag eth0.18 1 3
 $ifconfig eth0.18 up
 
-sed -i '/REDIRECT --to-ports 53/d' /etc/firewall.user
+sed -i '/MASQUERADE/d' /etc/firewall.user
 echo "iptables -t nat -I POSTROUTING -j MASQUERADE" >> /etc/firewall.user
 reboot

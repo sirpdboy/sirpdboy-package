@@ -23,6 +23,22 @@ if nixio.fs.access("/bin/nuc")then
 	o.write=function()
 	luci.sys.call("/bin/normalmode")
 	end
+	
+	o=s:taboption("mode",Button,"ipv4",translate("设置为IPV4模式"),translate("<font color=\"green\"><strong>点击切换固件为IPV4模式！</strong></font><br/>"))
+	o.inputtitle=translate("IPV4模式")
+	o.inputstyle="reload"
+
+	o.write=function()
+	luci.sys.call("/bin/ipmode 0")
+	end
+		
+	o=s:taboption("mode",Button,"ipv4",translate("设置为IPV6模式"),translate("<font color=\"green\"><strong>点击切换固件为IPV6模式！</strong></font><br/>"))
+	o.inputtitle=translate("IPV6模式")
+	o.inputstyle="reload"
+
+	o.write=function()
+	luci.sys.call("/bin/ipmode 1")
+	end
 end
 
 if nixio.fs.access("/etc/dnsmasq.conf")then
