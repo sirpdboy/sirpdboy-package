@@ -7,38 +7,31 @@ s=m:section(TypedSection,"advanced")
 s.anonymous=true
 
 if nixio.fs.access("/bin/nuc")then
-	s:tab("mode",translate("模式切换(旁路由）"),translate("<br />可以在这里切换旁路由和正常模式，重置你的网络设置。<br /><font color=\"Red\"><strong>点击后会立即重启设备，没有确认过程，请谨慎操作！</strong></font><br/>"))
-	o=s:taboption("mode",Button,"nucmode",translate("切换为旁路由模式"),translate("<font color=\"green\"><strong>本模式适合于单口和多网口主机，自动将网口全桥接好！<br />默认gateway是：192.168.1.1，ipaddr是192.168.1.2。用本机接口LAN接上级LAN当旁路由，主路由关闭DHCP服务。</strong></font><br/>"))
-	o.inputtitle=translate("旁路由模式")
-	o.inputstyle="reload"
-
-	o.write=function()
-	luci.sys.call("/bin/nuc")
-	end
-
-	o=s:taboption("mode",Button,"normalmode",translate("切换成正常模式"),translate("<font color=\"green\"><strong>本模式适合于有两个网口或以上的设备使用，如多网口软路由或者虚拟了两个以上网口的虚拟机使用！</strong></font><br/>"))
-	o.inputtitle=translate("正常模式")
-	o.inputstyle="reload"
-
-	o.write=function()
-	luci.sys.call("/bin/normalmode")
-	end
-	
-	o=s:taboption("mode",Button,"ipv4",translate("设置为IPV4模式"),translate("<font color=\"green\"><strong>点击切换固件为IPV4模式！</strong></font><br/>"))
-	o.inputtitle=translate("IPV4模式")
-	o.inputstyle="reload"
-
-	o.write=function()
-	luci.sys.call("/bin/ipmode 0")
-	end
-		
-	o=s:taboption("mode",Button,"ipv4",translate("设置为IPV6模式"),translate("<font color=\"green\"><strong>点击切换固件为IPV6模式！</strong></font><br/>"))
-	o.inputtitle=translate("IPV6模式")
-	o.inputstyle="reload"
-
-	o.write=function()
-	luci.sys.call("/bin/ipmode 1")
-	end
+  s:tab("mode",translate("模式切换(旁路由）"),translate("<br />可以在这里切换旁路由和正常模式，重置你的网络设置。<br /><font color=\"Red\"><strong>点击后会立即重启设备，没有确认过程，请谨慎操作！</strong></font><br/>"))
+  o=s:taboption("mode",Button,"nucmode",translate("切换为旁路由模式"),translate("<font color=\"green\"><strong>本模式适合于单口和多网口主机，自动将网口全桥接好！<br />默认gateway是：192.168.1.1，ipaddr是192.168.1.2。用本机接口LAN接上级LAN当旁路由，主路由关闭DHCP服务。</strong></font><br/>"))
+  o.inputtitle = translate("Apply")
+  o.inputstyle = "reset"
+  o.write = function()
+    luci.sys.exec("/bin/nuc &> /dev/null &")
+  end
+  o=s:taboption("mode",Button,"normalmode",translate("切换成路由模式"),translate("<font color=\"green\"><strong>本模式适合于有两个网口或以上的设备使用，如多网口软路由或者虚拟了两个以上网口的虚拟机使用！</strong></font><br/>"))
+  o.inputtitle = translate("Apply")
+  o.inputstyle = "reset"
+  o.write = function()
+   luci.sys.exec("/bin/normalmode &> /dev/null &")
+  end
+  o=s:taboption("mode",Button,"ipmode6",translate("设置为IPV6模式"),translate("<font color=\"green\"><strong>点击应用切换到IPV6模式！应用生效不会重启。</strong></font><br/>"))
+  o.inputtitle = translate("Apply")
+  o.inputstyle = "reload"
+  o.write = function()
+    luci.sys.exec("ipmode6 &> /dev/null &")
+  end
+data_update=s:taboption("mode",Button,"ipmode4",translate("设置为IPV4模式"),translate("<font color=\"green\"><strong>点击应用切换到IPV4模式！应用生效不会重启。</strong></font><br/>"))
+data_update.inputtitle = translate("Apply")
+data_update.inputstyle = "reload"
+data_update.write = function()
+  luci.sys.exec("ipmode4  &> /dev/null &")
+end
 end
 
 if nixio.fs.access("/etc/dnsmasq.conf")then

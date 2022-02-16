@@ -10,7 +10,7 @@ include $(INCLUDE_DIR)/package.mk
 
 PKG_NAME:=luci-app-advanced
 PKG_VERSION:=1.11
-PKG_RELEASE:=20220215
+PKG_RELEASE:=20220217
 define Package/$(PKG_NAME)
   SECTION:=luci
   CATEGORY:=LuCI
