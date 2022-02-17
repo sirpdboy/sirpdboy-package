@@ -78,6 +78,29 @@ e.remove("/tmp/network")
 end
 end
 end
+if nixio.fs.access("/etc/config/wireless")then
+s:tab("wirelessconf",translate("无线"), translate("本页是/etc/config/wireless的配置文件内容，应用保存后自动重启生效."))
+
+conf=s:taboption("wirelessconf",Value,"wirelessconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+conf.template="cbi/tvalue"
+conf.rows=20
+conf.wrap="off"
+conf.cfgvalue=function(t,t)
+return e.readfile("/etc/config/wireless")or""
+end
+conf.write=function(a,a,t)
+if t then
+t=t:gsub("\r\n?","\n")
+e.writefile("/etc/config/wireless.tmp",t)
+if(luci.sys.call("cmp -s /etc/config/wireless.tmp /etc/config/wireless")==1)then
+e.writefile("/etc/config/wireless",t)
+luci.sys.call("wifi reload >/dev/null &")
+end
+e.remove("/tmp//tmp/wireless.tmp")
+end
+end
+end
+
 if nixio.fs.access("/etc/hosts")then
 s:tab("hostsconf",translate("hosts"),translate("本页是配置/etc/hosts的文档内容。应用保存后自动重启生效"))
 
