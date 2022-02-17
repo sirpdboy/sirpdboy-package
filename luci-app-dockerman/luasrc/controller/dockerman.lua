@@ -10,11 +10,11 @@ module("luci.controller.dockerman",package.seeall)
 
 function index()
 	entry({"admin", "services", "docker"},
-		alias("admin", "services", "docker", "config"),
+		alias("admin", "services", "docker", "overview"),
 		_("Docker"),
 		40).acl_depends = { "luci-app-dockerman" }
 
-	entry({"admin", "services", "docker", "config"}, cbi("dockerman/configuration"), _("Configuration"), 8).leaf=true
+	entry({"admin", "services", "docker", "config"},cbi("dockerman/configuration"),_("Configuration"), 2).leaf=true
 	
 	-- local uci = (require "luci.model.uci").cursor()
 	-- if uci:get_bool("dockerd", "dockerman", "remote_endpoint") then

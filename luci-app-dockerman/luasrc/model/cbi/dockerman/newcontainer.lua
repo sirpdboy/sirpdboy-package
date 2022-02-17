@@ -566,7 +566,7 @@ o = s:option(Flag, "advance", translate("Advance"))
 o.rmempty = true
 o.disabled = 0
 o.enabled = 1
-o.default = default_config.advance or 0
+o.default =  0
 
 o = s:option(Value, "hostname",
 	translate("Host Name"),
