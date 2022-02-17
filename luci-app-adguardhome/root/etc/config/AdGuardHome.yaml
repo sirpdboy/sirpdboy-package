@@ -93,7 +93,7 @@ filters:
   url: http://sub.adtchrome.com/adt-chinalist-easylist.txt
   name: 广告终结者使用的拦截规则，基于ChinaList+EasyList修正维护
   id: 139789181
-- enabled: false
+- enabled: true
   url: https://easylist-downloads.adblockplus.org/easylist.txt
   name: EasyList-去除国际网页中大多数广告，包括不需要的框架、图像和对象
   id: 139789112
@@ -117,7 +117,7 @@ filters:
   url: https://gitee.com/xinggsf/Adblock-Rule/raw/master/rule.txt
   name: 乘风 广告过滤规则
   id: 139789133
-- enabled: true
+- enabled: false
   url: https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/all.txt
   name: 百万ADH广告拦截过滤规则
   id: 139789141
