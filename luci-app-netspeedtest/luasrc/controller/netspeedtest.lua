@@ -3,7 +3,7 @@ module("luci.controller.netspeedtest", package.seeall)
 
 function index()
 
-	entry({"admin","network","netspeedtest"},cbi("netspeedtest/netspeedtest", {hideapplybtn=true, hidesavebtn=true, hideresetbtn=true}),_("Netspeedtest"),90).dependent=true
+	entry({"admin","network","netspeedtest"},cbi("netspeedtest/netspeedtest", {hideapplybtn=true, hidesavebtn=true, hideresetbtn=true}),_("netspeedtest"),90).dependent=true
 
 	entry({"admin", "network","test_iperf0"}, post("test_iperf0"), nil).leaf = true
 
