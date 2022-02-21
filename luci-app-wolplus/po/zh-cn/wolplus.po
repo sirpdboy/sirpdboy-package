@@ -21,3 +21,6 @@ msgstr "唤醒"
 
 msgid "Please [Save & Apply] your changes first"
 msgstr "请先保存并应用您的设置"
+
+msgid "Control"
+msgstr "管控"
