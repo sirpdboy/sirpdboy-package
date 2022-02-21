@@ -4,8 +4,8 @@ function index()
 		return
 	end
 	
-	entry({"admin", "control"}, firstchild(), "Control", 44).dependent = false
 	entry({"admin", "control", "rebootschedule"}, cbi("rebootschedule"), "定时设置", 20).dependent = true
+	
 end
 
 
