@@ -3,10 +3,6 @@
     <img src="https://img.vim-cn.com/69/df015dc73fc71da07c3264766e8032ac042fed.png" alt="图飞了😂" title="opentopd" align="right" height="180" />
 </a>
 
-<p align="center">
-<img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/sirpdboy/sirpdboy-package/total?style=for-the-badge">
-<img alt="GitHub" src="https://img.shields.io/github/license/sirpdboy/sirpdboy?style=for-the-badge">
-<p>
     
 欢迎来到sirpdboy的源码仓库！
 =
