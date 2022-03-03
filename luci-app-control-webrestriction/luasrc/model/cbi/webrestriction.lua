@@ -21,8 +21,8 @@ t.rmempty = false
 
 t = e:option(ListValue, "limit_type", translate("限制模式"))
 t.default = "blacklist"
-t:value("whitelist", translate("白名单---（仅允许名单内用户联网）"))
-t:value("blacklist", translate("黑名单---（仅禁止名单内用户联网）"))
+t:value("whitelist", translate("白名单（仅允许名单内用户联网）"))
+t:value("blacklist", translate("黑名单（仅禁止名单内用户联网）"))
 t.rmempty = false
 
 --------------------------------------------------------

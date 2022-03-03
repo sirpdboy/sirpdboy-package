@@ -10,7 +10,7 @@ define Package/$(PKG_NAME)
   SECTION:=luci
   CATEGORY:=LuCI
   SUBMENU:=3. Applications
-  DEPENDS:=
+  DEPENDS:=+ipset
   TITLE:=LuCI support for webrestriction
   PKGARCH:=all
 endef
