@@ -1,0 +1,62 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "Tuning"
+msgstr "Tuning"
+
+msgid "CPU Tuning"
+msgstr "CPU Tuning"
+
+msgid "Manage CPU performance and temperature over LuCI."
+msgstr "Manage CPU performance and temperature over LuCI."
+
+msgid "CPU frequence:"
+msgstr "CPU frequence:"
+
+msgid "temperature:"
+msgstr "temperature:"
+
+msgid "CPUFreq governor"
+msgstr "CPUFreq governor"
+
+msgid "conservative"
+msgstr "Conservative"
+
+msgid "userspace"
+msgstr "Userspace"
+
+msgid "powersave"
+msgstr "Powersave"
+
+msgid "ondemand"
+msgstr "Ondemand"
+
+msgid "performance"
+msgstr "Performance"
+
+msgid "interactive"
+msgstr "Interactive"
+
+msgid "Fan trigger temperature"
+msgstr "Fan trigger temperature"
+
+msgid "IPK Mirror"
+msgstr "IPK Mirror"
+
+msgid "Select IPK Mirror server"
+msgstr "Select IPK Mirror server"
+
+msgid "Mirror server"
+msgstr "Mirror server"
+
+msgid "Tsinghua University"
+msgstr "Tsinghua University"
+
+msgid "USTC"
+msgstr "USTC"
+
+msgid "Alibaba Cloud"
+msgstr "Alibaba Cloud"
+
+msgid "Tencent Cloud"
+msgstr "Tencent Cloud"

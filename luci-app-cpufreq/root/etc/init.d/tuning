@@ -1,0 +1,18 @@
+#!/bin/sh /etc/rc.common
+
+START=20
+
+ipk_config() {
+	config_get ipk_mirror $1 mirror "disable"
+}
+
+start() {
+	config_load tuning
+	config_foreach ipk_config ipk
+
+	if [ "$ipk_mirror" != "disable" -a -f "/rom/etc/opkg/distfeeds.conf" ]; then
+		cat "/rom/etc/opkg/distfeeds.conf" | sed -E 's#https?://downloads.openwrt.org/#'"$ipk_mirror"'#g' > /etc/opkg/distfeeds.conf
+	fi
+
+	return 0
+}

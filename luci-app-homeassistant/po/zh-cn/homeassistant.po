@@ -1,0 +1,27 @@
+msgid "The homeassistant service is running."
+msgstr "homeassistant已启动"
+
+msgid "The homeassistant service is not running."
+msgstr "homeassistant服务未启动"
+
+msgid "The homeassistant service is not installed."
+msgstr "homeassistant服务未安装"
+
+msgid "open homeassistant"
+msgstr "打开homeassistant"
+
+msgid "stop homeassistant"
+msgstr "停止homeassistant"
+
+msgid "run homeassistant"
+msgstr "启动homeassistant"
+
+msgid "uninstall homeassistant"
+msgstr "删除homeassistant"
+
+msgid "install homeassistant"
+msgstr "安装homeassistant"
+
+msgid "Collecting data..."
+msgstr "收集数据..."
+
