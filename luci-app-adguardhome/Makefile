@@ -4,23 +4,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-adguardhome
-PKG_VERSION:=1.8
-PKG_RELEASE:=13
+PKG_MAINTAINER:=<https://github.com/rufengsuixing/luci-app-adguardhome>
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
-
-include $(INCLUDE_DIR)/package.mk
-
-define Package/luci-app-adguardhome
-	SECTION:=luci
-	CATEGORY:=LuCI
-	SUBMENU:=3. Applications
-	TITLE:=LuCI app for adguardhome
-	PKG_MAINTAINER:=<https://github.com/rufengsuixing/luci-app-adguardhome>
-	PKGARCH:=all
-	DEPENDS:=+ca-certs +curl +wget-ssl +PACKAGE_$(PKG_NAME)_INCLUDE_binary:adguardhome
-endef
-
+LUCI_TITLE:=LuCI app for AdGuardHome
+LUCI_PKGARCH:=all
+LUCI_DEPENDS:=+ca-certs +curl +wget-ssl +PACKAGE_$(PKG_NAME)_INCLUDE_binary:adguardhome
 LUCI_DESCRIPTION:=LuCI support for AdGuardHome
 
 
