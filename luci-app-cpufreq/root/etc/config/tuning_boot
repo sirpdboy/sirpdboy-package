@@ -1,2 +1,0 @@
-config fstab_delay
-	option 'enabled' '0'

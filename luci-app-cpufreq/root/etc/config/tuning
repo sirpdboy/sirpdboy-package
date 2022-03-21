@@ -1,2 +1,0 @@
-config ipk
-	option 'mirror' 'disable'

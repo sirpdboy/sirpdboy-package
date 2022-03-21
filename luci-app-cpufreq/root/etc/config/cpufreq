@@ -1,3 +1,0 @@
-config cpufreq
-	option 'governor' ''
-	option 'fan_temp' '85'
