@@ -8,7 +8,6 @@ auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
 language: zh-cn
-rlimit_nofile: 0
 debug_pprof: false
 web_session_ttl: 720
 dns:
@@ -18,7 +17,7 @@ dns:
   statistics_interval: 1
   querylog_enabled: true
   querylog_file_enabled: true
-  querylog_interval: 1
+  querylog_interval: 24h
   querylog_size_memory: 1000
   anonymize_client_ip: false
   protection_enabled: true
@@ -44,15 +43,20 @@ dns:
   - 2620:fe::fe:10
   all_servers: true
   fastest_addr: false
+  fastest_timeout: 1s
   allowed_clients: []
   disallowed_clients: []
   blocked_hosts:
   - version.bind
   - id.server
   - hostname.bind
+  trusted_proxies:
+  - 127.0.0.0/8
+  - ::1/128
   cache_size: 4194304
   cache_ttl_min: 60
   cache_ttl_max: 86400
+  cache_optimistic: false
   bogus_nxdomain: []
   aaaa_disabled: true
   enable_dnssec: true
@@ -70,8 +74,10 @@ dns:
   cache_time: 30
   rewrites: []
   blocked_services: []
+  upstream_timeout: 10s
   local_domain_name: lan
   resolve_clients: true
+  use_private_ptr_resolvers: true
   local_ptr_upstreams: []
 tls:
   enabled: false
@@ -89,6 +95,10 @@ tls:
   certificate_path: ""
   private_key_path: ""
 filters:
+- enabled: true
+  url: https://anti-ad.net/easylist.txt
+  name: 'CHN: anti-AD'
+  id: 1228750871
 - enabled: true
   url: http://sub.adtchrome.com/adt-chinalist-easylist.txt
   name: 广告终结者使用的拦截规则，基于ChinaList+EasyList修正维护
@@ -252,4 +262,8 @@ log_max_size: 100
 log_max_age: 3
 log_file: ""
 verbose: false
-schema_version: 10
+os:
+  group: ""
+  user: ""
+  rlimit_nofile: 0
+schema_version: 12

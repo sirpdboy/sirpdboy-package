@@ -40,7 +40,7 @@ dns:
   parental_cache_size: 1048576
   cache_time: 30
   rewrites: []
-  upstream_dns:
+upstream_dns:
 #upstream_dns
 tls:
   enabled: false
@@ -61,11 +61,15 @@ filters:
   url: https://adaway.org/hosts.txt
   name: AdAway
   id: 2
+- enabled: true
+  url: https://anti-ad.net/easylist.txt
+  name: 'CHN: anti-AD'
+  id: 1628750871
 - enabled: false
   url: https://hosts-file.net/ad_servers.txt
   name: hpHosts - Ad and Tracking servers only
   id: 3
-- enabled: true
+- enabled: false
   url: https://www.malwaredomainlist.com/hostslist/hosts.txt
   name: MalwareDomainList.com Hosts List
   id: 4
