@@ -38,7 +38,7 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_BIN) ./root/etc/init.d/netspeedtest  $(1)/etc/init.d/
 
 	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_CONF) ./root/etc/config/* $(1)/etc/config/ddnsto
+	$(INSTALL_CONF) ./root/etc/config/netspeedtest $(1)/etc/config/
 	$(INSTALL_DIR) $(1)/usr/sbin/
 	$(INSTALL_BIN) ./root/usr/sbin/speedtest $(1)/usr/sbin/
 	
