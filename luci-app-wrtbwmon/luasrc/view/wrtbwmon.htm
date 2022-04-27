@@ -3,10 +3,10 @@
 -%>
 
 <%
-	local fs = require "nixio.fs"
+	local util = require "luci.util"
 	local stat = require "luci.tools.status"
+	local fs = require "nixio.fs"
 	local dba = luci.model.uci.cursor():get("wrtbwmon", "general", "path")
-
 --	Function to generate table from string.
 	local function strToTable(str)
 		local tb = {}
@@ -174,7 +174,7 @@
 			<div class="tr">
 				<div class="td left" style="width:10%"><label><%:bandwidth:%></label></div>
 				<div class="td left" style="width:30%">
-					<input type="text" id="setBD" value="100M" /><label id="checkBD"></label>
+					<input type="text" id="setBD" value="1000M" /><label id="checkBD"></label>
 				</div>
 				<div class="td left" style="width:10%">
 					<label for="showMore"><%:Show More:%></label>
@@ -211,8 +211,8 @@
 		</div>
 
 		<div class="table">
-			<div class="tr"><div class="td left" width="10%"><%:downflow:%></div><div class="td left"  style="width:90%"><div id="downflow" class="cbi-progressbar" title="-"><div></div></div></div></div>
 			<div class="tr"><div class="td left" width="10%"><%:upflow:%></div><div class="td left" style="width:90%"><div id="upflow" class="cbi-progressbar" title="-"><div></div></div></div></div>
+			<div class="tr"><div class="td left" width="10%"><%:downflow:%></div><div class="td left"  style="width:90%"><div id="downflow" class="cbi-progressbar" title="-"><div></div></div></div></div>
 		</div>
 
 		<div class="table" id="traffic">
@@ -234,9 +234,8 @@
 	</div>
 </div>
 
-<script src="<%=resource%>/cbi.js"></script>
+<script type="text/javascript" src="<%=resource%>/cbi.js"></script>
 <script type="text/javascript">//<![CDATA[
-
 (function () {
 	var sortedId = "thTotal", sortedBy = "desc";
 	var cachedData = null;
@@ -290,8 +289,10 @@
 		progressbar('upflow', cachedData[1][1], bdw, true);
 		return
 	}
+			
 
 	function updateTable(tb, values, placeholder) {
+	
 		var dom = document.createDocumentFragment(), nodeLen = tb.childElementCount - 2;
 		var tbData = values[0], shadowNode, newNode, childTD, tabTitle = tb.firstElementChild;
 		var showMore = $('showMore').checked;
@@ -312,7 +313,6 @@
 				shadowNode.firstElementChild.appendChild(document.createTextNode(''));
 			}
 		}
-		// Update the table data.
 		for (var i = 0; i < tbData.length; i++) {
 			if (i < nodeLen) {
 				newNode = tabTitle.nextElementSibling;
@@ -321,9 +321,11 @@
 				newNode.className = 'tr cbi-rowstyle-%d'.format(i % 2 ? 2 : 1);
 			}
 			childTD = newNode.firstElementChild;
-			childTD.title = tbData[i][1];
+			childTD.title = tbData[i][1].toUpperCase() ;
+
 			childTD.lastChild.nodeValue = tbData[i].slice(-1);
-			for (var j = 0; j < tabTitle.childElementCount; j++, childTD = childTD.nextElementSibling){
+			if (childTD.lastChild.nodeValue == 'NA')tbData[i][0]='LAN-WAN';
+		for (var j = 0; j < tabTitle.childElementCount; j++, childTD = childTD.nextElementSibling){
 				childTD.firstChild.nodeValue = ('23456'.indexOf(j) != -1 ?
 					'%1024.2mB' + ('23'.indexOf(j) != -1  ? '/s' : '') :
 					'%s').format('78'.indexOf(j) != -1 ? dateToString(tbData[i][j]) : tbData[i][j]);
