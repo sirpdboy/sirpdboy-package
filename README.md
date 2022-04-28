@@ -1,7 +1,5 @@
-[![若部分图片无法正常显示，请挂上机场浏览或点这里到末尾看修复教程](https://visitor-badge.glitch.me/badge?page_id=sirpdboy-visitor-badge)](#解决-github-网页上图片显示失败的问题) [![](https://img.shields.io/badge/TG群-点击加入-FFFFFF.svg)](https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ)
-<a href="#readme">
-    <img src="https://img.vim-cn.com/69/df015dc73fc71da07c3264766e8032ac042fed.png" alt="图飞了😂" title="opentopd" align="right" height="180" />
-</a>
+[![](https://img.shields.io/badge/TG群-点击加入-FFFFFF.svg)](https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ)
+
 
     
 欢迎来到sirpdboy的源码仓库！
@@ -76,14 +74,16 @@ luci-theme-opentoks-------------------仿LEDE主题（适配18.06）
 ![xm2](doc/实时监控.jpg)
 ![xm3](doc/手机画面.jpg)
 
-感谢LEAN大，感谢LEO大 等大神分享源码，你可以随意使用其中的源码，但请注明出处。
-============================
 
+------------------------------
+
+**感谢LEAN大，感谢Lienol大 等大神分享源码，你可以随意使用其中的源码，但请注明出处。**
 
 # My other project
+
 网络速度测试 ：https://github.com/sirpdboy/NetSpeedTest
 
-定时关机重启 : https://github.com/sirpdboy/luci-app-autopoweroff
+定时关机重启 : https://github.com/sirpdboy/luci-app-autotimeset
 
 关机功能插件 : https://github.com/sirpdboy/luci-app-poweroffdevice
 
@@ -103,15 +103,29 @@ btmob 主题: https://github.com/sirpdboy/luci-theme-btmob
 
 ------------------------------
 
-## 捐助名单
+## 赞助名单
 
-**p*k                  捐助50元
+***洋                  赞助5元
 
-**loso                 捐助200元
+***畅                  赞助50元
 
-**KK                   捐助600元
+***石                  赞助7.77元
 
-**潮                   捐助50元
+***阳                  赞助66.66元
+
+***儒                  赞助10元
+
+***斌                  赞助10元
+
+**C*o                  赞助20元
+
+***洗                  赞助30元
+
+**p*k                  赞助50元
+
+**KK                   赞助600元
+
+**潮                   赞助50元
 
 ------------------------------
 
@@ -119,13 +133,7 @@ btmob 主题: https://github.com/sirpdboy/luci-theme-btmob
 
 |     <img src="https://img.shields.io/badge/-支付宝-F5F5F5.svg" href="#赞助支持本项目-" height="25" alt="图飞了😂"/>  |  <img src="https://img.shields.io/badge/-微信-F5F5F5.svg" height="25" alt="图飞了😂" href="#赞助支持本项目-"/>  | 
 | :-----------------: | :-------------: |
-|<img src="https://img.vim-cn.com/fd/8e2793362ac3510094961b04407beec569b2b4.png" width="150" height="150" alt="图飞了😂" href="#赞助支持本项目-"/>|<img src="https://img.vim-cn.com/c7/675730a88accebf37a97d9e84e33529322b6e9.png" width="150" height="150" alt="图飞了😂" href="#赞助支持本项目-"/>|
-
-<a href="#readme">
-    <img src="https://img.shields.io/badge/-返回顶部-orange.svg" alt="图飞了😂" title="返回顶部" align="right"/>
-</a>
-
-###### [解决 Github 网页上图片显示失败的问题](https://blog.csdn.net/qq_38232598/article/details/91346392)
+|![xm1](doc/支付宝.png) | ![xm1](doc/微信.png) |
 
 [![](https://img.shields.io/badge/TG群-点击加入-FFFFFF.svg)](https://t.me/joinchat/AAAAAEpRF88NfOK5vBXGBQ)
 
