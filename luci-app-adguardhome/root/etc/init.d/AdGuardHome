@@ -50,9 +50,7 @@ stop_forward_dnsmasq()
 	uci del_list dhcp.@dnsmasq[0].server=$addr 2>/dev/null
 	addrlist="`uci get dhcp.@dnsmasq[0].server 2>/dev/null`"
 	if [ -z "$addrlist" ] ; then
-		resolvfile="/tmp/resolv.conf.d/resolv.conf.auto"
-		[ ! -f "$resolvfile" ] && resolvfile="/tmp/resolv.conf.auto"
-		uci set dhcp.@dnsmasq[0].resolvfile="$resolvfile" 2>/dev/null
+		uci set dhcp.@dnsmasq[0].resolvfile=/tmp/resolv.conf.d/resolv.conf.auto 2>/dev/null
 		uci delete dhcp.@dnsmasq[0].noresolv 2>/dev/null
 	fi
 	uci commit dhcp
@@ -229,6 +227,9 @@ _do_redirect()
 	fi
 	config_get configpath $CONFIGURATION configpath "/etc/config/AdGuardHome.yaml"
 	AdGuardHome_PORT=$(config_editor "dns.port" "" "$configpath" "1")
+	if [ ! -s "$configpath" ]; then
+		cp -f /usr/share/AdGuardHome/AdGuardHome_template.yaml $configpath
+	fi
 	if [ -z "$AdGuardHome_PORT" ]; then
 		AdGuardHome_PORT="0"
 	fi
