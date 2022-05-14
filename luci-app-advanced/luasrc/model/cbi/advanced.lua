@@ -8,7 +8,7 @@ s.anonymous=true
 
 if nixio.fs.access("/bin/nuc")then
   s:tab("mode",translate("模式设置"),translate("<br />可以在这里切换旁路由和正常模式，重置你的网络设置。<br /><font color=\"Red\"><strong>点击后会立即重启设备，没有确认过程，请谨慎操作！</strong></font><br/>"))
-  o=s:taboption("mode",Button,"nucmode",translate("切换为旁路由模式"),translate("<font color=\"green\"><strong>本模式适合于单口和多网口主机，自动将网口全桥接好！<br />默认gateway是：192.168.1.1，ipaddr是192.168.1.2。用本机接口LAN接上级LAN当旁路由，主路由关闭DHCP服务。应用生效会重启软路由！</strong></font><br/>"))
+  o=s:taboption("mode",Button,"nucmode",translate("切换为旁路由模式"),translate("<font color=\"green\"><strong>本模式适合于单口和多网口主机，自动将网口全桥接好！<br />默认gateway是：192.168.8.1，ipaddr是192.168.8.2。用本机接口LAN接上级LAN当旁路由，主路由关闭DHCP服务。应用生效会重启软路由！</strong></font><br/>"))
   o.inputtitle = translate("Apply")
   o.inputstyle = "reset"
   o.write = function()

@@ -21,6 +21,6 @@ uci set dhcp.lan.ra_management='1'
 uci set dhcp.lan.ra_default='1'
 uci set dhcp.lan.force='1'
 uci commit dhcp
-sed -i "/list server/d" /etc/config/dhcp
+sed -i "s/list server/d" /etc/config/dhcp
 /etc/init.d/network restart
 /etc/init.d/dnsmasq restart

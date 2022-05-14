@@ -14,67 +14,24 @@ config interface 'loopback'
 
 config interface 'lan'
 	option type 'bridge'
-	option ifname 'eth0 eth1 eth2 eth3 eth4 eth5 eth0.12 eth0.13 eth0.14 eth0.15 eth0.16 eth0.17 eth0.18'
+	option ifname 'eth0 eth1 eth2 eth3 eth4 eth5'
 	option proto 'static'
-	option ipaddr '192.168.1.2'
+	option ipaddr '192.168.8.2'
 	option netmask '255.255.255.0'
-	option gateway '192.168.1.1'
+	option gateway '192.168.8.1'
 	option dns '223.5.5.5'
-
-config interface 'wan'
-	option ifname 'eth0.11'
-	option proto 'dhcp'
-	option hostname 'Openwrt'
 EOF
 
-#for eth1
-$ip link add link eth0 eth0.11 type vlan proto 802.1ad id 11
-$ifconfig eth0.11 hw ether 58:b0:35:86:cf:11
-$vconfig set_flag eth0.11 1 1
-$ifconfig eth0.11 up
-
-#for eth2
-$ip link add link eth0 eth0.12 type vlan proto 802.1ad id 12
-$ifconfig eth0.12 hw ether 58:b0:35:86:cf:12
-$vconfig set_flag eth0.12 1 2
-$ifconfig eth0.12 up
-
-#for eth3
-$ip link add link eth0 eth0.13 type vlan proto 802.1ad id 13
-$ifconfig eth0.13 hw ether 58:b0:35:86:cf:13
-$vconfig set_flag eth0.13 1 3
-$ifconfig eth0.13 up
-
-#for eth4
-$ip link add link eth0 eth0.14 type vlan proto 802.1ad id 14
-$ifconfig eth0.14 hw ether 58:b0:35:86:cf:14
-$vconfig set_flag eth0.14 1 3
-$ifconfig eth0.14 up
-
-#for eth5
-$ip link add link eth0 eth0.15 type vlan proto 802.1ad id 15
-$ifconfig eth0.15 hw ether 58:b0:35:86:cf:15
-$vconfig set_flag eth0.15 1 3
-$ifconfig eth0.15 up
-
-#for eth6
-$ip link add link eth0 eth0.16 type vlan proto 802.1ad id 16
-$ifconfig eth0.16 hw ether 58:b0:35:86:cf:16
-$vconfig set_flag eth0.16 1 3
-$ifconfig eth0.16 up
-
-#for eth7
-$ip link add link eth0 eth0.17 type vlan proto 802.1ad id 17
-$ifconfig eth0.17 hw ether 58:b0:35:86:cf:17
-$vconfig set_flag eth0.17 1 3
-$ifconfig eth0.17 up
-
-#for eth8
-$ip link add link eth0 eth0.18 type vlan proto 802.1ad id 18
-$ifconfig eth0.18 hw ether 58:b0:35:86:cf:18
-$vconfig set_flag eth0.18 1 3
-$ifconfig eth0.18 up
-
+uci set dhcp.@dnsmasq[0].filter_aaaa='1'
+uci set dhcp.lan.ra=''
+uci set dhcp.lan.ndp=''
+uci set dhcp.lan.dhcpv6=''
+uci set dhcp.lan.ignore='0'
+uci set dhcp.lan.ra_management='1'
+uci set dhcp.lan.ra_default='1'
+uci set dhcp.lan.force='1'
+uci commit dhcp
+sed -i "s/list server/d" /etc/config/dhcp
 sed -i '/MASQUERADE/d' /etc/firewall.user
-echo "iptables -t nat -I POSTROUTING -j MASQUERADE" >> /etc/firewall.user
+echo "iptables -t nat -I POSTROUTING -o br-lan -j MASQUERADE" >> /etc/firewall.user
 reboot
