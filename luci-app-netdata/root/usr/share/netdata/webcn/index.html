@@ -108,10 +108,6 @@
                 <ul class="nav navbar-nav">
                     <li id="alarmsButton"  title="检查健康状况监控警报与记录" data-toggle="tooltip" data-placement="bottom"><a href="#" class="btn" data-toggle="modal" data-target="#alarmsModal"><i class="fas fa-bell"></i>&nbsp;<span class="hidden-sm hidden-md">警报&nbsp;</span><span id="alarms_count_badge" class="badge"></span></a></li>
                     <li title="变更仪表板设定" data-toggle="tooltip" data-placement="bottom"><a href="#" class="btn" data-toggle="modal" data-target="#optionsModal"><i class="fas fa-cog"></i>&nbsp;<span class="hidden-sm hidden-md">设定</span></a></li>
-                    <li title="检查 netdata 更新<br/>您应随时保持 netdata 为最新版本" data-toggle="tooltip" data-placement="bottom" class="hidden-sm" id="updateButton"><a href="#" class="btn" data-toggle="modal" data-target="#updateModal"><i class="fas fa-cloud-download-alt"></i> <span class="hidden-sm hidden-md">更新 </span><span id="update_badge" class="badge"></span></a></li>
-                    <li title="到 netdata 在 github 上的 wiki<br/>记得 <b>给 netdata 一个 <i class=&quot;fas fa-star&quot;></i></b> !" data-toggle="tooltip" data-placement="bottom" class="hidden-xs hidden-sm hidden-md"><a href="https://github.com/netdata/netdata" class="btn" target="_blank"><i class="fab fa-github"></i></a></li>
-                    <li title="在 twitter 上跟随 netdata" data-toggle="tooltip" data-placement="bottom" class="hidden-xs hidden-sm hidden-md"><a href="https://twitter.com/linuxnetdata" class="btn" target="_blank"><i class="fab fa-twitter"></i></a></li>
-                    <li title="到 facebook 上给 netdata 按赞" data-toggle="tooltip" data-placement="bottom" class="hidden-xs hidden-sm hidden-md"><a href="https://www.facebook.com/linuxnetdata/" class="btn" target="_blank"><i class="fab fa-facebook"></i></a></li>
                     <li title="汇入 / 载入 netdata 快照" data-toggle="tooltip" data-placement="bottom" id="loadButton"><a href="#" class="btn" data-toggle="modal" data-target="#loadSnapshotModal"><i class="fas fa-download"></i>&nbsp;<span class="hidden-sm hidden-md hidden-lg">汇入</span></a></li>
                     <li title="汇出 / 储存 netdata 快照" data-toggle="tooltip" data-placement="bottom" id="saveButton"><a href="#" class="btn" data-toggle="modal" data-target="#saveSnapshotModal"><i class="fas fa-upload"></i>&nbsp;<span class="hidden-sm hidden-md hidden-lg">汇出</span></a></li>
                     <li title="将仪表板列印为 PDF" data-toggle="tooltip" data-placement="bottom" id="printButton"><a href="#" class="btn" data-toggle="modal" data-target="#printPreflightModal"><i class="fas fa-print"></i>&nbsp;<span class="hidden-sm hidden-md hidden-lg">列印</span></a></li>
@@ -180,14 +176,14 @@
         <div class="row">
             <div class="col-md-10" role="main">
                 <div class="p">
-                    <big><a href="https://github.com/netdata/netdata/wiki" target="_blank">Netdata</a></big>
+                    <big><a href="" target="_blank">Netdata</a></big>
                     <br /><br />
                     <i class="fas fa-copyright"></i> Copyright 2018, <a href="mailto:info@netdata.cloud">Netdata, Inc</a>.<br/>
                     <i class="fas fa-copyright"></i> Copyright 2016-2018, <a href="mailto:costa@tsaousis.gr">Costa Tsaousis</a>.<br/>
                 </div>
                 <div class="p">
                     以 <a href="http://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">GPL v3 或之后</a> 条款释出。
-                    Netdata 使用之 <a href="https://github.com/netdata/netdata/blob/master/REDISTRIBUTED.md" target="_blank">第三方工具</a>.
+                    Netdata 使用之 <a href="" target="_blank">第三方工具</a>.
                     <br /><br />
                 </div>
             </div>
@@ -420,14 +416,14 @@
                         </div>
                     </div>
                     <div class="p">
-                        <b><a href="https://github.com/netdata/netdata/wiki" target="_blank">netdata</a></b>
+                        <b><a href="" target="_blank">netdata</a></b>
                         is a new way to monitor your systems and applications, to get <strong>real-time insights</strong>
                         of what is really happening and what affects performance.
                         It is carefully optimised to be a real-time system, without interfering in any way,
                         to the core function of your systems.
                     </div>
                     <div class="p">
-                        <b><a href="https://github.com/netdata/netdata/wiki" target="_blank">netdata</a></b>
+                        <b><a href="" target="_blank">netdata</a></b>
                         has been designed to monitor <strong>massive amounts of metrics, per server, per second</strong>.
                         When installed, it might come up with 1k to 3k metrics, but we have been testing it with 100k
                         metrics, all collected per second, and still the cpu utilisation remained negligible.
@@ -437,9 +433,9 @@
                         better understanding of the underlying technologies and mechanisms.
                     </div>
                     <div class="p">
-                        <b><a href="https://github.com/netdata/netdata/wiki" target="_blank">netdata</a></b> is free,
+                        <b><a href="" target="_blank">netdata</a></b> is free,
                         open-source software. If you decide to use it,
-                        <strong><a href="https://github.com/netdata/netdata/tree/master/docs/a-github-star-is-important.md" target="_blank">it is important to give netdata a star at GitHub</a></strong>.
+                        <strong><a href="" target="_blank">it is important to give netdata a star at GitHub</a></strong>.
                     </div>
                     <div class="p">
                         Enjoy real-time performance monitoring!
@@ -1169,19 +1165,10 @@
                     您的 netdata 版本：<b><code><span id="netdataVersion">未知</span></code></b><br/>
                     <br/>
                     <div style="padding: 10px;"></div>
-                    <div id="versionCheckLog">尚未检查，请下 立即检查 按钮。</div>
                     <div>
-                        <hr/>
-                    </div>
-                    <div>
-                        到这里查阅 netdata 的进度报告与关键更新：<strong><a href="https://twitter.com/linuxnetdata" target="_blank">在 <i class="fab fa-twitter"></i> twitter 上跟随 netdata</a></strong>。
-                        <br/>
-                        您也可以在 <a href="https://www.facebook.com/linuxnetdata/" target="_blank"><i class="fab fa-facebook"></i> facebook 上给 netdata 按赞</a>,
-                        或是 <a href="https://github.com/netdata/netdata" target="_blank">到 <i class="fab fa-github"></i> github 上了解 netdata</a>.
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" onclick="notifyForUpdate(true); return false;" type="button" class="btn btn-default">立即检查</a>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div>

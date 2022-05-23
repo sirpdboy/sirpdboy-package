@@ -1,4 +1,4 @@
-luci-app-netdata for OpenWRT/Lede(жпнд)
+luci-app-netdata for OpenWRT/Lede
 
 
 Install to OpenWRT/LEDE
