@@ -20,6 +20,7 @@ add_wizard() {
 	uci -q del dhcp.lan.ignore
 	uci -q del network.lan.dns
 	uci -q del firewall.@zone[0].masq
+	uci  -q delete network.wan6
 	ifname=$(uci get network.wan.ifname 2>/dev/null)
 	config_get ipv6 "$cfg" ipv6
 	case "${wan_proto}" in

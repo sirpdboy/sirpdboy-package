@@ -76,7 +76,7 @@ e.placeholder = "223.5.5.5"
 e.datatype = "ip4addr"
 e.cast = "string"
 
-e = s:taboption("wansetup", Flag, "lan_dhcp", translate("DHCP Server"), translate("To turn on this DHCP, you need to turn off the DHCP of the primary route. To turn off this DHCP, you need to manually change the gateway and DNS of all Internet devices to the IP of the secondary route"))
+e = s:taboption("wansetup", Flag, "lan_dhcp", translate("Disable DHCP Server"), translate("To turn on this DHCP, you need to turn off the DHCP of the primary route. To turn off this DHCP, you need to manually change the gateway and DNS of all Internet devices to the IP of the secondary route"))
 e:depends({wan_proto="siderouter"})
 
 if has_wifi then
