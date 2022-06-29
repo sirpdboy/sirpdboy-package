@@ -11,7 +11,7 @@ uci:foreach("wireless", "wifi-device",
 			return false
 		end)
 
-local m = Map("wizard", luci.util.pcdata(translate("Inital Router Setup")), translate("If you are using this router for the first time, please configure it here.</br>")..translate("Four different ways to access the Internet, please choose according to your own situation.</br>")..translate("For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-wizard.git' target=\'_blank\'>GitHub @sirpdboy/luci-app-wizard</a>") )
+local m = Map("wizard", luci.util.pcdata(translate("Inital Router Setup")), translate("Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>")..translate("Four different ways to access the Internet, please choose according to your own situation.</br>")..translate("For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-wizard.git' target=\'_blank\'>GitHub @sirpdboy/luci-app-wizard</a>") )
 
 local s = m:section(TypedSection, "wizard", "")
 s.addremove = false
@@ -32,7 +32,7 @@ e:value("255.255.255.0")
 e:value("255.255.0.0")
 e:value("255.0.0.0")
 
-e = s:taboption("wansetup", ListValue, "wan_proto", translate("Network protocol mode selection"), translate("Four different ways to access the Internet, please choose according to your own situation."))
+e = s:taboption("wansetup", ListValue, "wan_proto", translate("Network protocol mode selection"), translate("Four different ways to access the Internet, please choose according to your own situation.</br>"))
 e:value("dhcp", translate("DHCP client"))
 e:value("static", translate("Static address"))
 e:value("pppoe", translate("PPPoE"))
@@ -60,17 +60,17 @@ e = s:taboption("wansetup", Value, "wan_gateway", translate("Wan IPv4 gateway"))
 e:depends({wan_proto="static"})
 e.datatype = "ip4addr"
 
-e = s:taboption("wansetup", DynamicList, "wan_dns", translate("Use custom Wan DNS servers"))
+e = s:taboption("wansetup", DynamicList, "wan_dns", translate("Use custom Wan DNS"))
 e:depends({wan_proto="dhcp"})
 e:depends({wan_proto="static"})
 e.datatype = "ip4addr"
 e.cast = "string"
 
-e = s:taboption("wansetup", Value, "lan_gateway", translate("Lan IPv4 gateway"), translate( "Please enter the primary route IPv4 address"))
+e = s:taboption("wansetup", Value, "lan_gateway", translate("Lan IPv4 gateway"), translate( "Please enter the primary routing IP address. The next routing gateway and the next routing IP must be a network segment"))
 e:depends({wan_proto="siderouter"})
 e.datatype = "ip4addr"
 
-e = s:taboption("wansetup", DynamicList, "lan_dns", translate("Use custom Siderouter DNS servers"))
+e = s:taboption("wansetup", DynamicList, "lan_dns", translate("Use custom Siderouter DNS"))
 e:depends({wan_proto="siderouter"})
 e.placeholder = "223.5.5.5"
 e.datatype = "ip4addr"

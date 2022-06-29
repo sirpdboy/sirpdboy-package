@@ -34,17 +34,14 @@ msgstr "设置路由器的无线名字和密码，更多高级设置请进入 �
 msgid "Other Settings"
 msgstr "其它设置"
 
-msgid "More network settings"
-msgstr "更多的网络设置"
-
 msgid "For specific usage, see:"
 msgstr "具体使用方法参见："
 
 msgid "SideRouter"
 msgstr "旁路由"
 
-msgid "Please enter the primary route IPv4 address"
-msgstr "请输入主路由IPv4地址"
+msgid "Please enter the primary routing IP address. The next routing gateway and the next routing IP must be a network segment"
+msgstr "请输入主路由IP地址,旁边路由网关和旁由路IP需是一个网段."
 
 msgid "To turn on this DHCP, you need to turn off the DHCP of the primary route. To turn off this DHCP, you need to manually change the gateway and DNS of all Internet devices to the IP of the secondary route"
 msgstr "开启此DHCP则需要关闭主路由的DHCP, 关闭此DHCP则需要手动将所有上网设备的网关和DNS改为此旁路由的IP"
@@ -56,25 +53,28 @@ msgid "Enable/Disable IPv6"
 msgstr "启用或禁用IPv6"
 
 msgid "Lan IPv4 address"
-msgstr "内网IPv4地址"
+msgstr "内网IP地址"
+
+msgid "Lan IPv4 gateway"
+msgstr "旁路由网关"
 
 msgid "Lan IPv4 netmask"
-msgstr "内网IPv4子网掩码"
+msgstr "内网子网掩码"
 
 msgid "Wan IPv4 address"
-msgstr "Wan口IPv4地址"
+msgstr "Wan口IP地址"
 
 msgid "Wan IPv4 netmask"
-msgstr "Wan口IPv4子网掩码"
+msgstr "Wan口子网掩码"
 
 msgid "Wan IPv4 gateway"
-msgstr "Wan口IPv4网关"
+msgstr "Wan口网关"
 
-msgid "Use custom Wan DNS servers"
-msgstr "自定义Wan口的DNS服务器"
+msgid "Use custom Wan DNS"
+msgstr "自定义Wan口的DNS"
 
-msgid "Use custom Siderouter DNS servers"
-msgstr "自定义旁路由DNS服务器"
+msgid "Use custom Siderouter DNS"
+msgstr "自定义旁路由DNS"
 
 msgid "Disable DHCP Server"
 msgstr "禁止DHCP服务"

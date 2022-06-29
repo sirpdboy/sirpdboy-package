@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-wizard
 PKG_VERSION:=1.0
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
@@ -46,19 +46,6 @@ define Package/luci-app-wizard/conffiles
 /etc/config/wizard
 endef
 
-define Package/luci-app-wizard/postinst
-#!/bin/sh
-if [ -z "$$IPKG_INSTROOT" ]; then
-  ( . /etc/uci-defaults/40_luci-app-wizard )
-  rm -f /etc/uci-defaults/40_luci-app-wizard
-  ( . /etc/uci-defaults/96-uci-defaults )
-  rm -f /etc/uci-defaults/96-uci-defaults
-
-  rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
-fi
-
-exit 0
-endef
 
 define Package/luci-app-wizard/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
