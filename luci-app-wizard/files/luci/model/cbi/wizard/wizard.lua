@@ -23,7 +23,7 @@ if has_wifi then
 end
 s:tab("othersetup", translate("Other Settings"))
 
-e = s:taboption("wansetup", Value, "lan_ipaddr", translate("Lan IPv4 address"))
+local e = s:taboption("wansetup", Value, "lan_ipaddr", translate("Lan IPv4 address"))
 e.datatype = "ip4addr"
 
 e = s:taboption("wansetup", Value, "lan_netmask", translate("Lan IPv4 netmask"))
@@ -32,7 +32,7 @@ e:value("255.255.255.0")
 e:value("255.255.0.0")
 e:value("255.0.0.0")
 
-local e = s:taboption("wansetup", ListValue, "wan_proto", translate("Network protocol mode selection"), translate("Four different ways to access the Internet, please choose according to your own situation."))
+e = s:taboption("wansetup", ListValue, "wan_proto", translate("Network protocol mode selection"), translate("Four different ways to access the Internet, please choose according to your own situation."))
 e:value("dhcp", translate("DHCP client"))
 e:value("static", translate("Static address"))
 e:value("pppoe", translate("PPPoE"))

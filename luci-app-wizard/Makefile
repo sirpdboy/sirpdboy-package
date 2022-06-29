@@ -24,6 +24,7 @@ define Package/luci-app-wizard
 	SUBMENU:=Configuration Wizard Support
 	TITLE:=LuCI Support for wizard
 	PKGARCH:=all
+	DEPENDS:=
 endef
 
 define Package/luci-app-wizard/description
