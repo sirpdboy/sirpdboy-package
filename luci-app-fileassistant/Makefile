@@ -6,33 +6,10 @@
 # 
 
 include $(TOPDIR)/rules.mk
-include $(INCLUDE_DIR)/package.mk
 
-PKG_NAME:=luci-app-fileassistant
-PKG_VERSION:=1.20
-PKG_RELEASE:=20220218
-define Package/$(PKG_NAME)
-  SECTION:=luci
-  CATEGORY:=LuCI
-  SUBMENU:=3. Applications
-  DEPENDS:=
-   TITLE:=LuCI Support for fileassistant
-   PKGARCH:=all
-endef
+LUCI_TITLE:=LuCI support for Fileassistant
+LUCI_PKGARCH:=all
 
-define Build/Compile
-endef
+include $(TOPDIR)/feeds/luci/luci.mk
 
-define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci
-	$(CP) ./luasrc/* $(1)/usr/lib/lua/luci
-	
-	$(INSTALL_DIR) $(1)/www
-	cp -pR ./htdocs/* $(1)/www/
-	
-	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_BIN) ./root/etc/uci-defaults/* $(1)/etc/uci-defaults/
-	
-endef
-
-$(eval $(call BuildPackage,$(PKG_NAME)))
+# call BuildPackage - OpenWrt buildroot signature

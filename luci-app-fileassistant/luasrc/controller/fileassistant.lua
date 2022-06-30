@@ -6,6 +6,7 @@ function index()
     page = entry({"admin", "system", "fileassistant"}, template("fileassistant"), _("文件管理"), 84)
     page.i18n = "base"
     page.dependent = true
+    page.acl_depends = { "luci-app-fileassistant" }
 
     page = entry({"admin", "system", "fileassistant", "list"}, call("fileassistant_list"), nil)     
     page.leaf = true
