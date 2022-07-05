@@ -43,14 +43,14 @@ msgstr "旁路由"
 msgid "Please enter the primary routing IP address. The next routing gateway and the next routing IP must be a network segment"
 msgstr "请输入主路由IP地址,旁边路由网关和旁由路IP需是一个网段."
 
-msgid "To turn on this DHCP, you need to turn off the DHCP of the primary route. To turn off this DHCP, you need to manually change the gateway and DNS of all Internet devices to the IP of the secondary route"
-msgstr "开启此DHCP则需要关闭主路由的DHCP, 关闭此DHCP则需要手动将所有上网设备的网关和DNS改为此旁路由的IP"
+msgid "If not selected, DHCP is disabled by default. If DHCP is used, the main route DHCP needs to be turned off. To disable DHCP, you need to manually change all Internet device gateways and DNS to this routing IP"
+msgstr "不选择默认为禁用DHCP，如使用DHCP，需关闭主路由DHCP。禁用DHCP，需手动将所有Internet设备网关和DNS更改为此路由IP"
 
-msgid "Disable IPv6"
-msgstr "禁用IPv6"
+msgid "Enable IPv6"
+msgstr "启用IPv6"
 
-msgid "Enable/Disable IPv6"
-msgstr "启用或禁用IPv6"
+msgid "If it is not selected, it is disabled IPv6; if it is selected, it is enabled IPv6If it is not selected, IPv6 will be disabled, and if it is selected, IPv6 will be enabled"
+msgstr "不选择为禁用IPV6，选择为启用IPV6"
 
 msgid "Lan IPv4 address"
 msgstr "内网IP地址"
@@ -76,8 +76,8 @@ msgstr "自定义Wan口的DNS"
 msgid "Use custom Siderouter DNS"
 msgstr "自定义旁路由DNS"
 
-msgid "Disable DHCP Server"
-msgstr "禁止DHCP服务"
+msgid "Enable DHCP Server"
+msgstr "启用DHCP服务"
 
 msgid "Disable Wizard"
 msgstr "禁止向导"

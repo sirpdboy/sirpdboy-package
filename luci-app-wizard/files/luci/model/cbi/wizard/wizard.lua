@@ -32,6 +32,8 @@ e:value("255.255.255.0")
 e:value("255.255.0.0")
 e:value("255.0.0.0")
 
+e = s:taboption("wansetup", Flag, "ipv6",translate('Enable IPv6'), translate('If it is not selected, IPv6 will be disabled, and if it is selected, IPv6 will be enabled'))
+
 e = s:taboption("wansetup", ListValue, "wan_proto", translate("Network protocol mode selection"), translate("Four different ways to access the Internet, please choose according to your own situation.</br>"))
 e:value("dhcp", translate("DHCP client"))
 e:value("static", translate("Static address"))
@@ -76,7 +78,7 @@ e.placeholder = "223.5.5.5"
 e.datatype = "ip4addr"
 e.cast = "string"
 
-e = s:taboption("wansetup", Flag, "lan_dhcp", translate("Disable DHCP Server"), translate("To turn on this DHCP, you need to turn off the DHCP of the primary route. To turn off this DHCP, you need to manually change the gateway and DNS of all Internet devices to the IP of the secondary route"))
+e = s:taboption("wansetup", Flag, "lan_dhcp", translate("Enable DHCP Server"), translate("If not selected, DHCP is disabled by default. If DHCP is used, the main route DHCP needs to be turned off. To disable DHCP, you need to manually change all Internet device gateways and DNS to this routing IP"))
 e:depends({wan_proto="siderouter"})
 
 if has_wifi then
@@ -87,8 +89,6 @@ if has_wifi then
 	e.datatype = "wpakey"
 	e.password = true
 end --has_wifi
-
-e = s:taboption("othersetup", Flag, "ipv6",translate('Disable IPv6'), translate('Enable/Disable IPv6'))
 
 e = s:taboption("othersetup", Flag, "display",translate('Disable Wizard'), translate('Enable/Disable boot entry Wizard'))
 

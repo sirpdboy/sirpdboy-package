@@ -1,6 +1,16 @@
 #!/bin/sh /etc/rc.common
 
+LOCK=/var/lock/wizard-boot.lock
 START=19
+set_lock() {
+	exec 1000>"$LOCK"
+	flock -xn 1000
+}
+
+unset_lock() {
+	flock -u 1000
+	rm -rf "$LOCK" 
+}
 
 boot() {
 	XBOOT=1 start
@@ -12,29 +22,33 @@ add_wizard() {
 	local wan_proto wan_ipaddr wan_netmask wan_gateway wan_dns wan_pppoe_user wan_pppoe_pass 
 	local ipv6 old_ipv6 wifi_ssid wifi_key old_wifi_ssid old_wifi_key
 	local lan_ipaddr lan_netmask  lan_gateway lan_dns lan_dhcp
-	local ifname
+	local ifname p
 
 	config_get wan_proto "$cfg" wan_proto
 
-	uci -q del network.lan.gateway
-	uci -q del dhcp.lan.ignore
-	uci -q del network.lan.dns
-	uci -q del firewall.@zone[0].masq
-	uci  -q delete network.wan6
-	ifname=$(uci get network.wan.ifname 2>/dev/null)
-	config_get ipv6 "$cfg" ipv6
+	uci -q delete network.lan.gateway
+	uci -q delete dhcp.lan.ignore
+	uci -q delete network.lan.dns
+	uci -q delete firewall.@zone[0].masq
+	uci -q delete network.wan6
+	
+ 	if ! ifname=$(uci get network.wan.ifname 2>/dev/null) ; then
+      	 ifname=$(uci get network.lan.ifname 2>/dev/null) 
+	 p=1
+  	fi
+
 	case "${wan_proto}" in
 		dhcp)
-			uci delete network.wan
-			uci set network.wan=interface
-			uci set network.wan.ifname="$ifname"
-			uci set network.wan.proto='dhcp'
-			uci set network.wan.metric='40'
+			uci -q delete network.wan
+			uci -q set network.wan=interface
+			uci -q set network.wan.ifname="$ifname"
+			uci -q set network.wan.proto='dhcp'
+			uci -q set network.wan.metric='40'
 			uci -q set network.wan.delegate='0'
 			config_get wan_dns "$cfg" wan_dns
 				test -n "${wan_dns}" && {
-					uci set network.wan.peerdns='0'
-					uci set network.wan.dns="${wan_dns}"
+					uci -q set network.wan.peerdns='0'
+					uci -q set network.wan.dns="${wan_dns}"
 				}
 			
 		;;
@@ -44,19 +58,19 @@ add_wizard() {
 			config_get wan_netmask "$cfg" wan_netmask
 			config_get wan_gateway "$cfg" wan_gateway
 			test -n "${wan_ipaddr}" && test -n "${wan_netmask}" && {
-				uci delete network.wan
-				uci set network.wan=interface
-				uci set network.wan.proto='static'
-				uci set network.wan.ifname="$ifname"
-				uci set network.wan.metric='40'
-				uci set network.wan.ipaddr="${wan_ipaddr}"
-				uci set network.wan.netmask="${wan_netmask}"
-				uci set network.wan.gateway="${wan_gateway}"
+				uci -q delete network.wan
+				uci -q set network.wan=interface
+				uci -q set network.wan.proto='static'
+				uci -q set network.wan.ifname="$ifname"
+				uci -q set network.wan.metric='40'
+				uci -q set network.wan.ipaddr="${wan_ipaddr}"
+				uci -q set network.wan.netmask="${wan_netmask}"
+				uci -q set network.wan.gateway="${wan_gateway}"
 
 				config_get wan_dns "$cfg" wan_dns
 				test -n "${wan_dns}" && {
-					uci set network.wan.peerdns='0'
-					uci set network.wan.dns="${wan_dns}"
+					uci -q set network.wan.peerdns='0'
+					uci -q set network.wan.dns="${wan_dns}"
 				}
 			}
 			
@@ -64,67 +78,80 @@ add_wizard() {
 		pppoe)
 			config_get wan_pppoe_user "$cfg" wan_pppoe_user
 			config_get wan_pppoe_pass "$cfg" wan_pppoe_pass
-			[[ "${wan_pppoe_user} != $(uci -q get network.wan.username)" || "${wan_pppoe_pass} != $(uci -q get network.wan.password)" ]] && {
+			[[ "${wan_pppoe_user} != $(uci get network.wan.username)" || "${wan_pppoe_pass} != $(uci get network.wan.password)" ]] && {
 			uci delete network.wan
-			uci set network.wan=interface
-			uci set network.wan.proto='pppoe'
-			uci set network.wan.ifname="$ifname"
-			uci set network.wan.metric='40'
-			uci set network.wan.username="${wan_pppoe_user}"
-			uci set network.wan.password="${wan_pppoe_pass}"
-			uci set network.wan.keepalive='5 5'
-			uci set network.wan.mtu='1460'
-			uci set network.wan.ipv6='1'
+			uci -q set network.wan=interface
+			uci -q set network.wan.proto='pppoe'
+			uci -q set network.wan.ifname="$ifname"
+			uci -q set network.wan.metric='40'
+			uci -q set network.wan.username="${wan_pppoe_user}"
+			uci -q set network.wan.password="${wan_pppoe_pass}"
+			uci -q set network.wan.keepalive='5 5'
+			uci -q set network.wan.mtu='1460'
+			uci -q set network.wan.ipv6='1'
 
-			uci get network.wan6 2>/dev/null && {
-				uci set network.wan6.ifname='@wan'
-				uci set network.wan6.reqaddress='try'
-				uci set network.wan6.reqprefix='auto'
-			}
 		}
 		;;
 		siderouter)
 			config_get lan_gateway "$cfg" lan_gateway
 			config_get lan_dns "$cfg" lan_dns
 			config_get lan_dhcp "$cfg" lan_dhcp
+			test -n "${lan_gateway}" && {
 				uci -q set network.lan.gateway="${lan_gateway}"
 				[ -n "$lan_dns" ] || lan_dns='223.5.5.5'
-				[ -n "$lan_dhcp" ] &&uci -q del dhcp.lan.ignore ||  uci -q set dhcp.lan.ignore="1"
-				uci set network.lan.dns="${lan_dns}"
+				[ -n "$lan_dhcp" ] && uci -q set dhcp.lan.ignore="0" || uci -q set dhcp.lan.ignore="1"
+				uci -q set network.lan.dns="${lan_dns}"
 				uci -q set firewall.@zone[0].masq='1'
-
+				uci delete network.wan
+				[ "$p" != 1 ]  && uci -q set network.lan.ifname="$(uci get network.lan.ifname 2>/dev/null) ${ifname}"
+				sed -i '/br-lan -j MASQUERADE/d'   /etc/firewall.user
+				echo 'iptables -t nat -I POSTROUTING -o br-lan -j MASQUERADE' >> /etc/firewall.user
+			}
 		;;		
 	esac
 
 	config_get lan_ipaddr "$cfg" lan_ipaddr
 	config_get lan_netmask "$cfg" lan_netmask
 	test -n "${lan_ipaddr}" && test -n "${lan_netmask}" && {
-		uci set network.lan.ipaddr="${lan_ipaddr}"
-		uci set network.lan.netmask="${lan_netmask}"
+		uci -q set network.lan.ipaddr="${lan_ipaddr}"
+		uci -q set network.lan.netmask="${lan_netmask}"
 	}
 
-	if [ -n "${ipv6}" ]; then
-	
-		uci -q delete dhcp.lan.ra
-		uci -q delete dhcp.lan.dhcpv6
-		uci -q set dhcp.@dnsmasq[0].filter_aaaa="1"
-		uci -q set network.lan.delegate='0'
-		uci -q set network.wan.ipv6='0'
-		uci -q set network.wan.delegate='0'
-		uci -q delete network.globals.ula_prefix
-	else
-		uci -q set dhcp.lan.ra='hybrid'
-		uci -q set dhcp.lan.dhcpv6='hybrid'
-		uci -q set dhcp.@dnsmasq[0].filter_aaaa='0'
-		uci -q set network.lan.delegate='0'
-		uci -q set network.wan.ipv6='auto'
-		uci -q set network.wan.delegate='0'
+	config_get ipv6 "$cfg" ipv6
+	config_get old_ipv6 "$cfg" old_ipv6
+	if [ "${ipv6}" != "${old_ipv6}" ]; then
+		if [ -n "${ipv6}" ]; then
+		
+			uci -q set dhcp.lan.ra='hybrid'
+			uci -q set dhcp.lan.dhcpv6='hybrid'
+			uci -q set dhcp.@dnsmasq[0].filter_aaaa='0'
+			uci -q set dhcp.lan.ndp=''
+			uci -q set dhcp.lan.ignore='0'
+			uci -q set dhcp.lan.ra_management='1'
+			uci -q set dhcp.lan.ra_default='1'
+			uci -q set dhcp.lan.force='1'
+			uci -q set network.wan.ipv6='auto'
+			uci -q set network.wan.delegate='0'
+			uci -q set network.lan.delegate='0'
+		else
+
+			uci -q set dhcp.lan.ra=''
+			uci -q set dhcp.lan.dhcpv6=''
+			uci -q set dhcp.lan.ndp=''
+			uci -q set dhcp.@dnsmasq[0].filter_aaaa="1"
+			uci -q set dhcp.lan.force='1'
+			uci -q set network.wan.ipv6='0'
+			uci -q set network.wan.delegate='0'
+			uci -q set network.lan.delegate='0'
+			uci -q delete network.globals.ula_prefix
+		fi
+		uci -q set wizard.default.old_ipv6="${ipv6}"
 	fi
 	
 	wifi_setup_radio(){
 	local radio=$1
-	uci -q get wireless.${radio} >/dev/null 2>&1 && {
-		if [ "$(uci -q get wireless.${radio}.band)" = "5g" ]; then
+	uci get wireless.${radio} >/dev/null 2>&1 && {
+		if [ "$(uci get wireless.${radio}.band)" = "5g" ]; then
 			uci -q set wireless.default_${radio}.ssid="${wifi_ssid}_5G"
 		else
 			uci -q set wireless.default_${radio}.ssid="${wifi_ssid}_2.4G"
@@ -151,21 +178,24 @@ add_wizard() {
 		done
 		uci commit wireless
 	}
+	uci -q set wizard.default.old_wifi_ssid="${wifi_ssid}"
+	uci -q set wizard.default.old_wifi_key="${wifi_ssid}"
 	fi
 
 	uci commit wizard
 	uci commit dhcp
 	uci commit firewall
 	uci commit network
-	uci commit wireless
-	(sleep 15
+	(sleep 5
 	 /etc/init.d/network restart
 	 /etc/init.d/dnsmasq reload)&
 }
 
 start() {
+	set_lock
 	config_load wizard
 	config_foreach add_wizard wizard
+	unset_lock
 }
 
 restart() {
