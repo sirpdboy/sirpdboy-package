@@ -10,9 +10,9 @@ CRON_FILE=/etc/crontabs/root
 
 extra_command "do_redirect" "0 or 1"
 extra_command "testbackup" "backup or restore"
-extra_command "test_crontab"
-extra_command "force_reload"
-extra_command "isrunning"
+extra_command "test_crontab" ""
+extra_command "force_reload" ""
+extra_command "isrunning" ""
 
 set_forward_dnsmasq()
 {
@@ -126,6 +126,7 @@ service_triggers() {
 	procd_add_reload_trigger "$CONFIGURATION"
 	[ "$(uci get AdGuardHome.AdGuardHome.redirect)" == "redirect" ] && procd_add_reload_trigger firewall
 }
+
 isrunning(){
 config_load "${CONFIGURATION}"
 _isrunning
@@ -133,16 +134,19 @@ local r=$?
 ([ "$r" == "0" ] && echo "running") || ([ "$r" == "1" ] && echo "not run" ) || echo "no bin"
 return $r
 }
+
 _isrunning(){
 	config_get binpath $CONFIGURATION binpath "/usr/bin/AdGuardHome"
 	[ ! -f "$binpath" ] && return 2
 	pgrep $binpath 2>&1 >/dev/null && return 0
 	return 1
 }
+
 force_reload(){
 	config_load "${CONFIGURATION}"
 	_isrunning && procd_send_signal "$CONFIGURATION" || start
 }
+
 get_tz()
 {
 	SET_TZ=""
@@ -208,11 +212,13 @@ use_port53()
 	uci commit dhcp
 	/etc/init.d/dnsmasq reload
 }
+
 do_redirect()
 {
 	config_load "${CONFIGURATION}"
 	_do_redirect $1
 }
+
 _do_redirect()
 {
 	local section="$CONFIGURATION"
@@ -363,12 +369,14 @@ testbackup(){
 		restore
 	fi
 }
+
 restore()
 {
 	config_get workdir $CONFIGURATION workdir "/etc/AdGuardHome"
 	config_get backupwdpath $CONFIGURATION backupwdpath "/etc/AdGuardHome"
 	cp -u -r -f $backupwdpath/data $workdir
 }
+
 backup() {
 	config_get backupwdpath $CONFIGURATION backupwdpath "/etc/AdGuardHome"
 	mkdir -p $backupwdpath/data
@@ -396,6 +404,7 @@ backup() {
 		done
 	done
 }
+
 start_service() {
 	# Reading config
 	rm /var/run/AdGserverdis >/dev/null 2>&1
@@ -546,10 +555,12 @@ boot() {
 		service_started
 	fi
 }
+
 test_crontab(){
 config_load "${CONFIGURATION}"
 do_crontab
 }
+
 do_crontab(){
 	config_get_bool enabled $CONFIGURATION enabled 0
 	config_get crontab $CONFIGURATION crontab ""
