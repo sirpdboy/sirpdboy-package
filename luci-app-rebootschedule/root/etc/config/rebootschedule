@@ -5,7 +5,7 @@ config crontab
 	option month '*'
 	option minute '0'
 	option command 'sync && echo 3 > /proc/sys/vm/drop_caches'
-	option enable '1'
+	option enable '0'
 
 config crontab
 	option month '*'
