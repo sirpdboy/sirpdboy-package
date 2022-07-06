@@ -25,6 +25,9 @@ msgstr "无线设置"
 msgid "Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>"
 msgstr "快速网络设置向导，如果需要更多的设置请进入 网络-接口 中设置.</br>"
 
+msgid "Automatically set the network card. By default, the last network port is wan, and the others are LAN ports. All network cards of the side route are bound to LAN</br>"
+msgstr "自动设置网卡，默认最后一个网口为WAN，其它的为LAN口，旁路由全部网卡绑定为LAN</br>"
+
 msgid "Four different ways to access the Internet, please choose according to your own situation.</br>"
 msgstr "四种上网方式:DHCP动态获取/PPPoe拨号/静态地址/旁路由，请您根据自身情况进行选择.</br>"
 
@@ -46,11 +49,11 @@ msgstr "请输入主路由IP地址,旁边路由网关和旁由路IP需是一个�
 msgid "If not selected, DHCP is disabled by default. If DHCP is used, the main route DHCP needs to be turned off. To disable DHCP, you need to manually change all Internet device gateways and DNS to this routing IP"
 msgstr "不选择默认为禁用DHCP，如使用DHCP，需关闭主路由DHCP。禁用DHCP，需手动将所有Internet设备网关和DNS更改为此路由IP"
 
-msgid "Enable IPv6"
-msgstr "启用IPv6"
+msgid "Disable IPv6"
+msgstr "禁用IPv6"
 
-msgid "If it is not selected, it is disabled IPv6; if it is selected, it is enabled IPv6If it is not selected, IPv6 will be disabled, and if it is selected, IPv6 will be enabled"
-msgstr "不选择为禁用IPV6，选择为启用IPV6"
+msgid "If it is not selected, IPv6 will be enabled, if it is selected, IPv6 will be disabled"
+msgstr "不选择为启用IPV6，选择为禁用IPV6"
 
 msgid "Lan IPv4 address"
 msgstr "内网IP地址"

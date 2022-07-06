@@ -1,6 +1,7 @@
 #
-# Copyright (C) 2017-2019 Chen Minqiang <ptpt52@gmail.com>
-#
+#  Copyright 2019 X-WRT <dev@x-wrt.com>
+#  Copyright 2022 sirpdboy
+
 # This is free software, licensed under the GNU General Public License v3.
 # See /LICENSE for more information.
 #
@@ -8,8 +9,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-wizard
-PKG_VERSION:=1.1
-PKG_RELEASE:=5
+PKG_VERSION:=1.2
+PKG_RELEASE:=8
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
@@ -46,19 +47,6 @@ define Package/luci-app-wizard/conffiles
 /etc/config/wizard
 endef
 
-define Package/luci-app-wizard/postinst
-#!/bin/sh
-if [ -z "$$IPKG_INSTROOT" ]; then
-  ( . /etc/uci-defaults/40_luci-app-wizard )
-  rm -f /etc/uci-defaults/40_luci-app-wizard
-  ( . /etc/uci-defaults/99-uci-defaults )
-  rm -f /etc/uci-defaults/99-uci-defaults
-
-  rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
-fi
-
-exit 0
-endef
 
 define Package/luci-app-wizard/install
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n

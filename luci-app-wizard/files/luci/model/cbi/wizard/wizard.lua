@@ -11,7 +11,7 @@ uci:foreach("wireless", "wifi-device",
 			return false
 		end)
 
-local m = Map("wizard", luci.util.pcdata(translate("Inital Router Setup")), translate("Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>")..translate("Four different ways to access the Internet, please choose according to your own situation.</br>")..translate("For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-wizard.git' target=\'_blank\'>GitHub @sirpdboy/luci-app-wizard</a>") )
+local m = Map("wizard", luci.util.pcdata(translate("Inital Router Setup")), translate("Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>")..translate("Automatically set the network card. By default, the last network port is wan, and the others are LAN ports. All network cards of the side route are bound to LAN</br>")..translate("For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-wizard.git' target=\'_blank\'>GitHub @sirpdboy/luci-app-wizard</a>") )
 
 local s = m:section(TypedSection, "wizard", "")
 s.addremove = false
@@ -32,7 +32,7 @@ e:value("255.255.255.0")
 e:value("255.255.0.0")
 e:value("255.0.0.0")
 
-e = s:taboption("wansetup", Flag, "ipv6",translate('Enable IPv6'), translate('If it is not selected, IPv6 will be disabled, and if it is selected, IPv6 will be enabled'))
+e = s:taboption("wansetup", Flag, "ipv6",translate('Disable IPv6'), translate('If it is not selected, IPv6 will be enabled, if it is selected, IPv6 will be disabled'))
 
 e = s:taboption("wansetup", ListValue, "wan_proto", translate("Network protocol mode selection"), translate("Four different ways to access the Internet, please choose according to your own situation.</br>"))
 e:value("dhcp", translate("DHCP client"))
