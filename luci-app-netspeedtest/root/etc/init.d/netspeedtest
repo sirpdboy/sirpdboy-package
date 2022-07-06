@@ -23,13 +23,19 @@ limit_log() {
 	fi
 }
 
+
+boot() {
+	XBOOT=1 start
+}
+
 init_env() {
-	[ ! -f "$LOG" ] && echo "netspeedtest by sirpdboy" > $LOG
+	[ ! -f "$LOG" ] && echo "" > $LOG
 	echo 1 > $TMP_T
    
 }
 
 nstest() {
+[ "x$XBOOT" = "x1" ] && return 0
     init_env
     echo -ne "\n  ————————————————————————————" | tee -a $LOG
     /usr/sbin/speedtest   --no-upload  | tee -a $TMP_T
@@ -50,4 +56,7 @@ reload(){
 start() {
     limit_log $LOG 200
 	nstest
+}
+restart() {
+	XRELOAD=1 start
 }
