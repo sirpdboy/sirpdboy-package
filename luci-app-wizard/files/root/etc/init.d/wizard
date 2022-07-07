@@ -24,22 +24,18 @@ add_wizard() {
 	local ipv6 wifi_ssid wifi_key old_wifi_ssid old_wifi_key
 	local lan_ipaddr lan_netmask  lan_gateway lan_dns lan_dhcp
 	local ifname ifname2 lannet wannet a b i
-
 	config_get wan_proto "$cfg" wan_proto
-
 	uci -q delete network.lan.gateway
 	uci -q delete dhcp.lan.ignore
 	uci -q delete network.lan.dns
 	uci -q delete firewall.@zone[0].masq
 	uci -q delete network.wan6
-	
  	if ! ifname=$(uci get network.wan.ifname 2>/dev/null) ; then
       	 ifname=$(uci get network.lan.ifname 2>/dev/null) 
   	fi
 	ifname2=$(echo $ifname | sed -r 's/([a-z]{1,})([0-9]{1,}).*/\1\ \2/'  | awk -F ' '  '{print $1}')
 	a=$(ip address | grep ^[0-9] | awk -F: '{print $2}' | sed "s/ //g" | grep $ifname2 | grep -v "@" | grep -v "\." )
 	b=$(echo "$a" | wc -l)
-
 	if [ ${b} -gt 1 ]; then
 	  lannet=""
 	  for i in $(seq 1 $b)
@@ -48,16 +44,13 @@ add_wizard() {
 			wannet=$(echo "$a" | sed -n ${b}p)
 		else
 			lannet="$lannet $(echo "$a" | sed -n ${i}p)"
-			
 		fi
 	  done
+	  uci -q set network.lan.ifname="${lannet}"
 	else
-	   wannet=$(echo "$a" | sed -n 1p)
-      	   lannet=$wannet
+	   wannet=$ifname
 	fi
- 
-	uci -q set network.lan.ifname="${lannet}"
-	case "${wan_proto}" in
+ 	case "${wan_proto}" in
 		dhcp)
 			uci -q delete network.wan
 			uci set network.wan=interface
@@ -70,9 +63,7 @@ add_wizard() {
 					uci set network.wan.peerdns='0'
 					uci set network.wan.dns="${wan_dns}"
 				}
-			
 		;;
-		
 		static)
 			config_get wan_ipaddr "$cfg" wan_ipaddr
 			config_get wan_netmask "$cfg" wan_netmask
@@ -86,14 +77,12 @@ add_wizard() {
 				uci set network.wan.ipaddr="${wan_ipaddr}"
 				uci set network.wan.netmask="${wan_netmask}"
 				uci set network.wan.gateway="${wan_gateway}"
-
 				config_get wan_dns "$cfg" wan_dns
 				test -n "${wan_dns}" && {
 					uci set network.wan.peerdns='0'
 					uci set network.wan.dns="${wan_dns}"
 				}
 			}
-			
 		;;
 		pppoe)
 			config_get wan_pppoe_user "$cfg" wan_pppoe_user
@@ -109,7 +98,6 @@ add_wizard() {
 			uci set network.wan.keepalive='5 5'
 			uci set network.wan.mtu='1460'
 			uci set network.wan.ipv6='1'
-
 		}
 		;;
 		siderouter)
@@ -147,7 +135,6 @@ add_wizard() {
 			uci -q set network.lan.delegate='0'
 			uci -q delete network.globals.ula_prefix
 		else
-
 			uci -q set dhcp.lan.ra='hybrid'
 			uci -q set dhcp.lan.dhcpv6='hybrid'
 			uci -q set dhcp.@dnsmasq[0].filter_aaaa='0'
@@ -160,7 +147,6 @@ add_wizard() {
 			uci -q set network.wan.delegate='0'
 			uci -q set network.lan.delegate='0'
 		fi
-	
 	wifi_setup_radio(){
 	local radio=$1
 	uci get wireless.${radio} >/dev/null 2>&1 && {
@@ -178,15 +164,12 @@ add_wizard() {
 			fi
 		}
 	}
-	
 	config_get wifi_ssid "$cfg" wifi_ssid
 	config_get wifi_key "$cfg" wifi_key
 	config_get old_wifi_ssid "$cfg" old_wifi_ssid
 	config_get old_wifi_key "$cfg" old_wifi_key
-
 	if [[ "${wifi_ssid}" != "${old_wifi_ssid}" || "${wifi_key}" != "${old_wifi_key}" ]]; then
- 
-	test -n "${wifi_ssid}" && {
+ 	test -n "${wifi_ssid}" && {
 		for radio in radio0 radio1 radio2 radio3; do
 			wifi_setup_radio ${radio}
 		done
@@ -195,7 +178,6 @@ add_wizard() {
 	uci -q set wizard.default.old_wifi_ssid="${wifi_ssid}"
 	uci -q set wizard.default.old_wifi_key="${wifi_ssid}"
 	fi
-
 	uci commit wizard
 	uci commit dhcp
 	uci commit firewall
