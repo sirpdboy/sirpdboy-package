@@ -111,18 +111,6 @@ filters:
   url: https://cdn.jsdelivr.net/gh/privacy-protection-tools/anti-AD@master/anti-ad-easylist.txt
   name: anti-AD命中率最高列表
   id: 139789122
-- enabled: true
-  url: https://gitee.com/halflife/list/raw/master/ad.txt
-  name: halflife合并乘风
-  id: 139789131
-- enabled: true
-  url: https://banbendalao.coding.net/p/adgk/d/ADgk/git/raw/master/ADgk.txt
-  name: adgk手机去广告规则
-  id: 139789132
-- enabled: true
-  url: https://gitee.com/xinggsf/Adblock-Rule/raw/master/rule.txt
-  name: 乘风 广告过滤规则
-  id: 139789133
 - enabled: false
   url: https://raw.githubusercontent.com/BlueSkyXN/AdGuardHomeRules/master/all.txt
   name: 百万ADH广告拦截过滤规则
@@ -131,7 +119,7 @@ filters:
   url: https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master/Hosts/GoodbyeAds-Ultra.txt
   name: GoodbyeAds 大全去广告
   id: 139789142
-- enabled: true
+- enabled: false
   url: https://gitee.com/xinggsf/Adblock-Rule/raw/master/mv.txt
   name: 乘风 视频广告过滤规则
   id: 139789143
@@ -220,20 +208,6 @@ user_rules:
 - '@@||meizu.com^$important'
 - '@@||flydigi.com^'
 - '@@||pv.sohu.com^$important'
-- /googleads.$~script,domain=~googleads.github.io
-- /pagead/lvz?
-- '||google.com/pagead/'
-- '||static.doubleclick.net^$domain=youtube.com'
-- '||youtube.com/get_midroll_'
-- '||5hz.org^'
-- '@@||000714.xyz^'
-- '@@||blueskyxn.com^'
-- '||topnewsfeeds.net^'
-- '||nbryb.com^'
-- '||superbdolly.com^'
-- '||salutationcheerlessdemote.com^'
-- '||buildingdoodlesquare.com^'
-- '||colonistnobilityheroic.com^'
 dhcp:
   enabled: false
   interface_name: ""
