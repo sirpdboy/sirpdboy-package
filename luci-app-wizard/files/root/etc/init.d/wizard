@@ -94,7 +94,6 @@ add_wizard() {
 			uci set network.wan.username="${wan_pppoe_user}"
 			uci set network.wan.password="${wan_pppoe_pass}"
 			uci set network.wan.keepalive='5 5'
-			uci set network.wan.mtu='1460'
 			uci set network.wan.ipv6='1'
 		}
 		;;
@@ -109,7 +108,7 @@ add_wizard() {
 				uci set network.lan.dns="${lan_dns}"
 				uci set firewall.@zone[0].masq='1'
 				uci -q delete network.wan
-				[ ${b} -gt 1 ] && uci -q set network.lan.ifname="$lannet ${wannet}"
+				[ ${b} -gt 1 ] && uci -q set network.lan.ifname="${lannet} ${wannet}"
 				sed -i '/br-lan -j MASQUERADE/d'   /etc/firewall.user
 				echo 'iptables -t nat -I POSTROUTING -o br-lan -j MASQUERADE' >> /etc/firewall.user
 			}
