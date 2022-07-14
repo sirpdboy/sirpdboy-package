@@ -37,18 +37,16 @@ add_wizard() {
 	a=$(ip address | grep ^[0-9] | awk -F: '{print $2}' | sed "s/ //g" | grep $ifname2 | grep -v "@" | grep -v "\." )
 	b=$(echo "$a" | wc -l)
 	if [ ${b} -gt 1 ]; then
-	  lannet=""
-	  for i in $(seq 1 $b)
+	  lannet=$(echo "$a" | sed -n 1p)
+	  for i in $(seq 2 $b)
 	  do
 		if [ $i = $b ]; then
 			wannet=$(echo "$a" | sed -n ${b}p)
 		else
-			lannet="$lannet $(echo "$a" | sed -n ${i}p)"
+			lannet="$lannet "$(echo "$a" | sed -n ${i}p)
 		fi
 	  done
 	  uci -q set network.lan.ifname="${lannet}"
-	else
-	   wannet=$ifname
 	fi
  	case "${wan_proto}" in
 		dhcp)
