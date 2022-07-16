@@ -1,5 +1,5 @@
 #!/bin/sh
-[  -n  "$(uci -q get wizard.default=wizard)" ] uci set wizard.default=wizard
+[  -n  "$(uci -q get wizard.default=wizard)" ] && uci set wizard.default=wizard
 uci -q set wizard.default.wifi_ssid="$(uci -q get wireless.@wifi-iface[0].ssid)"
 uci -q set wizard.default.wifi_key="$(uci -q get wireless.@wifi-iface[0].key)"
 [ "$(uci -q get network.wan.proto)" ] && uci -q set wizard.default.wan_proto="$(uci -q get network.wan.proto)" || uci -q set wizard.default.wan_proto="siderouter"

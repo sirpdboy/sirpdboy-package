@@ -6,11 +6,9 @@ function index()
 	if not nixio.fs.access("/etc/config/wizard") then
 		return
 	end
-
 		local page 
-		page = entry({"admin", "Statistics"}, cbi("wizard/wizard"), _("Inital Setup"), 21)
+		page = entry({"admin", "network"}, cbi("wizard/wizard"), _("Inital Setup"), 21)
 		page.i18n = "wizard"
 		page.dependent = true
 
-	
 end

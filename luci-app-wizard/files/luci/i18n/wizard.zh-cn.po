@@ -22,11 +22,14 @@ msgstr "网络设置"
 msgid "Wireless Settings"
 msgstr "无线设置"
 
+msgid "Wan interface Settings"
+msgstr "指定Wan口物理接口设置"
+
 msgid "Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>"
 msgstr "快速网络设置向导，如果需要更多的设置请进入 网络-接口 中设置.</br>"
 
-msgid "Automatically set the network card. By default, the last network port is wan, and the others are LAN ports. All network cards of the side route are bound to LAN</br>"
-msgstr "自动设置网卡，默认最后一个网口为WAN，其它的为LAN口，旁路由全部网卡绑定为LAN</br>"
+msgid "The network card is automatically set, and the physical interfaces other than the specified WAN interface are automatically bound as LAN ports, and all side routes are bound as LAN ports.</br>"
+msgstr "自动设置网卡，除指定WAN口物理接口之外的物理接口自动绑定为LAN口，旁路由全绑定为LAN口</br>"
 
 msgid "Four different ways to access the Internet, please choose according to your own situation.</br>"
 msgstr "四种上网方式:DHCP动态获取/PPPoe拨号/静态地址/旁路由，请您根据自身情况进行选择.</br>"
@@ -85,5 +88,5 @@ msgstr "启用DHCP服务"
 msgid "Disable Wizard"
 msgstr "禁止向导"
 
-msgid "Enable/Disable boot entry Wizard"
-msgstr "启用或禁用开机进入向导"
+msgid "Enable/Disable Wizard"
+msgstr "启用或禁用向导"

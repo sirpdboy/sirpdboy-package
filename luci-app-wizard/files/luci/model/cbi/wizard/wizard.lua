@@ -1,6 +1,10 @@
 -- Copyright 2019 X-WRT <dev@x-wrt.com>
 -- Copyright 2022 sirpdboy
 
+local o = require "luci.sys"
+local net = require "luci.model.network".init()
+local sys = require "luci.sys"
+local ifaces = sys.net:devices()
 local nt = require "luci.sys".net
 local uci = require("luci.model.uci").cursor()
 
@@ -11,7 +15,7 @@ uci:foreach("wireless", "wifi-device",
 			return false
 		end)
 
-local m = Map("wizard", luci.util.pcdata(translate("Inital Router Setup")), translate("Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>")..translate("Automatically set the network card. By default, the last network port is wan, and the others are LAN ports. All network cards of the side route are bound to LAN</br>")..translate("For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-wizard.git' target=\'_blank\'>GitHub @sirpdboy/luci-app-wizard</a>") )
+local m = Map("wizard", luci.util.pcdata(translate("Inital Router Setup")), translate("Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>")..translate("The network card is automatically set, and the physical interfaces other than the specified WAN interface are automatically bound as LAN ports, and all side routes are bound as LAN ports.</br>")..translate("For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-wizard.git' target=\'_blank\'>GitHub @sirpdboy/luci-app-wizard</a>") )
 
 local s = m:section(TypedSection, "wizard", "")
 s.addremove = false
@@ -40,6 +44,22 @@ e:value("static", translate("Static address"))
 e:value("pppoe", translate("PPPoE"))
 e:value("siderouter", translate("SideRouter"))
 
+e = s:taboption("wansetup",Value, "wan_interface", translate("Wan interface Settings"))
+for _, iface in ipairs(ifaces) do
+if not (iface:match("_ifb$") or iface:match("^ifb*")) then
+	if ( iface:match("^eth*") or iface:match("^wlan*") or iface:match("^usb*")) then
+		local nets = net:get_interface(iface)
+		nets = nets and nets:get_networks() or {}
+		for k, v in pairs(nets) do
+			nets[k] = nets[k].sid
+		end
+		nets = table.concat(nets, ",")
+		e:value(iface, ((#nets > 0) and "%s (%s)" % {iface, nets} or iface))
+	end
+end
+end
+e.rmempty = false
+
 e = s:taboption("wansetup", Value, "wan_pppoe_user", translate("PAP/CHAP username"))
 e:depends({wan_proto="pppoe"})
 
@@ -62,8 +82,10 @@ e = s:taboption("wansetup", Value, "wan_gateway", translate("Wan IPv4 gateway"))
 e:depends({wan_proto="static"})
 e.datatype = "ip4addr"
 
+
 e = s:taboption("wansetup", DynamicList, "wan_dns", translate("Use custom Wan DNS"))
 e:depends({wan_proto="dhcp"})
+
 e:depends({wan_proto="static"})
 e.datatype = "ip4addr"
 e.cast = "string"
@@ -90,7 +112,7 @@ if has_wifi then
 	e.password = true
 end --has_wifi
 
-e = s:taboption("othersetup", Flag, "display",translate('Disable Wizard'), translate('Enable/Disable boot entry Wizard'))
+e = s:taboption("othersetup", Flag, "display",translate('Disable Wizard'), translate('Enable/Disable Wizard'))
 
 
 return m
