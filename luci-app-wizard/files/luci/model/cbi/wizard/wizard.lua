@@ -44,7 +44,7 @@ e:value("static", translate("Static address"))
 e:value("pppoe", translate("PPPoE"))
 e:value("siderouter", translate("SideRouter"))
 
-e = s:taboption("wansetup",Value, "wan_interface", translate("Wan interface Settings"))
+e = s:taboption("wansetup",Value, "wan_interface",translate("interface<font color=\"red\">(*)</font>"), translate("Allocate the physical interface of WAN port, and the side route can not be selected"))
 for _, iface in ipairs(ifaces) do
 if not (iface:match("_ifb$") or iface:match("^ifb*")) then
 	if ( iface:match("^eth*") or iface:match("^wlan*") or iface:match("^usb*")) then
@@ -58,7 +58,6 @@ if not (iface:match("_ifb$") or iface:match("^ifb*")) then
 	end
 end
 end
-e.rmempty = false
 
 e = s:taboption("wansetup", Value, "wan_pppoe_user", translate("PAP/CHAP username"))
 e:depends({wan_proto="pppoe"})

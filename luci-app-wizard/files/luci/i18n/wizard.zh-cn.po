@@ -22,8 +22,11 @@ msgstr "网络设置"
 msgid "Wireless Settings"
 msgstr "无线设置"
 
-msgid "Wan interface Settings"
-msgstr "指定Wan口物理接口设置"
+msgid "Allocate the physical interface of WAN port, and the side route can not be selected"
+msgstr "分配Wan口的物理接口,旁路由可不选择."
+
+msgid "interface<font color=\"red\">(*)</font>"
+msgstr "接口<font color=\"red\">(*)</font>"
 
 msgid "Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>"
 msgstr "快速网络设置向导，如果需要更多的设置请进入 网络-接口 中设置.</br>"
