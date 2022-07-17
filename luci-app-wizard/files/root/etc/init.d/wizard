@@ -67,7 +67,6 @@ add_wizard() {
 				uci -q delete network.wan
 				uci set network.wan=interface
 				uci set network.wan.proto='static'
-				uci set network.wan.ifname="${wan_interface}"
 				uci set network.wan.metric='40'
 				uci set network.wan.ipaddr="${wan_ipaddr}"
 				uci set network.wan.netmask="${wan_netmask}"
@@ -78,6 +77,7 @@ add_wizard() {
 					uci set network.wan.dns="${wan_dns}"
 				}
 			}
+			uci set network.wan.ifname="${wan_interface}"
 		;;
 		pppoe)
 			config_get wan_pppoe_user "$cfg" wan_pppoe_user
@@ -86,13 +86,13 @@ add_wizard() {
 			uci -q delete network.wan
 			uci set network.wan=interface
 			uci set network.wan.proto='pppoe'
-			uci set network.wan.ifname="${wan_interface}"
 			uci set network.wan.metric='40'
 			uci set network.wan.username="${wan_pppoe_user}"
 			uci set network.wan.password="${wan_pppoe_pass}"
 			uci set network.wan.keepalive='5 5'
 			uci set network.wan.ipv6='1'
-		}
+			}
+			uci set network.wan.ifname="${wan_interface}"
 		;;
 		siderouter)
 			config_get lan_gateway "$cfg" lan_gateway
