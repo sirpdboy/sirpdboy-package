@@ -8,13 +8,15 @@
 <div class="cbi-map">
 
 <script type="text/javascript">//<![CDATA[
-		function upnetdata(button) {
-
-		(new XHR()).post('<%=controller%>/admin/status/netdata/call', { token: '<%=token%>' }, check);
+		function reinit() {
+	    <%=luci.sys.exec("/etc/init.d/netdate restart  >/dev/null ") %>
 	}
 //]]></script>
 
+<input class="cbi-button cbi-button-reset" type="reset" onClick=reinit() value="<%:NetData Restart%>" style="float: left"/>
+
 <iframe id="netdata" style="width: 100%; min-height: 780px; border: none; border-radius: .375rem;box-shadow: rgba(0, 0, 0, 0.75) 0px 0px 15px -5px;"></iframe>
+
 </div>
 <script type="text/javascript">
         document.getElementById("netdata").src = window.location.protocol + "//" + window.location.hostname + ":19999";
