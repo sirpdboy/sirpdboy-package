@@ -19,6 +19,9 @@ msgstr "DHCP自动获取"
 msgid "Wan Settings"
 msgstr "网络设置"
 
+msgid "wan_interface"
+msgstr "WAN口接口"
+
 msgid "Wireless Settings"
 msgstr "无线设置"
 

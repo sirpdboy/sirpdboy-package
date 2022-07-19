@@ -19,37 +19,46 @@ boot() {
 
 add_wizard() {
 	[ "x$XBOOT" = "x1" ] && return 0
-	[ $(uci get wizard.default.display 2>/dev/null)  = 1  ] && return 0
 	local cfg="$1"
 	local wan_proto wan_ipaddr wan_netmask wan_gateway wan_dns wan_pppoe_user wan_pppoe_pass 
 	local ipv6 wifi_ssid wifi_key old_wifi_ssid old_wifi_key
 	local lan_ipaddr lan_netmask lan_gateway lan_dns lan_dhcp wan_interface
 	local ifname ifname2 lannet a b i
+ 	config_get display "$cfg" display
 	config_get wan_proto "$cfg" wan_proto
-	uci -q delete network.lan.gateway
+	config_get wan_interface "$cfg" wan_interface
+ 	[ -n "$wan_interface" ] || wan_interface=$(uci get network.wan.ifname 2>/dev/null) 
+	ifname=$(uci get network.lan.ifname 2>/dev/null) 
+	[ "$display" = 1 ] && return 0
+  	uci -q delete network.lan.gateway
 	uci -q delete dhcp.lan.ignore
 	uci -q delete network.lan.dns
 	uci -q delete firewall.@zone[0].masq
+	uci -q delete network.wan
 	uci -q delete network.wan6
-	ifname=$(uci get network.lan.ifname 2>/dev/null) 
-	config_get wan_interface "$cfg" wan_interface
- 	[ -n "$wan_interface" ] || wan_interface=$(uci get network.wan.ifname 2>/dev/null) 
+	uci set network.wan=interface
+	uci set network.wan6=interface
+	uci set network.wan6.proto='dhcpv6'
+	uci set network.wan6.delegate='0'
 	ifname2=$(echo $ifname | sed -r 's/([a-z]{1,})([0-9]{1,}).*/\1\ \2/'  | awk -F ' '  '{print $1}')
 	a=$(ip address | grep ^[0-9] | awk -F: '{print $2}' | sed "s/ //g" | grep $ifname2 | grep -v "@" | grep -v "\." )
 	b=$(echo "$a" | wc -l)
-	if [ ${b} -gt 1 ]; then
-	  lannet=$(echo "$a" | sed -n 1p)
-	  for i in $(seq 2 $b)
+	[ ${b} -gt 1 ] && {
+	  lannet=""
+	  for i in $(seq 1 $b)
 	  do
-		[ ${wan_interface} = $(echo "$a" | sed -n ${b}p) ] || lannet="${lannet} "$(echo "$a" | sed -n ${i}p)
+		[ "${wan_interface}" = "$(echo "$a" | sed -n ${i}p)" ] || lannet="${lannet} $(echo "$a" | sed -n ${i}p)"
 	  done
 	  uci -q set network.lan.ifname="${lannet}"
-	fi
+	  
+	}
+	
+	uci set network.wan.ifname="${wan_interface}"
+	uci set network.wan6.ifname="${wan_interface}"
  	case "${wan_proto}" in
 		dhcp)
-			uci -q delete network.wan
-			uci set network.wan=interface
-			uci set network.wan.ifname="${wan_interface}"
+
+
 			uci set network.wan.proto='dhcp'
 			uci set network.wan.metric='40'
 			uci set network.wan.delegate='0'
@@ -64,8 +73,6 @@ add_wizard() {
 			config_get wan_netmask "$cfg" wan_netmask
 			config_get wan_gateway "$cfg" wan_gateway
 			test -n "${wan_ipaddr}" && test -n "${wan_netmask}" && {
-				uci -q delete network.wan
-				uci set network.wan=interface
 				uci set network.wan.proto='static'
 				uci set network.wan.metric='40'
 				uci set network.wan.ipaddr="${wan_ipaddr}"
@@ -77,22 +84,18 @@ add_wizard() {
 					uci set network.wan.dns="${wan_dns}"
 				}
 			}
-			uci set network.wan.ifname="${wan_interface}"
 		;;
 		pppoe)
 			config_get wan_pppoe_user "$cfg" wan_pppoe_user
 			config_get wan_pppoe_pass "$cfg" wan_pppoe_pass
 			[[ "${wan_pppoe_user} != $(uci get network.wan.username)" || "${wan_pppoe_pass} != $(uci get network.wan.password)" ]] && {
-			uci -q delete network.wan
-			uci set network.wan=interface
+
 			uci set network.wan.proto='pppoe'
 			uci set network.wan.metric='40'
 			uci set network.wan.username="${wan_pppoe_user}"
 			uci set network.wan.password="${wan_pppoe_pass}"
 			uci set network.wan.keepalive='5 5'
-			uci set network.wan.ipv6='1'
 			}
-			uci set network.wan.ifname="${wan_interface}"
 		;;
 		siderouter)
 			config_get lan_gateway "$cfg" lan_gateway
@@ -105,6 +108,7 @@ add_wizard() {
 				uci set network.lan.dns="${lan_dns}"
 				uci set firewall.@zone[0].masq='1'
 				uci -q delete network.wan
+				uci -q delete network.wan6
 				[ ${b} -gt 1 ] && uci -q set network.lan.ifname="${lannet} ${wan_interface}"
 				sed -i '/br-lan -j MASQUERADE/d'   /etc/firewall.user
 				echo 'iptables -t nat -I POSTROUTING -o br-lan -j MASQUERADE' >> /etc/firewall.user
@@ -119,6 +123,7 @@ add_wizard() {
 	}
 	config_get ipv6 "$cfg" ipv6
 		if [ -n "${ipv6}" ]; then
+			uci -q delete network.wan6
 			uci -q set dhcp.lan.ra=''
 			uci -q set dhcp.lan.dhcpv6=''
 			uci -q set dhcp.lan.ndp=''
@@ -176,7 +181,7 @@ add_wizard() {
 	uci commit dhcp
 	uci commit firewall
 	uci commit network
-	(sleep 5
+	(sleep 3
 	 /etc/init.d/network restart
 	 /etc/init.d/dnsmasq reload)&
 }
