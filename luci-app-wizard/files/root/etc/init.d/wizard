@@ -29,7 +29,7 @@ add_wizard() {
 	config_get wan_interface "$cfg" wan_interface
  	[ -n "$wan_interface" ] || wan_interface=$(uci get network.wan.ifname 2>/dev/null) 
 	ifname=$(uci get network.lan.ifname 2>/dev/null) 
-	[ "$display" = 1 ] && return 0
+	[ "x$display" = "x1" ] && return 0
   	uci -q delete network.lan.gateway
 	uci -q delete dhcp.lan.ignore
 	uci -q delete network.lan.dns
@@ -47,6 +47,7 @@ add_wizard() {
 	  lannet=""
 	  for i in $(seq 1 $b)
 	  do
+	        [ "x$(echo "$a" | sed -n ${i}p)" = "x" ] && continue
 		[ "${wan_interface}" = "$(echo "$a" | sed -n ${i}p)" ] || lannet="${lannet} $(echo "$a" | sed -n ${i}p)"
 	  done
 	  uci -q set network.lan.ifname="${lannet}"
