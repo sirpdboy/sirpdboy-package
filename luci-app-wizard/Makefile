@@ -9,8 +9,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-wizard
-PKG_VERSION:=1.3
-PKG_RELEASE:=14
+PKG_VERSION:=1.4
+PKG_RELEASE:=15
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
@@ -54,7 +54,6 @@ if [ -z "$$IPKG_INSTROOT" ]; then
   rm -f /etc/uci-defaults/40_luci-app-wizard
   ( . /etc/uci-defaults/99-uci-defaults )
   rm -f /etc/uci-defaults/99-uci-defaults
-
   rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
 fi
 exit 0
