@@ -34,16 +34,16 @@
     var mainNodeName = undefined;
 
     var nodeUrl = "";
-    (function(node){
-        if (node[0] == "admin"){
+    (function (node) {
+        if (node[0] == "admin") {
             luciLocation = [node[1], node[2]];
-        }else{
+        } else {
             luciLocation = node;
         }
 
-        for(var i in luciLocation){
+        for (var i in luciLocation) {
             nodeUrl += luciLocation[i];
-            if (i != luciLocation.length - 1){
+            if (i != luciLocation.length - 1) {
                 nodeUrl += "/";
             }
         }
@@ -59,24 +59,7 @@
             luciLocation = ["Main", "Login"];
             return true;
         }
-        $(".main > .main-left > .nav > .slide > .active").next(".slide-menu").stop(true).slideUp("fast");
-        $(".main > .main-left > .nav > .slide > .menu").removeClass("active");
-        $(".main > .main-left > .nav > .slide > .menu").each(function () {
-            var ulNode = $(this);
-            ulNode.next().find("a").each(function () {
-                var that = $(this);
-                var href = that.attr("href");
 
-                if (href.indexOf(nodeUrl) != -1) {
-                    ulNode.click();
-                    ulNode.next(".slide-menu").stop(true, true);
-                    lastNode = that.parent();
-                    lastNode.addClass("active");
-                    ret = true;
-                    return true;
-                }
-            });
-        });
         return ret;
     }
 
@@ -102,6 +85,7 @@
 
             return false;
         }
+
     });
 
     /**
@@ -143,6 +127,7 @@
         mainNodeName = "node-" + luciLocation[0] + "-" + luciLocation[1];
         mainNodeName = mainNodeName.replace(/[ \t\n\r\/]+/g, "_").toLowerCase();
         $("body").addClass(mainNodeName);
+	
     }
     $(".cbi-button-up").val("");
     $(".cbi-button-down").val("");
@@ -250,4 +235,5 @@
                 break;
         }
     }
+
 })(jQuery);
