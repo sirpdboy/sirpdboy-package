@@ -1,5 +1,5 @@
 --
--- Copyright (C) 2018-2020 Ruilin Peng (Nick) <pymumu@gmail.com>.
+-- Copyright (C) 2018-2022 Ruilin Peng (Nick) <pymumu@gmail.com>.
 --
 -- smartdns is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -70,7 +70,7 @@ end
 ---- Support DualStack ip selection
 o = s:taboption("settings", Flag, "dualstack_ip_selection", translate("Dual-stack IP Selection"), translate("Enable IP selection between IPV4 and IPV6"))
 o.rmempty     = false
-o.default     = o.disabled
+o.default     = o.enabled
 o.cfgvalue    = function(...)
     return Flag.cfgvalue(...) or "0"
 end
@@ -83,10 +83,11 @@ o.cfgvalue    = function(...)
     return Flag.cfgvalue(...) or "0"
 end
 
----- Serve expired
-o = s:taboption("settings", Flag, "serve_expired", translate("Serve expired"), translate("Attempts to serve old responses from cache with a TTL of 0 in the response without waiting for the actual resolution to finish."))
+---- Domain Serve expired
+o = s:taboption("settings", Flag, "serve_expired", translate("Serve expired"), 
+	translate("Attempts to serve old responses from cache with a TTL of 0 in the response without waiting for the actual resolution to finish."))
 o.rmempty     = false
-o.default     = o.disabled
+o.default     = o.enabled
 o.cfgvalue    = function(...)
     return Flag.cfgvalue(...) or "0"
 end
@@ -102,24 +103,74 @@ o.rempty      = false
 
 ---- cache-size
 o = s:taboption("settings", Value, "cache_size", translate("Cache Size"), translate("DNS domain result cache size"))
+o.placeholder = "512"
+o.default     = 512
 o.rempty      = true
 
 ---- rr-ttl
 o = s:taboption("settings", Value, "rr_ttl", translate("Domain TTL"), translate("TTL for all domain result."))
+o.placeholder = "600"
+o.default     = 600
 o.rempty      = true
 
 ---- rr-ttl-min
 o = s:taboption("settings", Value, "rr_ttl_min", translate("Domain TTL Min"), translate("Minimum TTL for all domain result."))
 o.rempty      = true
-o.placeholder = "300"
-o.default     = 300
+o.placeholder = "60"
+o.default     = 60
 o.optional    = true
 
----- second dns server
 ---- rr-ttl-max
 o = s:taboption("settings", Value, "rr_ttl_max", translate("Domain TTL Max"), translate("Maximum TTL for all domain result."))
+o.placeholder = "600"
+o.default     = 600
 o.rempty      = true
 
+---- rr-ttl-reply-max
+o = s:taboption("settings", Value, "rr_ttl_reply_max", translate("Domain Reply TTL Max"), translate("Maximum Reply TTL for all domain result."))
+o.placeholder = "60"
+o.default     = 60
+o.rempty      = true
+
+---- max-reply-ip-num
+o = s:taboption("settings", Value, "max_reply_ip_num", translate("Max Reply IP Num"), translate("Maximum number of IPs returned to the client"))
+o.datatype = "range(1,16)"
+o.default     = 1
+o.rempty      = true
+
+---- log-level
+o = s:taboption("settings", ListValue, "log_level", translate("log level"))
+o:value("fatal", translate("fatal"))
+o:value("error", translate("error"))
+o:value("warn", translate("warn"))
+o:value("notice", translate("notice"))
+o:value("info", translate("info"))
+o:value("debug", translate("debug"))
+o.default     = "error"
+o.rempty      = false
+
+---- log-size
+o = s:taboption("settings", ListValue, "log_size", translate("log size"))
+o:value("128k")
+o:value("256k")
+o:value("512k")
+o:value("1024k")
+o.default     = "128k"
+o.rempty      = false
+
+---- log-num
+o = s:taboption("settings", Value, "log_num", translate("log num"))
+o.datatype = "range(1,9)"
+o.default     = 2
+o.rempty      = true
+
+---- log-file
+o = s:taboption("settings", Value, "log_file", translate("log file"))
+o.placeholder = translate("/var/log/smartdns.log")
+o.default = "/var/log/smartdns.log"
+o.rempty      = true
+
+---- second dns server
 ---- Eanble
 o = s:taboption("seconddns", Flag, "seconddns_enabled", translate("Enable"), translate("Enable or disable second DNS server."))
 o.default     = o.disabled
@@ -127,8 +178,8 @@ o.rempty      = false
 
 ---- Port
 o = s:taboption("seconddns", Value, "seconddns_port", translate("Local Port"), translate("Smartdns local server port"))
-o.placeholder = 7053
-o.default     = 7053
+o.placeholder = 6553
+o.default     = 6553
 o.datatype    = "port"
 o.rempty      = false
 
@@ -278,13 +329,14 @@ o:value("https", translate("https"))
 o.default     = "udp"
 o.rempty      = false
 
--- Doman addresss
-s = m:section(TypedSection, "smartdns", translate("Domain Address"), 
-	translate("Set Specific domain ip address."))
-s.anonymous = true
+s = m:section(TypedSection, "smartdns", translate("Advanced Settings"), translate("Advanced Settings"));
+s.anonymous = true;
 
----- address
-addr = s:option(Value, "address",
+s:tab("domain-address", translate("Domain Address"), translate("Set Specific domain ip address."));
+s:tab("blackip-list", translate("IP Blacklist"), translate("Set Specific ip blacklist."));
+
+-- Doman addresss
+addr = s:taboption("domain-address", Value, "address",
 	translate(""), 
 	translate("Specify an IP address to return for any host in the given domains, Queries in the domains are never forwarded and always replied to with the specified IP address which may be IPv4 or IPv6."))
 
@@ -301,12 +353,7 @@ function addr.write(self, section, value)
 end
 
 -- IP Blacklist
-s = m:section(TypedSection, "smartdns", translate("IP Blacklist"), 
-	translate("Set Specific ip blacklist."))
-s.anonymous = true
-
----- blacklist
-addr = s:option(Value, "blacklist_ip",
+addr = s:taboption("blackip-list", Value, "blacklist_ip",
 	translate(""), 
 	translate("Configure IP blacklists that will be filtered from the results of specific DNS server."))
 
@@ -322,7 +369,7 @@ function addr.write(self, section, value)
 	nixio.fs.writefile("/etc/smartdns/blacklist-ip.conf", value)
 end
 
--- Doman addresss
+-- Technical Support
 s = m:section(TypedSection, "smartdns", translate("Technical Support"), 
 	translate("If you like this software, please buy me a cup of coffee."))
 s.anonymous = true
