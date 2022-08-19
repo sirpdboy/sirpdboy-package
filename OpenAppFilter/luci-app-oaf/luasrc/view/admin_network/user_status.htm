@@ -1,6 +1,6 @@
 <% local dsp=require "luci.dispatcher" -%>
 	<script type="text/javascript">//<![CDATA[
-		XHR.poll(5, '<%=url('admin/services/dev_app_status')%>', null,
+		XHR.poll(5, '<%=url('admin/network/dev_app_status')%>', null,
 			function (x, st) {
 				var tb = document.getElementById('user_status_table');
 				var dev_list_str = JSON.stringify(st);

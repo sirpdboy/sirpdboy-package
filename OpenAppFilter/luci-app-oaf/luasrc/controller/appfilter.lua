@@ -29,21 +29,21 @@ function index()
 	entry({"admin", "services", "appfilter", "feature"}, 
 		cbi("appfilter/feature", {hideapplybtn=true, hidesavebtn=true, hideresetbtn=true}), _("特征库升级"), 25).leaf=true
 
-	page = entry({"admin", "services", "user_status"}, call("user_status"), nil)
+	page = entry({"admin", "network", "user_status"}, call("user_status"), nil)
 	page.leaf = true
 
-	page = entry({"admin", "services", "dev_app_status"}, call("dev_app_status"), nil)
+	page = entry({"admin", "network", "dev_app_status"}, call("dev_app_status"), nil)
 	page.leaf = true
 
-	page = entry({"admin", "services", "dev_visit_list"}, call("get_dev_visit_list"), nil)
+	page = entry({"admin", "network", "dev_visit_list"}, call("get_dev_visit_list"), nil)
 	page.leaf = true
 
-	page = entry({"admin", "services", "feature_upgrade"}, call("handle_feature_upgrade"), nil)
+	page = entry({"admin", "network", "feature_upgrade"}, call("handle_feature_upgrade"), nil)
 	page.leaf = true
 
-	page = entry({"admin", "services", "dev_visit_time"}, call("get_dev_visit_time"), nil)
+	page = entry({"admin", "network", "dev_visit_time"}, call("get_dev_visit_time"), nil)
 	page.leaf = true
-	page = entry({"admin", "services", "app_class_visit_time"}, call("get_app_class_visit_time"), nil)
+	page = entry({"admin", "network", "app_class_visit_time"}, call("get_app_class_visit_time"), nil)
 	page.leaf = true
 end
 

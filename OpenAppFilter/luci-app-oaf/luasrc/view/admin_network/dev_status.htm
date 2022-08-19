@@ -274,20 +274,20 @@
         };
         myChart.setOption(option);
     }
-    new XHR().get('<%=url('admin/services/app_class_visit_time')%>/' + mac, null,
+    new XHR().get('<%=url('admin/network/app_class_visit_time')%>/' + mac, null,
         function (x, st) {
             display_app_class_view(st);
         }
     );
 
-    new XHR().get('<%=url('admin/services/dev_visit_time')%>/' + mac, null,
+    new XHR().get('<%=url('admin/network/dev_visit_time')%>/' + mac, null,
         function (x, st) {
             display_app_visit_view(st);
         }
     );
 
 
-    new XHR().get('<%=url('admin/services/dev_visit_list')%>/' + mac, null,
+    new XHR().get('<%=url('admin/network/dev_visit_list')%>/' + mac, null,
         function (x, st) {
             var tb = document.getElementById('user_status_table');
             var str = JSON.stringify(st);
