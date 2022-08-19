@@ -97,7 +97,7 @@ o.description=translate("bin use less space,but may have compatibility issues")
 o.rmempty = true
 ---- config path
 o = s:option(Value, "configpath", translate("Config Path"), translate("AdGuardHome config path"))
-o.default = "/etc/config/AdGuardHome.yaml"
+o.default     = "/etc/AdGuardHome.yaml"
 o.datatype    = "string"
 o.optional = false
 o.rmempty=false
