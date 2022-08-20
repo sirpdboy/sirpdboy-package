@@ -231,7 +231,7 @@ _do_redirect()
 	else
 		echo -n "0">/var/run/AdGredir
 	fi
-	config_get configpath $CONFIGURATION configpath "/etc/AdGuardHome.yaml"
+	config_get configpath $CONFIGURATION configpath "/etc/config/AdGuardHome.yaml"
 	AdGuardHome_PORT=$(config_editor "dns.port" "" "$configpath" "1")
 	if [ ! -s "$configpath" ]; then
 		cp -f /usr/share/AdGuardHome/AdGuardHome_template.yaml $configpath
@@ -411,7 +411,7 @@ start_service() {
 	config_load "${CONFIGURATION}"
 	# update password
 	config_get hashpass $CONFIGURATION hashpass ""
-	config_get configpath $CONFIGURATION configpath "/etc/AdGuardHome.yaml"
+	config_get configpath $CONFIGURATION configpath "/etc/config/AdGuardHome.yaml"
 	if [ -n "$hashpass" ]; then
 		config_editor "users.password" "$hashpass" "$configpath"
 		uci set $CONFIGURATION.$CONFIGURATION.hashpass=""

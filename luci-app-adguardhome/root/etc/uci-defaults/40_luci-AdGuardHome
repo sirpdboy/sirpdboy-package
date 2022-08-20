@@ -1,5 +1,6 @@
 #!/bin/sh
 
+chmod +x /etc/init.d/AdGuardHome /usr/share/AdGuardHome/*
 uci -q batch <<-EOF >/dev/null 2>&1
 	delete ucitrack.@AdGuardHome[-1]
 	add ucitrack AdGuardHome
@@ -11,5 +12,4 @@ EOF
 
 rm -f /tmp/luci-indexcache
 
-chmod +x /etc/init.d/AdGuardHome /usr/share/AdGuardHome/*
 exit 0

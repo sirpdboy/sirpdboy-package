@@ -30,28 +30,28 @@ check_latest_version(){
 	fi
 	now_ver="$($binpath -c /dev/null --check-config 2>&1| grep -m 1 -E 'v[0-9.]+' -o)"
 	if [ "${latest_ver}"x != "${now_ver}"x ] || [ "$1" == "force" ]; then
-		echo -e "Local version: ${now_ver}., cloud version: ${latest_ver}." 
+		echo -e "Local version: ${now_ver}., cloud version: ${latest_ver}."
 		doupdate_core
 	else
-			echo -e "\nLocal version: ${now_ver}, cloud version: ${latest_ver}." 
-			echo -e "You're already using the latest version." 
-			if [ ! -z "$upxflag" ]; then
-				filesize=$(ls -l $binpath | awk '{ print $5 }')
-				if [ $filesize -gt 8000000 ]; then
-					echo -e "start upx may take a long time"
-					doupx
-					mkdir -p "/tmp/AdGuardHomeupdate/AdGuardHome" >/dev/null 2>&1
-					rm -fr /tmp/AdGuardHomeupdate/AdGuardHome/${binpath##*/}
-					/tmp/upx-${upx_latest_ver}-${Arch}_linux/upx $upxflag $binpath -o /tmp/AdGuardHomeupdate/AdGuardHome/${binpath##*/}
-					rm -rf /tmp/upx-${upx_latest_ver}-${Arch}_linux
-					/etc/init.d/AdGuardHome stop nobackup
-					rm $binpath
-					mv -f /tmp/AdGuardHomeupdate/AdGuardHome/${binpath##*/} $binpath
-					/etc/init.d/AdGuardHome start
-					echo -e "finished"
-				fi
+		echo -e "\nLocal version: ${now_ver}, cloud version: ${latest_ver}."
+		echo -e "You're already using the latest version."
+		if [ ! -z "$upxflag" ]; then
+			filesize=$(ls -l $binpath | awk '{ print $5 }')
+			if [ $filesize -gt 8000000 ]; then
+				echo -e "start upx may take a long time"
+				doupx
+				mkdir -p "/tmp/AdGuardHomeupdate/AdGuardHome" >/dev/null 2>&1
+				rm -fr /tmp/AdGuardHomeupdate/AdGuardHome/${binpath##*/}
+				/tmp/upx-${upx_latest_ver}-${Arch}_linux/upx $upxflag $binpath -o /tmp/AdGuardHomeupdate/AdGuardHome/${binpath##*/}
+				rm -rf /tmp/upx-${upx_latest_ver}-${Arch}_linux
+				/etc/init.d/AdGuardHome stop nobackup
+				rm $binpath
+				mv -f /tmp/AdGuardHomeupdate/AdGuardHome/${binpath##*/} $binpath
+				/etc/init.d/AdGuardHome start
+				echo -e "finished"
 			fi
-			EXIT 0
+		fi
+		EXIT 0
 	fi
 }
 doupx(){
