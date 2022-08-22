@@ -20,7 +20,7 @@
 						tr.className = 'tr cbi-rowstyle-' + ((i % 2) + 1);
 						tr.insertCell(-1).innerHTML = i + 1;
 						tr.insertCell(-1).innerHTML = hostname;
-						tr.insertCell(-1).innerHTML = "<a href='<%=url('admin/services/appfilter/user_list/')%>" + devlist[i].mac + "'>" + devlist[i].mac + "</a>";
+						tr.insertCell(-1).innerHTML = "<a href='<%=url('admin/control/appfilter/user_list/')%>" + devlist[i].mac + "'>" + devlist[i].mac + "</a>";
 						tr.insertCell(-1).innerHTML = devlist[i].ip;
 						var app_list_str = "";
 						for (var j = 0; j < devlist[i].applist.length; j++) {

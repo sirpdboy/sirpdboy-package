@@ -17,5 +17,5 @@ local v
 v = m:section(SimpleSection)
 v.template = "admin_network/dev_status"
 v.mac = arg[1]
-m.redirect = luci.dispatcher.build_url("admin", "services", "appfilter")
+m.redirect = luci.dispatcher.build_url("admin", "control", "appfilter")
 return m

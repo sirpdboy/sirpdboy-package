@@ -8,25 +8,25 @@ function index()
 	end
 	
 	local page
-	entry({"admin", "services", "appfilter"}, 
-	alias("admin", "services", "appfilter", "user_list"),
+	entry({"admin", "control", "appfilter"}, 
+	alias("admin", "control", "appfilter", "user_list"),
 		_("应用过滤"), 20).dependent = true
 
-	entry({"admin", "services", "appfilter", "user_list"}, 
+	entry({"admin", "control", "appfilter", "user_list"}, 
 		arcombine(cbi("appfilter/user_list",{hideapplybtn=true, hidesavebtn=true, hideresetbtn=true}), 
 		cbi("appfilter/dev_status", {hideapplybtn=true, hidesavebtn=true, hideresetbtn=true})),
 		_("用户列表"), 21).leaf=true
 
-	entry({"admin", "services", "appfilter", "base_setting"}, 
+	entry({"admin", "control", "appfilter", "base_setting"}, 
         cbi("appfilter/base_setting"), _("基本设置"), 22).leaf=true
 
-	entry({"admin", "services", "appfilter", "user_setting"}, 
+	entry({"admin", "control", "appfilter", "user_setting"}, 
 		cbi("appfilter/user_setting"), _("生效用户"), 23).leaf=true
 
-	entry({"admin", "services", "appfilter", "time_setting"}, 
+	entry({"admin", "control", "appfilter", "time_setting"}, 
 		cbi("appfilter/time_setting"), _("生效时间"), 24).leaf=true
 
-	entry({"admin", "services", "appfilter", "feature"}, 
+	entry({"admin", "control", "appfilter", "feature"}, 
 		cbi("appfilter/feature", {hideapplybtn=true, hidesavebtn=true, hideresetbtn=true}), _("特征库升级"), 25).leaf=true
 
 	page = entry({"admin", "network", "user_status"}, call("user_status"), nil)
