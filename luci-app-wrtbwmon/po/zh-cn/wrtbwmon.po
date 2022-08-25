@@ -1,14 +1,14 @@
 msgid "Usage"
-msgstr "流量"
+msgstr "流量统计"
 
-msgid "Usage - Configuration"
-msgstr "文件设置"
+msgid "Traffic Configuration"
+msgstr "流量设置"
 
 msgid "Details"
 msgstr "流量信息"
 
 msgid "Configuration"
-msgstr "设置"
+msgstr "文件位置"
 
 msgid "User file"
 msgstr "用户文件"
@@ -16,8 +16,6 @@ msgstr "用户文件"
 msgid "General settings"
 msgstr "通用设置"
 
-msgid "Wrtbwmon is a mointor of the traffic usage."
-msgstr "Wrtbwmon是一个流量监控器"
 
 msgid "This box is used to select the Database path, which is /tmp/usage.db by default."
 msgstr "该选项用于选择数据存储路径，默认路径为/tmp/usage.db。"
@@ -148,5 +146,17 @@ msgstr "秒以后。"
 msgid "wrtbwmon is not installed!"
 msgstr "wrtbwmon插件尚未安装"
 
-msgid "."
-msgstr "。"
+msgid "Real time speed"
+msgstr "实时速度"
+
+msgid "Online User"
+msgstr "在线用户"
+
+msgid "Speed monitor"
+msgstr "实时监控"
+
+msgid "User online"
+msgstr "在线用户列表"
+
+msgid "There is no one online now."
+msgstr "当前无任何设备在线。"
