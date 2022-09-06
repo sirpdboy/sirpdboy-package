@@ -5,8 +5,3 @@ config service 'pptpd'
 	option remoteip '192.168.2.10-20'
 	option enabled '0'
 
-config users
-	option enabled '1'
-	option username 'guest'
-	option password '123456'
-
