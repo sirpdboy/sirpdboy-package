@@ -81,7 +81,7 @@ luci-theme-opentoks-------------------仿LEDE主题（适配18.06）
 
 网络速度测试 ：https://github.com/sirpdboy/NetSpeedTest
 
-定时关机重启 : https://github.com/sirpdboy/luci-app-autotimeset
+定时设置插件 : https://github.com/sirpdboy/luci-app-autotimeset
 
 关机功能插件 : https://github.com/sirpdboy/luci-app-poweroffdevice
 
@@ -92,6 +92,8 @@ opentoks 主题: https://github.com/sirpdboy/luci-theme-opentoks [仿KOOLSAHRE�
 btmob 主题: https://github.com/sirpdboy/luci-theme-btmob
 
 系统高级设置 : https://github.com/sirpdboy/luci-app-advanced
+
+ddns-go动态域名: https://github.com/sirpdboy/luci-app-ddns-go
 
 ## 捐助 [![](https://img.shields.io/badge/-捐助-F5F5F5.svg)](#捐助-) 
 
