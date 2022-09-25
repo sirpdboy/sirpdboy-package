@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-rebootschedule
-PKG_VERSION:=1.0
-PKG_RELEASE:=20210522
+PKG_VERSION:=1.1
+PKG_RELEASE:=20220925
 
 include $(INCLUDE_DIR)/package.mk
 
