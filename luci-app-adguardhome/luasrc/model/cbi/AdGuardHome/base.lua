@@ -4,7 +4,7 @@ require("io")
 local m,s,o,o1
 local fs=require"nixio.fs"
 local uci=require"luci.model.uci".cursor()
-local configpath = uci:get("AdGuardHome", "AdGuardHome", "configpath") or "/etc/config/AdGuardHome.yaml"
+local configpath=uci:get("AdGuardHome","AdGuardHome","configpath") or "/etc/AdGuardHome.yaml"
 local binpath=uci:get("AdGuardHome","AdGuardHome","binpath") or "/usr/bin/AdGuardHome"
 httpport=uci:get("AdGuardHome","AdGuardHome","httpport") or "3000"
 m = Map("AdGuardHome", "AdGuard Home")
@@ -81,7 +81,7 @@ if fs.stat(value,"type")=="dir" then
 	m.message ="error!bin path is a dir"
 	end
 	return nil
-end 
+end
 return value
 end
 --- upx
@@ -97,7 +97,7 @@ o.description=translate("bin use less space,but may have compatibility issues")
 o.rmempty = true
 ---- config path
 o = s:option(Value, "configpath", translate("Config Path"), translate("AdGuardHome config path"))
-o.default = "/etc/config/AdGuardHome.yaml"
+o.default     = "/etc/AdGuardHome.yaml"
 o.datatype    = "string"
 o.optional = false
 o.rmempty=false
@@ -113,7 +113,7 @@ if fs.stat(value,"type")=="dir" then
 	m.message ="error!config path is a dir"
 	end
 	return nil
-end 
+end
 return value
 end
 ---- work dir
@@ -131,7 +131,7 @@ if fs.stat(value,"type")=="reg" then
 	m.message ="error!work dir is a file"
 	end
 	return nil
-end 
+end
 if string.sub(value, -1)=="/" then
 	return string.sub(value, 1, -2)
 else
@@ -153,7 +153,7 @@ if fs.stat(value,"type")=="dir" then
 	m.message ="error!log file is a dir"
 	end
 	return nil
-end 
+end
 return value
 end
 ---- debug
@@ -245,7 +245,7 @@ if fs.stat(value,"type")=="reg" then
 	m.message ="error!backup dir is a file"
 	end
 	return nil
-end 
+end
 if string.sub(value,-1)=="/" then
 	return string.sub(value, 1, -2)
 else

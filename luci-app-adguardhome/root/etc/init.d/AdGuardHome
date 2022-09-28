@@ -10,9 +10,9 @@ CRON_FILE=/etc/crontabs/root
 
 extra_command "do_redirect" "0 or 1"
 extra_command "testbackup" "backup or restore"
-extra_command "test_crontab" ""
-extra_command "force_reload" ""
-extra_command "isrunning" ""
+extra_command "test_crontab"
+extra_command "force_reload"
+extra_command "isrunning"
 
 set_forward_dnsmasq()
 {
@@ -62,7 +62,7 @@ set_iptable()
 	local ipv6_server=$1
 	local tcp_server=$2
 	uci -q batch <<-EOF >/dev/null 2>&1
-  delete firewall.AdGuardHome
+	delete firewall.AdGuardHome
 	set firewall.AdGuardHome=include
 	set firewall.AdGuardHome.type=script
 	set firewall.AdGuardHome.path=/usr/share/AdGuardHome/firewall.start
@@ -91,13 +91,12 @@ EOF
 		fi
 		ip6tables -t nat -A PREROUTING -p udp -d $IP --dport 53 -j REDIRECT --to-ports $AdGuardHome_PORT >/dev/null 2>&1
 	done
-
 }
 
 clear_iptable()
 {
 	uci -q batch <<-EOF >/dev/null 2>&1
-  delete firewall.AdGuardHome
+	delete firewall.AdGuardHome
 	commit firewall
 EOF
 	local OLD_PORT="$1"
@@ -119,7 +118,6 @@ EOF
 		ip6tables -t nat -D PREROUTING -p udp -d $IP --dport 53 -j REDIRECT --to-ports $OLD_PORT >/dev/null 2>&1
 		ip6tables -t nat -D PREROUTING -p tcp -d $IP --dport 53 -j REDIRECT --to-ports $OLD_PORT >/dev/null 2>&1
 	done
-
 }
 
 service_triggers() {
@@ -128,11 +126,11 @@ service_triggers() {
 }
 
 isrunning(){
-config_load "${CONFIGURATION}"
-_isrunning
-local r=$?
-([ "$r" == "0" ] && echo "running") || ([ "$r" == "1" ] && echo "not run" ) || echo "no bin"
-return $r
+	config_load "${CONFIGURATION}"
+	_isrunning
+	local r=$?
+	([ "$r" == "0" ] && echo "running") || ([ "$r" == "1" ] && echo "not run" ) || echo "no bin"
+	return $r
 }
 
 _isrunning(){
@@ -231,7 +229,7 @@ _do_redirect()
 	else
 		echo -n "0">/var/run/AdGredir
 	fi
-	config_get configpath $CONFIGURATION configpath "/etc/config/AdGuardHome.yaml"
+	config_get configpath $CONFIGURATION configpath "/etc/AdGuardHome.yaml"
 	AdGuardHome_PORT=$(config_editor "dns.port" "" "$configpath" "1")
 	if [ ! -s "$configpath" ]; then
 		cp -f /usr/share/AdGuardHome/AdGuardHome_template.yaml $configpath
@@ -282,6 +280,7 @@ _do_redirect()
 		use_port53
 	fi
 }
+
 get_filesystem()
 {
 # print out path filesystem
@@ -411,7 +410,7 @@ start_service() {
 	config_load "${CONFIGURATION}"
 	# update password
 	config_get hashpass $CONFIGURATION hashpass ""
-	config_get configpath $CONFIGURATION configpath "/etc/config/AdGuardHome.yaml"
+	config_get configpath $CONFIGURATION configpath "/etc/AdGuardHome.yaml"
 	if [ -n "$hashpass" ]; then
 		config_editor "users.password" "$hashpass" "$configpath"
 		uci set $CONFIGURATION.$CONFIGURATION.hashpass=""
@@ -462,7 +461,7 @@ start_service() {
 	config_get upprotect $CONFIGURATION upprotect ""
 	eval upprotect=${upprotect// /\\\\n}
 	echo -e "$upprotect">/lib/upgrade/keep.d/luci-app-adguardhome
-	
+
 	config_get logfile $CONFIGURATION logfile ""
 	if [ -n "$logfile" ]; then
 		ADDITIONAL_ARGS="$ADDITIONAL_ARGS -l $logfile"
@@ -508,9 +507,10 @@ start_service() {
 	if [[ "`uci get bypass.@global[0].global_server 2>/dev/null`" && "`uci get bypass.@global[0].adguardhome 2>/dev/null`" == 1 && "$(uci get dhcp.@dnsmasq[0].port)" == "53" ]]; then
 	 uci -q set AdGuardHome.AdGuardHome.redirect='exchange'
 	 uci commit AdGuardHome
-	 _do_redirect 1
+	 do_redirect 1
 	fi
 }
+
 reload_service()
 {
 	rm /var/run/AdGlucitest >/dev/null 2>&1
@@ -519,22 +519,23 @@ reload_service()
 }
 
 del_querylog(){
-local btarget=$(ls $backupwdpath/data | grep -F "querylog.json" | sort -r | head -n 1)
-local wtarget=$(ls $workdir/data | grep -F "querylog.json" | sort -r | head -n 1)
-if [ "$btarget"x == "$wtarget"x ]; then
-	[ -z "$btarget" ] && return 1
-	rm -f $workdir/data/$wtarget
-	rm -f $backupwdpath/data/$btarget
-	return 0
-fi
-if [ "$btarget" \> "$wtarget" ]; then
-	rm -f $backupwdpath/data/$btarget
-	return 0
-else
-	rm -f $workdir/data/$wtarget
-	return 0
-fi
+	local btarget=$(ls $backupwdpath/data | grep -F "querylog.json" | sort -r | head -n 1)
+	local wtarget=$(ls $workdir/data | grep -F "querylog.json" | sort -r | head -n 1)
+	if [ "$btarget"x == "$wtarget"x ]; then
+		[ -z "$btarget" ] && return 1
+		rm -f $workdir/data/$wtarget
+		rm -f $backupwdpath/data/$btarget
+		return 0
+	fi
+	if [ "$btarget" \> "$wtarget" ]; then
+		rm -f $backupwdpath/data/$btarget
+		return 0
+	else
+		rm -f $workdir/data/$wtarget
+		return 0
+	fi
 }
+
 stop_service()
 {
 	config_load "${CONFIGURATION}"
@@ -549,6 +550,7 @@ stop_service()
 	echo "AdGuardHome service disabled"
 	touch /var/run/AdGserverdis
 }
+
 boot() {
 	rc_procd boot_service "$@"
 	if eval "type service_started" 2>/dev/null >/dev/null; then
@@ -557,8 +559,8 @@ boot() {
 }
 
 test_crontab(){
-config_load "${CONFIGURATION}"
-do_crontab
+	config_load "${CONFIGURATION}"
+	do_crontab
 }
 
 do_crontab(){
@@ -580,7 +582,7 @@ do_crontab(){
 	[ "$enabled" == "0" ] || [ "${crontab//cutquerylog/}" == "$crontab" ] && cronenable=0 || cronenable=1
 	crontab_editor
 	#[ "$lastworkdir" != "$workdir" ] && uci set AdGuardHome.AdGuardHome.lastworkdir="$workdir" && commit=1
-	
+
 	config_get logfile $CONFIGURATION logfile ""
 	config_get lastlogfile $CONFIGURATION lastlogfile ""
 	findstr="/usr/share/AdGuardHome/tailto.sh [0-9]* \$(uci get AdGuardHome.AdGuardHome.logfile)"
@@ -589,7 +591,7 @@ do_crontab(){
 	[ "$logfile" == "syslog" ] || [ "$logfile" == "" ] || [ "$enabled" == "0" ] || [ "${crontab//cutruntimelog/}" == "$crontab" ] && cronenable=0 || cronenable=1
 	crontab_editor
 	#[ -n "$logfile" ] && [ "$lastlogfile" != "$logfile" ] && uci set AdGuardHome.AdGuardHome.lastlogfile="$logfile" && commit=1
-	
+
 	findstr="/usr/share/AdGuardHome/addhost.sh"
 	default="0 * * * * /usr/share/AdGuardHome/addhost.sh"
 	[ "$enabled" == "0" ] || [ "${crontab//autohost/}" == "$crontab" ] && cronenable=0 || cronenable=1
@@ -603,6 +605,7 @@ do_crontab(){
 	[ "$cronreload" -gt 0 ] && /etc/init.d/cron restart
 	#[ "$commit" -gt 0 ] && uci commit AdGuardHome
 }
+
 crontab_editor(){
 	#usage input:
 	#findstr=
@@ -612,7 +615,7 @@ crontab_editor(){
 	#output:cronreload:if >1 please /etc/init.d/cron restart manual
 	local testline reload
 	local line="$(grep "$findstr" $CRON_FILE)"
-	[ -n "$replace" ] && [ -n "$line" ] && eval testline="\${line//$replace}" && [ "$testline" != "$line" ] && line="$testline" && reload="1" && replace="" 
+	[ -n "$replace" ] && [ -n "$line" ] && eval testline="\${line//$replace}" && [ "$testline" != "$line" ] && line="$testline" && reload="1" && replace=""
 	if [ "${line:0:1}" != "#" ]; then
 		if [ $cronenable -eq 1 ]; then
 			[ -z "$line" ] && line="$default" && reload="1"
@@ -636,5 +639,4 @@ crontab_editor(){
 			echo "$line" >> $CRON_FILE
 		fi
 	fi
-	
 }
