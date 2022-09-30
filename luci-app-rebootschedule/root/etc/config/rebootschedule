@@ -55,7 +55,7 @@ config crontab
 	option week '*'
 	option hour '5'
 	option enable '0'
-	option command '/etc/init.d/ksmdb restart &&/etc/init.d/samba restart'
+	option command '/etc/init.d/samba4 restart &&/etc/init.d/samba restart'
 
 config crontab
 	option minute '0'
