@@ -7,7 +7,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ddnsgo
-PKG_VERSION:=4.0.4
+PKG_VERSION:=4.1.0
 
 include $(INCLUDE_DIR)/package.mk
 
