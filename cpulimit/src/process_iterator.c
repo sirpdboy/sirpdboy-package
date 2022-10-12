@@ -23,9 +23,10 @@
 #include <stdlib.h>
 #include <string.h>
 #ifdef __sun__
-#include <procfs.h>
+    #include <procfs.h>
 #elif !defined __APPLE__
-#include <sys/procfs.h>
+    #include <unistd.h>
+    #include <sys/procfs.h>
 #endif
 #include <time.h>
 #include "process_iterator.h"
@@ -46,7 +47,7 @@
 
 #elif defined __sun__
 
-#include "process_iterator_solaris.c"
+    #include "process_iterator_solaris.c"
 
 #else
 

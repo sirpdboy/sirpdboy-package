@@ -18,7 +18,7 @@ end
 limit = s:option(Value, "limit", translate("limit"))
 limit.optional = false
 limit.rmempty = false
-limit.default="50"
+limit.default="30"
 limit:value("100","100%")
 limit:value("90","90%")
 limit:value("80","80%")

@@ -23,7 +23,7 @@
  * This is a simple program to limit the cpu usage of a process
  * If you modify this code, send me a copy please
  *
- * Get the latest version at: http://github.com/opsengine/cpulimit
+ * Get the latest version at: http://github.com/denji/cpulimit
  *
  */
 
@@ -38,8 +38,11 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/time.h>
+/*  This breaks under musl and isn't necessary under glibc
 #ifndef __sun__
+#include <sys/sysctl.h>
 #endif
+*/
 #include <sys/resource.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -67,14 +70,9 @@
     #define MAX(a,b) (((a)>(b))?(a):(b))
 #endif
 
-//control time slot in microseconds
-//each slot is splitted in a working slice and a sleeping slice
-//TODO: make it adaptive, based on the actual system load
-#define TIME_SLOT 100000
-
 #define MAX_PRIORITY -10
 
-#define VERSION "0.3"
+#define VERSION "0.3.2"
 
 /* GLOBAL VARIABLES */
 
@@ -121,6 +119,7 @@ static void print_usage(FILE *stream, int exit_code) {
     fprintf(stream, "Usage: %s [OPTIONS...] TARGET\n", program_name);
     fprintf(stream, "   OPTIONS\n");
     fprintf(stream, "      -l, --limit=N                percentage of cpu allowed from 0 to %d (required)\n", 100*NCPU);
+    fprintf(stream, "      -c, --chunk-size=N           enforce CPU limit in N microsecond chunks\n");
     fprintf(stream, "      -v, --verbose                show control statistics\n");
     fprintf(stream, "      -V, --version                show program version number\n");
     fprintf(stream, "      -z, --lazy                   exit if there is no target process, or if it dies\n");
@@ -193,7 +192,7 @@ int get_pid_max() {
 #endif
 }
 
-void limit_process(pid_t pid, double limit, int include_children, float minimum_cpu_usage) {
+void limit_process(pid_t pid, double limit, int include_children, float minimum_cpu_usage, int chunk_size) {
     //slice of the slot in which the process is allowed to run
     struct timespec twork;
     //slice of the slot in which the process is stopped
@@ -258,13 +257,13 @@ void limit_process(pid_t pid, double limit, int include_children, float minimum_
             //it's the 1st cycle, initialize workingrate
             pcpu = limit;
             workingrate = limit;
-            twork.tv_nsec = TIME_SLOT * limit * 1000;
+            twork.tv_nsec = chunk_size * limit * 1000;
         } else {
             //adjust workingrate
             workingrate = MIN(workingrate / pcpu * limit, 1);
-            twork.tv_nsec = TIME_SLOT * 1000 * workingrate;
+            twork.tv_nsec = chunk_size * 1000 * workingrate;
         }
-        tsleep.tv_nsec = TIME_SLOT * 1000 - twork.tv_nsec;
+        tsleep.tv_nsec = chunk_size * 1000 - twork.tv_nsec;
 
         if (verbose) {
             if (c%200==0) {
@@ -339,6 +338,7 @@ int main(int argc, char **argv) {
     pid_t pid = 0;
     float minimum_cpu_usage=0;
     int include_children = 0;
+    int chunk_size = 100000;
 
     //get program name
 #ifdef __sun__
@@ -356,14 +356,15 @@ int main(int argc, char **argv) {
     int next_option;
     int option_index = 0;
     //A string listing valid short options letters
-    const char *short_options = "+p:e:l:vVzim:h";
+    const char *short_options = "+p:e:l:c:vVzim:h";
     //An array describing valid long options
     const struct option long_options[] = {
         { "pid",        required_argument,     NULL, 'p' },
         { "exe",        required_argument,     NULL, 'e' },
         { "limit",      required_argument,     NULL, 'l' },
+        { "chunk-size", required_argument,     NULL, 'c' },
         { "verbose",    no_argument,           NULL, 'v' },
-	{ "version",    no_argument,           NULL, 'V' },
+        { "version",    no_argument,           NULL, 'V' },
         { "lazy",       no_argument,           NULL, 'z' },
         { "include-children", no_argument,     NULL, 'i' },
         { "minimum-limited-cpu", no_argument,  NULL, 'm' },
@@ -386,12 +387,15 @@ int main(int argc, char **argv) {
             perclimit = atoi(optarg);
             limit_ok = 1;
             break;
+        case 'c':
+            chunk_size = atoi(optarg);
+            break;
         case 'v':
             verbose = 1;
             break;
-	case 'V':
-	    print_version(stdout, 0);
-	    break;
+        case 'V':
+            print_version(stdout, 0);
+            break;
         case 'z':
             lazy = 1;
             break;
@@ -431,6 +435,12 @@ int main(int argc, char **argv) {
     double limit = perclimit / 100.0;
     if (limit<0 || limit >NCPU) {
         fprintf(stderr,"Error: limit must be in the range 0-%d00\n", NCPU);
+        print_usage(stderr, 1);
+        exit(1);
+    }
+
+    if (0 > chunk_size || chunk_size > 1000000) {
+        fprintf(stderr,"Error: chunk size must be in the range 0-1000000\n");
         print_usage(stderr, 1);
         exit(1);
     }
@@ -513,7 +523,7 @@ int main(int argc, char **argv) {
                 if (verbose) {
                     printf("Limiting process %d\n",child);
                 }
-                limit_process(child, limit, include_children, minimum_cpu_usage);
+                limit_process(child, limit, include_children, minimum_cpu_usage, chunk_size);
                 exit(0);
             }
         }
@@ -548,7 +558,7 @@ int main(int argc, char **argv) {
             }
             printf("Process %d found\n", pid);
             //control
-            limit_process(pid, limit, include_children, minimum_cpu_usage);
+            limit_process(pid, limit, include_children, minimum_cpu_usage, chunk_size);
         }
         if (lazy) {
             break;

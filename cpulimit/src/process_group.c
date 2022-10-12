@@ -32,7 +32,7 @@
 #include <assert.h>
 
 #ifdef __sun__
-#include <libgen.h>
+    #include <libgen.h>
 #endif
 
 #include "process_iterator.h"

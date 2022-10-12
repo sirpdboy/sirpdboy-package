@@ -20,6 +20,8 @@ killall -9 cpulimit
 #	do
 #	  killall cpulimit>/dev/null 2>&1
 #	done
+
+#  pgrep -f cpulimit | xargs kill -9 >/dev/null 2>&1 
 }
 
 case "$1" in
