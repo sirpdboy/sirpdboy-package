@@ -8,8 +8,10 @@ function index()
 		return
 	end
 
-	entry({"admin", "services", "ddnsgo"}, cbi("ddnsgo"), _("DDNS-GO"), 58).dependent = true
-
+	local page
+	entry({"admin",  "services", "ddnsgo"}, alias("admin", "services", "ddnsgo", "ddnsgo"),_("DDNS-GO"), 58).dependent = true
+	entry({"admin",  "services", "ddnsgo", "ddnsgo"}, template("ddnsgo"), _("DDNS-GO"), 10).leaf = true
+	entry({"admin", "services", "ddnsgo", "setting"}, cbi("ddnsgo"), _("Setting"), 20).leaf=true
 	entry({"admin", "services", "ddnsgo_status"}, call("act_status"))
 end
 
