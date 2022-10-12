@@ -1,0 +1,63 @@
+From f7d65cdaad40c45b3ea308c5083ede0fa2e6b829 Mon Sep 17 00:00:00 2001
+From: Thomas Bernard <miniupnp@free.fr>
+Date: Sun, 3 Feb 2019 19:04:44 +0100
+Subject: [PATCH] netfilter/ipctcrdr.c: conditionnaly use NFC_UNKNOWN
+ as well
+
+fix #346
+---
+ netfilter/iptcrdr.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+--- a/netfilter/iptcrdr.c
++++ b/netfilter/iptcrdr.c
+@@ -1116,7 +1116,9 @@ addnatrule(int proto, unsigned short epo
+ 	} else {
+ 		match = get_udp_match(eport, 0);
+ 	}
++#ifdef NFC_UNKNOWN
+ 	e->nfcache = NFC_UNKNOWN;
++#endif
+ 	target = get_dnat_target(iaddr, iport);
+ #ifdef NFC_IP_DST_PT
+ 	e->nfcache |= NFC_IP_DST_PT;
+@@ -1188,7 +1190,9 @@ addmasqueraderule(int proto,
+ 	} else {
+ 		match = get_udp_match(0, iport);
+ 	}
++#ifdef NFC_UNKNOWN
+ 	e->nfcache = NFC_UNKNOWN;
++#endif
+ 	target = get_masquerade_target(eport);
+ #ifdef NFC_IP_DST_PT
+ 	e->nfcache |= NFC_IP_DST_PT;
+@@ -1270,7 +1274,9 @@ addpeernatrule(int proto,
+ 	} else {
+ 		match = get_udp_match(rport, iport);
+ 	}
++#ifdef NFC_UNKNOWN
+ 	e->nfcache = NFC_UNKNOWN;
++#endif
+ 	target = get_snat_target(eaddr, eport);
+ #ifdef NFC_IP_DST_PT
+ 	e->nfcache |= NFC_IP_DST_PT;
+@@ -1346,7 +1352,9 @@ addpeerdscprule(int proto, unsigned char
+ 	} else {
+ 		match = get_udp_match(rport, iport);
+ 	}
++#ifdef NFC_UNKNOWN
+ 	e->nfcache = NFC_UNKNOWN;
++#endif
+ 	target = get_dscp_target(dscp);
+ #ifdef NFC_IP_DST_PT
+ 	e->nfcache |= NFC_IP_DST_PT;
+@@ -1436,7 +1444,9 @@ add_filter_rule(int proto, const char *
+ 	}
+ 	e->ip.dst.s_addr = inet_addr(iaddr);
+ 	e->ip.dmsk.s_addr = INADDR_NONE;
++#ifdef NFC_UNKNOWN
+ 	e->nfcache = NFC_UNKNOWN;
++#endif
+ 	target = get_accept_target();
+ #ifdef NFC_IP_DST_PT
+ 	e->nfcache |= NFC_IP_DST_PT;

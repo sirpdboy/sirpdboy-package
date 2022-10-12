@@ -1,0 +1,32 @@
+From a77d1ff9d3b6af27ea5dae235f0ed74c0b256c47 Mon Sep 17 00:00:00 2001
+From: Thomas Bernard <miniupnp@free.fr>
+Date: Sat, 24 Aug 2019 10:54:46 +0200
+Subject: [PATCH] iptcrdr.c: memory allocation fix in
+ get_portmappings_in_range()
+
+fixes #394
+---
+ netfilter/iptcrdr.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+--- a/netfilter/iptcrdr.c
++++ b/netfilter/iptcrdr.c
+@@ -1,6 +1,6 @@
+-/* $Id: iptcrdr.c,v 1.59 2016/03/08 09:23:52 nanard Exp $ */
++/* $Id: iptcrdr.c,v 1.62 2019/08/24 07:06:22 nanard Exp $ */
+ /* MiniUPnP project
+- * http://miniupnp.free.fr/ or http://miniupnp.tuxfamily.org/
++ * http://miniupnp.free.fr/ or https://miniupnp.tuxfamily.org/
+  * (c) 2006-2019 Thomas Bernard
+  * This software is subject to the conditions detailed
+  * in the LICENCE file provided within the distribution */
+@@ -1553,6 +1553,9 @@ get_portmappings_in_range(unsigned short
+ 					{
+ 						unsigned short * tmp;
+ 						/* need to increase the capacity of the array */
++						capacity += 128;
++						if (capacity <= *number)
++							capacity = *number + 1;
+ 						tmp = realloc(array, sizeof(unsigned short)*capacity);
+ 						if(!tmp)
+ 						{
