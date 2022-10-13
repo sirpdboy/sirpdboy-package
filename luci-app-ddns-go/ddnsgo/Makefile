@@ -17,6 +17,7 @@ define Package/$(PKG_NAME)
   DEPENDS:=@(aarch64||arm||i386||mips||mipsel||x86_64)
   TITLE:=A plug-in DDNS-GO by sirpdboy
   URL:=https://github.com/sirpdboy/luci-app-ddns-go
+  URL:=https://github.com/sirpdboy/luci-app-ddns-go
 endef
 
 define Package/$(PKG_NAME)/postinst
