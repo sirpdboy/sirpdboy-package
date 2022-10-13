@@ -1,0 +1,20 @@
+<%#
+ Copyright 2008-2022 by sirpdboy <herboy2008@gmail.com>
+ https://github.com/sirpdboy/luci-app-netdata
+ Licensed to the public under the Apache License 2.0.
+-%>
+
+<%+header%>
+<div class="cbi-map">
+
+<iframe id="netdata" style="width: 100%; min-height: 780px; border: none; border-radius: .375rem;box-shadow: rgba(0, 0, 0, 0.75) 0px 0px 15px -5px;"></iframe>
+
+</div>
+<script type="text/javascript">
+        document.getElementById("netdata").src = window.location.protocol + "//" + window.location.hostname + ":<%=luci.model.uci.cursor():get("netdata", "netdata", "port") %>";
+ 		document.getElementById("netdata").height = document.documentElement.clientHeight;
+        window.onresize = function(){
+            document.getElementById("netdata").height = document.documentElement.clientHeight;
+        }
+</script>
+<%+footer%>
