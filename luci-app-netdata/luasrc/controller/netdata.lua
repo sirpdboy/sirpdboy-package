@@ -10,7 +10,7 @@ function index()
 
 	
 	local page
-	entry({"admin", "status", "netdata"}, alias("admin", "status", "netdata", "netdata"),_("NetData"), 10).dependent = true
+	entry({"admin", "status", "netdata"}, alias("admin", "status", "netdata", "setting"),_("NetData"), 10).dependent = true
 
 	entry({"admin", "status", "netdata", "netdata"}, template("netdata"), _("NetData"), 10).leaf = true
 	entry({"admin", "status", "netdata", "setting"}, cbi("netdata/netdata"), _("Setting"), 20).leaf=true
