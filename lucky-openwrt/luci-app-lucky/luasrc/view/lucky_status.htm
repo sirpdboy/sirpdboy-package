@@ -1,0 +1,25 @@
+<script type="text/javascript">//<![CDATA[
+	XHR.poll(3, '<%=url([[admin]], [[services]], [[lucky_status]])%>', null,
+		function(x, data) {
+			var tb = document.getElementById('lucky_status');
+			if (data && tb)
+			{
+				if (data.running)
+				{
+					tb.innerHTML = '<br/><em style=\"color:green\"><%:The Lucky service is running.%></em>';
+				}
+				else
+				{
+					tb.innerHTML = '<br/><em style=\"color:red\"><%:The Lucky service is not running.%></em>';
+				}
+			}
+		}
+	);
+//]]></script>
+<style>.mar-10 {margin-left: 50px; margin-right: 10px;}</style>
+<fieldset class="cbi-section">
+	<legend><%:Lucky Status%></legend>
+	<p id="lucky_status">
+		<em><%:Collecting data...%></em>
+	</p>
+</fieldset>
