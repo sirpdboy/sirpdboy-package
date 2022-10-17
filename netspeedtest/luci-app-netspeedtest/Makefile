@@ -9,11 +9,13 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=luci-app-netspeedtest
 
 LUCI_TITLE:=LuCI Support for netspeedtest
-LUCI_DEPENDS:=+python3 +iperf3 +speedtest-web +python3-speedtest-cli
+LUCI_DEPENDS:=+python3 +iperf3 +speedtest-web
 LUCI_PKGARCH:=all
 PKG_VERSION:=2.0.1
 PKG_RELEASE:=20221017
-PKG_MAINTAINER:=<https://github.com/sirpdboy/NetSpeedTest>
+PKG_MAINTAINER:=<https://github.com/sirpdboy/netspeedtest>
 
 include $(TOPDIR)/feeds/luci/luci.mk
+
+
 # call BuildPackage - OpenWrt buildroot signature

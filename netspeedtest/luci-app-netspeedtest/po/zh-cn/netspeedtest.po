@@ -16,8 +16,8 @@ msgstr ""
 msgid "Net Speedtest"
 msgstr "网速测试"
 
-msgid "Network speed diagnosis test (including intranet and extranet)"
-msgstr "网络速度诊断测试（包括内网、外网、特定端口服务器测速）"
+msgid "Network speed diagnosis test (including intranet and extranet)<br/>For specific usage, see:"
+msgstr "网络速度诊断测试（包括内网、外网、特定端口服务器测速）<br/>使用说明见:"
 
 msgid "Lan Speedtest Iperf3"
 msgstr "内网iperf3吞吐测速"
@@ -28,13 +28,13 @@ msgstr "内网测速网页版"
 msgid "Running state"
 msgstr "运行状态"
 
-msgid "The iperf3 service is running."
+msgid "The Iperf3 service is running."
 msgstr "iperf3服务已启动"
 
-msgid "The iperf3 service is not running."
+msgid "The Iperf3 service is not running."
 msgstr "iperf3服务未启动"
 
-msgid "iperf3 Status"
+msgid "Iperf3 Status"
 msgstr "iperf3服务状态"
 
 msgid "The Speedtestweb service is running."
