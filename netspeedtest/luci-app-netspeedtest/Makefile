@@ -16,6 +16,4 @@ PKG_RELEASE:=20221017
 PKG_MAINTAINER:=<https://github.com/sirpdboy/NetSpeedTest>
 
 include $(TOPDIR)/feeds/luci/luci.mk
-endef
-
 # call BuildPackage - OpenWrt buildroot signature
