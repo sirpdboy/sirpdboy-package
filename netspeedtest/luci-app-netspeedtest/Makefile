@@ -1,0 +1,21 @@
+
+# Copyright (C) 2020-2021 sirpdboy <herboy2008@gmail.com>
+#
+# This is free software, licensed under the GNU General Public License v3.
+# 
+
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=luci-app-netspeedtest
+
+LUCI_TITLE:=LuCI Support for netspeedtest
+LUCI_DEPENDS:=+python3 +iperf3 +speedtest-web +python3-speedtest-cli
+LUCI_PKGARCH:=all
+PKG_VERSION:=2.0.1
+PKG_RELEASE:=20221017
+PKG_MAINTAINER:=<https://github.com/sirpdboy/NetSpeedTest>
+
+include $(TOPDIR)/feeds/luci/luci.mk
+endef
+
+# call BuildPackage - OpenWrt buildroot signature
