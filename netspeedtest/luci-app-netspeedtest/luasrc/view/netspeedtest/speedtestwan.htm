@@ -1,6 +1,6 @@
 <%#
  Copyright 2020-2022 sirpdboy Wich <sirpdboy@qq.com>
- https://github.com/sirpdboy/luci-app-netspeedtest
+ https://github.com/sirpdboy/netspeedtest
  Licensed to the public under the Apache License 2.0.
 -%>
 <%+cbi/valueheader%>
@@ -15,20 +15,35 @@
   </fieldset>
 
 <script type="text/javascript">
-    const RUN_URL = '<%=luci.dispatcher.build_url("admin", "network", "netspeedtest","run")%>';
-    const S_URL = '<%=luci.dispatcher.build_url("admin", "network", "netspeedtest","speedtestwan")%>';
-    function run() {
+    const RUN_URL = '<%=luci.dispatcher.build_url("admin", "network", "netspeedtest","wanrun")%>';
+    function run(s) {
 	var legend = document.getElementById('wanspeedtest-legend');
 	var output = document.getElementById('wanspeedtest-output');
 			output.innerHTML =
 				'<img src="<%=resource%>/icons/loading.gif" alt="<%:Loading%>" style="vertical-align:middle" /> ' +
-				'<%:Network speed test, please wait for 1 minutes%>'
+				'<%:Network speed test, please wait...%>'
 			;
 			legend.parentNode.style.display = 'block';
 			legend.style.display = 'inline';
-        XHR.get(RUN_URL, null, () => {
-            setTimeout(() => { window.location = S_URL }, 3000);
-        });
+        XHR.get(RUN_URL, null, 
+		
+				function(x)
+				{
+					if (x.responseText)
+					{
+						legend.style.display = 'none';
+						output.innerHTML = String.format('<img src=%h height="300" style="vertical-align:middle" />', x.responseText); 
+	 
+					}
+					else
+					{
+						legend.style.display = 'none';
+						output.innerHTML ='</p><%:Operation execution complete%></p>';
+
+					}
+
+				}
+		);
         return false;
     }
 

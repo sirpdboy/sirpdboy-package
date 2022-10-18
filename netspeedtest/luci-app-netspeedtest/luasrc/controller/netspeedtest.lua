@@ -1,3 +1,4 @@
+-- Copyright (C) 2020-2022  sirpdboy  <herboy2008@gmail.com> https://github.com/sirpdboy/netspeedtest
 
 module("luci.controller.netspeedtest", package.seeall)
 local fs=require"nixio.fs"
@@ -15,7 +16,8 @@ function index()
 	entry({"admin", "network","test_iperf0"}, post("test_iperf0"), nil).leaf = true
 	entry({"admin", "network","test_iperf1"}, post("test_iperf1"), nil).leaf = true
 	
-	entry({"admin","network","netspeedtest", "run"}, call("run"))
+	--entry({"admin","network","netspeedtest", "wanrun"}, post("wanrun"), nil).leaf = true
+	entry({"admin","network","netspeedtest", "wanrun"}, call("wanrun"))
 	entry({"admin", "network", "netspeedtest", "realtime_log"}, call("get_log")) 
 	entry({"admin", "network", "netspeedtest", "dellog"},call("dellog"))
 end
@@ -34,7 +36,7 @@ function iperf3_status()
 	luci.http.write_json(e)
 end
 
-function testlan(cmd, addr)
+function testout(cmd, addr)
 		luci.http.prepare_content("text/plain")
 		local util = io.popen(cmd)
 		if util then
@@ -49,16 +51,11 @@ function testlan(cmd, addr)
 
 end
 
-function testwan(cmd)
-		local util = io.popen(cmd)
-		util:close()
-end
-
 function test_iperf0(addr)
        luci.sys.call("pgrep -f unblockneteasemusic | xargs kill -9 >/dev/null 2>&1 ")
        luci.sys.call("/etc/init.d/unblockneteasemusic stop ")
        luci.sys.call("/etc/init.d/unblockmusic stop ")
-       testlan("iperf3 -s ", addr)
+       testout("iperf3 -s ", addr)
 end
 
 function test_iperf1(addr)
@@ -81,7 +78,7 @@ function dellog()
 	http.write('')
 end
 
-function run()
-    testwan("/etc/init.d/netspeedtest nstest ")
+function wanrun()
+    testout("/etc/init.d/netspeedtest nstest ")
 end
 

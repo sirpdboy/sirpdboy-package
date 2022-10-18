@@ -7,4 +7,4 @@ config speedtestiperf3 'speedtestiperf3'
         option enabled '0'
 
 config wanspeedtest 'wanspeedtest'
-        option enabled '0'
+	option surl ' ' 

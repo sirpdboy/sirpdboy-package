@@ -1,10 +1,10 @@
--- Copyright (C) 2021-2022  sirpdboy  <herboy2008@gmail.com> https://github.com/sirpdboy/netspeedtest
+-- Copyright (C) 2020-2022  sirpdboy  <herboy2008@gmail.com> https://github.com/sirpdboy/netspeedtest
 
 local m, s ,o
 
 
-m = Map("netspeedtest", "<font color='green'>" .. translate("Netspeedtest") .."</font>",translate( "Network speed diagnosis test (including intranet and extranet)<br/>For specific usage, see:") ..translate("<a href=\'https://github.com/sirpdboy/netspeedtest.git' target=\'_blank\'>GitHub @sirpdboy/netspeedtest</a>") )
-m:section(SimpleSection).template  = "netspeedtest/speedtestweb_status"
+m = Map("netspeedtest", "<font color='green'>" .. translate("Net Speedtest") .."</font>",translate( "Network speed diagnosis test (including intranet and extranet)<br/>For specific usage, see:") ..translate("<a href=\'https://github.com/sirpdboy/netspeedtest.git' target=\'_blank\'>GitHub @sirpdboy/netspeedtest</a>") )
+-- m:section(SimpleSection).template  = "netspeedtest/speedtestweb_status"
 
 s = m:section(TypedSection, "speedtestweb", translate('Lan Speedtest Web'))
 s.addremove=false

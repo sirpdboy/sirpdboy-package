@@ -34,13 +34,11 @@
 					{
 						legend.style.display = 'none';
 						output.innerHTML = String.format('<pre>%h</pre>', x.responseText);
-                                                
-	 
 					}
 					else
 					{
 						legend.style.display = 'none';
-						output.innerHTML ='</p><%:Operation execution complete%></p>';
+						output.innerHTML ='</p>  <%:Operation execution complete%></p>';
 
 					}
 
@@ -51,10 +49,7 @@
 //]]></script>
 
 <form method="post" action="<%=url('admin/network/netspeedtest')%>">
-	<div class="cbi-map">
-		<fieldset class="cbi-section">
       <table>
-
         <tr><td  class="cbi-value-title"  ><input style="margin: 5px 0"  type="hidden" value="" name="iperf" />
             <select name="iperf_to" style="width:auto">
               <option value="0" selected="selected"><%:iperfstart%></option>
@@ -72,18 +67,13 @@
             <input type="button" class="cbi-button cbi-input-reload" value="<%:Domestic download password:%>cpd6" onclick="javascript:window.open('https://sipdboy.lanzoui.com/b01c3esih','target');" />
             <input type="button" class="cbi-button cbi-input-reload" value="<%:Download from foreign official websites%>" onclick="javascript:window.open('https://iperf.fr/iperf-download.php','target');" /></td>
         </tr>
-
       </table>
-		</fieldset>
-	</div>
   <fieldset class="cbi-section" style="display:none">
     <legend id="test-iperf-legend">
     <%:Collecting data...%>
     </legend>
     <span id="test-iperf-output"></span>
   </fieldset>
-
-
 </form>
 
 <%+cbi/valuefooter%>
