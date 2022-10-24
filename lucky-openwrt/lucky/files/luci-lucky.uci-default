@@ -1,4 +1,0 @@
-#!/bin/sh
-
-rm -f /tmp/luci*
-exit 0
