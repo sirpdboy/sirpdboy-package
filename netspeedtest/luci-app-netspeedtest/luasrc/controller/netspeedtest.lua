@@ -7,17 +7,19 @@ function index()
 	entry({"admin","network","netspeedtest","speedtestweb"},cbi("netspeedtest/speedtestweb"),_("Lan Speedtest Web"),20).leaf = true
 	entry({"admin","network","netspeedtest","speedtestiperf3"},cbi("netspeedtest/speedtestiperf3", {hideapplybtn=true, hidesavebtn=true, hideresetbtn=true}),_("Lan Speedtest Iperf3"),30).leaf = true
         entry({"admin","network","netspeedtest","speedtestwan"},cbi("netspeedtest/speedtestwan", {hideapplybtn=true, hidesavebtn=true, hideresetbtn=true}),_("Wan Speedtest"), 40).leaf = true
+        entry({"admin","network","netspeedtest","netperftestwan"},cbi("netspeedtest/netperftestwan", {hideapplybtn=true, hidesavebtn=true, hideresetbtn=true}),_("Netperf Speedtest"), 40).leaf = true
+
 
 	entry({"admin", "network", "netspeedtest", "checknet"}, call("check_net"))
-	
 	entry({"admin", "network", "speedtestweb_status"}, call("speedtestweb_status"))
 	entry({"admin", "network", "iperf3_status"}, call("iperf3_status"))
 
 	entry({"admin", "network","test_iperf0"}, post("test_iperf0"), nil).leaf = true
 	entry({"admin", "network","test_iperf1"}, post("test_iperf1"), nil).leaf = true
-	
-	--entry({"admin","network","netspeedtest", "wanrun"}, post("wanrun"), nil).leaf = true
-	entry({"admin","network","netspeedtest", "wanrun"}, call("wanrun"))
+
+	entry({"admin","network","netspeedtest", "speedtestrun"}, call("speedtestrun"))
+	entry({"admin","network","netspeedtest", "netperfrun"}, call("netperfrun"))
+
 	entry({"admin", "network", "netspeedtest", "realtime_log"}, call("get_log")) 
 	entry({"admin", "network", "netspeedtest", "dellog"},call("dellog"))
 end
@@ -78,7 +80,10 @@ function dellog()
 	http.write('')
 end
 
-function wanrun()
+function speedtestrun()
     testout("/etc/init.d/netspeedtest nstest ")
 end
 
+function netperfrun()
+    testout("sh /usr/bin/netperftest")
+end

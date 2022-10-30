@@ -77,10 +77,16 @@ msgid "Iperf3 speed measurement software download"
 msgstr "iperf3测速软件下载"
 
 msgid "Wan Speedtest"
-msgstr "宽带速率测试"
+msgstr "Speedtest宽带测速"
 
-msgid "Perform WanSpeedtest"
-msgstr "执行宽带测速"
+msgid "Perform Wan Speedtest"
+msgstr "执行Speedtest宽带测速"
+
+msgid "Netperf Speedtest"
+msgstr "Netperf宽带测速"
+
+msgid "Perform Netperf Speedtest"
+msgstr "执行Netperf宽带测速"
 
 msgid "Operation execution complete"
 msgstr "操作执行完毕"
