@@ -45,9 +45,10 @@ o.datatype    = "hostname"
 o.rempty      = false
 
 ---- Port
-o = s:taboption("settings", Value, "port", translate("Local Port"), translate("Smartdns local server port"))
-o.placeholder = 6053
-o.default     = 6053
+o = s:taboption("settings", Value, "port", translate("Local Port"), 
+    translate("Smartdns local server port, smartdns will be automatically set as main dns when the port is 53."))
+o.placeholder = 53
+o.default     = 53
 o.datatype    = "port"
 o.rempty      = false
 
@@ -92,82 +93,59 @@ o.cfgvalue    = function(...)
     return Flag.cfgvalue(...) or "0"
 end
 
----- Redirect
-o = s:taboption("settings", ListValue, "redirect", translate("Redirect"), translate("SmartDNS redirect mode"))
-o.placeholder = "none"
-o:value("none", translate("none"))
-o:value("dnsmasq-upstream", translate("Run as dnsmasq upstream server"))
-o:value("redirect", translate("Redirect 53 port to SmartDNS"))
-o.default     = "none"
-o.rempty      = false
-
 ---- cache-size
 o = s:taboption("settings", Value, "cache_size", translate("Cache Size"), translate("DNS domain result cache size"))
-o.placeholder = "512"
-o.default     = 512
 o.rempty      = true
+
+-- cache-size
+o = s:taboption("settings", Flag, "resolve_local_hostnames", translate("Resolve Local Hostnames"), translate("Resolve local hostnames by reading Dnsmasq lease file."));
+o.rmempty     = false
+o.default     = o.enabled
+o.cfgvalue    = function(...)
+    return Flag.cfgvalue(...) or "1"
+end
+
+-- Automatically Set Dnsmasq
+o = s:taboption("settings", Flag, "auto_set_dnsmasq", translate("Automatically Set Dnsmasq"), translate("Automatically set as upstream of dnsmasq when port changes."));
+o.rmempty     = false
+o.default     = o.enabled
+o.cfgvalue    = function(...)
+    return Flag.cfgvalue(...) or "0"
+end
+
+-- Force AAAA SOA
+o = s:taboption("settings", Flag, "force_aaaa_soa", translate("Force AAAA SOA"), translate("Force AAAA SOA."));
+o.rmempty     = false
+o.default     = o.enabled
+o.cfgvalue    = function(...)
+    return Flag.cfgvalue(...) or "0"
+end
+
+-- Force HTTPS SOA
+o = s:taboption("settings", Flag, "force_https_soa", translate("Force HTTPS SOA"), translate("Force HTTPS SOA."));
+o.rmempty     = false
+o.default     = o.enabled
+o.cfgvalue    = function(...)
+    return Flag.cfgvalue(...) or "0"
+end
 
 ---- rr-ttl
 o = s:taboption("settings", Value, "rr_ttl", translate("Domain TTL"), translate("TTL for all domain result."))
-o.placeholder = "600"
-o.default     = 600
 o.rempty      = true
 
 ---- rr-ttl-min
 o = s:taboption("settings", Value, "rr_ttl_min", translate("Domain TTL Min"), translate("Minimum TTL for all domain result."))
 o.rempty      = true
-o.placeholder = "60"
-o.default     = 60
+o.placeholder = "600"
+o.default     = 600
 o.optional    = true
 
 ---- rr-ttl-max
 o = s:taboption("settings", Value, "rr_ttl_max", translate("Domain TTL Max"), translate("Maximum TTL for all domain result."))
-o.placeholder = "600"
-o.default     = 600
 o.rempty      = true
 
 ---- rr-ttl-reply-max
-o = s:taboption("settings", Value, "rr_ttl_reply_max", translate("Domain Reply TTL Max"), translate("Maximum Reply TTL for all domain result."))
-o.placeholder = "60"
-o.default     = 60
-o.rempty      = true
-
----- max-reply-ip-num
-o = s:taboption("settings", Value, "max_reply_ip_num", translate("Max Reply IP Num"), translate("Maximum number of IPs returned to the client"))
-o.datatype = "range(1,16)"
-o.default     = 1
-o.rempty      = true
-
----- log-level
-o = s:taboption("settings", ListValue, "log_level", translate("log level"))
-o:value("fatal", translate("fatal"))
-o:value("error", translate("error"))
-o:value("warn", translate("warn"))
-o:value("notice", translate("notice"))
-o:value("info", translate("info"))
-o:value("debug", translate("debug"))
-o.default     = "error"
-o.rempty      = false
-
----- log-size
-o = s:taboption("settings", ListValue, "log_size", translate("log size"))
-o:value("128k")
-o:value("256k")
-o:value("512k")
-o:value("1024k")
-o.default     = "128k"
-o.rempty      = false
-
----- log-num
-o = s:taboption("settings", Value, "log_num", translate("log num"))
-o.datatype = "range(1,9)"
-o.default     = 2
-o.rempty      = true
-
----- log-file
-o = s:taboption("settings", Value, "log_file", translate("log file"))
-o.placeholder = translate("/var/log/smartdns.log")
-o.default = "/var/log/smartdns.log"
+o = s:taboption("settings", Value, "rr_ttl_reply_max", translate("Reply Domain TTL Max"), translate("Reply maximum TTL for all domain result."))
 o.rempty      = true
 
 ---- second dns server
@@ -198,7 +176,6 @@ o.placeholder = "default"
 o.datatype    = "hostname"
 o.rempty      = true
 
----- skip speed test
 o = s:taboption("seconddns", Flag, "seconddns_no_speed_check", translate("Skip Speed Check"), translate("Do not check speed."))
 o.rmempty     = false
 o.default     = o.disabled
@@ -254,7 +231,7 @@ o.cfgvalue    = function(...)
 end
 
 ---- Force AAAA SOA
-o = s:taboption("seconddns", Flag, "force_aaaa_soa", translate("Force AAAA SOA"), translate("Force AAAA SOA."))
+o = s:taboption("seconddns", Flag, "seconddns_force_aaaa_soa", translate("Force AAAA SOA"), translate("Force AAAA SOA."))
 o.rmempty     = false
 o.default     = o.disabled
 o.cfgvalue    = function(...)
