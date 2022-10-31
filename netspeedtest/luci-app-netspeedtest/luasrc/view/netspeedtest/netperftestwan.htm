@@ -13,10 +13,10 @@ local has_ping6 = fs.access("/bin/ping6") or fs.access("/usr/bin/ping6")
     <input class="cbi-button cbi-button-apply" id="netperf_service" type="button"  onclick="netperf()" value="<%= translate('Perform Netperf Speedtest') %>" />
  
   <fieldset class="cbi-section" style="display:none">
-    <legend id="wanspeedtest-legend">
+    <legend id="netperftest-legend">
     <%:Collecting data...%>
     </legend>
-    <span id="wanspeedtest-output"></span>
+    <span id="netperftest-output"></span>
   </fieldset>
 <script type="text/javascript" src="<%=resource%>/cbi.js"></script>
 <script type="text/javascript">//<![CDATA[
