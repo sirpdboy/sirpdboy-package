@@ -10,7 +10,7 @@
 			},
 			function(x, result) {
 				_status[result.index].setAttribute("style","font-weight:bold;");
-				_status[result.index].setAttribute("color",result.status ? "green":"red");
+				_status[result.index].setAttribute("style",result.status ? "color:green":"color:red");
 				_status[result.index].innerHTML = (result.status ? '✓' : 'X');
 			}
 		);

@@ -91,7 +91,7 @@ run_service() {
 }
 
 stop_service() {
-	ps -w | grep "$CONFIG_PATH/" | grep -v "grep" | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1 &
+	busybox ps -w | grep "$CONFIG_PATH/" | grep -v "grep" | awk '{print $1}' | xargs kill -9 >/dev/null 2>&1 &
 	del_rule
 	rm -rf $CONFIG_PATH /var/etc/$CONFIG.include
 }
@@ -104,7 +104,7 @@ start() {
 		mkdir -p $CONFIG_PATH
 		add_rule
 		config_load $CONFIG
-		config_foreach run_service "config"
+		config_foreach run_service "config" -T
 		gen_include
 	fi
 }
