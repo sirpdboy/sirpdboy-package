@@ -1,17 +1,16 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
-# Copyright (c) 2018-2020 Nick Peng (pymumu@gmail.com)
-# This is free software, licensed under the GNU General Public License v3.
-#
+# Copyright (C) 2018-2020 Ruilin Peng (Nick) <pymumu@gmail.com>.
 
 include $(TOPDIR)/rules.mk
 PKG_NAME:=smartdns
-PKG_VERSION:=1.2021.35
-PKG_RELEASE:=1
+PKG_VERSION:=38.1
+PKG_RELEASE:=$(AUTORELEASE)
 
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://www.github.com/pymumu/smartdns.git
-PKG_SOURCE_VERSION:=f50e4dd0813da9300580f7188e44ed72a27ae79c
-PKG_MIRROR_HASH:=b4d825a48884101f647cd594f00b714a2d09ac419b958ee0317d302fd31b0038
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/pymumu/smartdns/tar.gz/Release$(PKG_VERSION)?
+PKG_HASH:=32ea4784838a0df1d50841d0f79f86482bb4d0a961a19e4bdbaa8b207ffe8a22
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-Release$(PKG_VERSION)
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
@@ -21,8 +20,8 @@ PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
 
-MAKE_VARS += VER=$(PKG_VERSION)
 MAKE_PATH:=src
+MAKE_VARS+= VER=$(PKG_VERSION)
 
 define Package/smartdns
   SECTION:=net
@@ -51,8 +50,8 @@ define Package/smartdns/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/package/openwrt/files/etc/init.d/smartdns $(1)/etc/init.d/smartdns
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/address.conf $(1)/etc/smartdns/address.conf
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/package/openwrt/blacklist-ip.conf $(1)/etc/smartdns/blacklist-ip.conf
-	$(INSTALL_CONF) ./conf/custom.conf $(1)/etc/smartdns/custom.conf
-	$(INSTALL_CONF) ./conf/smartdns.conf $(1)/etc/config/smartdns
+	$(INSTALL_CONF) $(CURDIR)/conf/custom.conf $(1)/etc/smartdns/custom.conf
+	$(INSTALL_CONF) $(CURDIR)/conf/smartdns.conf $(1)/etc/config/smartdns
 endef
 
 $(eval $(call BuildPackage,smartdns))
