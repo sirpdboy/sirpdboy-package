@@ -4,12 +4,11 @@ msgstr "Content-Type: text/plain; charset=UTF-8"
 msgid "DDNS-GO"
 msgstr "DDNS-GO"
 
-msgid "Click to open DDNS-GO"
-msgstr "点击打开DDNS-GO"
-
 msgid "DDNS-GO automatically obtains your public IPv4 or IPv6 address and resolves it to the corresponding domain name service."
 msgstr "DDNS-GO自动获得你的公网 IPv4 或 IPv6 地址,并解析到对应的域名服务."
 
+msgid "Base Setting"
+msgstr "基本设置"
 
 msgid "Running state"
 msgstr "运行状态"
