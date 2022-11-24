@@ -76,21 +76,23 @@ luci-theme-opentoks-------------------仿LEDE主题（适配18.06）
 
 # My other project
 
-网络速度测试 ：https://github.com/sirpdboy/NetSpeedTest
+网络速度测试 ：https://github.com/sirpdboy/NetSpeedTest     <img src="https://img.shields.io/github/downloads/sirpdboy/NetSpeedTest/total.svg?style=for-the-badge&color=32C955"/>
 
-定时设置插件 : https://github.com/sirpdboy/luci-app-autotimeset
+定时设置插件 : https://github.com/sirpdboy/luci-app-autotimeset     <img src="https://img.shields.io/github/downloads/sirpdboy/luci-app-autotimeset/total.svg?style=for-the-badge&color=32C955"/>
 
-关机功能插件 : https://github.com/sirpdboy/luci-app-poweroffdevice
+关机功能插件 : https://github.com/sirpdboy/luci-app-poweroffdevice     <img src="https://img.shields.io/github/downloads/sirpdboy/luci-app-poweroffdevice/total.svg?style=for-the-badge&color=32C955"/>
 
-opentopd主题 : https://github.com/sirpdboy/luci-theme-opentopd
+opentopd主题 : https://github.com/sirpdboy/luci-theme-opentopd     <img src="https://img.shields.io/github/downloads/sirpdboy/luci-theme-opentopd/total.svg?style=for-the-badge&color=32C955"/>
 
-opentoks 主题: https://github.com/sirpdboy/luci-theme-opentoks [仿KOOLSAHRE主题]
+系统高级设置 : https://github.com/sirpdboy/luci-app-advanced     <img src="https://img.shields.io/github/downloads/sirpdboy/luci-app-advanced/total.svg?style=for-the-badge&color=32C955"/>
 
-btmob 主题: https://github.com/sirpdboy/luci-theme-btmob
+ddns-go动态域名: https://github.com/sirpdboy/luci-app-ddns-go     <img src="https://img.shields.io/github/downloads/sirpdboy/luci-app-ddns-go/total.svg?style=for-the-badge&color=32C955"/>
 
-系统高级设置 : https://github.com/sirpdboy/luci-app-advanced
+lucky大吉: https://github.com/sirpdboy/luci-app-lucky     <img src="https://img.shields.io/github/downloads/sirpdboy/luci-app-lucky/total.svg?style=for-the-badge&color=32C955"/>
 
-ddns-go动态域名: https://github.com/sirpdboy/luci-app-ddns-go
+一键扩容：https://github.com/sirpdboy/luci-app-partexp    <img src="https://img.shields.io/github/downloads/sirpdboy/luci-app-partexp/total.svg?style=for-the-badge&color=32C955"/>
+
+网络设置向导：https://github.com/sirpdboy/luci-app-wizard    <img src="https://img.shields.io/github/downloads/sirpdboy/luci-app-wizard/total.svg?style=for-the-badge&color=32C955"/>
 
 ## 捐助 [![](https://img.shields.io/badge/-捐助-F5F5F5.svg)](#捐助-) 
 
