@@ -7,13 +7,18 @@ function index()
 	if not nixio.fs.access("/etc/config/netdata") then
 		return
 	end
-
-	
 	local page
 	entry({"admin", "status", "netdata"}, alias("admin", "status", "netdata", "setting"),_("NetData"), 10).dependent = true
 
-	entry({"admin", "status", "netdata", "netdata"}, template("netdata"), _("NetData"), 10).leaf = true
-	entry({"admin", "status", "netdata", "setting"}, cbi("netdata/netdata"), _("Setting"), 20).leaf=true
-	
+	entry({"admin", "status", "netdata", "setting"}, cbi("netdata/netdata"), _("Base Setting"), 20).leaf=true
+	entry({"admin", "status", "netdata", "netdata"}, template("netdata"), _("NetData"), 30).leaf = true
+	entry({"admin", "status", "netdata_status"}, call("act_status"))
 end
 
+function act_status()
+	local sys  = require "luci.sys"
+	local e = { }
+	e.running = sys.call("pidof netdata >/dev/null") == 0
+	luci.http.prepare_content("application/json")
+	luci.http.write_json(e)
+end

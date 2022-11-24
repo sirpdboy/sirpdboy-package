@@ -4,10 +4,10 @@ msgstr "Content-Type: text/plain; charset=UTF-8"
 msgid "Running state"
 msgstr "运行状态"
 
-msgid "The NetData service is running."
+msgid "The Netdata service is running."
 msgstr "NetData服务已启动"
 
-msgid "The NetData service is not running."
+msgid "The Netdata service is not running."
 msgstr "NetData服务未启动"
 
 msgid "NetData Status"
@@ -18,6 +18,9 @@ msgstr "实时监控"
 
 msgid "Set the netdata access port"
 msgstr "设置访问端口"
+
+msgid "Base Setting"
+msgstr "基本设置"
 
 msgid "Netdata is high-fidelity infrastructure monitoring and troubleshooting.Open-source, free, preconfigured, opinionated, and always real-time."
 msgstr "Netdata是高保真的基础设施监控和故障排除。开源、免费、预配置、始终实时."
