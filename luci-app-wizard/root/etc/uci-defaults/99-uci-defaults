@@ -1,0 +1,13 @@
+#!/bin/sh
+[  -n  "$(uci -q get wizard.default=wizard)" ] && uci set wizard.default=wizard
+uci -q set wizard.default.wifi_ssid="$(uci -q get wireless.@wifi-iface[0].ssid)"
+uci -q set wizard.default.wifi_key="$(uci -q get wireless.@wifi-iface[0].key)"
+[ "$(uci -q get network.wan.proto)" ] && uci -q set wizard.default.wan_proto="$(uci -q get network.wan.proto)" || uci -q set wizard.default.wan_proto="siderouter"
+uci -q set wizard.default.lan_ipaddr="$(uci -q get network.lan.ipaddr)"
+uci -q set wizard.default.lan_netmask="$(uci -q get network.lan.netmask)"
+uci -q set wizard.default.lan_gateway="$(uci -q get network.lan.gateway)"
+uci -q set wizard.default.lan_dns="$(uci -q get network.lan.dns)"
+[ "$(uci -q get dhcp.lan.ignore)" ] && uci -q set wizard.default.lan_dhcp="0" || uci -q set wizard.default.lan_dhcp="1" 
+uci commit wizard
+
+exit 0

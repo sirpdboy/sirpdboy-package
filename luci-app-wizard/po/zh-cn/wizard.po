@@ -1,0 +1,98 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Inital Setup"
+msgstr "设置向导"
+
+msgid "Inital Router Setup"
+msgstr "路由器设置向导"
+
+msgid "Network protocol mode selection"
+msgstr "网络协议模式选择"
+
+msgid "PPPoE dialing"
+msgstr "PPPoE拨号"
+
+msgid "DHCP auto acquire"
+msgstr "DHCP自动获取"
+
+msgid "Wan Settings"
+msgstr "网络设置"
+
+msgid "wan_interface"
+msgstr "WAN口接口"
+
+msgid "Wireless Settings"
+msgstr "无线设置"
+
+msgid "Allocate the physical interface of WAN port, and the side route can not be selected"
+msgstr "分配Wan口的物理接口,旁路由可不选择."
+
+msgid "interface<font color=\"red\">(*)</font>"
+msgstr "接口<font color=\"red\">(*)</font>"
+
+msgid "Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>"
+msgstr "快速网络设置向导，如果需要更多的设置请进入 网络-接口 中设置.</br>"
+
+msgid "The network card is automatically set, and the physical interfaces other than the specified WAN interface are automatically bound as LAN ports, and all side routes are bound as LAN ports.</br>"
+msgstr "自动设置网卡，除指定WAN口物理接口之外的物理接口自动绑定为LAN口，旁路由全绑定为LAN口</br>"
+
+msgid "Four different ways to access the Internet, please choose according to your own situation.</br>"
+msgstr "四种上网方式:DHCP动态获取/PPPoe拨号/静态地址/旁路由，请您根据自身情况进行选择.</br>"
+
+msgid "Set the router's wireless name and password. For more advanced settings, please go to the Network-Wireless page."
+msgstr "设置路由器的无线名字和密码，更多高级设置请进入 网络-无线 页面."
+
+msgid "Other Settings"
+msgstr "其它设置"
+
+msgid "For specific usage, see:"
+msgstr "具体使用方法参见："
+
+msgid "SideRouter"
+msgstr "旁路由"
+
+msgid "Please enter the primary routing IP address. The next routing gateway and the next routing IP must be a network segment"
+msgstr "请输入主路由IP地址,旁边路由网关和旁由路IP需是一个网段."
+
+msgid "If not selected, DHCP is disabled by default. If DHCP is used, the main route DHCP needs to be turned off. To disable DHCP, you need to manually change all Internet device gateways and DNS to this routing IP"
+msgstr "不选择默认为禁用DHCP，如使用DHCP，需关闭主路由DHCP。禁用DHCP，需手动将所有Internet设备网关和DNS更改为此路由IP"
+
+msgid "Disable IPv6"
+msgstr "禁用IPv6"
+
+msgid "If it is not selected, IPv6 will be enabled, if it is selected, IPv6 will be disabled"
+msgstr "不选择为启用IPV6，选择为禁用IPV6"
+
+msgid "Lan IPv4 address"
+msgstr "内网IP地址"
+
+msgid "Lan IPv4 gateway"
+msgstr "旁路由网关"
+
+msgid "Lan IPv4 netmask"
+msgstr "内网子网掩码"
+
+msgid "Wan IPv4 address"
+msgstr "Wan口IP地址"
+
+msgid "Wan IPv4 netmask"
+msgstr "Wan口子网掩码"
+
+msgid "Wan IPv4 gateway"
+msgstr "Wan口网关"
+
+msgid "Use custom Wan DNS"
+msgstr "自定义Wan口的DNS"
+
+msgid "Use custom Siderouter DNS"
+msgstr "自定义旁路由DNS"
+
+msgid "Enable DHCP Server"
+msgstr "启用DHCP服务"
+
+msgid "Disable Wizard"
+msgstr "禁止向导"
+
+msgid "Enable/Disable Wizard"
+msgstr "启用或禁用向导"
