@@ -38,46 +38,20 @@ end
 function act_status()
 	local e={}
 	local ipv6_server;
-	local redirect_mode="none";
-
-	e.ipv6_works = 2;
-	e.ipv4_works = 2;
-	e.ipv6_server = 1;
-	e.dnsmasq_forward = 0;
-	redirect_mode = smartdns.get_config_option("smartdns", "smartdns", "redirect", nil);
-	if redirect_mode == "redirect" then
-		e.redirect = 1
-	elseif redirect_mode == "dnsmasq-upstream" then
-		e.redirect = 2
-	else
-		e.redirect = 0
-	end
-
+	local dnsmasq_server = smartdns.get_config_option("dhcp", "dnsmasq", "server", {nil})[1]
+	local auto_set_dnsmasq = smartdns.get_config_option("smartdns", "smartdns", "auto_set_dnsmasq", nil);
+	
+	e.auto_set_dnsmasq = auto_set_dnsmasq
+	e.dnsmasq_server = dnsmasq_server
 	e.local_port = smartdns.get_config_option("smartdns", "smartdns", "port", nil);
-	ipv6_server = smartdns.get_config_option("smartdns", "smartdns", "ipv6_server", nil);
-	if e.redirect == 1 then 
-		if e.local_port ~= nil and e.local_port ~= "53" then
-			e.ipv4_works = luci.sys.call("iptables -t nat -nL PREROUTING 2>/dev/null | grep REDIRECT | grep dpt:53 | grep %q >/dev/null 2>&1" % e.local_port) == 0
-			if ipv6_server == "1" then
-				e.ipv6_works = luci.sys.call("ip6tables -t nat -nL PREROUTING 2>/dev/null| grep REDIRECT | grep dpt:53 | grep %q >/dev/null 2>&1" % e.local_port) == 0
-			else 
-				e.ipv6_works = 2
-			end
-		else
-			e.redirect = 0
-		end
-	elseif e.redirect == 2 then
+	if e.local_port ~= nil and e.local_port ~= "53" and auto_set_dnsmasq ~= nil and auto_set_dnsmasq == "1" then
 		local str;
-		local dnsmasq_server = luci.sys.exec("uci -q get dhcp.@dnsmasq[0].server")
-		if e.local_port ~= nil then
-			str = "127.0.0.1#" .. e.local_port 
-			if  string.sub(dnsmasq_server,1,string.len(str)) == str then 
-				e.dnsmasq_forward = 1
-			end
+		str = "127.0.0.1#" .. e.local_port 
+		if dnsmasq_server ~= str then
+			e.dnsmasq_redirect_failure = 1
 		end
 	end
 	e.running = is_running()
-
 	luci.http.prepare_content("application/json")
 	luci.http.write_json(e)
 end

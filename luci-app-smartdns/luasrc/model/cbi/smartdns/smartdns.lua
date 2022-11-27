@@ -1,5 +1,5 @@
 --
--- Copyright (C) 2018-2020 Ruilin Peng (Nick) <pymumu@gmail.com>.
+-- Copyright (C) 2018-2022 Ruilin Peng (Nick) <pymumu@gmail.com>.
 --
 -- smartdns is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -45,9 +45,10 @@ o.datatype    = "hostname"
 o.rempty      = false
 
 ---- Port
-o = s:taboption("settings", Value, "port", translate("Local Port"), translate("Smartdns local server port"))
-o.placeholder = 6053
-o.default     = 6053
+o = s:taboption("settings", Value, "port", translate("Local Port"), 
+    translate("Smartdns local server port, smartdns will be automatically set as main dns when the port is 53."))
+o.placeholder = 53
+o.default     = 53
 o.datatype    = "port"
 o.rempty      = false
 
@@ -70,7 +71,7 @@ end
 ---- Support DualStack ip selection
 o = s:taboption("settings", Flag, "dualstack_ip_selection", translate("Dual-stack IP Selection"), translate("Enable IP selection between IPV4 and IPV6"))
 o.rmempty     = false
-o.default     = o.disabled
+o.default     = o.enabled
 o.cfgvalue    = function(...)
     return Flag.cfgvalue(...) or "0"
 end
@@ -83,26 +84,50 @@ o.cfgvalue    = function(...)
     return Flag.cfgvalue(...) or "0"
 end
 
----- Serve expired
-o = s:taboption("settings", Flag, "serve_expired", translate("Serve expired"), translate("Attempts to serve old responses from cache with a TTL of 0 in the response without waiting for the actual resolution to finish."))
+---- Domain Serve expired
+o = s:taboption("settings", Flag, "serve_expired", translate("Serve expired"), 
+	translate("Attempts to serve old responses from cache with a TTL of 0 in the response without waiting for the actual resolution to finish."))
 o.rmempty     = false
-o.default     = o.disabled
+o.default     = o.enabled
 o.cfgvalue    = function(...)
     return Flag.cfgvalue(...) or "0"
 end
 
----- Redirect
-o = s:taboption("settings", ListValue, "redirect", translate("Redirect"), translate("SmartDNS redirect mode"))
-o.placeholder = "none"
-o:value("none", translate("none"))
-o:value("dnsmasq-upstream", translate("Run as dnsmasq upstream server"))
-o:value("redirect", translate("Redirect 53 port to SmartDNS"))
-o.default     = "none"
-o.rempty      = false
-
 ---- cache-size
 o = s:taboption("settings", Value, "cache_size", translate("Cache Size"), translate("DNS domain result cache size"))
 o.rempty      = true
+
+-- cache-size
+o = s:taboption("settings", Flag, "resolve_local_hostnames", translate("Resolve Local Hostnames"), translate("Resolve local hostnames by reading Dnsmasq lease file."));
+o.rmempty     = false
+o.default     = o.enabled
+o.cfgvalue    = function(...)
+    return Flag.cfgvalue(...) or "1"
+end
+
+-- Automatically Set Dnsmasq
+o = s:taboption("settings", Flag, "auto_set_dnsmasq", translate("Automatically Set Dnsmasq"), translate("Automatically set as upstream of dnsmasq when port changes."));
+o.rmempty     = false
+o.default     = o.enabled
+o.cfgvalue    = function(...)
+    return Flag.cfgvalue(...) or "0"
+end
+
+-- Force AAAA SOA
+o = s:taboption("settings", Flag, "force_aaaa_soa", translate("Force AAAA SOA"), translate("Force AAAA SOA."));
+o.rmempty     = false
+o.default     = o.enabled
+o.cfgvalue    = function(...)
+    return Flag.cfgvalue(...) or "0"
+end
+
+-- Force HTTPS SOA
+o = s:taboption("settings", Flag, "force_https_soa", translate("Force HTTPS SOA"), translate("Force HTTPS SOA."));
+o.rmempty     = false
+o.default     = o.enabled
+o.cfgvalue    = function(...)
+    return Flag.cfgvalue(...) or "1"
+end
 
 ---- rr-ttl
 o = s:taboption("settings", Value, "rr_ttl", translate("Domain TTL"), translate("TTL for all domain result."))
@@ -111,15 +136,27 @@ o.rempty      = true
 ---- rr-ttl-min
 o = s:taboption("settings", Value, "rr_ttl_min", translate("Domain TTL Min"), translate("Minimum TTL for all domain result."))
 o.rempty      = true
-o.placeholder = "300"
-o.default     = 300
+o.placeholder = "600"
+o.default     = 600
 o.optional    = true
 
----- second dns server
 ---- rr-ttl-max
 o = s:taboption("settings", Value, "rr_ttl_max", translate("Domain TTL Max"), translate("Maximum TTL for all domain result."))
 o.rempty      = true
 
+---- rr-ttl-reply-max
+o = s:taboption("settings", Value, "rr_ttl_reply_max", translate("Reply Domain TTL Max"), translate("Reply maximum TTL for all domain result."))
+o.rempty      = true
+
+---- Update china list(GFW)
+o = s:taboption("settings", Flag, "gfw_smartdns", translate("Update China list And Advertising Data"), translate("If you need to use the Chinese domain name file and Advertising data, Remove the # sign before 'conf-file' in the custom settings."))
+o.rmempty     = false
+o.default     = o.disabled
+o.cfgvalue    = function(...)
+    return Flag.cfgvalue(...) or "0"
+end
+
+---- second dns server
 ---- Eanble
 o = s:taboption("seconddns", Flag, "seconddns_enabled", translate("Enable"), translate("Enable or disable second DNS server."))
 o.default     = o.disabled
@@ -127,8 +164,8 @@ o.rempty      = false
 
 ---- Port
 o = s:taboption("seconddns", Value, "seconddns_port", translate("Local Port"), translate("Smartdns local server port"))
-o.placeholder = 7053
-o.default     = 7053
+o.placeholder = 6553
+o.default     = 6553
 o.datatype    = "port"
 o.rempty      = false
 
@@ -147,7 +184,6 @@ o.placeholder = "default"
 o.datatype    = "hostname"
 o.rempty      = true
 
----- skip speed test
 o = s:taboption("seconddns", Flag, "seconddns_no_speed_check", translate("Skip Speed Check"), translate("Do not check speed."))
 o.rmempty     = false
 o.default     = o.disabled
@@ -203,7 +239,7 @@ o.cfgvalue    = function(...)
 end
 
 ---- Force AAAA SOA
-o = s:taboption("seconddns", Flag, "force_aaaa_soa", translate("Force AAAA SOA"), translate("Force AAAA SOA."))
+o = s:taboption("seconddns", Flag, "seconddns_force_aaaa_soa", translate("Force AAAA SOA"), translate("Force AAAA SOA."))
 o.rmempty     = false
 o.default     = o.disabled
 o.cfgvalue    = function(...)
@@ -278,13 +314,14 @@ o:value("https", translate("https"))
 o.default     = "udp"
 o.rempty      = false
 
--- Doman addresss
-s = m:section(TypedSection, "smartdns", translate("Domain Address"), 
-	translate("Set Specific domain ip address."))
-s.anonymous = true
+s = m:section(TypedSection, "smartdns", translate("Advanced Settings"), translate("Advanced Settings"));
+s.anonymous = true;
 
----- address
-addr = s:option(Value, "address",
+s:tab("domain-address", translate("Domain Address"), translate("Set Specific domain ip address."));
+s:tab("blackip-list", translate("IP Blacklist"), translate("Set Specific ip blacklist."));
+
+-- Doman addresss
+addr = s:taboption("domain-address", Value, "address",
 	translate(""), 
 	translate("Specify an IP address to return for any host in the given domains, Queries in the domains are never forwarded and always replied to with the specified IP address which may be IPv4 or IPv6."))
 
@@ -301,12 +338,7 @@ function addr.write(self, section, value)
 end
 
 -- IP Blacklist
-s = m:section(TypedSection, "smartdns", translate("IP Blacklist"), 
-	translate("Set Specific ip blacklist."))
-s.anonymous = true
-
----- blacklist
-addr = s:option(Value, "blacklist_ip",
+addr = s:taboption("blackip-list", Value, "blacklist_ip",
 	translate(""), 
 	translate("Configure IP blacklists that will be filtered from the results of specific DNS server."))
 
@@ -322,7 +354,7 @@ function addr.write(self, section, value)
 	nixio.fs.writefile("/etc/smartdns/blacklist-ip.conf", value)
 end
 
--- Doman addresss
+-- Technical Support
 s = m:section(TypedSection, "smartdns", translate("Technical Support"), 
 	translate("If you like this software, please buy me a cup of coffee."))
 s.anonymous = true
@@ -341,6 +373,14 @@ o.inputtitle = translate("Donate")
 o.inputstyle = "apply"
 o.write = function()
 	luci.http.redirect("https://pymumu.github.io/smartdns/#donate")
+end
+
+o = s:option(Button, "Restart")
+o.title = translate("Restart Service")
+o.inputtitle = translate("Restart")
+o.inputstyle = "apply"
+o.write = function()
+	luci.sys.call("/etc/init.d/smartdns restart")
 end
 
 return m
