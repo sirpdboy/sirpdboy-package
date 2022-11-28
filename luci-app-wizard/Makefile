@@ -1,8 +1,11 @@
+# Copyright 2019 X-WRT <dev@x-wrt.com>
+# Copyright 2022 sirpdboy  
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-wizard
 PKG_VERSION:=1.4
-PKG_RELEASE:=15
+PKG_RELEASE:=16
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE

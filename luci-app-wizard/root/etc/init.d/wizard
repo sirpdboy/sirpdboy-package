@@ -53,6 +53,7 @@ add_wizard() {
 	}
 	uci set network.wan.$ifname="${wan_interface}"
 	uci set network.wan6.$ifname="${wan_interface}"
+	sed -i '/br-lan -j MASQUERADE/d' /etc/firewall.user
  	case "${wan_proto}" in
 		dhcp)
 			uci set network.wan.proto='dhcp'
@@ -112,7 +113,6 @@ add_wizard() {
 				if [ ${b} -gt 1 ] ; then
 				     [ "x$ifname" = "xdevice" ] &&  uci -q set network.@$ifname[0].ports="${lannet} ${wan_interface}"  || uci -q set network.lan.$ifname="${lannet} ${wan_interface}"
 				fi
-				sed -i '/br-lan -j MASQUERADE/d' /etc/firewall.user
 				echo 'iptables -t nat -I POSTROUTING -o br-lan -j MASQUERADE' >> /etc/firewall.user
 			}
 		;;		
