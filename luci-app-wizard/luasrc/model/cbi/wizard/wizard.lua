@@ -15,7 +15,7 @@ uci:foreach("wireless", "wifi-device",
 			return false
 		end)
 
-local m = Map("wizard", luci.xml.pcdata(translate("Inital Router Setup")), translate("Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>")..translate("The network card is automatically set, and the physical interfaces other than the specified WAN interface are automatically bound as LAN ports, and all side routes are bound as LAN ports.</br>")..translate("For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-wizard.git' target=\'_blank\'>GitHub @sirpdboy/luci-app-wizard</a>") )
+local m = Map("wizard", luci.util.pcdata(translate("Inital Router Setup")), translate("Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>")..translate("The network card is automatically set, and the physical interfaces other than the specified WAN interface are automatically bound as LAN ports, and all side routes are bound as LAN ports.</br>")..translate("For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-wizard.git' target=\'_blank\'>GitHub @sirpdboy/luci-app-wizard</a>") )
 
 local s = m:section(TypedSection, "wizard", "")
 s.addremove = false
@@ -87,8 +87,8 @@ e.datatype = "ip4addr"
 
 e = s:taboption("wansetup", DynamicList, "wan_dns", translate("Use custom Wan DNS"))
 e:depends({wan_proto="dhcp"})
-e:depends({wan_proto="pppoe"})
 e:depends({wan_proto="static"})
+e:depends({wan_proto="pppoe"})
 e.datatype = "ip4addr"
 e.cast = "string"
 

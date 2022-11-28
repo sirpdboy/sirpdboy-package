@@ -140,7 +140,6 @@ add_wizard() {
 			uci -q set dhcp.lan.dhcpv6='hybrid'
 			uci -q delete dhcp.@dnsmasq[0].filter_aaaa
 			uci -q set dhcp.lan.ndp=''
-			#uci -q set dhcp.lan.ignore='0'
 			uci -q set dhcp.lan.ra_management='1'
 			uci -q set dhcp.lan.ra_default='1'
 			uci -q set dhcp.lan.force='1'
