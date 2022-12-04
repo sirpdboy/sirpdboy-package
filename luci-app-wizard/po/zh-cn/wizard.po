@@ -50,10 +50,10 @@ msgid "For specific usage, see:"
 msgstr "具体使用方法参见："
 
 msgid "SideRouter"
-msgstr "旁路由"
+msgstr "旁路模式"
 
 msgid "Please enter the primary routing IP address. The next routing gateway and the next routing IP must be a network segment"
-msgstr "请输入主路由IP地址,旁边路由网关和旁由路IP需是一个网段."
+msgstr "请输入主路由IP地址,旁路网关和旁路IP需是一个网段."
 
 msgid "If not selected, DHCP is disabled by default. If DHCP is used, the main route DHCP needs to be turned off. To disable DHCP, you need to manually change all Internet device gateways and DNS to this routing IP"
 msgstr "不选择默认为禁用DHCP，如使用DHCP，需关闭主路由DHCP。禁用DHCP，需手动将所有Internet设备网关和DNS更改为此路由IP"
@@ -68,7 +68,7 @@ msgid "Lan IPv4 address"
 msgstr "内网IP地址"
 
 msgid "Lan IPv4 gateway"
-msgstr "旁路由网关"
+msgstr "网关(主路由IP)"
 
 msgid "Lan IPv4 netmask"
 msgstr "内网子网掩码"
@@ -96,3 +96,6 @@ msgstr "禁止向导"
 
 msgid "Enable/Disable Wizard"
 msgstr "启用或禁用向导"
+
+msgid "Select to enable dynamic camouflage forwarding,It is enabled when Xiaomi Huawei's primary route cannot be used normally"
+msgstr "选择表示开启动态伪装转发,当小米华为做主路由无法正常使用时开启"

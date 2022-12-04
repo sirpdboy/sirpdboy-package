@@ -41,7 +41,7 @@ e = s:taboption("wansetup", Flag, "ipv6",translate('Disable IPv6'), translate('I
 e = s:taboption("wansetup", ListValue, "wan_proto", translate("Network protocol mode selection"), translate("Four different ways to access the Internet, please choose according to your own situation.</br>"))
 e:value("dhcp", translate("DHCP client"))
 e:value("static", translate("Static address"))
-e:value("pppoe", translate("PPPoE"))
+e:value("pppoe", translate("PPPoE dialing"))
 e:value("siderouter", translate("SideRouter"))
 
 e = s:taboption("wansetup",Value, "wan_interface",translate("interface<font color=\"red\">(*)</font>"), translate("Allocate the physical interface of WAN port, and the side route can not be selected"))
@@ -102,6 +102,9 @@ e.placeholder = "223.5.5.5"
 e.datatype = "ip4addr"
 e.cast = "string"
 
+e = s:taboption("wansetup", Flag, "lan_snat", translate("Enable snat forward"), translate("Select to enable dynamic camouflage forwarding,It is enabled when Xiaomi Huawei's primary route cannot be used normally"))
+e:depends({wan_proto="siderouter"})
+
 e = s:taboption("wansetup", Flag, "lan_dhcp", translate("Enable DHCP Server"), translate("If not selected, DHCP is disabled by default. If DHCP is used, the main route DHCP needs to be turned off. To disable DHCP, you need to manually change all Internet device gateways and DNS to this routing IP"))
 e:depends({wan_proto="siderouter"})
 
@@ -112,7 +115,7 @@ if has_wifi then
 	e = s:taboption("wifisetup", Value, "wifi_key", translate("Key"))
 	e.datatype = "wpakey"
 	e.password = true
-end --has_wifi
+end
 
 e = s:taboption("othersetup", Flag, "display",translate('Disable Wizard'), translate('Enable/Disable Wizard'))
 

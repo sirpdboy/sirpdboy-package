@@ -27,6 +27,7 @@ add_wizard() {
  	config_get display "$cfg" display
 	config_get wan_proto "$cfg" wan_proto
 	config_get wan_interface "$cfg" wan_interface
+	
 	ifname=$(uci -q get network.lan.ifname ) 
 	[ "x$ifname" = "x" ] && ifname="device" || ifname="ifname" 
  	[ -n "$wan_interface" ] || wan_interface=$(uci -q get network.wan.$ifname 2>/dev/null) 
@@ -102,6 +103,7 @@ add_wizard() {
 			config_get lan_gateway "$cfg" lan_gateway
 			config_get lan_dns "$cfg" lan_dns
 			config_get lan_dhcp "$cfg" lan_dhcp
+			config_get lan_snat "$cfg" lan_snat
 			test -n "${lan_gateway}" && {
 				uci -q delete network.wan
 				uci -q delete network.wan6
@@ -109,11 +111,11 @@ add_wizard() {
 				[ -n "$lan_dns" ] || lan_dns='223.5.5.5'
 				[ -n "$lan_dhcp" ] && uci set dhcp.lan.ignore="0" || uci set dhcp.lan.ignore="1"
 				uci set network.lan.dns="${lan_dns}"
-				uci set firewall.@zone[0].masq='1'
-				if [ ${b} -gt 1 ] ; then
-				     [ "x$ifname" = "xdevice" ] &&  uci -q set network.@$ifname[0].ports="${lannet} ${wan_interface}"  || uci -q set network.lan.$ifname="${lannet} ${wan_interface}"
+				[ ${b} -gt 1 -a "x$ifname" = "xdevice" ] &&  uci -q set network.@$ifname[0].ports="${lannet} ${wan_interface}"  || uci -q set network.lan.$ifname="${lannet} ${wan_interface}"
+				if [ -n "$lan_snat" ] ;then 
+				  echo 'iptables -t nat -I POSTROUTING -o br-lan -j MASQUERADE' >> /etc/firewall.user
+				  uci set firewall.@zone[0].masq='1'
 				fi
-				echo 'iptables -t nat -I POSTROUTING -o br-lan -j MASQUERADE' >> /etc/firewall.user
 			}
 		;;		
 	esac
