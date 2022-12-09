@@ -111,7 +111,10 @@ add_wizard() {
 				[ -n "$lan_dns" ] || lan_dns='223.5.5.5'
 				[ -n "$lan_dhcp" ] && uci set dhcp.lan.ignore="0" || uci set dhcp.lan.ignore="1"
 				uci set network.lan.dns="${lan_dns}"
-				[ ${b} -gt 1 -a "x$ifname" = "xdevice" ] &&  uci -q set network.@$ifname[0].ports="${lannet} ${wan_interface}"  || uci -q set network.lan.$ifname="${lannet} ${wan_interface}"
+				if [ ${b} -gt 1 ] ; then
+				     [ "x$ifname" = "xdevice" ] &&  uci -q set network.@$ifname[0].ports="${lannet} ${wan_interface}"  || uci -q set network.lan.$ifname="${lannet} ${wan_interface}"
+				fi
+				
 				if [ -n "$lan_snat" ] ;then 
 				  echo 'iptables -t nat -I POSTROUTING -o br-lan -j MASQUERADE' >> /etc/firewall.user
 				  uci set firewall.@zone[0].masq='1'

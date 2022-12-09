@@ -97,5 +97,8 @@ msgstr "禁止向导"
 msgid "Enable/Disable Wizard"
 msgstr "启用或禁用向导"
 
+msgid "Enable snat forward"
+msgstr "开启动态伪装转发"
+
 msgid "Select to enable dynamic camouflage forwarding,It is enabled when Xiaomi Huawei's primary route cannot be used normally"
 msgstr "选择表示开启动态伪装转发,当小米华为做主路由无法正常使用时开启"
