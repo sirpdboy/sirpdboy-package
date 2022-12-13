@@ -43,7 +43,7 @@ s:taboption("general", Flag, "igdv1", translate("Enable IGDv1 mode"),
 	translate("Advertise as IGDv1 device instead of IGDv2")).default = "1"
 
 pu = s:taboption("general", Value, "presentation_url", translate("Presentation URL"))
-pu.placeholder = "http://192.168.8.1/"
+pu.placeholder = "http://192.168.10.1/"
 
 s:taboption("general", Flag, "log_output", translate("Enable additional logging"),
 	translate("Puts extra debugging information into the system log"))
