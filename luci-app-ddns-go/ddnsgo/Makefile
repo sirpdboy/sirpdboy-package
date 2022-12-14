@@ -14,11 +14,16 @@ PKG_RELEASE:=$(AUTORELEASE)
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/jeessy2/ddns-go.git
-PKG_HASH:=skip
+PKG_SOURCE_VERSION:=5152cea661aab8b105520d64c7a297987fbb21ed
+PKG_MIRROR_HASH:=7562f0aafee526e8ece1ae0c45809fb7d23aa613a7a2acf3a867f94967e5b460
 
 PKG_LICENSE:=AGPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE
 PKG_MAINTAINER:=herboy2008 <herboy2008@gmail.com>
+
+PKG_CONFIG_DEPENDS:= \
+	CONFIG_DDNS-GO_COMPRESS_GOPROXY \
+	CONFIG_DDNS-GO_COMPRESS_UPX
 
 PKG_BUILD_DEPENDS:=golang/host
 PKG_BUILD_PARALLEL:=1
@@ -40,10 +45,26 @@ define Package/ddnsgo
   URL:=https://github.com/jeessy2/ddns-go
 endef
 
-define Package/ddnsgo/description
+define Package/$(PKG_NAME)/description
   ddns-go is a automatically obtain your public IPv4 or IPv6 address and resolve it to the corresponding domain name service,
   support Alidns Dnspod Cloudflare Hicloud Callback Baiducloud porkbun GoDaddy Google Domains.
 endef
+
+define Package/$(PKG_NAME)/config
+config DDNS-GO_COMPRESS_GOPROXY
+	bool "Compiling with GOPROXY proxy"
+	default n
+
+config DDNS-GO_COMPRESS_UPX
+	bool "Compress executable files with UPX"
+	depends on !mips64
+	default n
+endef
+
+ifeq ($(CONFIG_DDNS-GO_COMPRESS_GOPROXY),y)
+	export GO111MODULE=on
+	export GOPROXY=https://goproxy.baidu.com
+endif
 
 define Package/$(PKG_NAME)/postinst
 #!/bin/sh
@@ -52,7 +73,14 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
 fi
 endef
 
-define Package/ddnsgo/install
+define Build/Compile
+	$(call GoPackage/Build/Compile)
+ifneq ($(CONFIG_DDNS-GO_COMPRESS_UPX),)
+	$(STAGING_DIR_HOST)/bin/upx --lzma --best $(GO_PKG_BUILD_BIN_DIR)/ddns-go
+endif
+endef
+
+define Package/$(PKG_NAME)/install
 	$(call GoPackage/Package/Install/Bin,$(1))
 
 	$(INSTALL_DIR) $(1)/etc/init.d
