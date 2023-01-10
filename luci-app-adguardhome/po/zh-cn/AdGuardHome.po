@@ -8,8 +8,8 @@ msgstr "日志"
 msgid "AdGuardHome's version"
 msgstr "AdGuardHome 版本"
 
-msgid 'Needed to click "save apply" to generate the configuration file'
-msgstr '需要点击“保存并应用”才能生成配置文件'
+msgid "Needed to click 'save&apply' to generate the configuration file"
+msgstr "需要点击“保存并应用”才能生成配置文件"
 
 msgid "In case of the latest realease is a source code that can not download the binary file"
 msgstr "防止最新release只有源码，导致下载不成功"

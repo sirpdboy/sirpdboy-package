@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/bin/sh
 PATH="/usr/sbin:/usr/bin:/sbin:/bin"
 binpath=$(uci get AdGuardHome.AdGuardHome.binpath)
 if [ -z "$binpath" ]; then
