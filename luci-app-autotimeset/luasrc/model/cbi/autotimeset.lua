@@ -11,10 +11,6 @@ s.addremove=true
 s.anonymous=true
 s.template = "cbi/tblsection"
 
-e=s:option(Flag,"enable",translate("Enable"))
-e.rmempty = false
-e.default=0
-
 e=s:option(ListValue,"stype",translate("Scheduled Type"))
 e:value(1,translate("Scheduled Reboot"))
 e:value(2,translate("Scheduled Poweroff"))
@@ -26,16 +22,17 @@ e:value(7,translate("Scheduled Clearmem"))
 e:value(8,translate("Scheduled Sysfree"))
 e.default=2
 
-e=s:option(ListValue,"week",translate("Week Day"))
-e:value("*",translate("Everyday"))
-e:value(1,translate("Monday"))
-e:value(2,translate("Tuesday"))
-e:value(3,translate("Wednesday"))
-e:value(4,translate("Thursday"))
-e:value(5,translate("Friday"))
-e:value(6,translate("Saturday"))
-e:value(0,translate("Sunday"))
-e.default="*"
+week=s:option(ListValue,"week",translate("Week Day"))
+week.rmempty = true
+week:value('*',translate("Everyday"))
+week:value(0,translate("Sunday"))
+week:value(1,translate("Monday"))
+week:value(2,translate("Tuesday"))
+week:value(3,translate("Wednesday"))
+week:value(4,translate("Thursday"))
+week:value(5,translate("Friday"))
+week:value(6,translate("Saturday"))
+week.default='*'
 
 e=s:option(Value,"hour",translate("Hour"))
 e.datatype = "range(0,23)"
@@ -46,6 +43,10 @@ e=s:option(Value,"minute",translate("Minute"))
 e.datatype = "range(0,59)"
 e.rmempty = false
 e.default = 0
+
+e=s:option(Flag,"enable",translate("Enable"))
+e.rmempty = false
+e.default=0
 
 m.apply_on_parse = true
 m.on_after_apply = function(self,map)
