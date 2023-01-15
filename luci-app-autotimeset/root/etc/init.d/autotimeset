@@ -1,0 +1,84 @@
+#!/bin/sh /etc/rc.common
+#copyright by sirpdboy
+
+START=95
+STOP=10
+
+run_autotimeset()
+{
+ssum=$(grep -c stime /etc/config/autotimeset)
+for i in $(seq 0 $((ssum-1)))
+do
+	enable=$(uci -q get autotimeset.@stime[$i].enable )
+	if [ "$enable" == 1 ]; then
+		stype=$(uci -q get autotimeset.@stime[$i].stype )
+		week=$(uci -q get autotimeset.@stime[$i].week )
+		minute=$(uci -q get autotimeset.@stime[$i].minute )
+		hour=$(uci -q get autotimeset.@stime[$i].hour )
+		[ "x$minute" == "x0" ] && minute="00"
+		case "$stype" in
+			1)
+				local cmd="$minute $hour * * $week /usr/bin/timesethandler reboot" 
+				echo "$cmd" >> /etc/crontabs/root
+				;;
+			2)
+				local cmd="$minute $hour * * $week /usr/bin/timesethandler poweroff" 
+				echo "$cmd" >> /etc/crontabs/root
+				;;
+			3)
+				local cmd="$minute $hour * * $week /usr/bin/timesethandler network" 
+				echo "$cmd" >> /etc/crontabs/root
+				;;
+			4)
+				local cmd="$minute $hour * * $week /usr/bin/timesethandler restartsamba" 
+				echo "$cmd" >> /etc/crontabs/root
+				;;
+			5)
+				local cmd="$minute $hour * * $week /usr/bin/timesethandler restartwan" 
+				echo "$cmd" >> /etc/crontabs/root
+				;;
+			6)
+				local cmd="$minute $hour * * $week /usr/bin/timesethandler closewan" 
+				echo "$cmd" >> /etc/crontabs/root
+				;;
+			7)
+				local cmd="$minute $hour * * $week /usr/bin/timesethandler clearmem" 
+				echo "$cmd" >> /etc/crontabs/root
+				;;
+			8)
+				local cmd="$minute $hour * * $week /usr/bin/timesethandler sysfree" 
+				echo "$cmd" >> /etc/crontabs/root
+				;;
+		esac
+	
+    fi
+
+ done
+}
+
+start()
+{
+	del_cru
+	[ -n "`tail -c1 /etc/crontabs/root`" ] && echo >> /etc/crontabs/root
+
+	run_autotimeset
+	/etc/init.d/cron reload
+}
+
+stop()
+{
+    del_cru
+    /etc/init.d/cron reload
+}
+
+restart()
+{
+	start
+}
+
+del_cru()
+{
+
+    sed -i '/timesethandler/d' /etc/crontabs/root >/dev/null 2>&1
+}
+
