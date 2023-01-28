@@ -95,6 +95,7 @@ e.remove("/tmp/hosts.tmp")
 end
 end
 end
+
 if nixio.fs.access("/etc/config/arpbind")then
 s:tab("arpbindconf",translate("ARP绑定"),translate("本页是配置/etc/config/arpbind包含APR绑定MAC地址文档内容。应用保存后自动重启生效"))
 conf=s:taboption("arpbindconf",Value,"arpbindconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
@@ -116,6 +117,7 @@ e.remove("/tmp/arpbind")
 end
 end
 end
+
 if nixio.fs.access("/etc/config/firewall")then
 s:tab("firewallconf",translate("防火墙"),translate("本页是配置/etc/config/firewall包含防火墙协议设置文档内容。应用保存后自动重启生效"))
 conf=s:taboption("firewallconf",Value,"firewallconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
@@ -137,6 +139,7 @@ e.remove("/tmp/firewall")
 end
 end
 end
+
 if nixio.fs.access("/etc/config/mwan3")then
 s:tab("mwan3conf",translate("负载均衡"),translate("本页是配置/etc/config/mwan3包含负载均衡设置文档内容。应用保存后自动重启生效"))
 conf=s:taboption("mwan3conf",Value,"mwan3conf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
@@ -179,6 +182,7 @@ e.remove("/tmp/dhcp")
 end
 end
 end
+
 if nixio.fs.access("/etc/config/ddns")then
 s:tab("ddnsconf",translate("DDNS"),translate("本页是配置/etc/config/ddns包含动态域名设置文档内容。应用保存后自动重启生效"))
 conf=s:taboption("ddnsconf",Value,"ddnsconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
@@ -201,48 +205,50 @@ end
 end
 end
 
-if nixio.fs.access("/etc/config/timecontrol")then
-s:tab("timecontrolconf",translate("时间控制"),translate("本页是配置/etc/config/timecontrol包含上网时间控制配置文档内容。应用保存后自动重启生效"))
-conf=s:taboption("timecontrolconf",Value,"timecontrolconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+if nixio.fs.access("/etc/config/parentcontrol")then
+s:tab("parentcontrolconf",translate("家长控制"),translate("本页是配置/etc/config/parentcontrol包含家长控制配置文档内容。应用保存后自动重启生效"))
+conf=s:taboption("parentcontrolconf",Value,"parentcontrolconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=20
 conf.wrap="off"
 conf.cfgvalue=function(t,t)
-return e.readfile("/etc/config/timecontrol")or""
+return e.readfile("/etc/config/parentcontrol")or""
 end
 conf.write=function(a,a,t)
 if t then
 t=t:gsub("\r\n?","\n")
-e.writefile("/tmp/timecontrol",t)
-if(luci.sys.call("cmp -s /tmp/timecontrol /etc/config/timecontrol")==1)then
-e.writefile("/etc/config/timecontrol",t)
-luci.sys.call("/etc/init.d/timecontrol restart >/dev/null")
+e.writefile("/tmp/parentcontrol",t)
+if(luci.sys.call("cmp -s /tmp/parentcontrol /etc/config/parentcontrol")==1)then
+e.writefile("/etc/config/parentcontrol",t)
+luci.sys.call("/etc/init.d/parentcontrol restart >/dev/null")
 end
-e.remove("/tmp/timecontrol")
+e.remove("/tmp/parentcontrol")
 end
 end
 end
-if nixio.fs.access("/etc/config/rebootschedule")then
-s:tab("rebootscheduleconf",translate("定时设置"),translate("本页是配置/etc/config/rebootschedule包含定时设置任务配置文档内容。应用保存后自动重启生效"))
-conf=s:taboption("rebootscheduleconf",Value,"rebootscheduleconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+
+if nixio.fs.access("/etc/config/autotimeset")then
+s:tab("autotimesetconf",translate("定时设置"),translate("本页是配置/etc/config/autotimeset包含定时设置任务配置文档内容。应用保存后自动重启生效"))
+conf=s:taboption("autotimesetconf",Value,"autotimesetconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
 conf.template="cbi/tvalue"
 conf.rows=20
 conf.wrap="off"
 conf.cfgvalue=function(t,t)
-return e.readfile("/etc/config/rebootschedule")or""
+return e.readfile("/etc/config/autotimeset")or""
 end
 conf.write=function(a,a,t)
 if t then
 t=t:gsub("\r\n?","\n")
-e.writefile("/tmp/rebootschedule",t)
-if(luci.sys.call("cmp -s /tmp/rebootschedule /etc/config/rebootschedule")==1)then
-e.writefile("/etc/config/rebootschedule",t)
-luci.sys.call("/etc/init.d/rebootschedule restart >/dev/null")
+e.writefile("/tmp/autotimeset",t)
+if(luci.sys.call("cmp -s /tmp/autotimeset /etc/config/autotimeset")==1)then
+e.writefile("/etc/config/autotimeset",t)
+luci.sys.call("/etc/init.d/autotimeset restart >/dev/null")
 end
-e.remove("/tmp/rebootschedule")
+e.remove("/tmp/autotimeset")
 end
 end
 end
+
 if nixio.fs.access("/etc/config/wolplus")then
 s:tab("wolplusconf",translate("网络唤醒"),translate("本页是配置/etc/config/wolplus包含网络唤醒配置文档内容。应用保存后自动重启生效"))
 conf=s:taboption("wolplusconf",Value,"wolplusconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
@@ -286,6 +292,29 @@ e.remove("/tmp/smartdns")
 end
 end
 end
+
+if nixio.fs.access("/etc/config/bypass")then
+s:tab("bypassconf",translate("BYPASS"),translate("本页是配置/etc/config/bypass包含bypass配置文档内容。应用保存后自动重启生效"))
+conf=s:taboption("bypassconf",Value,"bypassconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
+conf.template="cbi/tvalue"
+conf.rows=20
+conf.wrap="off"
+conf.cfgvalue=function(t,t)
+return e.readfile("/etc/config/bypass")or""
+end
+conf.write=function(a,a,t)
+if t then
+t=t:gsub("\r\n?","\n")
+e.writefile("/tmp/bypass",t)
+if(luci.sys.call("cmp -s /tmp/bypass /etc/config/bypass")==1)then
+e.writefile("/etc/config/bypass",t)
+luci.sys.call("/etc/init.d/bypass restart >/dev/null")
+end
+e.remove("/tmp/bypass")
+end
+end
+end
+
 if nixio.fs.access("/etc/config/openclash")then
 s:tab("openclashconf",translate("openclash"),translate("本页是配置/etc/config/openclash的文档内容。应用保存后自动重启生效"))
 conf=s:taboption("openclashconf",Value,"openclashconf",nil,translate("开头的数字符号（＃）或分号的每一行（;）被视为注释；删除（;）启用指定选项。"))
@@ -307,6 +336,5 @@ e.remove("/tmp/openclash")
 end
 end
 end
-
 
 return m
