@@ -4,7 +4,11 @@ local s=require"nixio.fs"
 local e=luci.model.uci.cursor()
 local m,s,e
 
-m=Map("autotimeset",translate("Scheduled Setting"),translate("Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together."))
+m=Map("autotimeset",translate("<font color=\"red\"><b>Scheduled Setting"),translate("<font color=\"red\"><b>Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together.</b></font></br>") ..
+translate("*Use to indicate discontinuous multiple time points, and use */to indicate cyclic execution. The week can only be 0~6, the hour can only be 0~23, the minute can only be 0~59, the unavailable time is 48 hours, N1-N5 is continuous, N1, N3, N5 is discontinuous, */N represents every N hours or every N minutes.") ..
+translate("&nbsp;&nbsp;&nbsp;<input class=\"cbi-button cbi-button-apply\" type=\"button\" value=\"" ..
+translate("Test/Verify Settings") ..
+" \" onclick=\"window.open('https://tool.lu/crontab/')\"/>"))
 
 s=m:section(TypedSection,"stime","")
 s.addremove=true
@@ -23,7 +27,11 @@ e:value(8,translate("Scheduled Sysfree"))
 e:value(9,translate("Scheduled DisReconn"))
 e.default=2
 
-week=s:option(ListValue,"week",translate("Week Day"))
+e=s:option(Value,"month",translate("Month(0~11)"))
+e.rmempty = false
+e.default = '*'
+
+week=s:option(ListValue,"week",translate("Week Day(0~6)"))
 week.rmempty = true
 week:value('*',translate("Everyday"))
 week:value(0,translate("Sunday"))
@@ -35,13 +43,11 @@ week:value(5,translate("Friday"))
 week:value(6,translate("Saturday"))
 week.default='*'
 
-e=s:option(Value,"hour",translate("Hour"))
-e.datatype = "range(0,23)"
+e=s:option(Value,"hour",translate("Hour(0~23)"))
 e.rmempty = false
-e.default = 4
+e.default = 0
 
-e=s:option(Value,"minute",translate("Minute"))
-e.datatype = "range(0,59)"
+e=s:option(Value,"minute",translate("Minute(0~59)"))
 e.rmempty = false
 e.default = 0
 

@@ -1,8 +1,15 @@
 msgid "Scheduled Setting"
 msgstr "定时设置"
 
-msgid "Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together."
-msgstr "定时设置包括：定时重启、定时关机、定时重启网络、释放内存、系统清理、重启网络共享、定时关闭网络等功能."
+msgid "<font color=\"red\"><b>Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together.</b></font></br>"
+msgstr "定时设置包括：定时重启、定时关机、定时重启网络、释放内存、系统清理、重启网络共享、定时关闭网络、定时自动断网自动重连等等功能."
+
+
+msgid "*Use to indicate discontinuous multiple time points, and use */to indicate cyclic execution. The week can only be 0~6, the hour can only be 0~23, the minute can only be 0~59, the unavailable time is 48 hours, N1-N5 is continuous, N1, N3, N5 is discontinuous, */N represents every N hours or every N minutes."
+msgstr "*使用,表示不连续的多个时间点，使用*/表示循环执行。星期只能0～6，小时只能0～23，分钟只能0～59，不可用48小时。N1-N5连续，N1,N3,N5不连续，*/N表示每N小时或每N分钟。"
+
+msgid "Test/Verify Settings"
+msgstr "测试/验证设置"
 
 msgid "Scheduled Type"
 msgstr "定时类型"
@@ -32,19 +39,22 @@ msgid "Scheduled Sysfree"
 msgstr "定时系统清理"
 
 msgid "Scheduled DisReconn"
-msgstr "检测断线重连"
+msgstr "定时检测断网重连"
 
-msgid "Week Day"
-msgstr "设定星期"
+msgid "Month(0~11)"
+msgstr "月份(0~11)"
+
+msgid "Week Day(0~6)"
+msgstr "设定星期(0~6)"
 
 msgid "Everyday"
 msgstr "每天"
 
-msgid "Hour"
-msgstr "设定小时"
+msgid "Hour(0~23)"
+msgstr "小时(0~23)"
 
-msgid "Minute"
-msgstr "设定分钟"
+msgid "Minute(0~59)"
+msgstr "分钟(0~59)"
 
 msgid "Set the type of timing"
 msgstr "设定定时的类型"
