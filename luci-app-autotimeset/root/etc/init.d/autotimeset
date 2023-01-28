@@ -16,7 +16,7 @@ do
 		stype=$(uci -q get autotimeset.@stime[$i].stype )
 		week=$(uci -q get autotimeset.@stime[$i].week ) || week="*"
 		minute=$(uci -q get autotimeset.@stime[$i].minute ) || minute="00"
-		hour=$(uci -q get autotimeset.@stime[$i].hour ) hour="*"
+		hour=$(uci -q get autotimeset.@stime[$i].hour )  || hour="*"
 		
 		[ "x$hour" = "x0" ] && hour="00"
 		[ "x$minute" = "x0" ] && minute="00"

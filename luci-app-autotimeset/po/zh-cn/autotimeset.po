@@ -2,7 +2,7 @@ msgid "Scheduled Setting"
 msgstr "定时设置"
 
 msgid "<font color=\"red\"><b>Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together.</b></font></br>"
-msgstr "定时设置包括：定时重启、定时关机、定时重启网络、释放内存、系统清理、重启网络共享、定时关闭网络、定时自动断网自动重连等等功能."
+msgstr "<font color=\"red\"><b>定时设置包括：定时重启、定时关机、定时重启网络、释放内存、系统清理、重启网络共享、定时关闭网络、定时自动断网自动重连等等功能.</b></font></br>"
 
 
 msgid "*Use to indicate discontinuous multiple time points, and use */to indicate cyclic execution. The week can only be 0~6, the hour can only be 0~23, the minute can only be 0~59, the unavailable time is 48 hours, N1-N5 is continuous, N1, N3, N5 is discontinuous, */N represents every N hours or every N minutes."
@@ -45,7 +45,7 @@ msgid "Month(0~11)"
 msgstr "月份(0~11)"
 
 msgid "Week Day(0~6)"
-msgstr "设定星期(0~6)"
+msgstr "星期(0~6)"
 
 msgid "Everyday"
 msgstr "每天"
@@ -56,14 +56,3 @@ msgstr "小时(0~23)"
 msgid "Minute(0~59)"
 msgstr "分钟(0~59)"
 
-msgid "Set the type of timing"
-msgstr "设定定时的类型"
-
-msgid "The start-up cycle is weekly or daily"
-msgstr "设置周期按星期或者每天执行"
-
-msgid "Set an hour"
-msgstr "设置某一个小时"
-
-msgid "Set a minute"
-msgstr "设置某一分钟"
