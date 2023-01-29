@@ -4,8 +4,8 @@ local s=require"nixio.fs"
 local e=luci.model.uci.cursor()
 local m,s,e
 
-m=Map("autotimeset",translate("<font color=\"red\"><b>Scheduled Setting"),translate("<font color=\"red\"><b>Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together.</b></font></br>") ..
-translate("*Use to indicate discontinuous multiple time points, and use */to indicate cyclic execution. The week can only be 0~6, the hour can only be 0~23, the minute can only be 0~59, the unavailable time is 48 hours, N1-N5 is continuous, N1, N3, N5 is discontinuous, */N represents every N hours or every N minutes.") ..
+m=Map("autotimeset",translate("Scheduled Setting"),translate("<b>Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together.</b></br>") ..
+translate("N1-N5 is continuous, N1, N3, N5 is discontinuous, */N represents every N hours or every N minutes.The week can only be 0~6, the hour can only be 0~23, the minute can only be 0~59, the unavailable time is 48 hours.") ..
 translate("&nbsp;&nbsp;&nbsp;<input class=\"cbi-button cbi-button-apply\" type=\"button\" value=\"" ..
 translate("Test/Verify Settings") ..
 " \" onclick=\"window.open('https://tool.lu/crontab/')\"/>"))

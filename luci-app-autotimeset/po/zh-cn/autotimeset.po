@@ -1,12 +1,12 @@
+
+msgid "<b>Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together.</b></br>"
+msgstr "<b>定时设置包括：定时重启、定时关机、定时重启网络、释放内存、系统清理、重启网络共享、定时关闭网络、定时自动检测断网重连等等功能.</b></br>"
+
+msgid "N1-N5 is continuous, N1, N3, N5 is discontinuous, */N represents every N hours or every N minutes.The week can only be 0~6, the hour can only be 0~23, the minute can only be 0~59, the unavailable time is 48 hours."
+msgstr "N1-N5连续，N1,N3,N5不连续，*/N表示每N小时或每N分钟。月份范围0-11，星期范围0～6，小时范围0～23，分钟范围0～59，不可用72小时或者90分钟等连续范围。"
+
 msgid "Scheduled Setting"
 msgstr "定时设置"
-
-msgid "<font color=\"red\"><b>Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together.</b></font></br>"
-msgstr "<font color=\"red\"><b>定时设置包括：定时重启、定时关机、定时重启网络、释放内存、系统清理、重启网络共享、定时关闭网络、定时自动断网自动重连等等功能.</b></font></br>"
-
-
-msgid "*Use to indicate discontinuous multiple time points, and use */to indicate cyclic execution. The week can only be 0~6, the hour can only be 0~23, the minute can only be 0~59, the unavailable time is 48 hours, N1-N5 is continuous, N1, N3, N5 is discontinuous, */N represents every N hours or every N minutes."
-msgstr "*使用,表示不连续的多个时间点，使用*/表示循环执行。星期只能0～6，小时只能0～23，分钟只能0～59，不可用48小时。N1-N5连续，N1,N3,N5不连续，*/N表示每N小时或每N分钟。"
 
 msgid "Test/Verify Settings"
 msgstr "测试/验证设置"
