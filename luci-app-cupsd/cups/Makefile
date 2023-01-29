@@ -36,12 +36,6 @@ define Package/cups/description
 	Common UNIX Printing System (daemon)
 endef
 
-define Package/cups/conffiles
-/etc/cups/classes.conf
-/etc/cups/cupsd.conf
-/etc/cups/printers.conf
-endef
-
 define Package/cups-bsd
 $(call Package/cups/Default)
   SECTION:=net
@@ -60,10 +54,6 @@ $(call Package/cups/Default)
   CATEGORY:=Network
   DEPENDS:=+libcups +libcupsimage +libcupsmime
   TITLE:=Common UNIX Printing System - Client commands
-endef
-
-define Package/cups-client/conffiles
-/etc/cups/client.conf
 endef
 
 define Package/cups-client/description
@@ -228,10 +218,7 @@ define Package/cups/install
 		$(1)/usr/share/doc/cups/
 	$(INSTALL_DIR) $(1)/usr/sbin
 	# overwrite default config with our own
-	$(CP) ./files/etc/cups/* $(1)/etc/cups/
 	# install initscript with priority 60
-	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/cupsd.init $(1)/etc/init.d/cupsd
 	$(INSTALL_BIN) \
 		$(PKG_INSTALL_DIR)/usr/sbin/{cupsctl,cupsd} \
 		$(1)/usr/sbin/

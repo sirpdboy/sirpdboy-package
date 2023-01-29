@@ -1,13 +1,11 @@
 #!/bin/sh
-
+chmod +x /etc/init.d/cupsd
 uci -q batch <<-EOF >/dev/null
 	delete ucitrack.@cupsd[-1]
 	add ucitrack cupsd
 	set ucitrack.@cupsd[-1].init=cupsd
 	commit ucitrack
 EOF
-
-
 /etc/init.d/cupsd stop
 /etc/init.d/cupsd start
 
