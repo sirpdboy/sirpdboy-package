@@ -117,7 +117,7 @@ if has_wifi then
 	e.password = true
 end
 
-e = s:taboption("othersetup", Flag, "display",translate('Disable Wizard'), translate('Enable/Disable Wizard'))
+e = s:taboption("othersetup", Flag, "display",translate('Enable Wizard'), translate('Enable/disable the wizard (next login to enter the setup wizard)'))
 
 
 return m

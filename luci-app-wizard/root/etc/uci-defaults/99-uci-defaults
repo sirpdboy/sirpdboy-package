@@ -7,7 +7,8 @@ uci -q set wizard.default.lan_ipaddr="$(uci -q get network.lan.ipaddr)"
 uci -q set wizard.default.lan_netmask="$(uci -q get network.lan.netmask)"
 uci -q set wizard.default.lan_gateway="$(uci -q get network.lan.gateway)"
 uci -q set wizard.default.lan_dns="$(uci -q get network.lan.dns)"
-[ "$(uci -q get dhcp.lan.ignore)" ] && uci -q set wizard.default.lan_dhcp="0" || uci -q set wizard.default.lan_dhcp="1" 
+[ "x$(uci -q get dhcp.lan.ignore)" = "x"  ] && uci -q set wizard.default.lan_dhcp="0" || uci -q set wizard.default.lan_dhcp="1" 
+[ "x$(uci -q get wizard.default.display)" = "x1"  ] &&  echo ' ' > /etc/config/wizarded || rm -rf /etc/config/wizarded
 uci commit wizard
 
 exit 0

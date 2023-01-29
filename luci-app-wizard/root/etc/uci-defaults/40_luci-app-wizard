@@ -1,5 +1,6 @@
 #!/bin/sh
-
+chmod +x /etc/init.d/wizard 2>/dev/null
+[ "x$(uci -q get wizard.default.display)" = "x1"  ] &&  echo ' ' > /etc/config/wizarded || rm -rf /etc/config/wizarded
 uci -q batch <<-EOF >/dev/null
 	delete ucitrack.@wizard[-1]
 	add ucitrack wizard
@@ -7,6 +8,5 @@ uci -q batch <<-EOF >/dev/null
 	commit ucitrack
 EOF
 
-chmod +x /etc/init.d/wizard 2>/dev/null
 rm -f /tmp/luci-indexcache
 exit 0

@@ -91,11 +91,11 @@ msgstr "自定义旁路由DNS"
 msgid "Enable DHCP Server"
 msgstr "启用DHCP服务"
 
-msgid "Disable Wizard"
-msgstr "禁止向导"
+msgid "Enable Wizard"
+msgstr "使用向导"
 
-msgid "Enable/Disable Wizard"
-msgstr "启用或禁用向导"
+msgid "Enable/disable the wizard (next login to enter the setup wizard)"
+msgstr "启用/禁用向导(下一次登陆进入设置向导)"
 
 msgid "Enable snat forward"
 msgstr "开启动态伪装转发"

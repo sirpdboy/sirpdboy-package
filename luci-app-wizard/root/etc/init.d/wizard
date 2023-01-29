@@ -19,6 +19,7 @@ boot() {
 
 add_wizard() {
 	[ "x$XBOOT" = "x1" ] && return 0
+	[ "x$(uci -q get wizard.default.display)" = "x1"  ] &&  echo ' ' > /etc/config/wizarded || rm -rf /etc/config/wizarded
 	local cfg="$1"
 	local wan_proto wan_ipaddr wan_netmask wan_gateway wan_dns wan_pppoe_user wan_pppoe_pass 
 	local ipv6 wifi_ssid wifi_key old_wifi_ssid old_wifi_key
@@ -27,12 +28,10 @@ add_wizard() {
  	config_get display "$cfg" display
 	config_get wan_proto "$cfg" wan_proto
 	config_get wan_interface "$cfg" wan_interface
-	
 	ifname=$(uci -q get network.lan.ifname ) 
 	[ "x$ifname" = "x" ] && ifname="device" || ifname="ifname" 
  	[ -n "$wan_interface" ] || wan_interface=$(uci -q get network.wan.$ifname 2>/dev/null) 
-  [ "$display" = 1 ] && return 0
-  uci -q delete network.lan.gateway
+	uci -q delete network.lan.gateway
 	uci -q delete dhcp.lan.ignore
 	uci -q delete network.lan.dns
 	uci -q delete firewall.@zone[0].masq
