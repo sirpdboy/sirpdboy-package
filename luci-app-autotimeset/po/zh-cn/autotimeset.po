@@ -36,7 +36,7 @@ msgid "Scheduled Clearmem"
 msgstr "定时释放内存"
 
 msgid "Scheduled Sysfree"
-msgstr "定时系统清理"
+msgstr "定时系统清理（会重启机器）"
 
 msgid "Scheduled DisReconn"
 msgstr "定时检测断网重连"
