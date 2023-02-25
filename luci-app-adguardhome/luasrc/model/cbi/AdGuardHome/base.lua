@@ -24,7 +24,7 @@ o.placeholder=3000
 o.default=3000
 o.datatype="port"
 o.optional = false
-o.description = translate("<input type='button' style='width:210px; border-color:Teal; text-align:center; font-weight:bold;color:Green;background:#f36c21;' value='AdGuardHome Web:" .. httpport .. "' onclick=\"window.open('http://'+window.location.hostname+':" .. httpport .. "')\"/>")
+o.description = translate("<input type='button' style='width:210px; border-color:Teal; text-align:center;padding: .75rem 1rem; font-weight:bold;color:Green;background:#f36c21;' value='AdGuardHome Web:" .. httpport .. "' onclick=\"window.open('http://'+window.location.hostname+':" .. httpport .. "')\"/>")
 ---- update warning not safe
 local binmtime=uci:get("AdGuardHome","AdGuardHome","binmtime") or "0"
 local e=""
