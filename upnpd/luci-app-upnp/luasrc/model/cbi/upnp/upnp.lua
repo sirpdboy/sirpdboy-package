@@ -2,7 +2,7 @@
 -- Copyright 2008-2011 Jo-Philipp Wich <jow@openwrt.org>
 -- Licensed to the public under the Apache License 2.0.
 local uci = require 'luci.model.uci'.cursor()
-local gateip = 'http://' .. uci:get_first('network', 'lan', 'ipaddr')
+local gateip="http://"..uci:get_first('network', 'lan', 'ipaddr')
 require("luci.tools.webadmin")
 m = Map("upnpd", luci.util.pcdata(translate("Universal Plug & Play")),
 	translate("UPnP allows clients in the local network to automatically configure the router."))
