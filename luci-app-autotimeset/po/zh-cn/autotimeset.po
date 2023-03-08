@@ -41,6 +41,9 @@ msgstr "定时系统清理（会重启机器）"
 msgid "Scheduled DisReconn"
 msgstr "定时检测断网重连"
 
+msgid "Scheduled Restartmwan3"
+msgstr "定时检测MWAN3出错重启"
+
 msgid "Month(0~11)"
 msgstr "月份(0~11)"
 

@@ -25,6 +25,7 @@ e:value(6,translate("Scheduled Closewan"))
 e:value(7,translate("Scheduled Clearmem"))
 e:value(8,translate("Scheduled Sysfree"))
 e:value(9,translate("Scheduled DisReconn"))
+e:value(10,translate("Scheduled Restartmwan3"))
 e.default=2
 
 e=s:option(Value,"month",translate("Month(0~11)"))

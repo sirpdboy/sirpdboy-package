@@ -57,6 +57,10 @@ do
 				local cmd="$minute $hour * $month $week /usr/bin/timesethandler disreconn" 
 				echo "$cmd" >> /etc/crontabs/root
 				;;
+			10)
+				local cmd="$minute $hour * $month $week /usr/bin/timesethandler restartmwan3" 
+				echo "$cmd" >> /etc/crontabs/root
+				;;
 		esac
 	
     fi

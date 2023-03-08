@@ -8,8 +8,8 @@ include $(TOPDIR)/rules.mk
 LUCI_TITLE:=LuCI support for Scheduled Time setting
 LUCI_PKGARCH:=all
 
-PKG_VERSION:=1.8
-PKG_RELEASE:=20230214
+PKG_VERSION:=1.9
+PKG_RELEASE:=20230308
 
 define Package/$(PKG_NAME)/conffiles
 /etc/config/autotimeset

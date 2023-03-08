@@ -2,6 +2,24 @@
 # author 2021 jjm2473
 # author 2020-2023 sirpdboy
 
+remwan3() {
+i=0
+while [[ $i -lt 5 ]]
+do    
+
+    status=$(/usr/sbin/mwan3 status | grep error)
+    if [ -z $status ]; then
+        echo  "Mwan3 is OK"
+	break
+    else
+        echo "mwan3 restarting $i... $status"
+        /usr/sbin/mwan3 restart
+    fi
+    i=$(($i + 1))
+    sleep 60
+done
+}
+
 disreconnwan() {
 i=0
 PingA=114.114.114.114
@@ -71,6 +89,12 @@ trigger() {
 		;;
 	disreconn)
 		disreconnwan
+		if [ $PingErr = 1 ]; then
+		  ifup wan
+		fi
+		;;
+	restartmwan3)
+		remwan3
 		if [ $PingErr = 1 ]; then
 		  ifup wan
 		fi
