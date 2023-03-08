@@ -37,6 +37,20 @@ end
 
 function act_status()
 	local e={}
+	local ipv6_server;
+	local dnsmasq_server = smartdns.get_config_option("dhcp", "dnsmasq", "server", {nil})[1]
+	local auto_set_dnsmasq = smartdns.get_config_option("smartdns", "smartdns", "auto_set_dnsmasq", nil);
+	
+	e.auto_set_dnsmasq = auto_set_dnsmasq
+	e.dnsmasq_server = dnsmasq_server
+	e.local_port = smartdns.get_config_option("smartdns", "smartdns", "port", nil);
+	if e.local_port ~= nil and e.local_port ~= "53" and auto_set_dnsmasq ~= nil and auto_set_dnsmasq == "1" then
+		local str;
+		str = "127.0.0.1#" .. e.local_port 
+		if dnsmasq_server ~= str then
+			e.dnsmasq_redirect_failure = 1
+		end
+	end
 	e.running = is_running()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json(e)

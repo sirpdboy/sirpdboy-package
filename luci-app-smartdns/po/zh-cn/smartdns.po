@@ -25,6 +25,15 @@ msgstr "自动设置Dnsmasq"
 msgid "Automatically set as upstream of dnsmasq when port changes."
 msgstr "自动设置为Dnsmasq的上游服务器"
 
+msgid "Bind Device"
+msgstr "绑定到设备"
+
+msgid "Bind Device Name"
+msgstr "绑定的设备名称"
+
+msgid "Cache Persist"
+msgstr "持久化缓存"
+
 msgid "Cache Size"
 msgstr "缓存大小"
 
@@ -72,6 +81,9 @@ msgstr "协议类型"
 
 msgid "DNS domain result cache size"
 msgstr "缓存DNS的结果，缓存大小，配置零则不缓存"
+
+msgid "DNS64 Server Settings"
+msgstr "DNS64服务器配置"
 
 msgid "Description"
 msgstr "描述"
@@ -171,6 +183,15 @@ msgstr "文件类型"
 msgid "Filtering IP with blacklist"
 msgstr "使用IP黑名单过滤"
 
+msgid "First Ping"
+msgstr "最快PING"
+
+msgid "Fastest IP"
+msgstr "最快IP"
+
+msgid "Fastest Response"
+msgstr "最快响应"
+
 msgid "Force AAAA SOA"
 msgstr "停用IPV6地址解析"
 
@@ -213,6 +234,12 @@ msgstr "IPSet名称"
 msgid "IPset name."
 msgstr "IPSet名称。"
 
+msgid "Ipset name, Add domain result to ipset when speed check fails."
+msgstr "IPset名称，当测速失败时，将查询到的结果添加到对应的IPSet集合中。"
+
+msgid "ipset name format error, format: [#[4|6]:]ipsetname"
+msgstr "IPset名称格式错误，格式：[#[4|6]:]ipsetname"
+
 msgid "If you like this software, please buy me a cup of coffee."
 msgstr "如果本软件对你有帮助，请给作者加个蛋。"
 
@@ -226,6 +253,9 @@ msgstr "包含配置文件，路径为/etc/smartdns/conf.d，或自定义配置�
 
 msgid "List of files to download."
 msgstr "下载的文件列表。"
+
+msgid "Listen only on the specified interfaces."
+msgstr "监听在指定的设备上，避免非本地网络的DNS查询请求。"
 
 msgid "Local Port"
 msgstr "本地端口"
@@ -242,6 +272,9 @@ msgstr "所有域名的最大 TTL 值。"
 msgid "Minimum TTL for all domain result."
 msgstr "所有域名的最小 TTL 值。"
 
+msgid "Name of device name listen on."
+msgstr "绑定的设备名称。"
+
 msgid "NFTset Name"
 msgstr "NFTSet名称"
 
@@ -251,11 +284,35 @@ msgstr "NFTSet名称格式错误，格式：[#[4|6]:[family#table#set]]"
 msgid "NFTset name, format: [#[4|6]:[family#table#set]]"
 msgstr "NFTSet名称，格式：[#[4|6]:[family#table#set]]"
 
+msgid "Nftset name, Add domain result to nftset when speed check fails, format: [#[4|6]:[family#table#set]]"
+msgstr "NFTset名称，当测速失败时，将查询到的结果添加到对应的NFTSet集合中。"
+
+msgid "No Speed IPset Name"
+msgstr "无速度时IPSet名称"
+
+msgid "No Speed NFTset Name"
+msgstr "无速度时NFTSet名称"
+
 msgid "NOT RUNNING"
 msgstr "未运行"
 
 msgid "No check certificate"
 msgstr "停用证书校验"
+
+msgid "Please set proxy server first."
+msgstr "请先设置代理服务器。"
+
+msgid "Proxy Server"
+msgstr "代理服务器"
+
+msgid "Proxy Server URL, format: [socks5|http]://user:pass@ip:port."
+msgstr "代理服务器地址，格式：[socks5|http]://user:pass@ip:port。"
+
+msgid "Proxy server URL format error, format: [socks5|http]://user:pass@ip:port."
+msgstr "代理服务器地址格式错误，格式：[socks5|http]://user:pass@ip:port。"
+
+msgid "Proxy Server Settings"
+msgstr "代理服务器设置"
 
 msgid "Query DNS through specific dns server group, such as office, home."
 msgstr "使用指定服务器组查询，比如office, home。"
@@ -280,6 +337,9 @@ msgstr "重启"
 
 msgid "Restart smartdns"
 msgstr "重启服务"
+
+msgid "Response Mode"
+msgstr "响应模式"
 
 msgid "Second Server Settings"
 msgstr "第二DNS服务器"
@@ -391,6 +451,14 @@ msgid "Smartdns speed check mode. "
 msgstr "SmartDns测速模式设置。"
 
 msgid ""
+"Smartdns response mode, First Ping: return the first ping IP, "
+"Fastest IP: return the fastest IP, Fastest Response: return the fastest "
+"DNS response."
+msgstr ""
+"SmartDNS响应模式，最快PING： 返回最早有ping结果的IP，速度适中；最快IP： "
+"返回最快IP，查询请求可能延长； 最快响应：返回最快响应的结果。查询请求时间短。"
+
+msgid ""
 "Specify an IP address to return for any host in the given domains, Queries "
 "in the domains are never forwarded and always replied to with the specified "
 "IP address which may be IPv4 or IPv6."
@@ -418,6 +486,12 @@ msgstr "设置所有域名的 TTL 值。"
 
 msgid "Technical Support"
 msgstr "技术支持"
+
+msgid "Use Proxy"
+msgstr "使用代理"
+
+msgid "Use proxy to connect to upstream DNS server."
+msgstr "使用代理连接上游DNS服务器。"
 
 msgid "URL"
 msgstr "URL"
@@ -468,6 +542,9 @@ msgid ""
 msgstr ""
 "用于校验 TLS 服务器的有效性，数值为 Base64 编码的 SPKI 指纹，留空表示不验证 "
 "TLS 的合法性。"
+
+msgid "Write cache to disk on exit and load on startup."
+msgstr "退出时保存cache到磁盘，启动时加载。"
 
 msgid "domain list (/etc/smartdns/domain-set)"
 msgstr "域名列表（/etc/smartdns/domain-set）"
