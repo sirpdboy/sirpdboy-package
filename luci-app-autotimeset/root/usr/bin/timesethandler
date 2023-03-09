@@ -4,7 +4,7 @@
 
 remwan3() {
 i=0
-while [[ $i -lt 5 ]]
+while [[ $i -lt 3 ]]
 do    
 
     status=$(/usr/sbin/mwan3 status | grep error)
@@ -16,7 +16,7 @@ do
         /usr/sbin/mwan3 restart
     fi
     i=$(($i + 1))
-    sleep 60
+    sleep 30
 done
 }
 
