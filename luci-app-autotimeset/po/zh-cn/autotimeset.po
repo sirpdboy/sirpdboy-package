@@ -1,0 +1,67 @@
+
+msgid "<b>Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together.</b></br>"
+msgstr "<b>定时设置包括：定时重启、定时关机、定时重启网络、释放内存、系统清理、重启网络共享、定时关闭网络、定时自动检测断网重连等等功能.</b></br>"
+
+msgid "N1-N5 is continuous, N1, N3, N5 is discontinuous, */N represents every N hours or every N minutes.The week can only be 0~6, the hour can only be 0~23, the minute can only be 0~59, the unavailable time is 48 hours."
+msgstr "N1-N5连续，N1,N3,N5不连续，*/N表示每N小时或每N分钟。月份范围0-11，星期范围0～6，小时范围0～23，分钟范围0～59，不可用72小时或者90分钟等连续范围。"
+
+msgid "Scheduled Setting"
+msgstr "定时设置"
+
+msgid "Scheduled Set"
+msgstr "任务设置"
+
+msgid "Test/Verify Settings"
+msgstr "测试/验证设置"
+
+msgid "Scheduled Type"
+msgstr "定时类型"
+
+msgid "Log"
+msgstr "日志"
+
+msgid "Scheduled Reboot"
+msgstr "定时重启机器"
+
+msgid "Scheduled Poweroff"
+msgstr "定时关闭机器"
+
+msgid "Scheduled ReNetwork"
+msgstr "定时重启网络"
+
+msgid "Scheduled RestartSamba"
+msgstr "定时重启网络共享"
+
+msgid "Scheduled Restartwan"
+msgstr "定时重启WAN"
+
+msgid "Scheduled Closewan"
+msgstr "定时关闭网络"
+
+msgid "Scheduled Clearmem"
+msgstr "定时释放内存"
+
+msgid "Scheduled Sysfree"
+msgstr "定时系统清理（会重启机器）"
+
+msgid "Scheduled DisReconn"
+msgstr "定时检测断网重连"
+
+msgid "Scheduled Restartmwan3"
+msgstr "定时检测MWAN3出错重启"
+
+msgid "Month(0~11)"
+msgstr "月份(0~11)"
+
+msgid "Week Day(0~6)"
+msgstr "星期(0~6)"
+
+msgid "Everyday"
+msgstr "每天"
+
+msgid "Hour(0~23)"
+msgstr "小时(0~23)"
+
+msgid "Minute(0~59)"
+msgstr "分钟(0~59)"
+
