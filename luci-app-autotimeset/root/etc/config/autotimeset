@@ -1,4 +1,3 @@
-
 config stime
 	option hour '*/4'
 	option stype '7'
@@ -33,17 +32,17 @@ config stime
 
 config stime
 	option week '*'
-	option minute '0'
-	option stype '3'
-	option hour '3'
 	option month '*'
+	option stype '10'
+	option minute '*/5'
+	option hour '*'
 	option enable '0'
 
 config stime
 	option week '*'
 	option stype '9'
-	option hour '0'
 	option minute '*/5'
 	option month '*'
 	option enable '0'
+	option hour '*'
 
