@@ -1,0 +1,12 @@
+#!/bin/sh
+
+uci -q batch <<-EOF >/dev/null
+	delete ucitrack.@watchcat[-1]
+	add ucitrack watchcat
+	set ucitrack.@watchcat[-1].init=watchcat
+	commit ucitrack
+EOF
+
+rm -f /tmp/luci-indexcache
+rm -rf /tmp/luci-modulecache
+exit 0

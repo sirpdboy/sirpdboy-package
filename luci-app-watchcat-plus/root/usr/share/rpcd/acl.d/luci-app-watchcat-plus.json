@@ -1,0 +1,11 @@
+{
+	"luci-app-watchcat-plus": {
+		"description": "Grant UCI access for luci-app-watchcat-plus",
+		"read": {
+			"uci": [ "watchcat-plus" ]
+		},
+		"write": {
+			"uci": [ "watchcat-plus" ]
+		}
+	}
+}
