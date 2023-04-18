@@ -22,7 +22,6 @@ stop_service() {
 }
 
 start_service() {
-	config_load netdata
 	config_foreach get_config netdata
 	[ x$enabled == x1 ] || {
 	netdata_prepare
