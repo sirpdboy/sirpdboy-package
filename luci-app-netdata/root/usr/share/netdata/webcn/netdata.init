@@ -22,11 +22,9 @@ stop_service() {
 }
 
 start_service() {
-	config_foreach get_config netdata
-	[ x$enabled == x1 ] || {
 	netdata_prepare
-	return 1
-	}
+	config_foreach get_config netdata
+	[ x$enabled == x1 ] ||  return 1
 	mkdir -m 0755 -p /var/cache/netdata
 	logger -t netdata -p warn "netdata is start."
 	chown nobody /var/cache/netdata
