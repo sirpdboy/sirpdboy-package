@@ -1,0 +1,7 @@
+config netwizard 'default'
+	option lan_netmask '255.255.255.0'
+	option wan_proto 'dhcp'
+	option wan_interface 'eth1'
+	option lan_ipaddr '192.168.10.1'
+	option lan_gateway '192.168.10'
+	option display '0'
