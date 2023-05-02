@@ -29,7 +29,12 @@ add_netwizard() {
 	config_get ipv6 "$cfg" ipv6
 	config_get dnsset "$cfg" dnsset
 	config_get wan_interface "$cfg" wan_interface
- 	[ "x$showhide" = "x1" ] && touch /etc/config/netwizard_hide ||rm -rf  /etc/config/netwizard_hide
+	config_get lan_dhcp "$cfg" lan_dhcp
+	config_get synflood "$cfg" synflood
+	config_get redirectdns "$cfg" redirectdns
+	config_get lan_ipaddr "$cfg" lan_ipaddr
+	config_get lan_netmask "$cfg" lan_netmask
+ 	[ "x$showhide" = "x1" ] && touch /etc/config/netwizard_hide || rm -rf  /etc/config/netwizard_hide
 	ifname=$(uci -q get network.lan.ifname ) 
 	[ "x$ifname" = "x" ] && ifname="device" || ifname="ifname" 
  	[ -n "$wan_interface" ] || wan_interface=$(uci -q get network.wan.$ifname 2>/dev/null) 
@@ -39,10 +44,11 @@ add_netwizard() {
 	uci -q delete firewall.@zone[0].masq
 	uci -q delete network.wan
 	uci -q delete network.wan6
-	uci set network.wan=interface
-	uci set network.wan6=interface
-	uci set network.wan6.proto='dhcpv6'
-	uci set network.wan6.delegate='0'
+	uci -q set network.wan=interface
+	uci -q set network.wan6=interface
+	uci -q set network.wan6.proto='dhcpv6'
+	uci -q set network.wan6.delegate='0'
+	sed -i '/j MASQUERADE/d' /etc/firewall.user
 	a=$(ip address | awk -F ': ' '/eth[0-9]+/ {print $2}' )
 	b=$(echo "$a" | wc -l)
 	[ ${b} -gt 1 ] && {
@@ -50,29 +56,24 @@ add_netwizard() {
 	  for i in $(seq 1 $b) ; do [ "${wan_interface}" = "$(echo "$a" | sed -n ${i}p)" ] || lannet="${lannet} $(echo "$a" | sed -n ${i}p)" ;done
  	  [ "x$ifname" = "xdevice" ] &&  uci -q set network.@$ifname[0].ports="${lannet}"  || uci -q set network.lan.$ifname="${lannet}"
 	}
-	uci set network.wan.$ifname="${wan_interface}"
-	uci set network.wan6.$ifname="${wan_interface}"
+	uci -q set network.wan.$ifname="${wan_interface}"
+	uci -q set network.wan6.$ifname="${wan_interface}"
  	case "${wan_proto}" in
 		dhcp)
-			uci set network.wan.proto='dhcp'
-			uci set network.wan.metric='40'
-			uci set network.wan.delegate='0'
-			config_get wan_dns "$cfg" wan_dns
-				test -n "${wan_dns}" && {
-					uci set network.wan.peerdns='0'
-					uci set network.wan.dns="${wan_dns}"
-				}
+			uci -q set network.wan.proto='dhcp'
+			uci -q set network.wan.metric='40'
+			uci -q set network.wan.delegate='0'
 		;;
 		static)
 			config_get wan_ipaddr "$cfg" wan_ipaddr
 			config_get wan_netmask "$cfg" wan_netmask
 			config_get wan_gateway "$cfg" wan_gateway
 			test -n "${wan_ipaddr}" && test -n "${wan_netmask}" && {
-				uci set network.wan.proto='static'
-				uci set network.wan.metric='40'
-				uci set network.wan.ipaddr="${wan_ipaddr}"
-				uci set network.wan.netmask="${wan_netmask}"
-				uci set network.wan.gateway="${wan_gateway}"
+				uci -q set network.wan.proto='static'
+				uci -q set network.wan.metric='40'
+				uci -q set network.wan.ipaddr="${wan_ipaddr}"
+				uci -q set network.wan.netmask="${wan_netmask}"
+				uci -q set network.wan.gateway="${wan_gateway}"
 				config_get wan_dns "$cfg" wan_dns
 				test -n "${wan_dns}" && {
 					uci set network.wan.peerdns='0'
@@ -84,15 +85,15 @@ add_netwizard() {
 			config_get wan_pppoe_user "$cfg" wan_pppoe_user
 			config_get wan_pppoe_pass "$cfg" wan_pppoe_pass
 			[[ "${wan_pppoe_user} != $(uci get network.wan.username)" || "${wan_pppoe_pass} != $(uci get network.wan.password)" ]] && {
-			uci set network.wan.proto='pppoe'
-			uci set network.wan.metric='40'
-			uci set network.wan.username="${wan_pppoe_user}"
-			uci set network.wan.password="${wan_pppoe_pass}"
-			uci set network.wan.keepalive='5 5'
+				uci -q set network.wan.proto='pppoe'
+				uci -q set network.wan.metric='40'
+				uci -q set network.wan.username="${wan_pppoe_user}"
+				uci -q set network.wan.password="${wan_pppoe_pass}"
+				uci -q set network.wan.keepalive='5 5'
 				config_get wan_dns "$cfg" wan_dns
 				test -n "${wan_dns}" && {
-					uci set network.wan.peerdns='0'
-					uci set network.wan.dns="${wan_dns}"
+					uci -q set network.wan.peerdns='0'
+					uci -q set network.wan.dns="${wan_dns}"
 				}
 			}
 		;;
@@ -100,26 +101,23 @@ add_netwizard() {
 			config_get lan_gateway "$cfg" lan_gateway
 			config_get lan_dns "$cfg" lan_dns
 			config_get lan_snat "$cfg" lan_snat
-			config_get synflood "$cfg" synflood
 			config_get masq "$cfg" masq
 			config_get snat_tables "$cfg" snat_tables
 			test -n "${lan_gateway}" && {
 				uci -q delete network.wan
 				uci -q delete network.wan6
-				uci set network.lan.gateway="${lan_gateway}"
+				uci -q set network.lan.gateway="${lan_gateway}"
 				[ -n "$lan_dns" ] || lan_dns='223.5.5.5'
-				uci set network.lan.dns="${lan_dns}"
-				if [ ${b} -gt 1 ] ; then
-				     [ "x$ifname" = "xdevice" ] &&  uci -q set network.@$ifname[0].ports="${lannet} ${wan_interface}"  || uci -q set network.lan.$ifname="${lannet} ${wan_interface}"
-				fi
+				uci -q set network.lan.dns="${lan_dns}"
+					if [ ${b} -gt 1 ] ; then
+					     [ "x$ifname" = "xdevice" ] &&  uci -q set network.@$ifname[0].ports="${lannet} ${wan_interface}"  || uci -q set network.lan.$ifname="${lannet} ${wan_interface}"
+					fi
 				[ "x$masq" = "x1" ] && uci -q set firewall.@zone[0].masq='1' || uci -q delete firewall.@zone[0].masq
-				[ "x$synflood" = "x1" ] && uci -q set firewall.@defaults[0].syn_flood='1' || uci -q delete firewall.@defaults[0].syn_flood
-				[ "x$lan_snat" = "x1" ] && echo "${snat_tables}" >> /etc/firewall.user || sed -i '/${snat_tables}/d' /etc/firewall.user
+
+				[ "x$lan_snat" = "x1" ] && echo "${snat_tables}" >> /etc/firewall.user 
 			}
 		;;		
 	esac
-	config_get lan_ipaddr "$cfg" lan_ipaddr
-	config_get lan_netmask "$cfg" lan_netmask
 	test -n "${lan_ipaddr}" && test -n "${lan_netmask}" && {
 		uci -q set network.lan.ipaddr="${lan_ipaddr}"
 		uci -q set network.lan.netmask="${lan_netmask}"
@@ -190,7 +188,28 @@ add_netwizard() {
 		    uci -q set dhcp.@dnsmasq[0].filter_aaaa=1
 		;;
 	esac
-
+	sed -i '/--dport 53 -j REDIRECT --to-ports 53/d' /etc/firewall.user
+	[ "x$redirectdns" = "x1" ] && {
+        	echo "iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 53" >> /etc/firewall.user
+        	echo "iptables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53" >> /etc/firewall.user
+        	echo "[ -n "$(command -v ip6tables)" ] && ip6tables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 53" >> /etc/firewall.user
+        	echo "[ -n "$(command -v ip6tables)" ] && ip6tables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53" >> /etc/firewall.user
+	}
+	[ "x$synflood" = "x1" ] && uci -q set firewall.@defaults[0].syn_flood='1' || uci -q delete firewall.@defaults[0].syn_flood
+	sed -i "/dhcp_option '6/d" /etc/config/dhcp
+	sed -i "/list dns/d" /etc/config/dhcp
+	if [ "x$lan_dhcp" = "x1" ] ;then 
+	    # uci -q set dhcp.lan.dynamicdhcp="1" 
+	    uci -q set dhcp.lan.ignore="0" 
+	    if [ "x$dnsset" = "x1" ] ;then
+	           uci -q add_list dhcp.lan.dhcp_option="6,$(uci -q get network.lan.ipaddr)"
+	           #uci -q add_list dhcp.lan.dns="6,$(ip a | grep 'inet6' |grep 'deprecated' | awk -F ' ' '{printf $2}')"
+	           uci -q add_list dhcp.lan.dns="fd00::1"
+	    fi
+	else
+	    # uci -q set dhcp.lan.dynamicdhcp="0" 
+	    uci -q set dhcp.lan.ignore="1"
+	fi
 	wifi_setup_radio(){
 	local radio=$1
 	uci get wireless.${radio} >/dev/null 2>&1 && {
@@ -213,29 +232,16 @@ add_netwizard() {
 	config_get old_wifi_ssid "$cfg" old_wifi_ssid
 	config_get old_wifi_key "$cfg" old_wifi_key
 	if [[ "${wifi_ssid}" != "${old_wifi_ssid}" || "${wifi_key}" != "${old_wifi_key}" ]]; then
- 	test -n "${wifi_ssid}" && {
+ 	 	test -n "${wifi_ssid}" && {
 		for radio in radio0 radio1 radio2 radio3; do
 			wifi_setup_radio ${radio}
 		done
 		uci commit wireless
-	}
-	uci -q set netwizard.default.old_wifi_ssid="${wifi_ssid}"
-	uci -q set netwizard.default.old_wifi_key="${wifi_ssid}"
+	 	}
+ 		uci -q set netwizard.default.old_wifi_ssid="${wifi_ssid}"
+	 	uci -q set netwizard.default.old_wifi_key="${wifi_ssid}"
 	fi
-	config_get lan_dhcp "$cfg" lan_dhcp
-	if [ "x$lan_dhcp" = "x1" ] ;then 
-	    uci set dhcp.lan.ignore="0" 
-	    if [ "x$dnsset" = "x1" ] ;then
-	      uci -q add_list dhcp.lan.dhcp_option="6,$(uci -q get network.lan.ipaddr)"
-	      #uci -q add_list dhcp.lan.dns="6,$(ip a | grep 'inet6' |grep 'deprecated' | awk -F ' ' '{printf $2}')"
-	      uci -q add_list dhcp.lan.dns="fd00::1"
-	   else
-	      sed -i "/dhcp_option '6/d" /etc/config/dhcp
-	      sed -i "/list dns/d" /etc/config/dhcp
-	    fi
-	else
-	    uci set dhcp.lan.ignore="1"
-	fi
+
 	uci commit netwizard
 	uci commit dhcp
 	uci commit firewall

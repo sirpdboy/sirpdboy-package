@@ -106,6 +106,12 @@ msgstr "Wan口子网掩码"
 msgid "Wan IPv4 gateway"
 msgstr "Wan口网关"
 
+msgid "Use iptables to force all TCP/UDP DNS 53ports in IPV4/IPV6 to be forwarded from this route"
+msgstr "用iptables强制IPV4/IPV6所有TCP/UDP DNS 53端口从此路由转发"
+
+msgid "Custom firewall"
+msgstr "自定义防火墙"
+
 msgid "Use custom Wan DNS"
 msgstr "自定义Wan口的DNS"
 

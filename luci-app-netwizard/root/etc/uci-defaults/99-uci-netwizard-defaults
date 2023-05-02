@@ -1,5 +1,5 @@
 #!/bin/sh
-ipaddr=$(uci -q get network.lan.ipaddr 2>/dev/null)
+ipaddr=$(uci -q get network.lan.ipaddr)
 [  -n  "$(uci -q get wizard.default=wizard)" ] && uci set wizard.default=wizard
 uci -q set wizard.default.wifi_ssid="$(uci -q get wireless.@wifi-iface[0].ssid)"
 uci -q set wizard.default.wifi_key="$(uci -q get wireless.@wifi-iface[0].key)"
