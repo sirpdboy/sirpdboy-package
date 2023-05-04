@@ -129,21 +129,12 @@ e:depends({wan_proto="siderouter"})
 e.datatype = "ip4addr"
 e.cast = "string"
 
-synflood = s:taboption("wansetup", Flag, "synflood", translate("Enable SYN-flood defense"))
-synflood.default = 1
-synflood.anonymous = false
+lan_dhcp = s:taboption("wansetup", Flag, "lan_dhcp", translate("Enable DHCP Server"), translate("The default selection is to enable the DHCP server. In a network, only one DHCP server is needed to allocate and manage client IP. If it is a side route, it is recommended to turn off the main routing DHCP server."))
+lan_dhcp.default = 1
+lan_dhcp.anonymous = false
 
-redirectdns = s:taboption("wansetup", Flag, "redirectdns", translate("Custom Firewall Force DNS Forwarding"),translate("Use iptables to force all TCP/UDP DNS 53ports in IPV4/IPV6 to be forwarded from this route"))
-redirectdns:depends({wan_proto="dhcp"})
-redirectdns:depends({wan_proto="static"})
-redirectdns:depends({wan_proto="pppoe"})
-redirectdns.default = 1
-redirectdns.anonymous = false
-
-masq = s:taboption("wansetup", Flag, "masq", translate("Enable IP dynamic camouflage"),translate("Enable IP dynamic camouflage when the side routing network is not ideal"))
-masq:depends({wan_proto="siderouter"})
-masq.default = 1
-masq.anonymous = false
+e = s:taboption("wansetup", Flag, "dnsset", translate("Enable DNS notifications (ipv4/ipv6)"),translate("Force the DNS server in the DHCP server to be specified as the IP for this route"))
+e:depends("lan_dhcp", true)
 
 lan_snat = s:taboption("wansetup", Flag, "lan_snat", translate("Custom firewall"),translate("Bypass firewall settings, when Xiaomi or Huawei are used as the main router, the WIFI signal cannot be used normally"))
 lan_snat:depends({wan_proto="siderouter"})
@@ -157,12 +148,21 @@ e.default = "iptables -t nat -I POSTROUTING -o br-lan -j MASQUERADE"
 e.anonymous = false
 e:depends("lan_snat", true)
 
-lan_dhcp = s:taboption("wansetup", Flag, "lan_dhcp", translate("Enable DHCP Server"), translate("If not selected, DHCP is disabled by default. If DHCP is used, the main route DHCP needs to be turned off. To disable DHCP, you need to manually change all Internet device gateways and DNS to this routing IP"))
-lan_dhcp.default = 1
-lan_dhcp.anonymous = false
+redirectdns = s:taboption("wansetup", Flag, "redirectdns", translate("Custom Firewall"),translate("Use iptables to force all TCP/UDP DNS 53ports in IPV4/IPV6 to be forwarded from this route[Suggest opening]"))
+redirectdns:depends({wan_proto="dhcp"})
+redirectdns:depends({wan_proto="static"})
+redirectdns:depends({wan_proto="pppoe"})
+redirectdns.default = 1
+redirectdns.anonymous = false
 
-e = s:taboption("wansetup", Flag, "dnsset", translate("Enable DNS notifications (ipv4/ipv6)"),translate("Force the DNS server in the DHCP server to be specified as the IP for this route"))
-e:depends("lan_dhcp", true)
+masq = s:taboption("wansetup", Flag, "masq", translate("Enable IP dynamic camouflage"),translate("Enable IP dynamic camouflage when the side routing network is not ideal"))
+masq:depends({wan_proto="siderouter"})
+masq.default = 1
+masq.anonymous = false
+
+synflood = s:taboption("wansetup", Flag, "synflood", translate("Enable SYN-flood defense"),translate("Enable Firewall SYN-flood defense [Suggest opening]"))
+synflood.default = 1
+synflood.anonymous = false
 
 if has_wifi then
 	e = s:taboption("wifisetup", Value, "wifi_ssid", translate("<abbr title=\"Extended Service Set Identifier\">ESSID</abbr>"))
@@ -172,6 +172,6 @@ if has_wifi then
 	e.password = true
 end
 
-e = s:taboption("othersetup", Flag, "showhide",translate('Hide Wizard'), translate('Show or hide the setup wizard menu'))
+e = s:taboption("othersetup", Flag, "showhide",translate('Hide Wizard'), translate('Show or hide the setup wizard menu. After hiding, you can open the display wizard menu in [Advanced Settings] [Advanced] or use the 3rd function in the background to restore the wizard and default theme.'))
 
 return m

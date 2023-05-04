@@ -61,8 +61,8 @@ msgstr "旁路模式"
 msgid "Please enter the main routing IP address. The bypass gateway is not the same as the login IP of this bypass WEB and is in the same network segment"
 msgstr "请输入主路由IP地址,旁路网关与此旁路WEB登陆IP不相同并且在一个网段."
 
-msgid "If not selected, DHCP is disabled by default. If DHCP is used, the main route DHCP needs to be turned off. To disable DHCP, you need to manually change all Internet device gateways and DNS to this routing IP"
-msgstr "不选择默认为禁用DHCP，如使用DHCP，需关闭主路由DHCP。禁用DHCP，需手动将所有Internet设备网关和DNS更改为此路由IP"
+msgid "The default selection is to enable the DHCP server. In a network, only one DHCP server is needed to allocate and manage client IP. If it is a side route, it is recommended to turn off the main routing DHCP server."
+msgstr "默认选择开启DHCP服务器。一个网络中只需要一个DHCP服务器分配管理客户机IP，如果是旁路由建议关闭主路由DHCP服务器。"
 
 msgid "Disable IPv6"
 msgstr "禁用IPv6"
@@ -106,8 +106,8 @@ msgstr "Wan口子网掩码"
 msgid "Wan IPv4 gateway"
 msgstr "Wan口网关"
 
-msgid "Use iptables to force all TCP/UDP DNS 53ports in IPV4/IPV6 to be forwarded from this route"
-msgstr "用iptables强制IPV4/IPV6所有TCP/UDP DNS 53端口从此路由转发"
+msgid "Use iptables to force all TCP/UDP DNS 53ports in IPV4/IPV6 to be forwarded from this route[Suggest opening]"
+msgstr "用iptables强制IPV4/IPV6所有TCP/UDP DNS 53端口走此路由解析[建议打开]"
 
 msgid "Custom firewall"
 msgstr "自定义防火墙"
@@ -124,13 +124,7 @@ msgstr "启用DHCP服务"
 msgid "Force the DNS server in the DHCP server to be specified as the IP for this route"
 msgstr "强制指定DHCP服务器中DNS服务器为此路由的IP"
 
-msgid "Disable Wizard"
-msgstr "禁止向导"
-
-msgid "Enable/Disable Wizard"
-msgstr "启用或禁用向导"
-
-msgid "Enable snat forward"
+msgid "Enable IP dynamic camouflage"
 msgstr "启用IP动态伪装"
 
 msgid "Enable IP dynamic camouflage when the side routing network is not ideal"
@@ -139,29 +133,17 @@ msgstr "启用IP动态伪装，当旁路网络不理想时开启"
 msgid "Enable SYN-flood defense"
 msgstr "启用 SYN-flood 防御"
 
+msgid "Enable Firewall SYN-flood defense [Suggest opening]"
+msgstr "启用防火墙SYN-flood防洪攻击[建议打开]"
+
 msgid "Firewall regulations"
 msgstr "防火墙规定"
 
 msgid "Bypass firewall settings, when Xiaomi or Huawei are used as the main router, the WIFI signal cannot be used normally"
 msgstr "旁路防火墙设置,当小米或者华为等做为主路由后WIFI信号无法正常使用开启."
 
-msgid "About wizard issues:"
-msgstr "关于向导问题："
-
-msgid "Hide menu method, input example in the address bar:"
-msgstr "隐藏菜单方法，地址栏输入例："
-
-msgid "After the hidden to the display, input example in the address bar:"
-msgstr "当你隐藏后想再次显示，地址栏输入例："
-
-msgid "Are you sure to reset?"
-msgstr "你确定要恢复吗？"
-
-msgid "Are you sure to hide?"
-msgstr "你确定要隐藏吗？"
-
-msgid "Show or hide the setup wizard menu"
-msgstr "显示或者隐藏设置向导菜单"
+msgid "Show or hide the setup wizard menu. After hiding, you can open the display wizard menu in [Advanced Settings] [Advanced] or use the 3rd function in the background to restore the wizard and default theme."
+msgstr "显示或隐藏设置向导菜单，隐藏后在[进阶设置][高级]可以开启显示向导菜单或在后台用3号功能恢复向导和默认主题。"
 
 msgid "Hide Wizard"
 msgstr "隐藏设置向导"
