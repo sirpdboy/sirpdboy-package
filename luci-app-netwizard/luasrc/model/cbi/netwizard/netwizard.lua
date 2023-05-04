@@ -148,7 +148,7 @@ e.default = "iptables -t nat -I POSTROUTING -o br-lan -j MASQUERADE"
 e.anonymous = false
 e:depends("lan_snat", true)
 
-redirectdns = s:taboption("wansetup", Flag, "redirectdns", translate("Custom Firewall"),translate("Use iptables to force all TCP/UDP DNS 53ports in IPV4/IPV6 to be forwarded from this route[Suggest opening]"))
+redirectdns = s:taboption("wansetup", Flag, "redirectdns", translate("Custom firewall"),translate("Use iptables to force all TCP/UDP DNS 53ports in IPV4/IPV6 to be forwarded from this route[Suggest opening]"))
 redirectdns:depends({wan_proto="dhcp"})
 redirectdns:depends({wan_proto="static"})
 redirectdns:depends({wan_proto="pppoe"})
