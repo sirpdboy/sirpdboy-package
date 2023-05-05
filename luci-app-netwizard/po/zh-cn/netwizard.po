@@ -28,6 +28,9 @@ msgstr "开启DNS通告(ipv4/ipv6)"
 msgid "(The IP of the current LAN)"
 msgstr "(当前LAN的IP)"
 
+msgid "Use local IP for DNS (default)"
+msgstr "本机IP做DNS使用（默认）"
+
 msgid "Wireless Settings"
 msgstr "无线设置"
 
@@ -49,7 +52,7 @@ msgstr "四种上网方式:DHCP动态获取/PPPoe拨号/静态地址/旁路由�
 msgid "Set the router's wireless name and password. For more advanced settings, please go to the Network-Wireless page."
 msgstr "设置路由器的无线名字和密码，更多高级设置请进入 网络-无线 页面."
 
-msgid "Other Settings"
+msgid "Other setting"
 msgstr "其它设置"
 
 msgid "For specific usage, see:"
@@ -59,7 +62,7 @@ msgid "SideRouter"
 msgstr "旁路模式"
 
 msgid "Please enter the main routing IP address. The bypass gateway is not the same as the login IP of this bypass WEB and is in the same network segment"
-msgstr "请输入主路由IP地址,旁路网关与此旁路WEB登陆IP不相同并且在一个网段."
+msgstr "请输入主路由IP地址,旁路网关与此旁路WEB登陆IP不相同并且必须在一个网段."
 
 msgid "The default selection is to enable the DHCP server. In a network, only one DHCP server is needed to allocate and manage client IP. If it is a side route, it is recommended to turn off the main routing DHCP server."
 msgstr "默认选择开启DHCP服务器。一个网络中只需要一个DHCP服务器分配管理客户机IP，如果是旁路由建议关闭主路由DHCP服务器。"
@@ -128,7 +131,7 @@ msgid "Enable IP dynamic camouflage"
 msgstr "启用IP动态伪装"
 
 msgid "Enable IP dynamic camouflage when the side routing network is not ideal"
-msgstr "启用IP动态伪装，当旁路网络不理想时开启"
+msgstr "启用IP动态伪装，当旁路网络速度不理想时开启"
 
 msgid "Enable SYN-flood defense"
 msgstr "启用 SYN-flood 防御"

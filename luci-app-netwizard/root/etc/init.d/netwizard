@@ -34,6 +34,7 @@ add_netwizard() {
 	config_get redirectdns "$cfg" redirectdns
 	config_get lan_ipaddr "$cfg" lan_ipaddr
 	config_get lan_netmask "$cfg" lan_netmask
+	config_get dns_tables "$cfg" dns_tables
  	[ "x$showhide" = "x1" ] && touch /etc/config/netwizard_hide || rm -rf  /etc/config/netwizard_hide
 	ifname=$(uci -q get network.lan.ifname ) 
 	[ "x$ifname" = "x" ] && ifname="device" || ifname="ifname" 
@@ -198,14 +199,13 @@ add_netwizard() {
 	[ "x$synflood" = "x1" ] && uci -q set firewall.@defaults[0].syn_flood='1' || uci -q delete firewall.@defaults[0].syn_flood
 	sed -i "/dhcp_option '6/d" /etc/config/dhcp
 	sed -i "/list dns/d" /etc/config/dhcp
-	if [ "x$lan_dhcp" = "x1" ] ;then 
+	if [ "x$lan_dhcp" = "x1" ] ; then 
 	    # uci -q set dhcp.lan.dynamicdhcp="1" 
 	    uci -q set dhcp.lan.ignore="0" 
-	    if [ "x$dnsset" = "x1" ] ;then
-	           uci -q add_list dhcp.lan.dhcp_option="6,$(uci -q get network.lan.ipaddr)"
-	           #uci -q add_list dhcp.lan.dns="6,$(ip a | grep 'inet6' |grep 'deprecated' | awk -F ' ' '{printf $2}')"
-	           uci -q add_list dhcp.lan.dns="fd00::1"
-	    fi
+	    [ "x$dnsset" = "x1" ] && {
+	          [ "${dns_tables}" = "1" ] && uci -q add_list dhcp.lan.dhcp_option="6,${lan_ipaddr}" || uci -q add_list dhcp.lan.dhcp_option="6,${dns_tables}" 
+		 uci -q add_list dhcp.lan.dns="fd00::1"
+	    }
 	else
 	    # uci -q set dhcp.lan.dynamicdhcp="0" 
 	    uci -q set dhcp.lan.ignore="1"
