@@ -6,13 +6,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=smartdns
-PKG_VERSION:=1.2023.41
+PKG_VERSION:=1.2023.42
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://www.github.com/pymumu/smartdns.git
-PKG_MIRROR_HASH:=skip
-PKG_SOURCE_VERSION:=60a3719ec739be2cc1e11724ac049b09a75059cb
+PKG_SOURCE_VERSION:=ed102cda03c56e9c63040d33d4a391b56491493e
+PKG_MIRROR_HASH:=366e98b92c3d22844ff5fc52c35f65c3b01e1b92fc9dc14c474823f0cc3ed11a
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
@@ -44,6 +44,8 @@ define Package/smartdns/conffiles
 /etc/smartdns/address.conf
 /etc/smartdns/blacklist-ip.conf
 /etc/smartdns/custom.conf
+/etc/smartdns/domain-block.list
+/etc/smartdns/domain-forwarding.list
 endef
 
 define Package/smartdns/install
