@@ -50,6 +50,12 @@ msgstr "定时检测断网重连"
 msgid "Scheduled Restartmwan3"
 msgstr "定时检测MWAN3出错重启"
 
+msgid "Scheduled Customscript"
+msgstr "定时执行自定义脚本"
+
+msgid "Only by editing the content of the custom script well and scheduling the custom script task can it be executed effectively."
+msgstr "编辑好自定义脚本内容，定时自定义脚本任务才能有效执行。"
+
 msgid "Month(0~11)"
 msgstr "月份(0~11)"
 

@@ -20,21 +20,18 @@ limit_log() {
 }
 
 remwan3() {
-i=0
-while [[ $i -lt 3 ]]
-do    
-
+while true; do   
     status=$(/usr/sbin/mwan3 status | grep error)
     if [ -z $status ]; then
         log  "Mwan3 is OK"
-	break
+	exit 1
     else
-        log "mwan3 restarting $i... $status"  
+        log "mwan3 restarting ... $status"  
         /usr/sbin/mwan3 restart
-    fi
-    i=$(($i + 1))
-    sleep 30
+    fi 
+    sleep 60
 done
+
 }
 
 disreconnwan() {
@@ -113,6 +110,16 @@ trigger() {
 		;;
 	restartmwan3)
 		remwan3
+		;;
+	customscript)
+	         script=`cat /etc/autotimeset/timesetcustomscript | grep '#!/bin/sh'` >/dev/null 2>&1
+	         [ $script ] || {
+		      script=` cat /etc/autotimeset/timesetcustomscript `
+		      echo '#!/bin/sh' >/etc/autotimeset/timesetcustomscript
+		      echo  $script >>/etc/autotimeset/timesetcustomscript
+		 }
+		source /etc/autotimeset/timesetcustomscript
+		 log  "CustomScript succeeded!"
 		;;
 	esac
 }

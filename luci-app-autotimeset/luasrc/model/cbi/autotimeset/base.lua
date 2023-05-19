@@ -10,6 +10,15 @@ translate("&nbsp;&nbsp;&nbsp;<input class=\"cbi-button cbi-button-apply\" type=\
 translate("Test/Verify Settings") ..
 " \" onclick=\"window.open('https://tool.lu/crontab/')\"/>"))
 
+s = m:section(TypedSection, 'global')
+s.anonymous=true
+
+e=s:option(TextValue, "customscript") 
+e.description = translate("Only by editing the content of the custom script well and scheduling the custom script task can it be executed effectively.")
+e.rows = 5
+e.default = '#!/bin/sh'
+e.rmempty = false
+
 s=m:section(TypedSection,"stime","")
 s.addremove=true
 s.anonymous=true
@@ -26,13 +35,14 @@ e:value(7,translate("Scheduled Clearmem"))
 e:value(8,translate("Scheduled Sysfree"))
 e:value(9,translate("Scheduled DisReconn"))
 e:value(10,translate("Scheduled Restartmwan3"))
+e:value(11,translate("Scheduled Customscript"))
 e.default=2
 
 e=s:option(Value,"month",translate("Month(0~11)"))
 e.rmempty = false
 e.default = '*'
 
-week=s:option(ListValue,"week",translate("Week Day(0~6)"))
+week=s:option(Value,"week",translate("Week Day(0~6)"))
 week.rmempty = true
 week:value('*',translate("Everyday"))
 week:value(0,translate("Sunday"))

@@ -10,6 +10,14 @@ TMP=/etc/autotimeset
 run_autotimeset()
 {
 ssum=$(grep -c stime /etc/config/autotimeset)
+
+		
+customscript=$(uci -q get autotimeset.@global[0].customscript )  || customscript='#!/bin/sh'
+script=`echo $customscript | grep '#!/bin/sh'` >/dev/null 2>&1
+[ $script ] || {
+	echo '#!/bin/sh' >/etc/autotimeset/timesetcustomscript
+	echo  $script >>/etc/autotimeset/timesetcustomscript
+}
 for i in $(seq 0 $((ssum-1)))
 do
 	enable=$(uci -q get autotimeset.@stime[$i].enable )
@@ -20,7 +28,6 @@ do
 		week=$(uci -q get autotimeset.@stime[$i].week ) || week="*"
 		minute=$(uci -q get autotimeset.@stime[$i].minute ) || minute="00"
 		hour=$(uci -q get autotimeset.@stime[$i].hour )  || hour="*"
-		
 		[ "x$hour" = "x0" ] && hour="00"
 		[ "x$minute" = "x0" ] && minute="00"
 		case "$stype" in
@@ -62,6 +69,11 @@ do
 				;;
 			10)
 				local cmd="$minute $hour * $month $week /usr/bin/timesethandler restartmwan3" 
+				echo "$cmd" >> /etc/crontabs/root
+				;;
+			11)
+				local cmd="$minute $hour * $month $week /usr/bin/timesethandler customscript" 
+				echo $customscript > /etc/autotimeset/timesetcustomscript
 				echo "$cmd" >> /etc/crontabs/root
 				;;
 		esac
