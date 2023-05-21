@@ -14,7 +14,7 @@ ssum=$(grep -c stime /etc/config/autotimeset)
 		
 customscript=$(uci -q get autotimeset.@global[0].customscript )  || customscript='#!/bin/sh'
 script=`echo $customscript | grep '#!/bin/sh'` >/dev/null 2>&1
-[ $script ] || {
+[ $script ] && echo $script > /etc/autotimeset/timesetcustomscript || {
 	echo '#!/bin/sh' >/etc/autotimeset/timesetcustomscript
 	echo  $script >>/etc/autotimeset/timesetcustomscript
 }
@@ -73,7 +73,6 @@ do
 				;;
 			11)
 				local cmd="$minute $hour * $month $week /usr/bin/timesethandler customscript" 
-				echo $customscript > /etc/autotimeset/timesetcustomscript
 				echo "$cmd" >> /etc/crontabs/root
 				;;
 		esac
