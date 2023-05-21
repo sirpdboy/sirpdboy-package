@@ -1,6 +1,6 @@
 
 msgid "<b>Timing settings include: timing restart, timing shutdown, timing restart network, all functions can be used together.</b></br>"
-msgstr "<b>定时设置包括：定时重启、定时关机、定时重启网络、释放内存、系统清理、重启网络共享、定时关闭网络、定时自动检测断网重连等等功能.</b></br>"
+msgstr "<b>定时设置包括：定时重启、定时关机、定时重启网络、释放内存、系统清理、重启网络共享、定时关闭网络、定时自动检测断网重连、MWAN3负载均衡检测重连、自定义脚本等10多个功能.</b></br>"
 
 msgid "N1-N5 is continuous, N1, N3, N5 is discontinuous, */N represents every N hours or every N minutes.The week can only be 0~6, the hour can only be 0~23, the minute can only be 0~59, the unavailable time is 48 hours."
 msgstr "N1-N5连续，N1,N3,N5不连续，*/N表示每N小时或每N分钟。月份范围0-11，星期范围0～6，小时范围0～23，分钟范围0～59，不可用72小时或者90分钟等连续范围。"
