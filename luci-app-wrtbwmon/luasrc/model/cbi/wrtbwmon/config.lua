@@ -8,6 +8,15 @@ s = m:section(NamedSection, "general", "wrtbwmon", translate("General settings")
 o = s:option(Flag, "enabled", translate("Enabled"))
 o.rmempty= true
 
+bandwidth = s:option( Value, "bdw", translate("Default bandwidth"))
+bandwidth:value("1M")
+bandwidth:value("10M")
+bandwidth:value("100M")
+bandwidth:value("200M")
+bandwidth:value("500M")
+bandwidth:value("1000M")
+bandwidth.default = '10M'
+
 o = s:option(Value, "path", translate("Database Path"),
 	translate("This box is used to select the Database path, "
 	.. "which is /tmp/usage.db by default."))

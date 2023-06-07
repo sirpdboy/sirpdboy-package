@@ -6,6 +6,9 @@
 
 <%
 local util = require "luci.util"
+local routeip = luci.sys.exec("ip route 2>/dev/null |grep '^default' | awk -F ' ' '{print $3}'")
+local user_info = luci.sys.exec("sysinfo user")
+
 local function online_data()
 	local rv = { }
 	local fd = util.execi('/usr/bin/awk \'BEGIN{while ((getline < "/tmp/dhcp.leases") > 0){a[$2]=$4;}while ((getline < "/proc/net/arp") > 0){if (!a[$4]){a[$4]="\?";}if (match($3,"0x[26]")){"ping -q -c 1 "$1" &";if (b[$4]){b[$4]=b[$4]"/"$1;}else{b[$4]=$1;}c[$4]=$6;}}while (("ip -6 neighbor show | grep -v fe80" | getline) > 0){if (b[$5]) {"ping -q -c 1 "$1" &";b[$5]=b[$5]"/"$1;}}for (mac in b){print(a[mac],b[mac],mac,c[mac]);}}\' ')
@@ -13,8 +16,9 @@ local function online_data()
 		local ln = fd()
 		if ln == nil then break end
 		local name,ip,mac,dev = ln:match("^(%S+) (%S+) (%S+) (%S+)")
-
-		if mac and ip and name and dev then
+		if ip ~= routeip then 
+		     
+		 if mac and ip and name and dev then
 			rv[#rv+1] = {
 				hostname = name,
 				device  = dev,
@@ -22,13 +26,14 @@ local function online_data()
 				ipaddr   = ip
 			}
 		end
+		end
 	end
 	return rv
 end
 
-
 if luci.http.formvalue("status") == "1" then
 	local rv = {
+		userinfo    = user_info,
 		onlines   = online_data()
 	}	
 	luci.http.prepare_content("application/json")
@@ -75,13 +80,15 @@ end
 						td.innerHTML = '<em><br /><%:There is no one online now.%></em>';
 				}
 			}
+			
+			if (e = document.getElementById('userinfo'))
+				e.innerHTML = info.userinfo;
 		}
 	);
 //]]></script>
 
 <fieldset class="cbi-section">
 	<legend><%:User online%></legend>
-
 	<table class="cbi-section-table" id="online_status_table">
 		<tr class="cbi-section-table-titles">
 			<th class="cbi-section-table-cell"><%:Hostname%></th>
@@ -92,6 +99,9 @@ end
 		<tr class="cbi-section-table-row">
 			<td colspan="4"><em><br /><%:Collecting data...%></em></td>
 		</tr>
+	</table>
+	<table width="100%" cellspacing="10" >
+		<tr><td width="33%"><%:Online Users%></td><td id="userinfo">0</td></tr>
 	</table>
 </fieldset>
 
