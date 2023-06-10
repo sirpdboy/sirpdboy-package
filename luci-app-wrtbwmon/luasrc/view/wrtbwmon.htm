@@ -6,7 +6,8 @@
 	local util = require "luci.util"
 	local stat = require "luci.tools.status"
 	local fs = require "nixio.fs"
-	local bdw = luci.model.uci.cursor():get("wrtbwmon", "general", "bdw")
+	local bdwup = luci.model.uci.cursor():get("wrtbwmon", "general", "bdwup")
+	local bdwdown = luci.model.uci.cursor():get("wrtbwmon", "general", "bdwdown")
 	local dba = luci.model.uci.cursor():get("wrtbwmon", "general", "path")
 	local SYS = require "luci.sys"
 --	Function to generate table from string.
@@ -152,8 +153,8 @@
 <div class="cbi-map">
 	<div class="cbi-section">
 		<div class="tr">
-			<div class="td left" style="width:5%"><label><%:protocol:%></label></div>
-			<div class="td left" style="width:15%">
+			<div class="td left" style="width:10%"><label><%:protocol:%></label></div>
+			<div class="td left" style="width:20%">
 				<select id="Select46" style="width:auto">
 					<option value="ipv4" selected="selected">ipv4</option>
 					<option value="ipv6">ipv6</option>
@@ -161,15 +162,13 @@
 			</div>
 
 			<div class="td left" style="width:10%"><label for="showMore"><%:Show More:%></label></div>
-			<div class="td left" style="width:10%"><input class="cbi-input-checkbox" type="checkbox" id="showMore"/></div>
+			<div class="td left" style="width:20%"><input class="cbi-input-checkbox" type="checkbox" id="showMore"/></div>
 
-			<div class="td left" style="width:5%"><label><%:bandwidth:%></label></div>
-			<div class="td left" style="width:15%"><input type="text" id="setBD" value="<%=bdw%>" /></div>
 
 			<div class="td left" style="width:10%">
 				<small><div id="updated" style="display:inline"></div><div id="updating" style="display:inline"></div></small>
 			</div>
-			<div class="td left" style="width:20%">
+				<div class="td right" style="width:30%">
 				<label for="intervalSelect"><%:Auto update every%></label>
 					<select id="intervalSelect">
 						<option value="-1"><%:Disabled%></option>
@@ -190,8 +189,8 @@
 		<legend><%:Online Users%><%:: %><%=luci.sys.exec("sysinfo user")%></legend>
 		<div class="td"></div>
 		<div class="table">
-			<div class="tr"><div class="td left" width="10%"><%:upflow:%></div><div class="td left" style="width:90%"><div id="upflow" class="cbi-progressbar" title="-"><div></div></div></div></div>
-			<div class="tr"><div class="td left" width="10%"><%:downflow:%></div><div class="td left"  style="width:90%"><div id="downflow" class="cbi-progressbar" title="-"><div></div></div></div></div>
+			<div class="tr"><div class="td left" width="10%"><%:upflow:%><%=bdwup%></div><div class="td left" style="width:90%"><div id="upflow" class="cbi-progressbar" title="-"><div></div></div></div></div>
+			<div class="tr"><div class="td left" width="10%"><%:downflow:%><%=bdwdown%></div><div class="td left"  style="width:90%"><div id="downflow" class="cbi-progressbar" title="-"><div></div></div></div></div>
 		</div>
 		<div class="td"></div>
 
@@ -214,6 +213,7 @@
 	</div>
 </div>
 
+<script type="text/javascript" src="<%=resource%>/cbi.js"></script>
 <script type="text/javascript">//<![CDATA[
 
 (function () {
@@ -250,7 +250,7 @@
 	}
 
 	function displayTable(eltid) {
-		var tb = $('traffic'), bdw = parseSize($('setBD').value);
+		var tb = $('traffic'), bdwupx = parseSize("<%=bdwup%>"),bdwdownx = parseSize("<%=bdwdown%>");
 		var col = setSortColumn(eltid);
 
 		cachedData[0].sort(function(x, y) {
@@ -263,10 +263,9 @@
 //		display data
 //		console.time('update_table');
 		updateTable(tb, cachedData, '<em><%:Loading...%></em>');
-//		console.timeEnd('update_table');
-
-		progressbar('downflow', cachedData[1][0], bdw, true);
-		progressbar('upflow', cachedData[1][1], bdw, true);
+// 		console.timeEnd('update_table');
+		progressbar('downflow', cachedData[1][0], bdwdownx, true);
+		progressbar('upflow', cachedData[1][1], bdwupx, true);
 		return
 	}
 			

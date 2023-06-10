@@ -16,16 +16,13 @@ local function online_data()
 		local ln = fd()
 		if ln == nil then break end
 		local name,ip,mac,dev = ln:match("^(%S+) (%S+) (%S+) (%S+)")
-		if ip ~= routeip then 
-		     
-		 if mac and ip and name and dev then
+		if mac and ip and name and dev then
 			rv[#rv+1] = {
 				hostname = name,
 				device  = dev,
 				macaddr  = mac,
 				ipaddr   = ip
 			}
-		end
 		end
 	end
 	return rv

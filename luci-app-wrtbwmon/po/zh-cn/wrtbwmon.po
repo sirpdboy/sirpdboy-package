@@ -59,8 +59,11 @@ msgstr "显示更多:"
 msgid "bandwidth:"
 msgstr "带宽:"
 
-msgid "Default bandwidth"
-msgstr "默认带宽"
+msgid "Upload bandwidth"
+msgstr "上行带宽"
+
+msgid "Download bandwidth"
+msgstr "下行带宽"
 
 msgid "Calculate per host totals"
 msgstr "单主机总流量统计"
