@@ -12,7 +12,6 @@ function index()
 	if not nixio.fs.access("/etc/config/netwizard_hide") then
 	        e = entry({"admin","system", "netwizard"}, alias("admin","system", "netwizard","settings"), _("Inital Setup"), -1)
 		e.dependent = true
-		-- e.acl_depends = { "luci-app-netwizard" }
 	end
 	entry({"admin","system", "netwizard","settings"}, cbi("netwizard/netwizard"), _("Inital Setup"), 1).dependent = true
 end

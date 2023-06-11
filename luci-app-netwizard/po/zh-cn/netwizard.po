@@ -35,7 +35,7 @@ msgid "Wireless Settings"
 msgstr "无线设置"
 
 msgid "Allocate the physical interface of WAN port"
-msgstr "分配Wan口的物理接口"
+msgstr "必须指定正确的接光猫(或接上线路由)的物理口"
 
 msgid "interface<font color=\"red\">(*)</font>"
 msgstr "接口<font color=\"red\">(*)</font>"
@@ -64,8 +64,8 @@ msgstr "旁路模式"
 msgid "Please enter the main routing IP address. The bypass gateway is not the same as the login IP of this bypass WEB and is in the same network segment"
 msgstr "请输入主路由IP地址,旁路网关与此旁路WEB登陆IP不相同并且必须在一个网段."
 
-msgid "The default selection is to enable the DHCP server. In a network, only one DHCP server is needed to allocate and manage client IP. If it is a side route, it is recommended to turn off the main routing DHCP server."
-msgstr "默认选择开启DHCP服务器。一个网络中只需要一个DHCP服务器分配管理客户机IP，如果是旁路由建议关闭主路由DHCP服务器。"
+msgid "Selecting means that the DHCP server is not enabled. In a network, only one DHCP server is needed to allocate and manage client IPs. If it is a secondary route, it is recommended to turn off the primary routing DHCP server."
+msgstr "选择表示不开启DHCP服务器。在一个网络中，只需要一个DHCP服务器来分配和管理客户端IP。如旁路由开DHCP服务器，须关闭主路由DHCP服务器。"
 
 msgid "Disable IPv6"
 msgstr "禁用IPv6"
@@ -85,8 +85,8 @@ msgstr "IPv6混合模式"
 msgid "Remove IPv6"
 msgstr "移除IPv6"
 
-msgid "Caution: If you delete IPV6 related plug-ins completely, you will not be able to recover"
-msgstr "慎重：彻底删除IPV6相关插件，删除后无法恢复"
+msgid "Default to use IPV6 hybrid mode"
+msgstr "默认使用IPV6混合模式"
 
 msgid "Lan IPv4 address"
 msgstr "内网IP地址"
@@ -113,7 +113,7 @@ msgid "Use iptables to force all TCP/UDP DNS 53ports in IPV4/IPV6 to be forwarde
 msgstr "用iptables强制IPV4/IPV6所有TCP/UDP DNS 53端口走此路由解析[建议打开]"
 
 msgid "Custom firewall"
-msgstr "自定义防火墙"
+msgstr "启用自定义规则"
 
 msgid "Use custom Wan DNS"
 msgstr "自定义Wan口的DNS"
@@ -121,8 +121,8 @@ msgstr "自定义Wan口的DNS"
 msgid "Use custom Siderouter DNS"
 msgstr "自定义旁路由DNS"
 
-msgid "Enable DHCP Server"
-msgstr "启用DHCP服务"
+msgid "Disable DHCP Server"
+msgstr "禁用DHCP服务器"
 
 msgid "Force the DNS server in the DHCP server to be specified as the IP for this route"
 msgstr "强制指定DHCP服务器中DNS服务器为此路由的IP"

@@ -10,11 +10,11 @@ local lan_gateway = uci:get("netwizard", "default", "lan_gateway")
 if lan_gateway ~= "" then
    lan_gateway = sys.exec("ipaddr=`uci -q get network.lan.ipaddr`;echo ${ipaddr%.*}")
 end
-local network_info = uci:get_all("network", "wan")
-local wizard_info = uci:get_all("netwizard", "default")
-
+local lan_ip = uci:get("network", "lan", "ipaddr")
+local lan_dhcp = uci:get("dhcp", "lan", "ignore")
+local wan_face = sys.exec(" [ `uci -q get network.wan.ifname` ] && uci -q get network.wan.ifname  || uci -q get network.wan.device ")
+local wan_proto = uci:get("network", "wan", "proto")
 local validation = require "luci.cbi.datatypes"
-
 local has_wifi = false
 uci:foreach("wireless", "wifi-device",
 		function(s)
@@ -35,7 +35,7 @@ end
 s:tab("othersetup", translate("Other setting"))
 
 local e = s:taboption("wansetup", Value, "lan_ipaddr", translate("Lan IPv4 address") ,translate("You must specify the IP address of this machine, which is the IP address of the web access route"))
-e.default = "" .. uci:get("network", "lan", "ipaddr")
+e.default = lan_ip
 e.datatype = "ip4addr"
 
 e = s:taboption("wansetup", Value, "lan_netmask", translate("Lan IPv4 netmask"))
@@ -45,12 +45,11 @@ e:value("255.255.0.0")
 e:value("255.0.0.0")
 e.default = '255.255.255.0'
 
-e = s:taboption("wansetup", ListValue, "ipv6",translate('Select IPv6 mode'),translate("Caution: If you delete IPV6 related plug-ins completely, you will not be able to recover"))
+e = s:taboption("wansetup", ListValue, "ipv6",translate('Select IPv6 mode'),translate("Default to use IPV6 hybrid mode"))
 e:value('0', translate('Disable IPv6'))
 e:value('1', translate('IPv6 Server mode'))
 e:value('2', translate('IPv6 Relay mode'))
 e:value('3', translate('IPv6 Hybird mode'))
-e:value('4', translate('Remove IPv6'))
 e.default = '3'
 
 wan_proto = s:taboption("wansetup", ListValue, "wan_proto", translate("Network protocol mode selection"), translate("Four different ways to access the Internet, please choose according to your own situation.</br>"))
@@ -58,13 +57,15 @@ wan_proto:value("dhcp", translate("DHCP client"))
 wan_proto:value("static", translate("Static address"))
 wan_proto:value("pppoe", translate("PPPoE dialing"))
 wan_proto:value("siderouter", translate("SideRouter"))
+wan_proto.default = wan_proto
 
-e = s:taboption("wansetup",Value, "wan_interface",translate("interface<font color=\"red\">(*)</font>"), translate("Allocate the physical interface of WAN port"))
-e:depends({wan_proto="pppoe"})
-e:depends({wan_proto="dhcp"})
-e:depends({wan_proto="static"})
+wan_interface = s:taboption("wansetup",Value, "wan_interface",translate("interface<font color=\"red\">(*)</font>"), translate("Allocate the physical interface of WAN port"))
+wan_interface:depends({wan_proto="pppoe"})
+wan_interface:depends({wan_proto="dhcp"})
+wan_interface:depends({wan_proto="static"})
+
 for _, iface in ipairs(ifaces) do
-if not (iface:match("_ifb$") or iface:match("^ifb*")) then
+   if not (iface:match("_ifb$") or iface:match("^ifb*")) then
 	if ( iface:match("^eth*") or iface:match("^wlan*") or iface:match("^usb*")) then
 		local nets = net:get_interface(iface)
 		nets = nets and nets:get_networks() or {}
@@ -72,31 +73,24 @@ if not (iface:match("_ifb$") or iface:match("^ifb*")) then
 			nets[k] = nets[k].sid
 		end
 		nets = table.concat(nets, ",")
-		e:value(iface, ((#nets > 0) and "%s (%s)" % {iface, nets} or iface))
+		wan_interface:value(iface, ((#nets > 0) and "%s (%s)" % {iface, nets} or iface))
 	end
+  end
 end
-end
+wan_interface.default = wan_face
 
 wan_pppoe_user = s:taboption("wansetup", Value, "wan_pppoe_user", translate("PAP/CHAP username"))
 wan_pppoe_user:depends({wan_proto="pppoe"})
-if wizard_info.wan_pppoe_user == "" and network_info.username ~= "" then
-       wan_pppoe_user.default = network_info.username
-end
+
 
 
 wan_pppoe_pass = s:taboption("wansetup", Value, "wan_pppoe_pass", translate("PAP/CHAP password"))
 wan_pppoe_pass:depends({wan_proto="pppoe"})
-if wizard_info.wan_pppoe_pass == "" and network_info.password ~= "" then
-      wan_pppoe_pass.default = network_info.password
-end
-e.password = true
+wan_pppoe_pass.password = true
 
 wan_ipaddr = s:taboption("wansetup", Value, "wan_ipaddr", translate("Wan IPv4 address"))
 wan_ipaddr:depends({wan_proto="static"})
 wan_ipaddr.datatype = "ip4addr"
-if wizard_info.wan_ipaddr == "" and network_info.ipaddr ~= ""   then
-   wan_ipaddr.default = network_info.ipaddr
-end
 
 wan_netmask = s:taboption("wansetup", Value, "wan_netmask", translate("Wan IPv4 netmask"))
 wan_netmask:depends({wan_proto="static"})
@@ -106,14 +100,9 @@ wan_netmask:value("255.255.0.0")
 wan_netmask:value("255.0.0.0")
 wan_netmask.default = "255.255.255.0"
 
-
-
 wan_gateway = s:taboption("wansetup", Value, "wan_gateway", translate("Wan IPv4 gateway"))
 wan_gateway:depends({wan_proto="static"})
 wan_gateway.datatype = "ip4addr"
-if wizard_info.wan_gateway == "" and network_info.gateway ~= ""  then
-   wan_gateway.default = network_info.gateway
-end
 
 wan_dns = s:taboption("wansetup", DynamicList, "wan_dns", translate("Use custom Wan DNS"))
 wan_dns:value("223.5.5.5", translate("Ali DNS:223.5.5.5"))
@@ -125,27 +114,26 @@ wan_dns.default = "223.5.5.5"
 wan_dns:depends({wan_proto="static"})
 wan_dns:depends({wan_proto="pppoe"})
 wan_dns.datatype = "ip4addr"
-wan_dns.cast = "string"
 
 e = s:taboption("wansetup", Value, "lan_gateway", translate("Lan IPv4 gateway"), translate( "Please enter the main routing IP address. The bypass gateway is not the same as the login IP of this bypass WEB and is in the same network segment"))
 e.default = lan_gateway
 e:depends({wan_proto = "siderouter"})
 e.datatype = "ip4addr"
 
-e = s:taboption("wansetup", DynamicList, "lan_dns", translate("Use custom Siderouter DNS"))
-e:value("223.5.5.5", translate("Ali DNS:223.5.5.5"))
-e:value("180.76.76.76", translate("Baidu dns:180.76.76.76"))
-e:value("114.114.114.114", translate("114 DNS:114.114.114.114"))
-e:value("8.8.8.8", translate("Google DNS:8.8.8.8"))
-e:value("1.1.1.1", translate("Cloudflare DNS:1.1.1.1"))
-e.default = "223.5.5.5"
-e:depends({wan_proto="siderouter"})
-e.datatype = "ip4addr"
-e.cast = "string"
+lan_dns = s:taboption("wansetup", DynamicList, "lan_dns", translate("Use custom Siderouter DNS"))
+lan_dns:value("223.5.5.5", translate("Ali DNS:223.5.5.5"))
+lan_dns:value("180.76.76.76", translate("Baidu dns:180.76.76.76"))
+lan_dns:value("114.114.114.114", translate("114 DNS:114.114.114.114"))
+lan_dns:value("8.8.8.8", translate("Google DNS:8.8.8.8"))
+lan_dns:value("1.1.1.1", translate("Cloudflare DNS:1.1.1.1"))
+lan_dns:depends({wan_proto="siderouter"})
+lan_dns.datatype = "ip4addr"
+lan_dns.default = "223.5.5.5"
 
-lan_dhcp = s:taboption("wansetup", Flag, "lan_dhcp", translate("Enable DHCP Server"), translate("The default selection is to enable the DHCP server. In a network, only one DHCP server is needed to allocate and manage client IP. If it is a side route, it is recommended to turn off the main routing DHCP server."))
-lan_dhcp.default = 1
+lan_dhcp = s:taboption("wansetup", Flag, "lan_dhcp", translate("Disable DHCP Server"), translate("Selecting means that the DHCP server is not enabled. In a network, only one DHCP server is needed to allocate and manage client IPs. If it is a secondary route, it is recommended to turn off the primary routing DHCP server."))
+lan_dhcp.default = lan_dhcp
 lan_dhcp.anonymous = false
+local fusev6 = usev6:formvalue(section)
 
 
 e = s:taboption("wansetup", Flag, "dnsset", translate("Enable DNS notifications (ipv4/ipv6)"),translate("Force the DNS server in the DHCP server to be specified as the IP for this route"))
