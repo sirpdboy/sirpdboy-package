@@ -133,8 +133,6 @@ lan_dns.default = "223.5.5.5"
 lan_dhcp = s:taboption("wansetup", Flag, "lan_dhcp", translate("Disable DHCP Server"), translate("Selecting means that the DHCP server is not enabled. In a network, only one DHCP server is needed to allocate and manage client IPs. If it is a secondary route, it is recommended to turn off the primary routing DHCP server."))
 lan_dhcp.default = lan_dhcp
 lan_dhcp.anonymous = false
-local fusev6 = usev6:formvalue(section)
-
 
 e = s:taboption("wansetup", Flag, "dnsset", translate("Enable DNS notifications (ipv4/ipv6)"),translate("Force the DNS server in the DHCP server to be specified as the IP for this route"))
 e:depends("lan_dhcp", true)
