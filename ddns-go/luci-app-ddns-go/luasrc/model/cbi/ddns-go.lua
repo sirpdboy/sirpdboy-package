@@ -19,6 +19,9 @@ o = s:option(Value, "port",translate("Set the DDNS-TO access port"))
 o.datatype = "uinteger"
 o.default=9876
 
+o = s:option(Value, "time",translate("update interval"))
+o.default=300
+
 m.apply_on_parse = true
 m.on_after_apply = function(self,map)
 	luci.sys.exec("/etc/init.d/ddns-go restart")
