@@ -7,12 +7,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=aria2
-PKG_VERSION:=1.35.0
-PKG_RELEASE:=4
+PKG_VERSION:=1.36.0
+PKG_RELEASE:=21
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://github.com/aria2/aria2/releases/download/release-$(PKG_VERSION)/
-PKG_HASH:=1e2b7fd08d6af228856e51c07173cfcf987528f1ac97e04c5af4a47642617dfd
+PKG_HASH:=skip
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
 
@@ -90,6 +90,20 @@ define Package/aria2/conffiles
 /etc/config/aria2
 endef
 
+define Download/aria2.conf
+  URL:=https://github.com/P3TERX/aria2.conf/archive
+  URL_FILE:=master.zip
+  FILE:=aria2.conf
+  HASH:=skip
+endef
+
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	unzip $(DL_DIR)/aria2.conf -d $(PKG_BUILD_DIR)/
+	sed -i '/rpc-secret/d' $(PKG_BUILD_DIR)/aria2.conf-master/*
+endef
+
+
 define Package/aria2/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/aria2c $(1)/usr/bin
@@ -99,6 +113,10 @@ define Package/aria2/install
 
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/aria2.conf $(1)/etc/config/aria2
+	
+	$(INSTALL_DIR) $(1)/usr/share/aria2
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/aria2.conf-master/* $(1)/usr/share/aria2/
 endef
 
+$(eval $(call Download,aria2.conf))
 $(eval $(call BuildPackage,aria2))
