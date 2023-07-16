@@ -32,6 +32,7 @@ start_service() {
         config_foreach get_config basic
 	[ x$enabled == x1 ] || return 1
 	[ -s ${CONF} ] || init_yaml
+	[ -s "/etc/ddns-go/localtime" ] && mv -f /etc/ddns-go/localtime /etc/localtime
 	logger -t ddns-go -p warn "ddns-go is start."
 	echo "ddns-go is start."
 	procd_open_instance
