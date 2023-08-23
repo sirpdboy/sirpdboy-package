@@ -66,13 +66,13 @@ msgid "Scheduled Restartmwan3"
 msgstr "检测MWAN3失联重启服务"
 
 msgid "Edit Custom Script"
-msgstr "编辑自定义脚本"
+msgstr "【自定义脚本】编辑"
 
 msgid "Scheduled Customscript"
 msgstr "自定义脚本"
 
 msgid "Only by editing the content of the custom script well and scheduling the custom script task can it be executed effectively."
-msgstr "编辑好自定义脚本内容，自定义脚本任务才能有效执行。"
+msgstr "设置【自定义脚本】执行内容，任务中【自定义脚本】服务才能生效。"
 
 msgid "Month(0~11)"
 msgstr "月份(0~11)【定时用】"
