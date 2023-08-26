@@ -2,28 +2,25 @@ bind_host: 0.0.0.0
 bind_port: 3000
 beta_bind_port: 0
 users:
-- name: root
-  password: $2y$10$dwn0hTYoECQMZETBErGlzOId2VANOVsPHsuH13TM/8KnysM5Dh/ve
+  - name: admin
+    password: $2y$10$vHRcARdPCieYG3RXWomV5evDYN.Nj/edtwEkQgQJZcK6z7qTLaIc6
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
 language: zh-cn
+theme: auto
 debug_pprof: false
-web_session_ttl: 720
 dns:
-  bind_host: 0.0.0.0
+  bind_hosts:
+    - 0.0.0.0
   port: 1745
-  statistics_interval: 30
-  querylog_enabled: true
-  querylog_file_enabled: true
-  querylog_interval: 6h
-  querylog_size_memory: 1000
   anonymize_client_ip: false
   protection_enabled: true
   blocking_mode: default
   blocking_ipv4: ""
   blocking_ipv6: ""
-  blocked_response_ttl: 60
+  blocked_response_ttl: 10
+  protection_disabled_until: null
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
   ratelimit: 0
@@ -69,8 +66,7 @@ dns:
   rewrites: []
   blocked_services: []
   upstream_timeout: 10s
-  local_domain_name: lan
-  resolve_clients: true
+  private_networks: []
   use_private_ptr_resolvers: true
   local_ptr_upstreams: []
 tls:
@@ -83,7 +79,6 @@ tls:
   port_dnscrypt: 0
   dnscrypt_config_file: ""
   allow_unencrypted_doh: false
-  strict_sni_check: false
   certificate_chain: ""
   private_key: ""
   certificate_path: ""
@@ -130,4 +125,4 @@ log_max_size: 100
 log_max_age: 3
 log_file: ""
 verbose: false
-schema_version: 7
+schema_version: 10
