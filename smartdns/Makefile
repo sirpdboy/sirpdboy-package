@@ -1,18 +1,17 @@
 #
-# Copyright (c) 2018-2023 Nick Peng (pymumu@gmail.com)
+# Copyright (c) 2018-2022 Nick Peng (pymumu@gmail.com)
 # This is free software, licensed under the GNU General Public License v3.
-#
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=smartdns
-PKG_VERSION:=1.2023.42
+PKG_VERSION:=Release43
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://www.github.com/pymumu/smartdns.git
-PKG_SOURCE_VERSION:=ed102cda03c56e9c63040d33d4a391b56491493e
-PKG_MIRROR_HASH:=366e98b92c3d22844ff5fc52c35f65c3b01e1b92fc9dc14c474823f0cc3ed11a
+PKG_MIRROR_HASH:=2a5e7869603ecb7b0d94e153d938e798f0b8f260cc6062cc095a39116386d8b3
+PKG_SOURCE_VERSION:=d792e5f7f71ce9320b341fe02135077e00fa3e21
 
 PKG_MAINTAINER:=Nick Peng <pymumu@gmail.com>
 PKG_LICENSE:=GPL-3.0-or-later
@@ -44,8 +43,6 @@ define Package/smartdns/conffiles
 /etc/smartdns/address.conf
 /etc/smartdns/blacklist-ip.conf
 /etc/smartdns/custom.conf
-/etc/smartdns/domain-block.list
-/etc/smartdns/domain-forwarding.list
 endef
 
 define Package/smartdns/install
