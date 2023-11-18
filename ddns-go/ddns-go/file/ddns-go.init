@@ -57,9 +57,9 @@ start_instance() {
 	[[ x$enabled = x1 ]] || return 1
 	[[ -s ${CONF} ]] || init_yaml
 	config_get_bool logger $cfg logger 1
-	config_get_bool port $cfg port '9876'
+	config_get port $cfg port '9876'
 	append_parm "$cfg" 'time' '-f' '300'
-	append_parm "$cfg" 'ctimes' 'cacheTimes' '5'
+	append_parm "$cfg" 'ctimes' '-cacheTimes' '5'
 	append_parm "$cfg" 'dns' '-dns' '223.5.5.5'
 	append_parm "$cfg" 'noweb' '-noweb'
 	append_parm "$cfg" 'skipverify' '-skipVerify'
