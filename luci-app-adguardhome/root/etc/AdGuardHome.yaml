@@ -104,11 +104,11 @@ filters:
     url: https://anti-ad.net/adguard.txt
     name: anti-AD命中率最高列表
     id: 139789122
-  - enabled: true
+  - enabled: false
     url: https://raw.iqiq.io/banbendalao/ADgk/master/ADgk.txt
     name: ADgk去广告easylistchina补充规则
     id: 139789131
-  - enabled: true
+  - enabled: false
     url: https://raw.iqiq.io/banbendalao/ADgk/master/kill-baidu-ad.txt
     name: ADgk百度广告过滤
     id: 139789133
