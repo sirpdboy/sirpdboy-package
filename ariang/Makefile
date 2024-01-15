@@ -2,11 +2,11 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ariang
 PKG_VERSION:=1.3.6
-PKG_RELEASE:=1
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).zip
 PKG_SOURCE_URL:=https://github.com/mayswind/AriaNg/releases/download/$(PKG_VERSION)
-PKG_HASH:=2d36e1a39d95867b8e0cdb3cde96d04d40117bd37e8742d639da92496e07cc7b
+PKG_HASH:=skip
 UNPACK_CMD=unzip -q -d $(1) $(DL_DIR)/$(PKG_SOURCE)
 
 PKG_MAINTAINER:=Ansuel Smith <ansuelsmth@gmail.com>
@@ -33,14 +33,14 @@ Package/ariang-nginx/description = $(Package/ariang/description)
 
 define Package/ariang
   $(Package/ariang/default)
-  DEPENDS += +uhttpd
-  TITLE += for uhttpd webserver
+  DEPENDS:=+uhttpd
+  TITLE:=for uhttpd webserver
 endef
 
 define Package/ariang-nginx
   $(Package/ariang/default)
-  DEPENDS += +nginx
-  TITLE += for nginx webserver
+  DEPENDS:=+nginx
+  TITLE:=for nginx webserver
 endef
 
 define Build/Compile
@@ -49,15 +49,12 @@ endef
 define Package/ariang/install
 	$(INSTALL_DIR) \
 		$(1)/www/ariang
-
 	$(CP) \
 		$(PKG_BUILD_DIR)/{langs,css,js,fonts} \
 		$(PKG_BUILD_DIR)/index.html \
 		$(PKG_BUILD_DIR)/LICENSE \
-		$(PKG_BUILD_DIR)/favicon.* \
+		$(PKG_BUILD_DIR)/{favicon.*,*.png} \
 		$(PKG_BUILD_DIR)/robots.txt \
-		$(PKG_BUILD_DIR)/tileicon.png \
-		$(PKG_BUILD_DIR)/touchicon.png \
 		$(1)/www/ariang
 endef
 

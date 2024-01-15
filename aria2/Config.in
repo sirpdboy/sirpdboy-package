@@ -34,7 +34,7 @@ endchoice
 
 choice
 	prompt "XML Library"
-	default ARIA2_NOXML
+	default ARIA2_EXPAT
 
 config ARIA2_LIBXML2
 	bool "Libxml2"
@@ -61,19 +61,19 @@ config ARIA2_BITTORRENT
 config ARIA2_METALINK
 	bool "Enable Metalink Support"
 	depends on !ARIA2_NOXML
-	default n
+	default y
 
 config ARIA2_SFTP
 	bool "Enable SFTP Support"
-	default n
+	default y
 
 config ARIA2_ASYNC_DNS
 	bool "Enable Async DNS Support"
-	default n
+	default y
 
 config ARIA2_COOKIE
 	bool "Enable Firefox3/Chromium Cookie Support"
-	default n
+	default y
 
 config ARIA2_WEBSOCKET
 	bool "Enable JSON-RPC over WebSocket Support"

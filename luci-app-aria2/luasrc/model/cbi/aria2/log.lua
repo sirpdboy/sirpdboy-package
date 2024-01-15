@@ -1,5 +1,6 @@
-m = Map("Log")
+local f = SimpleForm("aria2")
+f.reset = false
+f.submit = false
+f:append(Template("aria2/log_template"))
 
-m:append(Template("aria2/aria2_log"))
-
-return m
+return f
