@@ -23,7 +23,7 @@
 		end
 	end
 	
-	local ar_state = (luci.sys.call("ps 2>/dev/null | grep aria2c 2>/dev/null | grep /usr/bin >/dev/null") == 0)
+	local ar_state = (luci.sys.call("busybox ps -w  | grep aria2c 2>/dev/null | grep /usr/bin >/dev/null") == 0)
 %>
 
 <fieldset class="cbi-section">
