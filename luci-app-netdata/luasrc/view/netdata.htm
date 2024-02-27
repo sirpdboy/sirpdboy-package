@@ -7,7 +7,6 @@
 	local running = luci.sys.exec("pidof netdata | awk -F ' ' '{print $1}'")
 %>
 <%+header%>
-
 <div class="cbi-map">
 
 <% if tonumber(running) ~= nil then %>

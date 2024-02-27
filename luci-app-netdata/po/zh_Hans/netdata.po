@@ -14,7 +14,7 @@ msgid "NetData Status"
 msgstr "NetData服务状态"
 
 msgid "Please enable the NetData service"
-msgstr "请将homebox服务启用"
+msgstr "请将NetData服务启用"
 
 msgid "NetData"
 msgstr "实时监控"
