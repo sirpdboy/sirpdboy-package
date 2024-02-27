@@ -7,9 +7,9 @@ function index()
 	if not nixio.fs.access("/etc/config/netdata") then
 		return
 	end
-	local page
-	entry({"admin", "status", "netdata"}, alias("admin", "status", "netdata", "setting"),_("NetData"), 10).dependent = true
-
+	local e = entry({"admin", "status", "netdata"}, alias("admin", "status", "netdata", "setting"),_("NetData"), 10)
+	e.dependent = false
+	e.acl_depends = { "luci-app-netdata" }
 	entry({"admin", "status", "netdata", "setting"}, cbi("netdata/netdata"), _("Base Setting"), 20).leaf=true
 	entry({"admin", "status", "netdata", "netdata"}, template("netdata"), _("NetData"), 30).leaf = true
 	entry({"admin", "status", "netdata_status"}, call("act_status"))
