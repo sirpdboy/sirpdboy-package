@@ -22,12 +22,13 @@ ul = t:option(Value, "upload", translate("Upload bandwidth(Mbit/s)"))
 ul.default = '30'
 ul:depends("qos", true)
 
--- e = t:option(Flag, "uhttps",translate('Accessing using HTTPS'), translate('Open the address in the background and use HTTPS for secure access'))
+e = t:option(Flag, "uhttps",translate('Accessing using HTTPS'), translate('Open the address in the background and use HTTPS for secure access'))
 
 e = t:option(Flag, "usshmenu",translate('No backend menu required'), translate('OPENWRT backend and SSH login do not display shortcut menus'))
 
-if fs.access('/etc/config/netwizard') then
 e = t:option(Flag, "wizard",translate('Hide Wizard'), translate('Show or hide the setup wizard menu'))
-end
+e.default = "0"
+e.rmempty = false
+
 
 return a

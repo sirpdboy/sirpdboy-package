@@ -125,18 +125,23 @@ for i in 0 1 2 3 ;do
    echo $1 > /sys/devices/system/cpu/cpufreq/policy$i/scaling_governor
 done
 }
+setnetwizard(){
+    if [ "x$(uci -q get advancedplus.@basic[0].wizard)" == "x1" ] ; then
+	     touch /etc/config/netwizard_hide
+	     uci -q set netwizard.default.showhide="1"
+	     uci commit netwizard
+    else
+	     uci -q set netwizard.default.showhide="0"
+	     uci commit netwizard
+	     rm -rf /etc/config/netwizard_hide
+    fi
+}
+
 advancedset(){
 dev=`ifconfig | grep "Point-to-Point" | cut -d " " -f1`
 [ ! $dev ] && dev=` uci -q get network.wan.ifname ` || dev=` uci -q get network.wan.device ` 
 [ ! $dev ] && dev=br-lan
-    [ -s /etc/config/netwizard_hide ] && rm -rf  /etc/config/netwizard_hide
-    if [ "x$(uci -q get advancedplus.@basic[0].wizard)" = "x1" ] ; then
-	     [ -s /etc/config/netwizard_hide ] || touch /etc/config/netwizard_hide
-	     uci -q set netwizard.default.showhide="1"
-    else
-	     uci -q set netwizard.default.showhide="0"
-    fi
-
+    setnetwizard
     [ "x$(uci -q get advancedplus.@basic[0].qos)" = "x1" ] && \usr\bin\qoshome
     if [ "x$(uci -q get advancedplus.@basic[0].ttl)" = "x1" ] ; then
         $ipt -t mangle -A PREROUTING -p tcp --tcp-flags RST RST -i $dev -j DROP
@@ -157,7 +162,7 @@ for i in $(seq 0 $((sum-1)))
 do
     use=$(uci -q get advancedplus.@theme[$i].use )
     
-    if [ "x$use" = "x1" ]; then
+    if [ "x$use" == "x1" ]; then
 	mode=`uci -q get advancedplus.@theme[$i].mode`
 	primary_rgbm=`uci -q get advancedplus.@theme[$i].primary_rgbm`
 	uci set advancedplus.@basic[0].mode=${mode}
@@ -239,7 +244,7 @@ do
 	break
     fi
 done
-if [ "x$useset" = "x0" ] ; then
+if [ "x$useset" == "x0" ] ; then
 	uci set advancedplus.@basic[0].mode='auto'
 	uci set advancedplus.@basic[0].primary_rgbm='74,161,133'
 	uci set advancedplus.@basic[0].primary_rgbs_ts='0.1'
@@ -247,7 +252,7 @@ if [ "x$useset" = "x0" ] ; then
 	uci set advancedplus.@basic[0].bkuse='1'
 	uci set advancedplus.@basic[0].primary_rgbm_ts='0.9'
 	uci set advancedplus.@basic[0].primary_opacity='50'
- 	[ $mode = dark ] && uci set advancedplus.@basic[0].primary_rgbbody='33,45,60' || uci set advancedplus.@basic[0].primary_rgbbody='248,248,248'
+ 	[ $mode == dark ] && uci set advancedplus.@basic[0].primary_rgbbody='33,45,60' || uci set advancedplus.@basic[0].primary_rgbbody='248,248,248'
 fi
 if [ "x$(uci -q get advancedplus.@basic[0].fontmode)" = "x1" ] ; then
 	uci set advancedplus.@basic[0].font_d='1.3rem'
