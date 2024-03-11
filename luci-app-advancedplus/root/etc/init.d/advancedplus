@@ -125,6 +125,29 @@ for i in 0 1 2 3 ;do
    echo $1 > /sys/devices/system/cpu/cpufreq/policy$i/scaling_governor
 done
 }
+sethttps() {
+
+    uhttp=`uci -q get uhttpd.main.listen_https | awk -F ' ' '{printf $1}'`
+    if [ "x$(uci -q get advancedplus.@basic[0].uhttps)" = "x1" ] ; then
+	     [  $uhttp ] || {
+	         sed -i "/listen_https/d" /etc/config/uhttpd
+	         /etc/init.d/uhttpd stop
+	         uci -q add_list uhttpd.main.listen_https='0.0.0.0:443'
+	         uci -q add_list uhttpd.main.listen_https='[::]:443'
+	         uci commit uhttpd
+	         /etc/init.d/uhttpd restart
+	    }
+    else
+        [  $uhttp ] && 
+	{  
+	     /etc/init.d/uhttpd stop
+	    sed -i "/listen_https/d" /etc/config/uhttpd
+	    uci commit uhttpd
+	    /etc/init.d/uhttpd restart
+	}
+    fi
+}
+
 setnetwizard(){
     if [ "x$(uci -q get advancedplus.@basic[0].wizard)" == "x1" ] ; then
 	     touch /etc/config/netwizard_hide
@@ -141,7 +164,8 @@ advancedset(){
 dev=`ifconfig | grep "Point-to-Point" | cut -d " " -f1`
 [ ! $dev ] && dev=` uci -q get network.wan.ifname ` || dev=` uci -q get network.wan.device ` 
 [ ! $dev ] && dev=br-lan
-    setnetwizard
+setnetwizard
+sethttps
     [ "x$(uci -q get advancedplus.@basic[0].qos)" = "x1" ] && \usr\bin\qoshome
     if [ "x$(uci -q get advancedplus.@basic[0].ttl)" = "x1" ] ; then
         $ipt -t mangle -A PREROUTING -p tcp --tcp-flags RST RST -i $dev -j DROP
