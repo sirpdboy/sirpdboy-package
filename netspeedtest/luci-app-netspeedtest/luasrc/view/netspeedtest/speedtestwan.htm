@@ -1,0 +1,86 @@
+<%#
+ Copyright 2020-2022 sirpdboy Wich <sirpdboy@qq.com>
+ https://github.com/sirpdboy/netspeedtest
+ Licensed to the public under the Apache License 2.0.
+-%>
+<%+cbi/valueheader%>
+
+
+<label class="cbi-value-title"><%= translate("speedtest.net Broadband speed test") %></label>
+<div class="cbi-value-field">
+    <input class="cbi-button cbi-button-apply" id="run_service" type="button"  onclick="run(this)" value="<%=translate('Click to execute') %>" />
+</div>
+  <fieldset class="cbi-section" style="display:none">
+    <legend id="wanspeedtest-legend">
+    <%:Collecting data...%>
+    </legend>
+    <span id="wanspeedtest-output"></span>
+  </fieldset>
+<script type="text/javascript">
+function run(btn) {
+
+	const RUN_URL = '<%=luci.dispatcher.build_url("admin", "network", "netspeedtest","speedtestwanrun")%>';
+    const S_URL = '<%=luci.dispatcher.build_url("admin", "network", "netspeedtest","speedtestwan")%>';
+	var sid='speedtestwan'
+	var opt={
+    		base:"cbid.netspeedtest."+sid,
+    		get:function(opt){
+    			var id=this.base+'.'+opt;
+    			var obj=document.getElementsByName(id)[0] || document.getElementsByClassName(id)[0] || document.getElementById(id)
+    			if (obj){
+    				return obj;
+    			}else{
+    				return null;
+    			}
+    		},
+    		getlist:function(opt){
+    			var id=this.base+'.'+opt;
+    			var objs=document.getElementsByName(id) || document.getElementsByClassName(id);
+    			var ret=[];
+    			if (objs){
+    				for (var i=0;i < objs.length;i++){
+    					ret[i]=objs[i].value;
+    				}
+    			}else{
+    				alert("<%:Fatal on get option,please help in debug%>:"+opt);
+	    		}
+	    		return ret;
+    		}
+    }
+	var legend=document.getElementById('wanspeedtest-legend');
+	var output=document.getElementById('wanspeedtest-output');
+	btn.value='<%:Waiting (executing)...%>';
+	btn.disabled=true;
+    var cli=opt.get("speedtest_cli").value;
+	console.log(cli);
+	legend.parentNode.style.display = 'block';
+	legend.style.display = 'inline';
+	output.innerHTML =
+				'<img src="<%=resource%>/icons/loading.gif" alt="<%:Loading%>" style="vertical-align:middle" /> ' +
+				'<%:Network speed test, please wait...%>'
+			;
+
+        XHR.get(RUN_URL, { cli: cli	},
+		(x) =>{
+					if (x.responseText)
+					{
+						legend.style.display = 'none';
+						output.innerHTML = String.format('<img src=%h height="300" style="vertical-align:middle" />', x.responseText); 
+	 
+					}
+					else
+					{
+						legend.style.display = 'none';
+						output.innerHTML ='</p><%:Operation execution complete%></p>';
+
+					}
+					btn.disabled=false;
+					btn.value='<%:Click to execute%>';
+				}
+	);
+    return false;
+}
+
+</script>
+
+<%+cbi/valuefooter%>
