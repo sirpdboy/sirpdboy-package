@@ -59,7 +59,6 @@ setipv6() {
 			uci -q set network.wan.delegate='0'
 			uci -q set network.lan.delegate='0'
 		;;
-
 	esac
 }
 add_netwizard() {
@@ -80,10 +79,14 @@ add_netwizard() {
 	config_get lan_netmask "$cfg" lan_netmask '255.255.255.0'
 	config_get dns_tables "$cfg" dns_tables 'iptables -t nat -I POSTROUTING -o br-lan -j MASQUERADE'
  	if [ "x$showhide" = "x1" ] ; then
- 		 [ -s /etc/config/netwizard_hide ] || touch /etc/config/netwizard_hide 
- 		exit
+ 		 touch /etc/config/netwizard_hide 
+		 uci -q set advancedplus.@basic[0].wizard="1"
+		 uci commit advancedplus
+ 		 exit
  	else
-	        [ -s /etc/config/netwizard_hide ] && rm -rf  /etc/config/netwizard_hide
+	         rm -rf  /etc/config/netwizard_hide
+		 uci -q set advancedplus.@basic[0].wizard="0"
+		 uci commit advancedplus
 	fi
  	touch $LOCK
 	ifname=$(uci -q get network.lan.ifname ) 

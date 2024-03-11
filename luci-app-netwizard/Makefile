@@ -1,12 +1,12 @@
 # Copyright 2019 X-WRT <dev@x-wrt.com>
-# Copyright 2022-2023 sirpdboy  
+# Copyright 2022-2024 sirpdboy  
 
 include $(TOPDIR)/rules.mk
 
 NAME:=netwizard
 PKG_NAME:=luci-app-$(NAME)
-PKG_VERSION:=1.8.5
-PKG_RELEASE:=20231204
+PKG_VERSION:=1.8.6
+PKG_RELEASE:=20240312
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
