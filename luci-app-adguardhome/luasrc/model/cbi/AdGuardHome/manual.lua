@@ -8,11 +8,13 @@ require("table")
 function gen_template_config()
 	local b
 	local d=""
-	for cnt in io.lines("/tmp/resolv.conf.d/resolv.conf.auto") do
-		b=string.match (cnt,"^[^#]*nameserver%s+([^%s]+)$")
-		if (b~=nil) then
-			d=d.."  - "..b.."\n"
-		end
+	local file = "/tmp/resolv.conf.d/resolv.conf.auto"
+	if not fs.access(file) then
+		file = "/tmp/resolv.conf.auto"
+	end
+    for cnt in io.lines(file) do
+        b = string.match(cnt, "^[^#]*nameserver%s+([^%s]+)$")
+        if (b ~= nil) then d = d .. "  - " .. b .. "\n" end
 	end
 	local f=io.open("/usr/share/AdGuardHome/AdGuardHome_template.yaml", "r+")
 	local tbl = {}
@@ -48,9 +50,7 @@ end
 o.validate=function(self, value)
     fs.writefile("/tmp/AdGuardHometmpconfig.yaml", value:gsub("\r\n", "\n"))
 	if fs.access(binpath) then
-		if (sys.call(binpath.." -c /tmp/AdGuardHometmpconfig.yaml --check-config 2> /tmp/AdGuardHometest.log")==0) then
-			return value
-		end
+        if (sys.call(binpath .. " -c /tmp/AdGuardHometmpconfig.yaml --check-config 2> /tmp/AdGuardHometest.log") == 0) then return value end
 	else
 		return value
 	end
@@ -60,9 +60,8 @@ end
 o.write = function(self, section, value)
 	fs.move("/tmp/AdGuardHometmpconfig.yaml",configpath)
 end
-o.remove = function(self, section, value)
-	fs.writefile(configpath, "")
-end
+o.remove = function(self, section, value) fs.writefile(configpath, "") end
+
 --- js and reload button
 o = s:option(DummyValue, "")
 o.anonymous=true
