@@ -14,11 +14,14 @@
     border-bottom: none;
 }
 .fb-container .panel-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 1rem;
+display: flex;
+  padding-bottom: 1rem;
+  align-items: center;
+  justify-content: space-evenly;
     border-bottom: 1px solid #aaa;
+}
+.fb-container  .cbi-section-table-row {
+text-align: left;
 }
 .fb-container .upload-container {
     display: none;
@@ -32,6 +35,10 @@
 }
 .fb-container .parent-icon strong {
     margin-left: 1rem;
+    font-size: 1rem;
+}
+.fb-container .cbi-section-table tr .cbi-value-field {
+text-align: left;
 }
 .fb-container td[class$="-icon"] {
     cursor: pointer;
