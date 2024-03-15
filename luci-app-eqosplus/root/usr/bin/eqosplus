@@ -10,9 +10,13 @@ IDLIST="/var/$NAME.idlist"
 LOCK="/var/lock/$NAME.lock"
 TMPID="/var/$NAME.tmpid"
 if [ x$(uci get $NAME.@$NAME[0].ifname) = 'x1' ] ;then
-     dev=`ifconfig | grep "Point-to-Point" | cut -d " " -f1`
-     # [ ! ${dev} ] && dev=` uci -q get network.wan.ifname ` || dev=` uci -q get network.wan.device ` 
+     # dev=`ifconfig | grep "Point-to-Point" | cut -d " " -f1`
+     ifname=$(uci -q get network.lan.ifname ) 
+     [ "x$ifname" = "x" ] && ifname="device" || ifname="ifname" 
+     [ ! ${dev} ] && dev=` uci -q get network.wan.$ifname ` 
      [ ! ${dev} ] && dev=br-lan
+     dev=br-lan
+     #ALL_DEVICES=$(echo $(ifconfig | grep 'Point-to-Point' | cut -d ' ' -f1) $(uci -q get network.wan.$ifname) $(ports_for_device $(uci -q get network.wan.device)) | tr ' ' '\n' | sort -u)
 else
      dev=`uci -q get $NAME.@$NAME[0].ifname `
 fi
@@ -20,32 +24,27 @@ fi
 bin_iptables=$(which iptables)   
 bin_ip6tables=$(which ip6tables)
 bin_tc=$(which tc)
-bin_ebtables=$(which ebtables)
 bin_ip=$(which ip)
 # Uncomment this to debug commands
-# DEBUG=1
+DEBUG=0
 ## End
 # Debug functions - echo + run
 dbg_iptables() {
-	[ "${DEBUG:-0}" -eq 0 ] || echo "D: iptables $@"
-	$bin_iptables "$@" 
+	[ "${DEBUG:-0}" -eq 0 ] || echo "DEBUG: iptables $*"
+	$bin_iptables "$*" 
 }
 dbg_ip6tables() {
-	[ "${DEBUG:-0}" -eq 0 ] || echo "D: ip6tables $@"
-	$bin_ip6tables "$@" 
+	[ "${DEBUG:-0}" -eq 0 ] || echo "DEBUG: ip6tables $*"
+	$bin_ip6tables "$*" 
 }
 
 dbg_tc() {
-	[ "${DEBUG:-0}" -eq 0 ] || echo "D: tc $@"
-	$bin_tc "$@" 
-}
-dbg_ebtables() {
-	[ "${DEBUG:-0}" -eq 0 ] || echo "D: ebtables $@"
-	$bin_ebtables "$@" 
+	[ "${DEBUG:-0}" -eq 0 ] || echo "DEBUG: tc $*"
+	$bin_tc $*
 }
 dbg_ip() {
-	[ "${DEBUG:-0}" -eq 0 ] || echo "D: ip $@"
-	$bin_ip "$@" 
+	[ "${DEBUG:-0}" -eq 0 ] || echo "DEBUG: ip $*"
+	$bin_ip $*
 }
 is_macaddr() {
     ret=1
@@ -60,17 +59,17 @@ iptables="dbg_iptables"
 ip6tables="dbg_ip6tables"
 tc="dbg_tc"
 ip="dbg_ip"
-ebt="dbg_ebtables"
 ipt=$iptables
 ipt6=$ip6tables
 ipt(){
-	$iptables $@
-	$ip6tables $@
+	$iptables $*
+	$ip6tables $*
 }
 
+
 iptm(){
-	$iptables "-t mangle $@"
-	$ip6tables "-t mangle $@"
+	$iptables "-t mangle $*"
+	$ip6tables "-t mangle $*"
 }
 
 stop_qos() {
@@ -106,6 +105,7 @@ init_qosplus() {
 }
 del_id() {
 	id=`expr $1 + 11 `
+	[ "${DEBUG:-0}" -eq 0 ] || echo "D: del_id $@" "--$id --$mac"
 	$tc qd del dev ${dev} parent 1:$id  2>/dev/null
 	$tc qd del dev ${dev}_ifb parent 1:$id 2>/dev/null
 
@@ -136,6 +136,7 @@ add_mac() {
 	M0=$(echo $mac | cut -d : -f 1)$(echo $mac | cut -d : -f 2)
 	M1=$(echo $mac | cut -d : -f 3)$(echo $mac | cut -d : -f 4)
 	M2=$(echo $mac | cut -d : -f 5)$(echo $mac | cut -d : -f 6)
+	[ "${DEBUG:-0}" -eq 0 ] || echo "D: add_mac $@ --id:$id --mac:$mac M012--$M0-$M1-$M2"
 	if [ "$UL" -gt 0 ]; then
 		$tc class add dev ${dev}_ifb parent 1:1 classid 1:$id htb rate "$UL"kbit ceil "$UL"kbit prio $id quantum 1500
 		$tc qdisc add dev ${dev}_ifb parent 1:"$id" handle "$id": sfq perturb 1
@@ -156,6 +157,7 @@ add_mac() {
 add_ip() {
 	id=`expr $1 + 11 `
 	#   id=printf "%x\n" "$1"
+	[ "${DEBUG:-0}" -eq 0 ] || echo "D: add_ip $@ --$id --$mac"
 	Z=`echo $mac |awk -F '[/]' '{print $2}' `
 	[ -n "$Z" ] && mac=`echo $mac |awk -F '[/]' '{print $1}' `|| Z=32
 	if [ "$UL" -gt 0 ]; then
@@ -199,7 +201,7 @@ check_list() {
 case "$crrun" in
 	"stop")
 		stop_qos
-		echo '' >$IDLIST
+		touch $IDLIST
 	;;
 	"start")
 		idlist=`uci show $NAME | grep "enable='1'" | grep "device" | grep -oE '\[.*?\]' | grep -o '[0-9]' | sed -e 's/^/!/g' -e 's/$/!/g' > $IDLIST ;cat $IDLIST | sed -e 's/!//g' `
