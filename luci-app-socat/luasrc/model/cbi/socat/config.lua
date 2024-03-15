@@ -34,7 +34,7 @@ o.datatype = "portrange"
 o.rmempty = false
 o:depends("protocol", "port_forwards")
 
-o = s:option(Flag, "reuseaddr", "reuseaddr", translate("Bind to a port local"))
+o = s:option(Flag, "reuseaddr", translate("REUSEADDR"), translate("Bind to a port local"))
 o.default = "1"
 o.rmempty = false
 
