@@ -1,4 +1,4 @@
-config global
+config global 'global'
 	option target_function '/overlay'
 	option target_disk ''
 	option keep_config '0'

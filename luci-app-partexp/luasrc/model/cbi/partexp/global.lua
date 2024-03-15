@@ -40,8 +40,10 @@ t.anonymous=true
 e=t:option(ListValue,"target_function", translate("Select function"),translate("Select the function to be performed"))
 e:value("/overlay", translate("Expand application space overlay (/overlay)"))
 -- e:value("/", translate("Use as root filesystem (/)"))
+-- e:value("/lnoverlay", translate("Soft chain partition expansion(/overlay)"))
 e:value("/opt", translate("Used as Docker data disk (/opt)"))
 e:value("/dev", translate("Normal mount and use by device name(/dev/x1)"))
+e.default="/opt"
 
 e=t:option(ListValue,"target_disk", translate("Destination hard disk"),translate("Select the hard disk device to operate"))
 for i, d in ipairs(devices) do
@@ -52,32 +54,18 @@ for i, d in ipairs(devices) do
 	end
 end
 
-o=t:option(Flag,"keep_config",translate("Keep configuration"),translate("Tick means to retain the settings"))
-o:depends("target_function", "/overlay")
-o.default=0
+e=t:option(Flag,"keep_config",translate("Keep configuration"),translate("Tick means to retain the settings"))
+e:depends("target_function", "/overlay")
+e.default=0
 
-o=t:option(Flag,'auto_format', translate('Format before use'),translate("Ticking indicates formatting"))
-o:depends("target_function", "/opt")
-o:depends("target_function", "/dev")
-o.default=0
+e=t:option(Flag,'auto_format', translate('Format before use'),translate("Ticking indicates formatting"))
+e:depends("target_function", "/opt")
+e:depends("target_function", "/dev")
+-- e:depends("target_function", "/lnoverlay")
+e.default=0
 
-o=t:option(DummyValue, '', '')
-o.rawhtml = true
-o.template ='partexp'
-
-
-e=t:option(TextValue,"log")
-e.rows=15
-e.wrap="on"
-e.readonly=true
-e.cfgvalue=function(t,t)
-return fs.readfile("/etc/partexp/partexp.log")or""
-end
-e.write=function(e,e,e)
-end
-
--- e =t:option(DummyValue, '', '')
--- e.rawhtml = true
--- e.template = 'partexplog'
+e=t:option(Button, "restart", translate("Perform operation"))
+e.inputtitle=translate("Click to execute")
+e.template ='partexp'
 
 return m

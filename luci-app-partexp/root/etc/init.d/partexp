@@ -29,18 +29,17 @@ limit_log() {
 
 init_env() {
 [ -d "$LOGD" ] || mkdir -p $LOGD
-[ ! -f "$LOG" ] && echo "" > $LOG
+[ ! -f "$LOG" ] && echo " " > $LOG
 
 }
 
 
 gen_log()(
-	[ -s $LOG ] && echo   " ---------------------------------------------------------------------- " >> $LOG
-	log "自动分区扩展挂载开始执行..."
+	log "---------------自动分区扩展挂载开始执行------------------ "
 )
 
 log(){
-	echo   " $(date +'%Y-%m-%d %H:%M:%S') $*" >> $LOG
+	echo -e  " $(date +'%Y-%m-%d %H:%M:%S') $*"
 }
 
 
@@ -69,15 +68,15 @@ s=$1
 s2=$2
 	[ -e "/etc/config/$s" ] && {
 	msum=$(grep -c "config sambashare" /etc/config/$s)
-	for i in $(seq 0 $((msum-1)))
+	for i in $(seq 0 $((msum)))
 	do
-			dev=`uci -q get $s.@sambashare[$i].device `
-			[ $? -ne 0 ] && break
-			[ "$dev" = "$s2" ] && {
+			pdev=`uci -q get $s.@sambashare[$i].path `
+			[ "$pdev" = "$s2" ] && {
 					uci delete $s.@sambashare[$i] 
-					uci commit
-					/etc/init.d/$s restart
+					uci commit $s
+					log "分区/dev/$b被挂载$MOUNT共享使用，删除$s共享成功！"  
 					sleep 5
+					/etc/init.d/$s restart
 			}
 	done
 	}
@@ -98,7 +97,6 @@ fdiskB(){
 	else
 		isfdisk=2
 	fi
-	
 
 	isP=`fdisk -l /dev/$a |grep -v "bytes" | grep "/dev/$b"`
 	if [ "$isP" -a "$isfdisk" = 1 ] ;then
@@ -109,27 +107,24 @@ fdiskB(){
 	   log "分区$b建立失败，没有足够的空间操作失败！"
 	   expquit 1
 	fi
+	sleep 1
+	[ -e "/etc/config/dockerd" ] && /etc/init.d/dockerd stop  >/dev/null 2> /dev/null 
 	block detect > /etc/config/fstab
 	isD=` block info "/dev/$b" `
 	if [ "$isD" ];then
 	  MOUNT='';eval $(block info "/dev/$b" | grep -o -e "MOUNT=\S*")
 
 	  log "检测/dev/$b是不是被共享..."
-	  sleep 1
-	  if [ "$MOUNT" ] ; then
-		usamba samba4 $b
-		usamba samba $b
-
-		block detect > /etc/config/fstab
+	  if [ "x$MOUNT" != 'x' ] ; then
+		usamba samba4 $MOUNT
+		usamba samba $MOUNT
 		sleep 5
 		umount $MOUNT || block umount /dev/$b
 		sleep 5
 		MOUNT='';eval $(block info "/dev/$b" | grep -o -e "MOUNT=\S*")
-		if [ "$MOUNT" ] ;then
-		     log "分区/dev/$b挂载$MOUNT使用中，已执行删除共享操作！请重新执行！如果不行请手动删除共享或者取消其它插件的占用权限再重试！" 
+		if [ "x$MOUNT" != 'x'  ] ;then
+		     log "分区/dev/$b挂载$MOUNT使用中,自动删除失败！请手动删除共享或者取消其它插件的占用权限再重试！" 
 		     expquit 1 
-		else
-		     log "分区/dev/$b被挂载$MOUNT共享使用，自动删除共享成功！"  
 		fi
 	  else
 	    log "检测目标设备$b未被共享..."
@@ -152,8 +147,7 @@ fdiskB(){
 
 	[ -d "/mnt/$b" ] || mkdir -p /mnt/$b
 	MOUNT='';eval $(block info "/dev/$b" | grep -o -e "MOUNT=\S*") 
-		echo "test40:$b"
-	if [ "$MOUNT" ] ;then
+	if [  "x$MOUNT" != 'x'  ] ;then
 	     umount /mnt/$b || block umount /dev/$b
 	     MOUNT='';eval $(block info "/dev/$b" | grep -o -e "MOUNT=\S*") 
 	     if [ "$MOUNT" ] ; then
@@ -162,12 +156,19 @@ fdiskB(){
 	     fi
 	fi
 	TYPE='';eval $(block info "/dev/$b" | grep -o -e "TYPE=\S*") 
+	log "检测设备/dev/$b分区是$TYPE格式！" 
 	if [ "$TYPE" = "ntfs" ];then
-	   mount -t ntfs-3g /dev/$b /mnt/$b   >/dev/null 2> /dev/null
+	   if [ `which ntfs-3g ` ] ;then
+	     mount -t ntfs-3g /dev/$b /mnt/$b   >/dev/null 2> /dev/null
+	   elif  [ `which ntfs3 ` ]  ;then
+	      mount -t ntfs3 /dev/$b /mnt/$b   >/dev/null 2> /dev/null
+	   else
+	     log "不支持NTFS分区挂载，请安装ntfs-3g或者ntfs3支持服务"
+	     expquit 1
+	   fi
 	else
 	   mount /dev/$b  /mnt/$b  >/dev/null 2> /dev/null
 	fi
-	log "检测设备/dev/$b分区是$TYPE格式！" 
 	UUID='';eval $(block info /dev/$b | grep -o -e "UUID=\S*")
 	if [ ! "$UUID" ] ; then 
 	     log "获取/dev/$b设备UUID信息失败！"
@@ -192,7 +193,7 @@ fdiskB(){
 			    log "保留数据根目录扩展/dev/$b成功！"
 
 			    seelp 5
-			    log "设备重启才能生效，重启中..."
+			    log "设备重启才能生效"
 			    expquit 2
 
 	elif [ "$target_function" = "/overlay" ] ; then
@@ -222,7 +223,7 @@ fdiskB(){
 			    uci commit fstab
 			    log "保留数据overlay扩展/dev/$b成功！"
 			    seelp 5
-			    log "设备重启才能生效，重启中..."
+			    log "设备重启才能生效"
 			    expquit 2
 
 		else
@@ -250,10 +251,30 @@ fdiskB(){
 			    log "不保留数据overlay扩展/dev/$b成功！"
 			    
 			    seelp 5
-			    log "设备重启才能生效，重启中..."
+			    log "设备重启才能生效"
 			    expquit 2
 
 		fi
+	elif [ "$target_function" = "/lnoverlay" ] ; then
+		umount /mnt/$b || block umount /dev/$b
+		
+		block detect > /etc/config/fstab
+		mkdir -p $target_function
+		msum=$(grep -c "'mount'" /etc/config/fstab)
+		for i in $(seq 0 $((msum-1)))
+		do
+			zuuid=`uci -q get fstab.@mount[$i].uuid `
+			[ $? -ne 0 ] && break
+			if [ "$zuuid" = "$UUID" ] ; then
+			    uci -q set fstab.@mount[$i].target="/mnt/$b"
+			    uci -q set fstab.@mount[$i].enabled='1'
+			 fi
+		done
+		uci commit fstab
+		ln -sf /mnt/$b /overlay
+		log "设备/dev/$b挂载/mnt/$b软链到/overlay扩容成功！" 
+		log "设备重启才能生效"
+		expquit 2
 	else 
 		umount /mnt/$b || block umount /dev/$b
 		
@@ -273,7 +294,7 @@ fdiskB(){
 		done
 		uci commit fstab
 		[ "$target_function" = "/opt" ] && log "挂载/dev/$b到$target_function成功！" ||  log "挂载/dev/$b到/mnt/$b成功！" 
-		log "设备重启才能生效，重启中..."
+		log "设备重启才能生效"
 		expquit 2
 
 	fi
@@ -284,10 +305,9 @@ autopart() {
     config_load partexp
     config_foreach get_config global
     init_env
-    limit_log $LOG 500
     # touch $LOCK
-    cat $LOG 2>/dev/null | sed -n '$p' | grep -q '自动分区扩展挂载开始执行...' || gen_log
-
+    gen_log
+    log "此次执行操作功能：$target_function ，目标盘：/dev/$target_disk"
     isP=`fdisk -l /dev/$target_disk |grep "Disk /dev/$target_disk"`
     if [ "$isP" = "" ];then
          log "没有检测到/dev/$target_disk目标设备！操作失败！" 
@@ -325,11 +345,10 @@ autopart() {
 		esac
 		
     fi
-    # rm -f $LOCK
+    rm -f $LOCK
 }
 
 start() {
-init_env
 [ x$x = x1 ] && exit || autopart
 
 }
@@ -340,7 +359,8 @@ x=1
 
 expquit() {
 	rm -f $LOCK
-	echo $1
-	[ $1 == 2 ] &&reboot 
+	[ -e "/etc/config/dockerd" ] && /etc/init.d/dockerd restart  >/dev/null 2> /dev/null 
+	sleep 5
+	[ $1 == 2 ] && log "重启中...\n" &&reboot 
 	exit $1
 }
