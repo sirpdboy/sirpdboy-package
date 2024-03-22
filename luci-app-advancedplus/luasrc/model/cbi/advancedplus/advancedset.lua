@@ -4,7 +4,7 @@ local uci=luci.model.uci.cursor()
 local a, t, e
 a = Map("advancedplus")
 a.title = translate("Advanced Setting")
-a.description = translate("The enhanced version of the original advanced settings allows for unified setting and management of background images for kucat, Agron, and Opentopd themes, without the need to upload them separately. Color schemes for kucat and Agron themes can be set.<br>")..
+a.description = translate("The enhanced version of the original advanced settings allows for unified setting and management of background images for kucat/Agron/Opentopd themes, without the need to upload them separately. Color schemes for kucat/Agron/design themes can be set.<br>")..
 translate("At the same time, important plugin parameters can be compiled. At the same time, some system parameters can also be set, such as display and hide settings.")..
 translate("</br>For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-advancedplus.git' target=\'_blank\'>GitHub @sirpdboy/luci-app-advancedplus </a>")
 
@@ -30,5 +30,8 @@ e = t:option(Flag, "wizard",translate('Hide Wizard'), translate('Show or hide th
 e.default = "0"
 e.rmempty = false
 
+e = t:option(Flag, "tsoset",translate('TSO optimization for network card interruption'), translate('Turn off the TSO parameters of the INTEL225 network card to improve network interruption'))
+e.default = "1"
+e.rmempty = false
 
 return a

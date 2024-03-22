@@ -9,7 +9,7 @@ config basic
 	option font_x '0.875rem'
 	option bklock '1'
 	option setbar '1'
-	option dayword '1'
+	option dayword '0'
 	option background '0'
 	option bgqs '1'
 	option mode 'light'
@@ -19,7 +19,7 @@ config basic
 	option primary_opacity '0'
 	option primary_rgbs_ts '0.1'
 	option primary_rgbs '28,66,188'
-	option bkuse '1'
+	option bkuse '0'
 
 config theme
 	option primary_rgbbody '33,45,60'
@@ -31,7 +31,7 @@ config theme
 	option primary_rgbm_ts '0.9'
 	option primary_rgbm 'blue'
 	option use '1'
-	option bkuse '1'
+	option bkuse '0'
 
 config theme
 	option primary_rgbbody '33,45,60'
@@ -88,7 +88,7 @@ config theme
 	option remarks '炫灰隔栏模糊'
 	option primary_rgbs_ts '0.5'
 	option primary_opacity '4'
-	option use '0'
+	option use '1'
 
 config theme
 	option mode 'light'

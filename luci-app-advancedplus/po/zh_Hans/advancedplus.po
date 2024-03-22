@@ -29,8 +29,8 @@ msgstr "进阶参数编辑"
 msgid "Built-in"
 msgstr "内建"
 
-msgid "The enhanced version of the original advanced settings allows for unified setting and management of background images for kucat, Agron, and Opentopd themes, without the need to upload them separately. Color schemes for kucat and Agron themes can be set.<br>"
-msgstr "原高级设置的加强版，可以统一设置管理 kucat,Agron,Opentopd三个主题登录壁纸图片，无须分开上传，可以设置kucat,Agron主题的颜色方案<br>"
+msgid "The enhanced version of the original advanced settings allows for unified setting and management of background images for kucat/Agron/Opentopd themes, without the need to upload them separately. Color schemes for kucat/Agron/design themes can be set.<br>"
+msgstr "原高级设置的加强版，可以统一设置管理 kucat/Agron/Opentopd三个主题登录壁纸图片，无须分开上传，可以设置kucat/Agron/design主题的颜色方案<br>"
 
 msgid "At the same time, important plugin parameters can be compiled. At the same time, some system parameters can also be set, such as display and hide settings."
 msgstr "同时可以编译重要的插件参数。同时还可以设置部分系统参数，如：显示隐藏设置设置等功能。"
@@ -371,4 +371,10 @@ msgstr "本页是配置"
 
 msgid "Document content. Automatic restart takes effect after saving the application"
 msgstr "文档内容。应用保存后自动重启生效"
+
+msgid "TSO optimization for network card interruption"
+msgstr "网卡断流TSO优化"
+
+msgid "Turn off the TSO parameters of the INTEL225 network card to improve network interruption"
+msgstr "关闭INTEL225网卡TSO参数，改善网络断流"
 

@@ -23,7 +23,7 @@ config basic
 	option font_x '0.875rem'
 	option bklock '1'
 	option setbar '1'
-	option dayword '1'
+	option dayword '0'
 	option background '0'
 	option bgqs '1'
 	option mode 'light'
@@ -33,7 +33,7 @@ config basic
 	option primary_opacity '0'
 	option primary_rgbs_ts '0.1'
 	option primary_rgbs '28,66,188'
-	option bkuse '1'
+	option bkuse '0'
 
 config theme
 	option primary_rgbbody '33,45,60'
@@ -45,7 +45,7 @@ config theme
 	option primary_rgbm_ts '0.9'
 	option primary_rgbm 'blue'
 	option use '1'
-	option bkuse '1'
+	option bkuse '0'
 
 config theme
 	option primary_rgbbody '33,45,60'
@@ -125,6 +125,19 @@ for i in 0 1 2 3 ;do
    echo $1 > /sys/devices/system/cpu/cpufreq/policy$i/scaling_governor
 done
 }
+
+tsoset() {
+ tautocore=/etc/init.d/autocore
+ [ -f $tautocore ] || return
+ if [ "x$(uci -q get advancedplus.@basic[0].tsoset)" = "x1" ]  ;then
+     sed -i 's/tso on/tso off/g' $tautocore
+     $tautocore restart
+else
+     sed -i 's/tso off/tso on/g' $tautocore
+     $tautocore restart
+fi
+
+}
 sethttps() {
 
     uhttp=`uci -q get uhttpd.main.listen_https | awk -F ' ' '{printf $1}'`
@@ -166,6 +179,7 @@ dev=`ifconfig | grep "Point-to-Point" | cut -d " " -f1`
 [ ! $dev ] && dev=br-lan
 setnetwizard
 sethttps
+tsoset
     [ "x$(uci -q get advancedplus.@basic[0].qos)" = "x1" ] && \usr\bin\qoshome
     if [ "x$(uci -q get advancedplus.@basic[0].ttl)" = "x1" ] ; then
         $ipt -t mangle -A PREROUTING -p tcp --tcp-flags RST RST -i $dev -j DROP
@@ -274,8 +288,8 @@ if [ "x$useset" == "x0" ] ; then
 	uci set advancedplus.@basic[0].primary_rgbs_ts='0.1'
 	uci set advancedplus.@basic[0].primary_rgbs='225,112,88'
 	uci set advancedplus.@basic[0].bkuse='1'
-	uci set advancedplus.@basic[0].primary_rgbm_ts='0.9'
-	uci set advancedplus.@basic[0].primary_opacity='50'
+	uci set advancedplus.@basic[0].primary_rgbm_ts='0.7'
+	uci set advancedplus.@basic[0].primary_opacity='5'
  	[ $mode == dark ] && uci set advancedplus.@basic[0].primary_rgbbody='33,45,60' || uci set advancedplus.@basic[0].primary_rgbbody='248,248,248'
 fi
 if [ "x$(uci -q get advancedplus.@basic[0].fontmode)" = "x1" ] ; then
