@@ -1,20 +1,10 @@
-
+#!/bin/sh
 [ -s /etc/config/netwizard ] || echo "config netwizard default" > /etc/config/netwizard
-USERNAME=` uci get network.wan.username 2>/dev/null` 
-PASSWORD=` uci get network.wan.password 2>/dev/null` 
 IPADDR=` uci get network.lan.ipaddr 2>/dev/null` 
-SSID=` uci -q get wireless.@wifi-iface[0].ssid 2>/dev/null` 
-KEY=` uci -q get wireless.@wifi-iface[0].key 2>/dev/null` 
-# uci -q set netwizard.default=netwizard
 [ "$(uci -q get network.wan.proto)" ] && uci -q set netwizard.default.wan_proto=` uci -q get network.wan.proto  || echo "siderouter" ` 
-uci -q set netwizard.default.wifi_ssid="$SSID"
-uci -q set netwizard.default.wifi_key="$KEY"
 uci -q set netwizard.default.lan_ipaddr="${IPADDR}"
 uci -q set netwizard.default.lan_netmask=` uci -q get network.lan.netmask `
 uci -q set netwizard.default.lan_gateway="${IPADDR%.*}"
-uci -q set netwizard.default.lan_dns=` uci -q get network.lan.dns || echo '114.114.114.114'  `
-uci -q set netwizard.default.wan_interface=`uci -q get network.wan.ifname  || uci -q get network.wan.device`
 uci commit netwizard 
-rm -f /tmp/luci-indexcache
-/etc/init.d/netwizard disable
+rm -f /tmp/luci*
 exit 0

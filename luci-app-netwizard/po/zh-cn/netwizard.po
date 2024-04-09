@@ -1,11 +1,11 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8\n"
 
-msgid "Inital Setup"
+msgid "Netwizard"
 msgstr "设置向导"
 
-msgid "Inital Router Setup"
-msgstr "路由器设置向导"
+msgid "Network Router Setup"
+msgstr "网络设置向导"
 
 msgid "Network protocol mode selection"
 msgstr "网络协议模式选择"
@@ -67,26 +67,9 @@ msgstr "请输入主路由IP地址,旁路网关与此旁路WEB登陆IP不相同�
 msgid "Selecting means that the DHCP server is not enabled. In a network, only one DHCP server is needed to allocate and manage client IPs. If it is a secondary route, it is recommended to turn off the primary routing DHCP server."
 msgstr "选择表示不开启DHCP服务器。在一个网络中，只需要一个DHCP服务器来分配和管理客户端IP。如旁路由开DHCP服务器，须关闭主路由DHCP服务器。"
 
-msgid "Disable IPv6"
-msgstr "禁用IPv6"
+msgid "Enable IPv6"
+msgstr "启用IPv6"
 
-msgid "Select IPv6 mode"
-msgstr "选择IPv6模式"
-
-msgid "IPv6 Server mode"
-msgstr "IPv6服务模式"
-
-msgid "IPv6 Relay mode"
-msgstr "IPv6中继模式"
-
-msgid "IPv6 Hybird mode"
-msgstr "IPv6混合模式"
-
-msgid "Remove IPv6"
-msgstr "移除IPv6"
-
-msgid "Default to use IPV6 hybrid mode"
-msgstr "默认使用IPV6混合模式"
 
 msgid "Lan IPv4 address"
 msgstr "内网IP地址"

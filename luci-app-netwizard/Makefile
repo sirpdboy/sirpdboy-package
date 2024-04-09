@@ -5,8 +5,8 @@ include $(TOPDIR)/rules.mk
 
 NAME:=netwizard
 PKG_NAME:=luci-app-$(NAME)
-PKG_VERSION:=1.8.6
-PKG_RELEASE:=20240312
+PKG_VERSION:=1.8.8
+PKG_RELEASE:=20240407
 
 PKG_LICENSE:=GPLv3
 PKG_LICENSE_FILES:=LICENSE
@@ -15,7 +15,6 @@ PKG_MAINTAINER:=Chen Minqiang <ptpt52@gmail.com>
 LUCI_TITLE:=LuCI Support for Wizard
 LUCI_DEPENDS:=+luci-compat
 LUCI_PKGARCH:=all
-
 
 define Package/$(PKG_NAME)/conffiles
 /etc/config/netwizard

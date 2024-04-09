@@ -24,7 +24,7 @@ uci:foreach("wireless", "wifi-device",
 			return false
 		end)
 
-local m = Map("netwizard", luci.util.pcdata(translate("Inital Router Setup")), translate("Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>")..translate("The network card is automatically set, and the physical interfaces other than the specified WAN interface are automatically bound as LAN ports, and all side routes are bound as LAN ports.</br>")..translate("For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-netwizard.git' target=\'_blank\'>GitHub @sirpdboy/netwizard</a>") )
+local m = Map("netwizard", luci.util.pcdata(translate("Network Router Setup")), translate("Quick network setup wizard. If you need more settings, please enter network - interface to set.</br>")..translate("The network card is automatically set, and the physical interfaces other than the specified WAN interface are automatically bound as LAN ports, and all side routes are bound as LAN ports.</br>")..translate("For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-netwizard.git' target=\'_blank\'>GitHub @sirpdboy/netwizard</a>") )
 
 local s = m:section(TypedSection, "netwizard", "")
 s.addremove = false
@@ -47,12 +47,8 @@ e:value("255.255.0.0")
 e:value("255.0.0.0")
 e.default = '255.255.255.0'
 
-e = s:taboption("wansetup", ListValue, "ipv6",translate('Select IPv6 mode'),translate("Default to use IPV6 hybrid mode"))
-e:value('0', translate('Disable IPv6'))
-e:value('1', translate('IPv6 Server mode'))
-e:value('2', translate('IPv6 Relay mode'))
-e:value('3', translate('IPv6 Hybird mode'))
-e.default = '3'
+e = s:taboption("wansetup", Flag, "ipv6",translate('Enable IPv6'))
+e.default = "0"
 
 wan_proto = s:taboption("wansetup", ListValue, "wan_proto", translate("Network protocol mode selection"), translate("Four different ways to access the Internet, please choose according to your own situation.</br>"))
 wan_proto.default = wanproto
@@ -79,7 +75,7 @@ for _, iface in ipairs(ifaces) do
 	end
   end
 end
-wan_interface.default = wan_face
+-- wan_interface.default = wan_face
 
 wan_pppoe_user = s:taboption("wansetup", Value, "wan_pppoe_user", translate("PAP/CHAP username"))
 wan_pppoe_user:depends({wan_proto="pppoe"})
