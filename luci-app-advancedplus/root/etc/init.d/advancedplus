@@ -177,7 +177,7 @@ set_firewall_wan() {
     uci commit firewall
     /etc/init.d/firewall reload
     else
-    uci -q set firewall.@zone[1].input='reject'
+    uci -q set firewall.@zone[1].input='REJECT'
     uci commit firewall
     /etc/init.d/firewall reload
     fi
