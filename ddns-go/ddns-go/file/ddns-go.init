@@ -54,8 +54,11 @@ append_parm() {
 start_instance() {
 	local cfg="$1" param
 	config_get_bool enabled $cfg enabled 1
+	config_get delay $cfg delay 0
 	[[ x$enabled = x1 ]] || return 1
 	[[ -s ${CONF} ]] || init_yaml
+	[ $(awk -F. '{print $1}' /proc/uptime) -lt "120" ] && sleep $delay
+
 	config_get_bool logger $cfg logger 1
 	config_get port $cfg port '9876'
 	append_parm "$cfg" 'time' '-f' '300'
