@@ -115,10 +115,9 @@ config theme
 	option use '1'
 	option primary_opacity '4'
 
-
-
 EOF
 }
+
 cpumodeset()
 {
 for i in 0 1 2 3 ;do
@@ -136,10 +135,8 @@ else
      sed -i 's/tso off/tso on/g' $tautocore
      $tautocore restart
 fi
-
 }
 sethttps() {
-
     uhttp=`uci -q get uhttpd.main.listen_https | awk -F ' ' '{printf $1}'`
     if [ "x$(uci -q get advancedplus.@basic[0].uhttps)" = "x1" ] ; then
 	     [  $uhttp ] || {
@@ -173,12 +170,60 @@ setnetwizard(){
     fi
 }
 
+set_firewall_wan() {
+    if [ "x$(uci -q get advancedplus.@basic[0].set_firewall_wan)" = "x1" ] ; then
+    ## 设置防火墙wan 打开
+    uci -q set firewall.@zone[1].input='ACCEPT'
+    uci commit firewall
+    /etc/init.d/firewall reload
+    else
+    uci -q set firewall.@zone[1].input='reject'
+    uci commit firewall
+    /etc/init.d/firewall reload
+    fi
+}
+
+set_ttyd() {
+    if [ "x$(uci -q get advancedplus.@basic[0].set_ttyd)" = "x1" ] ; then
+    uci delete ttyd.@ttyd[0].interface
+    uci commit
+    /etc/init.d/firewall reload
+    else
+    uci -q set ttyd.@ttyd[0].interface='@lan'
+    uci commit
+    /etc/init.d/firewall reload
+    fi
+}
+
+dhcp_domain() {
+    if [ "x$(uci -q get advancedplus.@basic[0].dhcp_domain)" = "x1" ] ; then
+        local domain_name="time.android.com"
+        local domain_ip="203.107.6.88"
+        existing_records=$(uci show dhcp | grep "dhcp.@domain\[[0-9]\+\].name='$domain_name'")
+        if [ -z "$existing_records" ]; then
+        uci add dhcp domain
+        uci -q set "dhcp.@domain[-1].name=$domain_name"
+        uci -q set "dhcp.@domain[-1].ip=$domain_ip"
+        uci commit dhcp
+        fi
+    else
+       existing_records=$(uci show dhcp | grep "dhcp.@domain\[[0-9]\+\].name='$domain_name'")
+       if [ -z "$existing_records" ]; then
+       uci delete dhcp.@domain[-1].name
+       uci delete dhcp.@domain[-1].ip
+       uci commit dhcp
+       fi
+    fi
+}
 advancedset(){
 dev=`ifconfig | grep "Point-to-Point" | cut -d " " -f1`
 [ ! $dev ] && dev=` uci -q get network.wan.ifname ` || dev=` uci -q get network.wan.device ` 
 [ ! $dev ] && dev=br-lan
 setnetwizard
 sethttps
+dhcp_domain
+set_ttyd
+set_firewall_wan
 tsoset
     [ "x$(uci -q get advancedplus.@basic[0].qos)" = "x1" ] && \usr\bin\qoshome
     if [ "x$(uci -q get advancedplus.@basic[0].ttl)" = "x1" ] ; then

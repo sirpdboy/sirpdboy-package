@@ -34,4 +34,13 @@ e = t:option(Flag, "tsoset",translate('TSO optimization for network card interru
 e.default = "1"
 e.rmempty = false
 
+e = t:option(Flag, "set_ttyd",translate('Allow TTYD external network access'))
+e.default = "0"
+
+e = t:option(Flag, "set_firewall_wan",translate('Set firewall wan to open'))
+e.default = "0"
+
+e = t:option(Flag, "dhcp_domain",translate('Add Android host name mapping'), translate('Resolve the issue of Android native TV not being able to connect to WiFi for the first time'))
+e.default = "0"
+
 return a

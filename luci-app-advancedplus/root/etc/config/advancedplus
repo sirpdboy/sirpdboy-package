@@ -100,4 +100,3 @@ config theme
 	option bkuse '1'
 	option use '1'
 	option primary_opacity '4'
-

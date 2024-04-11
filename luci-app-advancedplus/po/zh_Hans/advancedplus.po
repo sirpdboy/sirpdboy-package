@@ -14,6 +14,7 @@ msgstr "Argon主题设置"
 msgid "Design Config"
 msgstr "Design主题设置"
 
+
 msgid "Advanced Setting"
 msgstr "高级设置"
 
@@ -378,3 +379,38 @@ msgstr "网卡断流TSO优化"
 msgid "Turn off the TSO parameters of the INTEL225 network card to improve network interruption"
 msgstr "关闭INTEL225网卡TSO参数，改善网络断流"
 
+msgid "Loading plugins"
+msgstr "加载插件"
+
+msgid "Choose to load and install the app store, DOCKER, all drivers, etc"
+msgstr "选择加载安装应用商店、DOCKER、所有驱动等"
+
+msgid "Select the type of loading"
+msgstr "选择加载的类型"
+
+msgid "Install iStore"
+msgstr "安装iStore"
+
+msgid "Install Docker"
+msgstr "安装Docker仓库"
+
+msgid "Install All drives"
+msgstr "安装全部驱动"
+
+msgid "Perform operation"
+msgstr "执行操作"
+
+msgid "Click to execute"
+msgstr "点击执行"
+
+msgid "Allow TTYD external network access"
+msgstr "允许TTYD外网访问"
+
+msgid "Set firewall wan to open"
+msgstr "设置防火墙wan打开"
+
+msgid "Add Android host name mapping"
+msgstr "添加安卓主机名映射"
+
+msgid "Resolve the issue of Android native TV not being able to connect to WiFi for the first time"
+msgstr "解决安卓原生TV首次连不上wifi的问题"
