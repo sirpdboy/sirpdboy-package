@@ -40,6 +40,10 @@ o.default = "223.5.5.5"
 o = s:option(Flag,"noweb",translate("Do not start web services"))
 o.default = 0
 
+o = s:option(Value, "delay", translate("Delayed Start (seconds)"))
+o.datatype = "and(uinteger,min(0))"
+o.default = "60"
+
 m.apply_on_parse = true
 m.on_after_apply = function(self,map)
 	luci.sys.exec("/etc/init.d/ddns-go restart")
