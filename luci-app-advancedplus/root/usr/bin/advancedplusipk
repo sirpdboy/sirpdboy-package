@@ -109,22 +109,22 @@ istore_install(){
 }
 
 drv_install(){
-    if is_free; then
-            echo "目前此功能仅限VIP版本提供！"
-    else
+    if is_vip; then
         echo "开始安装Docker安装完成..."
         bash /etc/kmodreg docker
         echo "Docker安装完成,需要重启OPENWRT才能生效！"
+    else
+            echo "目前此功能仅限VIP版本提供！"
     fi
 }
 
 docker_install(){
-    if is_free; then
-        echo "目前此功能仅限VIP版本提供！"
-    else
+    if is_vip; then
         echo "开始安装所有驱动..."
         bash /etc/kmodreg drv 
         echo "所有驱动完成,需要重启OPENWRT才能生效！"
+    else
+        echo "目前此功能仅限VIP版本提供！"
     fi
 }
 
