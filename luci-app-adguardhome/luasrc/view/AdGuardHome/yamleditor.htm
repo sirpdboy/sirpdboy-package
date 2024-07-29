@@ -33,7 +33,7 @@ function use_template(){
 </script> 
 <%fs=require"nixio.fs"%>
 <%if fs.access("/tmp/AdGuardHometmpconfig.yaml") then%>
-<input type="button" id="apply_update_button" value="<%:Reload Config%>" onclick=" return reload_config() "/>
+<input type="button" id="btn apply_update_button" value="<%:Reload Config%>" onclick=" return reload_config() "/>
 <%end%>
-<input type="button" id="template_button" value="<%:Use template%>" onclick=" return use_template() "/>
+<input type="button" id="btn template_button" value="<%:Use template%>" onclick=" return use_template() "/>
 <%+cbi/valuefooter%>
