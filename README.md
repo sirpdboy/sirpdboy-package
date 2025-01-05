@@ -25,7 +25,7 @@
 ## 食用方法二：
  ```Brach
     # git获取源码
-    git clone https://github.com/siropboy/sirpdboy-package package/sirpdboy-package
+    git clone https://github.com/sirpdboy/sirpdboy-package package/sirpdboy-package
     make menuconfig
  ``` 
  
