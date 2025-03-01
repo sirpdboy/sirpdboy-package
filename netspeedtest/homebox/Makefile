@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: GPL-3.0-only
-# Copyright (c) 2020-2024 sirpdboy  herboy2008@gmail.com
+# Copyright (c) 2020-2025 sirpdboy  herboy2008@gmail.com
 #
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=homebox
-PKG_VERSION:=0.0.0-dev.2023102203
+PKG_VERSION:=0.0.0-dev.2024101306
 PKG_RELEASE:=3
 
 ifeq ($(ARCH),aarch64)
