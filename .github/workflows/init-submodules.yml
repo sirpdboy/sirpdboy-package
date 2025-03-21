@@ -21,13 +21,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }} 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
 
-      - name: Update submodule to specific branch
-        run: |
-          cd luci-theme-kucat
-          git fetch origin
-          git checkout js
-          git pull origin js
-          cd ..
 
       - name: Debug submodules
         run: |
