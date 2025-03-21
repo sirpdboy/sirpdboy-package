@@ -1,0 +1,42 @@
+[submodule "luci-app-kucat-config"]
+	path = luci-app-kucat-config
+	url = https://github.com/sirpdboy/luci-app-kucat-config.git
+[submodule "luci-theme-kucat"]
+	path = luci-theme-kucat
+	url = https://github.com/sirpdboy/luci-theme-kucat/tree/js
+[submodule "luci-app-autotimeset"]
+	path = luci-app-autotimeset
+	url = https://github.com/sirpdboy/luci-app-autotimeset.git
+[submodule "luci-app-luci-app-partexp"]
+	path = luci-app-partexp
+	url = https://github.com/sirpdboy/luci-app-partexp.git
+[submodule "luci-app-timecontrol"]
+	path = luci-app-timecontrol
+	url = https://github.com/sirpdboy/luci-app-timecontrol.git
+[submodule "luci-app-netdata"]
+	path = luci-app-netdata
+	url = https://github.com/sirpdboy/luci-app-netdata.git
+[submodule "luci-app-netspeedtest"]
+	path = luci-app-netspeedtest
+	url = https://github.com/sirpdboy/netspeedtest.git
+[submodule "luci-app-ddns-go"]
+	path = luci-app-ddns-go
+	url = https://github.com/sirpdboy/luci-app-ddns-go.git
+[submodule "luci-app-advancedplus"]
+	path = luci-app-advancedplus
+	url = https://github.com/sirpdboy/luci-app-advancedplus.git
+[submodule "luci-app-lucky"]
+	path = luci-app-lucky
+	url = https://github.com/sirpdboy/luci-app-lucky.git
+[submodule "luci-app-eqosplus"]
+	path = luci-app-eqosplus
+	url = https://github.com/sirpdboy/luci-app-eqosplus.git
+[submodule "luci-app-parentcontrol"]
+	path = luci-app-parentcontrol
+	url = https://github.com/sirpdboy/luci-app-parentcontrol.git
+[submodule "luci-app-netwizard"]
+	path = luci-app-netwizard
+	url = https://github.com/sirpdboy/luci-app-netwizard.git
+[submodule "luci-app-chatgpt-web"]
+	path = luci-app-chatgpt-web
+	url = https://github.com/sirpdboy/luci-app-chatgpt-web.git
