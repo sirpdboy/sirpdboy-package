@@ -2,7 +2,7 @@
     margin-top: 1rem;
 }
 .fb-container .cbi-button {
-    height: 2.6rem;
+    height: 2.4rem;
 }
 .fb-container .cbi-input-text {
     margin-bottom: 1rem;
@@ -20,31 +20,37 @@ display: flex;
   justify-content: space-evenly;
     border-bottom: 1px solid #aaa;
 }
-.fb-container  .cbi-section-table-row {
-text-align: left;
+.fb-container #list-content .cbi-section-table-row {
+text-align: left!important;
 }
 .fb-container .upload-container {
     display: none;
     margin: 1rem 0;
 }
+.fb-container #list-content table>tbody>tr>td {
+   padding: 0.5rem 1rem!important;
+}
 .fb-container .upload-file {
     margin-right: 2rem;
 }
-.fb-container .cbi-value-field {
-    text-align: left;
+.fb-container #list-content  .cbi-value-title {
+   text-align: right !important;
+}
+.fb-container #list-content .cbi-section-table tr .cbi-value-field,
+.fb-container #list-content  .cbi-value-field {
+    text-align: left !important;
 }
 .fb-container .parent-icon strong {
     margin-left: 1rem;
     font-size: 1rem;
 }
-.fb-container .cbi-section-table tr .cbi-value-field {
-text-align: left;
-}
+
 .fb-container td[class$="-icon"] {
     cursor: pointer;
 }
 .fb-container .file-icon, .fb-container .folder-icon, .fb-container .link-icon {
     position: relative;
+    white-space: nowrap;
 }
 .fb-container .file-icon:before, .fb-container .folder-icon:before, .fb-container .link-icon:before {
     display: inline-block;
@@ -52,7 +58,6 @@ text-align: left;
     height: 1.5rem;
     content: '';
     background-size: contain;
-    margin: 0 0.5rem 0 1rem;
     vertical-align: middle;
 }
 .fb-container .file-icon:before {
@@ -68,6 +73,11 @@ text-align: left;
     .fb-container .upload-file {
         width: 14.6rem;
     }
+    
+.fb-container #list-content  .cbi-section-table tr .cbi-value-title,
+.fb-container  #list-content  .cbi-value-title {
+   text-align: left !important;
+}
     .fb-container .cbi-value-owner,
     .fb-container .cbi-value-perm {
         display: none;

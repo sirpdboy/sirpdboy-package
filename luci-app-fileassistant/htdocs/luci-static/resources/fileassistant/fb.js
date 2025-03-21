@@ -91,39 +91,6 @@ String.prototype.replaceAll = function(search, replacement) {
     }
   }
 
-  function chmodPath(filename, isdir) {
-    var newmod = prompt('请输入新的权限位（支持八进制权限位或者a+x格式）：', isdir === "1" ? "0755" : "0644");
-    if (newmod) {
-      iwxhr.get('/cgi-bin/luci/admin/system/fileassistant/chmod',
-        {
-          filepath: concatPath(currentPath, filename),
-          newmod: newmod
-        },
-        function (x, res) {
-          if (res.ec === 0) {
-            refresh_list(res.data, currentPath);
-          }
-        }
-      );
-    }
-  }
-
-  function chownPath(filename) {
-    var newown = prompt('请输入新的用户名（支持用户名或用户名:群组格式）：', "root");
-    if (newown) {
-      iwxhr.get('/cgi-bin/luci/admin/system/fileassistant/chown',
-        {
-          filepath: concatPath(currentPath, filename),
-          newown: newown
-        },
-        function (x, res) {
-          if (res.ec === 0) {
-            refresh_list(res.data, currentPath);
-          }
-        }
-      );
-    }
-  }
   function openpath(filename, dirname) {
     dirname = dirname || currentPath;
     window.open('/cgi-bin/luci/admin/system/fileassistant/open?path='
@@ -163,13 +130,7 @@ String.prototype.replaceAll = function(search, replacement) {
     else if (targetElem.className.indexOf('cbi-button-edit') > -1) {
       renamePath(targetElem.parentNode.parentNode.dataset['filename']);
     }
-    else if (targetElem.className.indexOf('cbi-button-chmod') > -1) {
-      infoElem = targetElem.parentNode.parentNode;
-      chmodPath(infoElem.dataset['filename'] , infoElem.dataset['isdir']);
-    }
-    else if (targetElem.className.indexOf('cbi-button-chown') > -1) {
-      chownPath(targetElem.parentNode.parentNode.dataset['filename']);
-    }
+
     else if (targetElem = getFileElem(targetElem)) {
       if (targetElem.className.indexOf('parent-icon') > -1) {
         update_list(currentPath.replace(/\/[^/]+($|\/$)/, ''));
@@ -198,10 +159,9 @@ String.prototype.replaceAll = function(search, replacement) {
   function refresh_list(filenames, path) {
     var listHtml = '<table class="cbi-section-table"><thead><tr class="cbi-section-table-row cbi-rowstyle-2">'
       +'<td class="cbi-value-field">文件</td>'
-      +'<td class="cbi-value-field">所有者</td>'
       +'<td class="cbi-value-field">修改时间</td>'
       +'<td class="cbi-value-field">大小</td>'
-      +'<td class="cbi-value-field">权限</td>'
+      +'<td class="cbi-value-field  cbi-value-perm">权限</td>'
       +'<td class="cbi-section-table-cell">操作</td>'
       +'</tr></thead><tbody>';
     if (path !== '/') {
@@ -229,7 +189,15 @@ String.prototype.replaceAll = function(search, replacement) {
           if (ext === 'ipk') {
             install_btn = ' <button class="cbi-button cbi-button-install">安装</button>';
           }
-		  
+
+	var dateObj = new Date(o.date);
+var month = ('0' + (dateObj.getMonth() + 1)).slice(-2); // 月份从0开始，所以加1  
+var day = ('0' + dateObj.getDate()).slice(-2);  
+var hours = ('0' + dateObj.getHours()).slice(-2);  
+var minutes = ('0' + dateObj.getMinutes()).slice(-2);  
+var seconds = ('0' + dateObj.getSeconds()).slice(-2);  
+  
+var DateTime = month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds ;
           listHtml += '<tr class="cbi-section-table-row cbi-rowstyle-' + (1 + i%2)
             + '" data-filename="' + o.filename + '" data-isdir="' + Number(f[1][0] === 'd' || f[1][0] === 'z') + '"'
             + ((f[1][0] === 'z' || f[1][0] === 'l') ? (' data-linktarget="' + f[9].split(' -> ')[1]) : '')
@@ -237,15 +205,13 @@ String.prototype.replaceAll = function(search, replacement) {
             + '<td class="cbi-value-field ' + o.icon + '">'
             +   '<strong>' + o.displayname + '</strong>'
             + '</td>'
-            + '<td class="cbi-value-field cbi-value-owner">'+o.owner+'</td>'
-            + '<td class="cbi-value-field cbi-value-date">'+o.date+'</td>'
+
+            + '<td class="cbi-value-field cbi-value-date">'+DateTime+'</td>'
             + '<td class="cbi-value-field cbi-value-size">'+o.size+'</td>'
             + '<td class="cbi-value-field cbi-value-perm">'+o.perms+'</td>'
             + '<td class="cbi-section-table-cell">\
 				<button class="cbi-button cbi-button-edit">重命名</button>\
-                <button class="cbi-button cbi-button-remove">删除</button>\
-                <button class="cbi-button cbi-button-apply cbi-button-chmod">改权限</button>\
-                <button class="cbi-button cbi-button-apply cbi-button-chown">改用户</button>'
+                <button class="cbi-button cbi-button-remove">删除</button>'
 			+ install_btn
 			+ '</td>'
             + '</tr>';

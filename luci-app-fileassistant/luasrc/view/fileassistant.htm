@@ -1,9 +1,12 @@
 <%+header%>
 
 <link rel="stylesheet" href="/luci-static/resources/fileassistant/fb.css?v=@ver">
-<h2 name="content">文件管理【集成上传删除及安装，非专业人员请谨慎操作】</h2>
+<h2 name="content">文件管理【集成上传/删除/安装功能，请谨慎操作】</h2>
 <fieldset class="cbi-section fb-container">
-  <input id="current-path" type="text" class="current-path cbi-input-text" value="/"/>
+			   <label class="cbi-value-title">路径</label>
+		           <div class="cbi-value-field">
+                       <input id="current-path" type="text" class="current-path cbi-input-text" value="/"/>
+		          </div>
   <div class="panel-container">
     <div class="panel-title">文件列表</div>
     <button id="upload-toggle" class="upload-toggle cbi-button cbi-button-edit">上传文件</button>
@@ -16,6 +19,6 @@
   <div id="list-content"></div>
 </fieldset>
 
-<script src="/luci-static/resources/fileassistant/fb.js<%# ?v=PKG_VERSION %>"></script>
+<script src="/luci-static/resources/fileassistant/fb.js?v=@ver"></script>
 
 <%+footer%>
