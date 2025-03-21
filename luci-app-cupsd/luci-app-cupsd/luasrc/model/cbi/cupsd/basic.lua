@@ -1,13 +1,11 @@
--- Copyright 2008 Yanira <forum-2008@email.de>
+-- Copyright
 -- Licensed to the public under the Apache License 2.0.
--- mod by wulishui 20191205
--- mod by 2021-2022  sirpdboy  <herboy2008@gmail.com> https://github.com/sirpdboy/luci-app-cupsd
+-- mod by wulishui
 
 local m, s, o
 
-
 m = Map("cupsd", translate("CUPS打印服务器"))
-m.description = translate("<font color=\"green\">CUPS是苹果公司为MacOS和其他类似UNIX的操作系统开发的基于标准的开源打印系统。</font>"..translate("</br>For specific usage, see:")..translate("<a href=\'https://github.com/sirpdboy/luci-app-cupsd.git' target=\'_blank\'>GitHub @sirpdboy/luci-app-cupsd </a>") )
+m.description = translate("<font color=\"green\">CUPS是苹果公司为MacOS和其他类似UNIX的操作系统开发的基于标准的开源打印系统。</font>")
 m:section(SimpleSection).template  = "cupsd_status"
 
 s = m:section(TypedSection, "cupsd", translate("Global Settings"))
@@ -28,5 +26,3 @@ if e then
   io.popen("/etc/init.d/cupsd start")
 end
 return m
-
-

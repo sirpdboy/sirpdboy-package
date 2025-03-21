@@ -1,5 +1,5 @@
--- Copyright (C) 2018 dz <dingzhong110@gmail.com>
--- mod by 2021-2022  sirpdboy  <herboy2008@gmail.com> https://github.com/sirpdboy/luci-app-cupsd
+-- Copyright (C) 2023
+-- mod by 2023
 
 module("luci.controller.cupsd", package.seeall)
 
@@ -8,7 +8,7 @@ function index()
 		return
 	end
 
-	entry({"admin", "services", "cupsd"},alias("admin", "services", "cupsd","basic"),_("CUPS打印服务器"),60).dependent = true
+	entry({"admin", "services", "cupsd"},alias("admin", "services", "cupsd","basic"),_("CUPS 打印"),60).dependent = true
 	entry({"admin", "services", "cupsd","basic"}, cbi("cupsd/basic"),_("设置"),10).leaf = true
 	entry({"admin", "services", "cupsd","advanced"}, cbi("cupsd/advanced"),_("高级"),20).leaf = true
 	entry({"admin", "services", "cupsd_status"}, call("act_status"))

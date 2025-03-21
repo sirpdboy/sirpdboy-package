@@ -1,14 +1,14 @@
 #
-#-- Copyright (C) 2018 dz <dingzhong110@gmail.com>
-# Copyright (C) 2021-2022  sirpdboy  <herboy2008@gmail.com> https://github.com/sirpdboy/luci-app-cupsd
+#-- Copyright (C) 2018 dz <bauw2008@163.com>
+#
 # This is free software, licensed under the Apache License, Version 2.0 .
 #
 
 include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=LuCI Support for cupsd
-LUCI_DEPENDS:= +cups
-PKG_VERSION:=1.3
+LUCI_DEPENDS:= +cups +cups-bjnp +cups-dymo +cups-opfilter
+PKG_VERSION:=1.0
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
