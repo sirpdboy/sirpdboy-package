@@ -1,4 +1,4 @@
-name: Initialize Submodules
+name: Initialize and Update Submodules
 
 on:
   push:
@@ -15,15 +15,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          submodules: 'recursive' 
+          submodules: 'recursive'
+          persist-credentials: true
+          fetch-depth: 0
 
-      - name: List files (for debugging)
-        run: ls -R
+      - name: Debug submodules
+        run: |
+          git submodule status
+          git status
 
       - name: Commit submodule updates (if any)
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add .
-          git diff --quiet && git diff --cached --quiet || git commit -m "Update submodules"
-          git push origin main
+          if git diff-index --quiet HEAD --; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update submodules"
+            git push origin main
+          fi
