@@ -1,4 +1,4 @@
-name: Initialize and Update Submodules
+name: Update Submodules
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  init-submodules:
+  update-submodules:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -18,6 +18,16 @@ jobs:
           submodules: 'recursive'
           persist-credentials: true
           fetch-depth: 0
+          token: ${{ secrets.PAT }} 
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
+
+      - name: Update submodule to specific branch
+        run: |
+          cd luci-theme-kucat
+          git fetch origin
+          git checkout js
+          git pull origin js
+          cd ..
 
       - name: Debug submodules
         run: |
