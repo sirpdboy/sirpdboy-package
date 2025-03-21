@@ -9,8 +9,8 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/package.mk
 
 PKG_NAME:=luci-app-advanced
-PKG_VERSION:=1.21
-PKG_RELEASE:=20230128
+PKG_VERSION:=1.20
+PKG_RELEASE:=17
 define Package/$(PKG_NAME)
   SECTION:=luci
   CATEGORY:=LuCI
@@ -30,6 +30,11 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./root/etc/config/advanced $(1)/etc/config/
 	
+	$(INSTALL_DIR) $(1)/www
+	cp -pR ./htdocs/* $(1)/www/
+	
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(INSTALL_BIN) ./root/etc/uci-defaults/* $(1)/etc/uci-defaults/
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
