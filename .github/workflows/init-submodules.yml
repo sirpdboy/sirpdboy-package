@@ -18,8 +18,8 @@ jobs:
           submodules: 'recursive'
           persist-credentials: true
           fetch-depth: 0
-          token: ${{ secrets.PAT }} 
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
+          token: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
 
       - name: Update submodule to specific branch
         run: |
