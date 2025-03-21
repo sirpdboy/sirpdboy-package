@@ -1,0 +1,21 @@
+<script type="text/javascript">//<![CDATA[
+XHR.poll(5, '<%=url([[admin]], [[services]], [[vhusbd]], [[status]])%>', null,
+    function(x, data) {
+        var status = document.getElementById('vhusbd_status');
+        if (data && status) {
+            if (data.running) {
+                status.innerHTML = "<em><b style='color:green;'>VirtualHere USB Server 正在运行</b></em>";
+            } else {
+                status.innerHTML = "<em><b style='color:red;'>VirtualHere USB Server 未运行</b></em>";
+            }
+        }
+    }
+);
+//]]>
+</script>
+<fieldset class="cbi-section">
+    <p id="vhusbd_status">
+        <em><%:Collecting data...%></em>
+    </p>
+</fieldset>
+

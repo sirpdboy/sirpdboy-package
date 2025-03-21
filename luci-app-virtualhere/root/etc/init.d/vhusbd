@@ -1,0 +1,32 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2008-2020 OpenWrt.org
+
+START=99
+
+start_instance() {
+    local cfg="$1"
+    config_get_bool enabled "$cfg" 'enabled' '0'
+    config_get_bool ExtAccess "$cfg" 'ExtAccess' '0'
+#   echo "enabled=$enabled,ExtAccess=$ExtAccess">>/tmp/tmp/vhusbd
+    if [ $enabled -eq 1 ]; then
+        vhusbd -b -c /etc/config/vhusbdconfig -r /tmp/vhusbd.log
+#       echo "virtualhere start">>/tmp/tmp/vhusbd
+	if [ $ExtAccess -eq 1 ]; then
+            iptables -I INPUT -p tcp --dport 7575 -j ACCEPT -m comment --comment 'virtualhere port'
+#           echo "virtualhere open firwall">>/tmp/tmp/vhusbd
+        fi
+    fi
+}
+
+start() {
+    config_load 'vhusbd'
+    config_foreach start_instance vhusbd
+#   echo " ">>/tmp/tmp/vhusbd
+}
+
+stop() {
+    iptables -D INPUT -p tcp --dport 7575 -j ACCEPT -m comment --comment 'virtualhere port' 2>/dev/null
+    kill -9 `pgrep vhusbd`
+#   echo "virtualhere stop">>/tmp/tmp/vhusbd
+}
+

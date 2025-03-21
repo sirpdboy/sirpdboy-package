@@ -1,0 +1,11 @@
+#!/bin/sh
+
+uci -q batch <<-EOF >/dev/null
+	delete ucitrack.@vhusbd[-1]
+	add ucitrack vhusbd
+	set ucitrack.@vhusbd[-1].init=vhusbd
+	commit ucitrack
+EOF
+
+rm -f /tmp/luci-indexcache
+exit 0

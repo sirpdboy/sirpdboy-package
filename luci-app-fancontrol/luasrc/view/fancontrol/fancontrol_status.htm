@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>风扇控制</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .status-content {
+            display: flex;
+            align-items: center;
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .status-content span {
+            margin-right: 10px;
+        }
+        .status-content .label {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <%+header%>
+    
+    <!-- 显示风扇速度 -->
+    <div class="status-content">
+        <span class="label">风扇控制状态：</span>
+        <span><%= fan_speed %> RPM</span>
+    </div>
+
+    <%+footer%>
+</body>
+</html>
+

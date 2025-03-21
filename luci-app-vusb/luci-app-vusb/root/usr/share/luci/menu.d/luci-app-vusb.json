@@ -1,0 +1,13 @@
+{
+	"admin/services/vusb": {
+		"title": "Vusb",
+		"action": {
+			"type": "view",
+			"path": "vusb/vusb"
+		},
+		"depends": {
+			"acl": [ "luci-app-vusb" ],
+			"uci": { "vusb": true }
+		}
+	}
+}

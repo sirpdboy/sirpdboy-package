@@ -1,0 +1,48 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2023 OpenWrt.org
+
+START=99
+STOP=10
+
+USE_PROCD=1
+
+NAME="vusb"
+PROG="/usr/bin/vusb"
+CONF="/etc/config/vusbconfig"
+LOG="/tmp/vusb.log"
+
+start_instance () {
+    local config="$1"
+
+	config_get_bool enabled "config" "enabled" "0"
+	[ "$enabled" -gt "0" ] || return 1
+	
+	procd_open_instance
+	procd_set_param command "$PROG"
+	
+	procd_append_param command -c "$CONF"
+	procd_append_param command -r "$LOG"
+	
+	if [ "$ipv6" -gt "0" ]; then
+        procd_append_param command -i
+    fi
+	
+	procd_set_param respawn
+	procd_set_param stderr 1
+	procd_close_instance
+}
+
+start_service() {
+    config_load "$NAME"
+    config_foreach start_instance "$NAME"
+}
+
+stop_service() {
+    killall "$NAME"
+}
+
+service_triggers() {
+    procd_add_reload_trigger "$NAME"
+}
+
+
