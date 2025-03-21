@@ -1,6 +1,0 @@
-
-config list
-	option exename 'ssr-redir'
-	option enabled '0'
-	option limit '20'
-
