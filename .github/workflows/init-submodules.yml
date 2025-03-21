@@ -1,0 +1,29 @@
+name: Initialize Submodules
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  init-submodules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive' 
+
+      - name: List files (for debugging)
+        run: ls -R
+
+      - name: Commit submodule updates (if any)
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git diff --quiet && git diff --cached --quiet || git commit -m "Update submodules"
+          git push origin main
