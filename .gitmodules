@@ -2,8 +2,9 @@
 	path = luci-app-kucat-config
 	url = https://github.com/sirpdboy/luci-app-kucat-config.git
 [submodule "luci-theme-kucat"]
-	path = luci-theme-kucat
-	url = https://github.com/sirpdboy/luci-theme-kucat/tree/js
+    path = luci-theme-kucat
+    url = https://github.com/sirpdboy/luci-theme-kucat.git
+    branch = js
 [submodule "luci-app-autotimeset"]
 	path = luci-app-autotimeset
 	url = https://github.com/sirpdboy/luci-app-autotimeset.git
