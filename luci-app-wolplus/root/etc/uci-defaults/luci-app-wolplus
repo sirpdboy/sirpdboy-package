@@ -1,4 +1,13 @@
 #!/bin/sh
+[ ! -f "/usr/share/ucitrack/luci-app-wolplus.json" ] && {
+    cat > /usr/share/ucitrack/luci-app-wolplus.json << EEOF
+{
+    "config": "wolplus",
+    "init": "wolplus"
+}
+EEOF
+/etc/init.d/ucitrack reload
+}
 
 uci -q batch <<-EOF >/dev/null
 	delete ucitrack.@wolplus[-1]
