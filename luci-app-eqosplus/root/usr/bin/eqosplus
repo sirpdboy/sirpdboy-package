@@ -16,16 +16,27 @@ if [ x$(uci get $NAME.@$NAME[0].ifname) = 'x1' ] ;then
      [ ! ${dev} ] && dev=` uci -q get network.wan.$ifname ` 
      [ ! ${dev} ] && dev=br-lan
      dev=br-lan
+     #ALL_DEVICES=$(echo $(ifconfig | grep 'Point-to-Point' | cut -d ' ' -f1) $(uci -q get network.wan.$ifname) $(ports_for_device $(uci -q get network.wan.device)) | tr ' ' '\n' | sort -u)
 else
      dev=`uci -q get $NAME.@$NAME[0].ifname `
 fi
+# [ x$(uci get eqosplus.@eqosplus[0].forced) = 'x1' ] && forced="default $id" || forced='default 999'
+bin_iptables=$(which iptables)   
+bin_ip6tables=$(which ip6tables)
 bin_tc=$(which tc)
 bin_ip=$(which ip)
 # Uncomment this to debug commands
 DEBUG=0
 ## End
 # Debug functions - echo + run
-
+dbg_iptables() {
+	[ "${DEBUG:-0}" -eq 0 ] || echo "DEBUG: iptables $*"
+	$bin_iptables "$*" 
+}
+dbg_ip6tables() {
+	[ "${DEBUG:-0}" -eq 0 ] || echo "DEBUG: ip6tables $*"
+	$bin_ip6tables "$*" 
+}
 
 dbg_tc() {
 	[ "${DEBUG:-0}" -eq 0 ] || echo "DEBUG: tc $*"
@@ -44,8 +55,22 @@ is_macaddr() {
 }
 
 # Default commands
+iptables="dbg_iptables"
+ip6tables="dbg_ip6tables"
 tc="dbg_tc"
+ip="dbg_ip"
+ipt=$iptables
+ipt6=$ip6tables
+ipt(){
+	$iptables $*
+	$ip6tables $*
+}
 
+
+iptm(){
+	$iptables "-t mangle $*"
+	$ip6tables "-t mangle $*"
+}
 
 stop_qos() {
  
