@@ -1,0 +1,72 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2021-2025 sirpdboy
+
+. "${IPKG_INSTROOT}/lib/functions.sh"
+
+START=99
+USE_PROCD=1
+
+EXTRA_COMMANDS="download_ookla ookla_verify"
+EXTRA_HELP=\
+"	download_ookla	Download Ookla Speedtest-CLI
+	ookla_verify	Verify Ookla Speedtest-CLI integrity"
+
+#
+OOKLA_SPEEDTEST='/usr/bin/speedtest'
+# uci
+CONFIG='netspeedtest'
+NAMEDDSECTION='config'
+
+get_config() {
+	config_load netspeedtest
+	config_get "proxy_enabled" "config" "proxy_enabled" "0"
+}
+
+
+download_ookla() {
+	local url arch=$1
+	[ -z "$arch" ] && return 1
+
+	[ "$(uci -q get $CONFIG.$NAMEDDSECTION.proxy_enabled)" == "1" ] && \
+	export ALL_PROXY=$(uci -q get $CONFIG.$NAMEDDSECTION.proxy_protocol)://$(uci -q get $CONFIG.$NAMEDDSECTION.proxy_server)
+
+	UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36'
+	url=$( \
+		curl --connect-timeout 10 --retry 3 -sSL 'https://www.speedtest.net/apps/cli' \
+		--user-agent "$UA" \
+		| grep "Download for Linux" \
+		| sed 's|<|\n<|g' \
+		| sed -n '/Download for Linux/,/<\/div>/p' \
+		| sed -En "s|.*<a href=\"([^\"]+)\">${arch}|\1|p" \
+	)
+	[ -z "$url" ] && return 1
+
+	[ -n "$url" ] && curl -sSL $url --user-agent "$UA" | tar -xvz -C /tmp
+	mkdir -p ${OOKLA_SPEEDTEST%/*} 2>/dev/null
+	cp -f /tmp/speedtest $OOKLA_SPEEDTEST
+	chmod 755 $OOKLA_SPEEDTEST
+	ookla_verify || rm -f $OOKLA_SPEEDTEST
+	unset ALL_PROXY
+}
+
+ookla_verify() {
+	if [ -x "$OOKLA_SPEEDTEST" ]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
+start_service() {
+	ookla_verify
+
+}
+service_triggers() {
+	procd_add_reload_trigger "netspeedtest"
+}
+
+reload_service() {
+	stop
+	sleep 1
+	start
+}
