@@ -1,3 +1,4 @@
+
 <script type="text/javascript">//<![CDATA[
 XHR.poll(3, '<%=url([[admin]], [[services]], [[AdGuardHome]], [[status]])%>', null,
 	function(x, data) {
@@ -10,7 +11,9 @@ XHR.poll(3, '<%=url([[admin]], [[services]], [[AdGuardHome]], [[status]])%>', nu
 			}
 			if (data.redirect)
 			{
-				tb.innerHTML+='<em><b style=color:green><%:Redirected%></b></em>'
+  			  URL = window.location.protocol.toLowerCase() + "//" + window.location.hostname + ":<%=luci.model.uci.cursor():get("AdGuardHome", "AdGuardHome", "httpport") %>";
+  			  tb.innerHTML+='<em> <b style=color:green><%:Redirected%></b> </em> '
+  			  tb.innerHTML += "<input class=\"cbi-button cbi-button-reload \" type=\"button\" value=\"  "+ URL + "\" onclick=\"window.open('"+URL+"')\"/>";
 			} else {
 				tb.innerHTML+='<em><b style=color:red><%:Not redirect%></b></em>'	
 			}

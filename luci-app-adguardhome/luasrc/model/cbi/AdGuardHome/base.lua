@@ -5,7 +5,7 @@ local m,s,o,o1
 local fs=require"nixio.fs"
 local uci=require"luci.model.uci".cursor()
 local configpath=uci:get("AdGuardHome","AdGuardHome","configpath") or "/etc/AdGuardHome.yaml"
-local binpath = uci:get("AdGuardHome", "AdGuardHome", "binpath") or "/usr/bin/AdGuardHome/AdGuardHome"
+local binpath=uci:get("AdGuardHome","AdGuardHome","binpath") or "/usr/bin/AdGuardHome"
 httpport=uci:get("AdGuardHome","AdGuardHome","httpport") or "3000"
 m = Map("AdGuardHome", "AdGuard Home")
 m.description = translate("Free and open source, powerful network-wide ads & trackers blocking DNS server.")
@@ -24,7 +24,7 @@ o.placeholder=3000
 o.default=3000
 o.datatype="port"
 o.optional = false
-o.description = translate("<input type='button' style='width:210px;border-color:Teal;text-align:center;font-weight:bold;color:red;background: #ffc800;' value='AdGuardHome Web:" .. httpport .. "' onclick=\"window.open('http://'+window.location.hostname+':" .. httpport .. "')\"/>")
+---- o.description = translate("<input type='button' style='width:210px;border-color:Teal;text-align:center;font-weight:bold;color:red;background: #ffc800;' value='AdGuardHome Web:" .. httpport .. "' onclick=\"window.open('http://'+window.location.hostname+':" .. httpport .. "')\"/>")
 ---- update warning not safe
 local binmtime=uci:get("AdGuardHome","AdGuardHome","binmtime") or "0"
 local e=""
@@ -56,7 +56,7 @@ o.template = "AdGuardHome/AdGuardHome_check"
 o.showfastconfig=(not fs.access(configpath))
 o.description = string.format(translate("Current core version:") .. "<strong><font id='updateversion' color='green'>%s </font></strong>", e)
 ---- port warning not safe
-local port=luci.sys.exec("awk '/  port:/{printf($2);exit;}' "..configpath.." 2>nul")
+local port=luci.sys.exec("grep -A 5 '^dns:' "..configpath.." | grep 'port:' | awk '{print $2}'  2>nul")
 if (port=="") then port="?" end
 ---- Redirect
 o = s:option(ListValue, "redirect", port..translate("Redirect"), translate("AdGuardHome redirect mode"))
@@ -69,7 +69,7 @@ o.default     = "none"
 o.optional = true
 ---- bin path
 o = s:option(Value, "binpath", translate("Bin Path"), translate("AdGuardHome Bin path if no bin will auto download"))
-o.default = "/usr/bin/AdGuardHome/AdGuardHome"
+o.default     = "/usr/bin/AdGuardHome"
 o.datatype = "string"
 o.optional = false
 o.rmempty=false
@@ -122,7 +122,7 @@ return value
 end
 ---- work dir
 o = s:option(Value, "workdir", translate("Work dir"), translate("AdGuardHome work dir include rules,audit log and database"))
-o.default = "/usr/bin/AdGuardHome"
+o.default     = "/etc/AdGuardHome"
 o.datatype = "string"
 o.optional = false
 o.rmempty=false
@@ -212,7 +212,7 @@ o = s:option(Flag, "waitonboot", translate("On boot when network ok restart"))
 o.default = 1
 o.optional = true
 ---- backup workdir on shutdown
-local workdir = uci:get("AdGuardHome", "AdGuardHome", "workdir") or "/usr/bin/AdGuardHome"
+local workdir=uci:get("AdGuardHome","AdGuardHome","workdir") or "/etc/AdGuardHome"
 o = s:option(MultiValue, "backupfile", translate("Backup workdir files when shutdown"))
 o1 = s:option(Value, "backupwdpath", translate("Backup workdir path"))
 local name
@@ -238,7 +238,7 @@ o.optional=false
 o.description=translate("Will be restore when workdir/data is empty")
 ----backup workdir path
 
-o1.default = "/usr/bin/AdGuardHome"
+o1.default     = "/etc/AdGuardHome"
 o1.datatype    = "string"
 o1.optional = false
 o1.validate=function(self, value)

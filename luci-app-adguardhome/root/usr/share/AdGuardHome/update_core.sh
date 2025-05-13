@@ -3,7 +3,7 @@
 PATH="/usr/sbin:/usr/bin:/sbin:/bin"
 update_mode=$1
 binpath=$(uci get AdGuardHome.AdGuardHome.binpath)
-if [[ -z ${binpath} ]]; then
+if [ -z "$binpath" ]; then
 	uci set AdGuardHome.AdGuardHome.binpath="/tmp/AdGuardHome/AdGuardHome"
 	binpath="/tmp/AdGuardHome/AdGuardHome"
 fi
@@ -13,8 +13,6 @@ upxflag=$(uci get AdGuardHome.AdGuardHome.upxflag 2>/dev/null)
 [[ -z ${upxflag} ]] && upxflag=off
 enabled=$(uci get AdGuardHome.AdGuardHome.enabled 2>/dev/null)
 core_version=$(uci get AdGuardHome.AdGuardHome.core_version 2>/dev/null)
-update_url=$(uci get AdGuardHome.AdGuardHome.update_url 2>/dev/null)
-
 case "${core_version}" in
 beta)
 	core_api_url=https://api.github.com/repos/AdguardTeam/AdGuardHome/releases
@@ -58,15 +56,15 @@ Check_Updates(){
 	;;
 	esac
 	echo "[${PKG}] 开始检查更新, 请耐心等待 ..."
-	Cloud_Version="$(${_Downloader} ${core_api_url} 2>/dev/null | grep 'tag_name' | egrep -o "v[0-9].+[0-9.]" | awk 'NR==1')"
+	Cloud_Version="$(${_Downloader} ${core_api_url} 2>/dev/null | grep 'tag_name' | grep -Eo "v[0-9].+[0-9.]" | awk 'NR==1')"
 	[[ -z ${Cloud_Version} ]] && echo -e "\n检查更新失败, 请检查网络或稍后重试!" && EXIT 1
 	if [[ -f ${binpath} ]]; then
-		Current_Version="$(${binpath} --version 2>/dev/null | egrep -o "v[0-9].+[0-9]" | sed -r 's/(.*), c(.*)/\1/')"
+		Current_Version="$(${binpath} --version 2>/dev/null | grep -Eo "v[0-9].+[0-9]" | sed -r 's/(.*), c(.*)/\1/')"
 	else
 		Current_Version="未知"
 	fi
 	[[ -z ${Current_Version} ]] && Current_Version="未知"
-	echo -e "\n执行文件路径: ${binpath%/*}\n\n正在检查更新, 请耐心等待 ..."
+	echo -e "\n执行文件: ${binpath}\n正在检查更新, 请耐心等待 ..."
 	echo -e "\n当前 AdGuardHome 版本: ${Current_Version}\n云端 AdGuardHome 版本: ${Cloud_Version}"
 	if [[ ! "${Cloud_Version}" == "${Current_Version}" || "$1" == force ]]; then
 		Update_Core
@@ -78,7 +76,9 @@ Check_Updates(){
 }
 
 UPX_Compress(){
-	GET_Arch
+	Arch_upx=$(GET_Arch )
+         # https://github.com/upx/upx/releases/download/v5.0.0/upx-5.0.0-amd64_linux.tar.xz
+	upx_latest_ver="$(${_Downloader} https://api.github.com/repos/upx/upx/releases/latest 2>/dev/null | grep -E 'tag_name' | grep -E  '[0-9.]+' -o 2>/dev/null)"
 	upx_name="upx-${upx_latest_ver}-${Arch_upx}_linux.tar.xz"
 	echo -e "开始下载 ${upx_name} ...\n"
 	$Downloader /tmp/upx-${upx_latest_ver}-${Arch_upx}_linux.tar.xz "https://github.com/upx/upx/releases/download/v${upx_latest_ver}/${upx_name}"
@@ -98,8 +98,9 @@ UPX_Compress(){
 Update_Core(){
 	rm -r /tmp/AdGuardHome_Update > /dev/null 2>&1
 	mkdir -p "/tmp/AdGuardHome_Update"
-	GET_Arch
-	eval link="${update_url}"
+	
+	Arch=$(GET_Arch )
+	eval link=$(uci get AdGuardHome.AdGuardHome.update_url 2>/dev/null)
 	echo -e "下载链接:${link}"
 	echo -e "文件名称:${link##*/}"
 	echo -e "\n开始下载 AdGuardHome 核心文件 ...\n" 
@@ -153,51 +154,54 @@ Update_Core(){
 GET_Arch() {
 	Archt="$(opkg info kernel | grep Architecture | awk -F "[ _]" '{print($2)}')"
 	case "${Archt}" in
-	i386)
-		Arch=i386
+	"i386")
+		Arch="386"
+		;;
+	"i686")
+		Arch="386"
+		;;
+	"x86")
+		Arch="amd64"
+		;;
+	"mipsel")
+		Arch="mipsle"
 	;;
-	i686)
-		Arch=i386
+	"mips64el")
+		Arch="mips64le"
+		Arch="mipsle"
+		echo -e "mips64el use $Arch may have bug"
 	;;
-	x86)
-		Arch=amd64
+	"mips")
+		Arch="mips"
 	;;
-	mipsel)
-		Arch=mipsle_softfloat
+	"mips64")
+		Arch="mips64"
+		Arch="mips"
+		echo -e "mips64 use $Arch may have bug"
 	;;
-	mips)
-		Arch=mips_softfloat
-	;;
-	mips64el)
-		Arch=mips64le_softfloat
-	;;
-	mips64)
-		Arch=mips64_softfloat
-	;;
-	arm)
-		Arch=arm
-	;;
-	armeb)
-		Arch=armeb
-	;;
-	aarch64)
-		Arch=arm64
-	;;
-	*)
-		echo -e "\nAdGuardHome 暂不支持当前的设备架构: [${Archt}]!" 
+	"arm")
+		Arch="arm"
+		;;
+	"aarch64")
+		Arch="arm64"
+		;;
+	"powerpc")
+		Arch="ppc"
+		echo -e "error not support $Archt"
 		EXIT 1
-	esac
-	case "${Archt}" in
-	mipsel)
-		Arch_upx="mipsel"
-		upx_latest_ver="3.95"
-	;;
+		;;
+	"powerpc64")
+		Arch="ppc64"
+		echo -e "error not support $Archt"
+		EXIT 1
+		;;
+
 	*)
-		Arch_upx="${Arch}"
-		upx_latest_ver="$(${_Downloader} https://api.github.com/repos/upx/upx/releases/latest 2>/dev/null | egrep 'tag_name' | egrep '[0-9.]+' -o 2>/dev/null)"
-	
+		echo -e "error not support $Archt if you can use offical release please issue a bug"
+		EXIT 1
+		;;
 	esac
-	echo -e "\n当前设备架构: ${Arch}\n"
+        echo  "$Arch"
 }
 
 EXIT(){

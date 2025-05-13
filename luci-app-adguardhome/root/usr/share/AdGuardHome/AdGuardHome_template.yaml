@@ -13,7 +13,7 @@ debug_pprof: false
 dns:
   bind_hosts:
     - 0.0.0.0
-  port: 1745
+  port: 5333
   anonymize_client_ip: false
   protection_enabled: true
   blocking_mode: default

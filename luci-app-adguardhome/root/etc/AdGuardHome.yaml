@@ -13,7 +13,7 @@ debug_pprof: false
 dns:
   bind_hosts:
     - 0.0.0.0
-  port: 1745
+  port: 5553
   anonymize_client_ip: false
   protection_enabled: true
   blocking_mode: default
@@ -88,10 +88,6 @@ filters:
     url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
     name: AdGuard DNS filter
     id: 1228750870
-  - enabled: true
-    url: http://sub.adtchrome.com/adt-chinalist-easylist.txt
-    name: 广告终结者使用的拦截规则，基于ChinaList+EasyList修正维护
-    id: 139789181
   - enabled: true
     url: https://easylist-downloads.adblockplus.org/easylist.txt
     name: EasyList-去除国际网页中大多数广告，包括不需要的框架、图像和对象
