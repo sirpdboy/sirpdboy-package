@@ -1,0 +1,74 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "DDNS-GO"
+msgstr "DDNS-GO"
+
+msgid "DDNS-GO automatically obtains your public IPv4 or IPv6 address and resolves it to the corresponding domain name service."
+msgstr "DDNS-GO自动获得你的公网 IPv4 或 IPv6 地址,并解析到对应的域名服务."
+
+msgid "Base Setting"
+msgstr "基本设置"
+
+msgid "Status check error:"
+msgstr "状态检查错误:"
+
+msgid "Checking status..."
+msgstr "检查状态..."
+
+msgid "DDNS-GO Control panel"
+msgstr "DDNS-GO操作台"
+
+msgid "Open Web Interface"
+msgstr "打开 Web 界面"
+
+msgid "Log"
+msgstr "日志"
+
+msgid "Clear Logs..."
+msgstr "清除日志..."
+
+msgid "Logs cleared successfully!"
+msgstr "日志清除成功！"
+
+msgid "Clear Logs"
+msgstr "清除日志"
+
+msgid "NOT RUNNING"
+msgstr "未运行"
+
+msgid "RUNNING"
+msgstr "运行中"
+
+msgid "DDNS-GO Service Not Running"
+msgstr "DDNS-GO服务未启用"
+
+msgid "Please enable the DDNS-GO service"
+msgstr "请将DDNS-GO服务启用"
+
+msgid "Open Web Interface"
+msgstr "打开Web界面"
+
+msgid "Set the DDNS-TO access port"
+msgstr "设置访问端口"
+
+msgid "Collecting data..."
+msgstr "收集数据..."
+
+msgid "update interval"
+msgstr "更新间隔"
+
+msgid "Skip verifying certificates"
+msgstr "跳过验证证书"
+
+msgid "Compare with service provider N times intervals"
+msgstr "间隔N次与服务商比对"
+
+msgid "Specify DNS resolution server"
+msgstr "指定DNS解析服务器"
+
+msgid "Do not start web services"
+msgstr "不启动web服务"
+
+msgid "Delayed Start (seconds)"
+msgstr "开机延时启动（秒）"

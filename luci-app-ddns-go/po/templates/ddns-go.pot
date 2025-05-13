@@ -1,0 +1,74 @@
+msgid ""
+msgstr ""
+
+msgid "DDNS-GO"
+msgstr ""
+
+msgid "DDNS-GO automatically obtains your public IPv4 or IPv6 address and resolves it to the corresponding domain name service."
+msgstr ""
+
+msgid "Base Setting"
+msgstr ""
+
+msgid "Status check error:"
+msgstr ""
+
+msgid "Checking status..."
+msgstr ""
+
+msgid "DDNS-GO Control panel"
+msgstr ""
+
+msgid "Open Web Interface"
+msgstr ""
+
+msgid "Log"
+msgstr ""
+
+msgid "Clear Logs..."
+msgstr ""
+
+msgid "Logs cleared successfully!"
+msgstr ""
+
+msgid "Clear Logs"
+msgstr ""
+
+msgid "NOT RUNNING"
+msgstr ""
+
+msgid "RUNNING"
+msgstr ""
+
+msgid "DDNS-GO Service Not Running"
+msgstr ""
+
+msgid "Please enable the DDNS-GO service"
+msgstr ""
+
+msgid "Open Web Interface"
+msgstr ""
+
+msgid "Set the DDNS-TO access port"
+msgstr ""
+
+msgid "Collecting data..."
+msgstr ""
+
+msgid "update interval"
+msgstr ""
+
+msgid "Skip verifying certificates"
+msgstr ""
+
+msgid "Compare with service provider N times intervals"
+msgstr ""
+
+msgid "Specify DNS resolution server"
+msgstr ""
+
+msgid "Do not start web services"
+msgstr ""
+
+msgid "Delayed Start (seconds)"
+msgstr ""
