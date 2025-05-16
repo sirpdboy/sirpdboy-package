@@ -1,0 +1,26 @@
+<script type="text/javascript">//<![CDATA[
+	XHR.poll(3, '<%=url([[admin]], [[services]], [[cupsd_status]])%>', null,
+		function(x, data) {
+			var tb = document.getElementById('cupsd_status');
+			if (data && tb)
+			{
+				if (data.running)
+				{
+					tb.innerHTML = '<br/><em style=\"color:green\"><%:cupsd服务已启动%></em>'
+						+ "<br/><br/><input class=\"btn cbi-button cbi-button-apply\" type=\"button\" value=\" <%:点击打开cupsd%> \" onclick=\"window.open('http://" + window.location.hostname + ":" + data.port + "/')\"/>";
+				}
+				else
+				{
+					tb.innerHTML = '<br/><em style=\"color:red\"><%:cupsd服务未启动%></em>';
+				}
+			}
+		}
+	);
+//]]></script>
+<style>.mar-10 {margin-left: 50px; margin-right: 10px;}</style>
+<fieldset class="cbi-section">
+	<legend><%:cupsd状态%></legend>
+	<p id="cupsd_status">
+		<em><%:Collecting data...%></em>
+	</p>
+</fieldset>

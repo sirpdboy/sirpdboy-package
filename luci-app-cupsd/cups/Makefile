@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cups
 PKG_VERSION:=2.3.3op2
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-source.tar.gz
 PKG_SOURCE_URL:=https://github.com/OpenPrinting/cups/releases/download/v$(PKG_VERSION)
 PKG_MD5SUM:=524266752cf243c968921547b18ee594
@@ -37,9 +37,11 @@ define Package/cups/description
 endef
 
 define Package/cups/conffiles
+/etc/config/cupsd
 /etc/cups/classes.conf
 /etc/cups/cupsd.conf
 /etc/cups/printers.conf
+/etc/cups/ppd/
 endef
 
 define Package/cups-bsd
@@ -229,9 +231,11 @@ define Package/cups/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	# overwrite default config with our own
 	$(CP) ./files/etc/cups/* $(1)/etc/cups/
+	$(CP) ./files/etc/cups/cupsd.conf $(1)/etc/cups/cupsd.conf.default
 	# install initscript with priority 60
-	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_DIR) $(1)/etc/init.d $(1)/etc/config
 	$(INSTALL_BIN) ./files/cupsd.init $(1)/etc/init.d/cupsd
+	$(INSTALL_CONF) ./files/cupsd.config $(1)/etc/config/cupsd
 	$(INSTALL_BIN) \
 		$(PKG_INSTALL_DIR)/usr/sbin/{cupsctl,cupsd} \
 		$(1)/usr/sbin/
